@@ -7,7 +7,9 @@ const { persistAtom } = recoilPersist({
 });
 
 const userInfo = atom({
-  key: 'UserInfo',
+  key: 'userInfo',
   default: null,
   effects_UNSTABLE: [persistAtom],
 });
+
+export default userInfo;

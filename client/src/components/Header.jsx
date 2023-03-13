@@ -3,10 +3,15 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
+import { useRecoilValue } from 'recoil';
+import userInfo from '../recoil/userAtom';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 
 function Header() {
   const [isShow, setIsShow] = useState(false);
+
+  //* 유저정보 가져오기
+  const user = useRecoilValue(userInfo);
 
   const toggleHandler = () => {
     setIsShow(!isShow);
@@ -25,9 +30,13 @@ function Header() {
         <TabLink to="/posts">커뮤니티</TabLink>
         <TabLink to="/notices">공지사항</TabLink>
       </NavTab>
-      <SignInLink isShow={isShow}>
-        <TabLink to="/login">SignIn</TabLink>
-      </SignInLink>
+      <SignInOrUser isShow={isShow}>
+        {user ? (
+          <ProfileArea>프로필</ProfileArea>
+        ) : (
+          <TabLink to="/login">SignIn</TabLink>
+        )}
+      </SignInOrUser>
       <MenuIcon onClick={toggleHandler}>
         {isShow ? <AiOutlineClose /> : <FaBars />}
       </MenuIcon>
@@ -112,7 +121,7 @@ const TabLink = styled(Link)`
   }
 `;
 
-const SignInLink = styled.div`
+const SignInOrUser = styled.div`
   width: 100%;
   height: 30px;
   display: flex;
@@ -128,6 +137,11 @@ const SignInLink = styled.div`
       background-color: rgba(255, 255, 255, 0.1);
     }
   }
+`;
+
+const ProfileArea = styled.div`
+  width: 30px;
+  height: 30px;
 `;
 
 const MenuIcon = styled.a`
