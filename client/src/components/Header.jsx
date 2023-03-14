@@ -86,7 +86,7 @@ const MuduckLogo = styled(Logo)`
   margin-right: 32px;
 `;
 
-const NavTab = styled.ul`
+const NavTab = styled.nav`
   width: 300px;
   height: 30px;
   display: flex;
