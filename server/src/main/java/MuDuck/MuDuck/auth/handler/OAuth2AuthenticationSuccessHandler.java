@@ -1,34 +1,40 @@
 package MuDuck.MuDuck.auth.handler;
 
+import MuDuck.MuDuck.auth.attribute.OAuth2Attribute;
+import MuDuck.MuDuck.auth.jwt.service.JwtCreateService;
+import MuDuck.MuDuck.member.entity.Member;
+import MuDuck.MuDuck.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
+import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler {
-    private final Gson gson;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    private final Gson gson;
+    private final JwtCreateService jwtCreateService;
+    private final MemberRepository memberRepository;
+
     @Override
-    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+            Authentication authentication) throws IOException, ServletException {
         log.info("성공!");
 
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
@@ -36,45 +42,57 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         log.info("token.getName() : {} ", token.getName());
 
         OAuth2User principal = token.getPrincipal();
-
         Map<String, Object> attributes = principal.getAttributes();
-
         String authorizedClientRegistrationId = token.getAuthorizedClientRegistrationId();
+        OAuth2Attribute oAuth2Attribute = OAuth2Attribute.of(authorizedClientRegistrationId, "",
+                attributes);
 
         log.info("로그인 플랫폼 : {}", authorizedClientRegistrationId);
 
         log.info("안에 있는 정보들 : {}", attributes);
 
         String email = (String) attributes.get("email");
-        String imageUrl = "";
-        // 로그인 플랫폼에 따른 분기
-        if(authorizedClientRegistrationId.equals("github")){
 
-        }else if(authorizedClientRegistrationId.equals("naver")){
+        Member member = saveOrUpdate(oAuth2Attribute);
 
-            imageUrl = (String) attributes.get("profile_image");
+        String accessToken = jwtCreateService.delegateAccessToken(member);
+        String refreshToken = jwtCreateService.delegateRefreshToken(member);
 
-        }else if(authorizedClientRegistrationId.equals("google")){
+        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+                .maxAge(7 * 24 * 60 * 60)
+                .path("/")
+                .secure(true)
+                .sameSite("None")
+                .httpOnly(true)
+                .build();
 
-            imageUrl = (String) attributes.get("picture");
+        // Header 설정
+        response.setHeader("accessToken", "Bearer " + accessToken);
+        response.addHeader("Set-Cookie", cookie.toString());
 
-        }
-
-
-        // 추가정보를 위해서
-        String uri = UriComponentsBuilder.fromUriString("http://localhost:8080/test/user")
-                    .build().toUriString();
-
+        // Body 설정
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
+        String body = objectMapper.writeValueAsString(member);
+        response.getWriter().write(body);
 
-        String responseEmail = objectMapper.writeValueAsString(email);
+        response.sendRedirect("http://localhost:3000");
+    }
 
-        response.getWriter().write(responseEmail);
-
-        response.sendRedirect(uri);
-
-
+    private Member saveOrUpdate(OAuth2Attribute attributes) {
+        Optional<Member> member = memberRepository.findByEmail(attributes.getUseremail());
+        if (member.isPresent()) { // Member 테이블에 이미 이메일이 있다면
+            return member.get();
+        } else { // Member 테이블에 이메일이 없다면
+            Member newMember = Member.builder()
+                    .email(attributes.getUseremail())
+                    .nickName(attributes.getUsername())
+                    .memberRole(Member.MemberRole.USER)
+                    .memberStatus(Member.MemberStatus.MEMBER_ACTIVE)
+                    .picture(attributes.getPicture())
+                    .build();
+            return memberRepository.save(newMember);
+        }
     }
 
 }
