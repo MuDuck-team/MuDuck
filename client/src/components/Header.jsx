@@ -77,7 +77,7 @@ const Logobox = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
-    padding: 1.6rem;
+    padding: 16px;
   }
 `;
 
@@ -108,7 +108,7 @@ const NavTab = styled.nav`
 const TabLink = styled(Link)`
   width: 100%;
   height: 30px;
-  font-size: 1.6rem;
+  font-size: var(--font-size-md);
   padding-top: 8px;
   display: flex;
   justify-content: center;
@@ -120,7 +120,7 @@ const TabLink = styled(Link)`
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 1.6rem;
+    padding: 16px;
     box-sizing: border-box;
   }
 `;
@@ -158,6 +158,7 @@ const MenuIcon = styled.a`
 
   @media screen and (max-width: 768px) {
     display: block;
+    padding-top: 8px;
   }
 `;
 
