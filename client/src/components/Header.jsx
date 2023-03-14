@@ -44,7 +44,7 @@ function Header() {
   );
 }
 
-const GNB = styled.nav`
+const GNB = styled.header`
   width: 100vw;
   display: flex;
   justify-content: space-between;
