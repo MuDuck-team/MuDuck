@@ -16,6 +16,7 @@ function Button({
   fontWeight,
   padding,
   onClick,
+  ...rest
 }) {
   return (
     <GlobalButton
@@ -31,6 +32,7 @@ function Button({
       fontSize={fontSize}
       padding={padding}
       fontWeight={fontWeight}
+      {...rest}
     >
       {text}
     </GlobalButton>
