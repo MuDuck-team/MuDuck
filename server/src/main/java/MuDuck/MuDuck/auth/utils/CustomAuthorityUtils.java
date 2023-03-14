@@ -1,16 +1,16 @@
 package MuDuck.MuDuck.auth.utils;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Component
 public class CustomAuthorityUtils {
+
     @Value("${mail.address.admin}")
     private String adminMailAddress;
 
@@ -36,10 +36,10 @@ public class CustomAuthorityUtils {
         return authorities;
     }
 
-    public List<GrantedAuthority> createAuthoritiesToMemberRoles(String roles){
-        if(roles.equals("ROLE_USER")){
+    public List<GrantedAuthority> createAuthoritiesToMemberRoles(String roles) {
+        if (roles.equals("ROLE_USER")) {
             return createAuthorities(USER_ROLES_STRING);
-        }else{
+        } else {
             return createAuthorities(ADMIN_ROLES_STRING);
         }
     }
