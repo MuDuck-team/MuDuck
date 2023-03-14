@@ -46,6 +46,7 @@ function Header() {
 
 const GNB = styled.header`
   width: 100vw;
+  height: fit-content;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -76,13 +77,13 @@ const Logobox = styled.div`
 
   @media screen and (max-width: 768px) {
     width: 100%;
-    padding-left: 1rem;
+    padding: 1.6rem;
   }
 `;
 
 const MuduckLogo = styled(Logo)`
-  width: 100px;
-  height: 30px;
+  width: 173px;
+  height: 33px;
   margin-right: 32px;
 `;
 
@@ -107,16 +108,19 @@ const NavTab = styled.nav`
 const TabLink = styled(Link)`
   width: 100%;
   height: 30px;
+  font-size: 1.6rem;
+  padding-top: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
 
   @media screen and (max-width: 768px) {
     width: 100%;
+    height: 45px;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    padding: 8px 8px;
+    padding: 1.6rem;
     box-sizing: border-box;
   }
 `;
