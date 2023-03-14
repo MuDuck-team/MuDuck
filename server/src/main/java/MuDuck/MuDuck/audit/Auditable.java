@@ -1,4 +1,4 @@
-package com.stackoverflow.team08.audit;
+package MuDuck.MuDuck.audit;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
