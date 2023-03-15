@@ -1,12 +1,15 @@
 package MuDuck.MuDuck.musical.entity;
 
 import MuDuck.MuDuck.audit.Auditable;
+import MuDuck.MuDuck.category.entity.Category;
+import MuDuck.MuDuck.theater.entitiy.Theater;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -56,13 +59,11 @@ public class Musical extends Auditable {
     @Lazy
     private List<ActorMusical> actorMusicals = new ArrayList<>();
 
-//    @JoinColumn(name = "THEATER_ID")
-//    @Lazy
-//    private Theater theater;
-//    @ManyToOne
-//    @JoinColumn(name = "CATEGORY_ID")
-//    @Lazy
-//    private Category category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "THEATER_ID")
+    private Theater theater;
+    @OneToMany(mappedBy = "musical",fetch = FetchType.LAZY)
+    private List<Category> category;
 
     public void setMusicalId(Long musicalId) {
         this.musicalId = musicalId;

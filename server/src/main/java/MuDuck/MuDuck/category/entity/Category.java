@@ -4,6 +4,7 @@ import MuDuck.MuDuck.audit.Auditable;
 import MuDuck.MuDuck.board.joinTable.BoardLike;
 import MuDuck.MuDuck.category.joinTable.BoardCategory;
 import MuDuck.MuDuck.comment.entity.Comment;
+import MuDuck.MuDuck.musical.entity.Musical;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
@@ -38,4 +39,8 @@ public class Category extends Auditable {
 
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY)
     private List<Comment> children;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "MUSICAL_ID")
+    private Musical musical;
 }
