@@ -58,6 +58,7 @@ public class Map extends Auditable {
 
     @Column(nullable = false, length = 50)
     private String roadAddressName;
+    
 
     @Builder
     public Map(Long mapId, Theater theater, Long placeId, String placeName, Long longitude,
