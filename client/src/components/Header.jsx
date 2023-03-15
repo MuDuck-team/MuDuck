@@ -3,18 +3,24 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import userInfo from '../recoil/userAtom';
 import { ReactComponent as Logo } from '../assets/logo.svg';
+import ProfileImg from './ProfileImg';
+import Button from './Button';
 
 function Header() {
   const [isShow, setIsShow] = useState(false);
 
   //* 유저정보 가져오기
-  const user = useRecoilValue(userInfo);
+  const [user, setUser] = useRecoilState(userInfo);
 
   const toggleHandler = () => {
     setIsShow(!isShow);
+  };
+
+  const LogoutHandler = () => {
+    setUser(null);
   };
 
   return (
@@ -32,7 +38,19 @@ function Header() {
       </NavTab>
       <SignInOrUser isShow={isShow}>
         {user ? (
-          <ProfileArea>프로필</ProfileArea>
+          <>
+            {isShow ? (
+              <TabLink to="/mypage">마이페이지</TabLink>
+            ) : (
+              <ProfileImg src={user.profile} width="30px" height="30px" />
+            )}
+
+            <LogoutBtn
+              text="Logout"
+              onClick={LogoutHandler}
+              bgColor="transparent"
+            />
+          </>
         ) : (
           <TabLink to="/login">SignIn</TabLink>
         )}
@@ -46,14 +64,14 @@ function Header() {
 
 const GNB = styled.header`
   width: 100vw;
-  height: 56px;
+  height: fit-content;
   background-color: var(--main-001);
   display: flex;
   justify-content: space-between;
   align-items: center;
   position: sticky;
-  padding-top: 8px;
-  top: -8px;
+  padding-top: 16px;
+  top: -16px;
   z-index: 999;
   padding-left: 20%;
   padding-right: 20%;
@@ -73,7 +91,7 @@ const GNB = styled.header`
 
 const Logobox = styled.div`
   width: fit-content;
-  height: 30px;
+  height: 40px;
   flex: 1;
 
   @media screen and (max-width: 768px) {
@@ -90,19 +108,20 @@ const MuduckLogo = styled(Logo)`
 
 const NavTab = styled.nav`
   width: 300px;
-  height: 30px;
+  height: 40px;
+  background-color: var(--main-001);
   display: flex;
   justify-content: space-around;
   align-items: center;
   flex: 2;
+  & a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
 
   @media screen and (max-width: 768px) {
     display: ${props => (props.isShow ? 'block' : 'none')};
     width: 100%;
     flex-direction: column;
-    & a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
-    }
   }
 `;
 
@@ -110,10 +129,12 @@ const TabLink = styled(Link)`
   width: 100%;
   height: 30px;
   font-size: var(--font-size-md);
-  padding-top: 8px;
+  padding-top: 16px;
+  padding-bottom: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 8px;
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -144,22 +165,36 @@ const SignInOrUser = styled.div`
   }
 `;
 
-const ProfileArea = styled.div`
-  width: 30px;
-  height: 30px;
-`;
-
 const MenuIcon = styled.a`
   display: none;
   position: absolute;
   right: 32px;
-  top: 16px;
+  top: 32px;
   font-size: 16px;
   color: white;
 
   @media screen and (max-width: 768px) {
     display: block;
     padding-top: 8px;
+  }
+`;
+
+const LogoutBtn = styled(Button)`
+  background-color: transparent;
+  font-weight: 500;
+  height: 40px;
+  padding: 10px;
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    height: 45px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 16px;
   }
 `;
 
