@@ -1,0 +1,32 @@
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+ul.pagination li {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25px;
+  height: 25px;
+}
+
+ul.pagination li a {
+  font-size: var(--font-size-sm);
+}
+
+ul.pagination li.active a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+ul.pagination li a:hover,
+ul.pagination li a.active {
+  filter: brightness(0.8);
+}
+
+.page-selection {
+  width: 48px;
+  height: 30px;
+}
