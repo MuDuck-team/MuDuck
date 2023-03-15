@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
   html, body {
     font-size: 62.5%;
     background-color: var(--main-001);
-    color: white;
+    color: var(--font-color);
   }
 
   a {
