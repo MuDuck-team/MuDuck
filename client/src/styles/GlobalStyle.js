@@ -11,8 +11,10 @@ const GlobalStyle = createGlobalStyle`
   }
   html, body {
     font-size: 62.5%;
-    background-color: black;
+    background-color: var(--main-001);
+    color: var(--font-color);
   }
+
   a {
     text-decoration: none;
     color: inherit;
