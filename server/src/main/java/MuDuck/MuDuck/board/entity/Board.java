@@ -36,7 +36,7 @@ public class Board extends Auditable {
     private String content;
 
     @Column(nullable = false)
-    private Integer view = 0;
+    private Integer views = 0;
 
     @Column(nullable = false, name = "likes")
     private Integer like = 0;

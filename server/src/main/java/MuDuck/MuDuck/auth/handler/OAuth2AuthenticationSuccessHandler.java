@@ -5,6 +5,7 @@ import MuDuck.MuDuck.auth.jwt.service.JwtCreateService;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Map;
@@ -73,7 +74,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         // Body 설정
         response.setContentType("application/json");
         response.setCharacterEncoding("utf-8");
-        String body = objectMapper.writeValueAsString(member);
+        String body = objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(member);
         response.getWriter().write(body);
 
         response.sendRedirect("http://localhost:3000");

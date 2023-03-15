@@ -31,7 +31,7 @@ public class NoticeBoard extends Auditable {
     private String body;
 
     @Column(nullable = false)
-    private Integer view = 0;
+    private Integer views = 0;
     @Enumerated(EnumType.STRING)
     private NoticeStatus noticeBoardStatus = NoticeStatus.NOTICE_POST;
 
