@@ -23,6 +23,33 @@ VALUES (CURRENT_TIMESTAMP - INTERVAL '60' DAY, NOW(), 'BOARD_POST', '내용입�
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
 VALUES (CURRENT_TIMESTAMP - INTERVAL '55' DAY, NOW(), 'BOARD_DELETE', '내용입니다444.', 30, '제목입니다4', 982, 1);
 
+INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
+VALUES (CURRENT_TIMESTAMP - INTERVAL '30' DAY, NOW(), 'BOARD_POST', '내용입니다.', 30, '제목입니다', 982, 1);
+
+INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
+VALUES (CURRENT_TIMESTAMP - INTERVAL '25' DAY, NOW(), 'BOARD_POST', '내용입니다222.', 27, '제목입니다2', 1762, 2);
+
+INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
+VALUES (CURRENT_TIMESTAMP - INTERVAL '3' DAY, NOW(), 'BOARD_POST', '내용입니다333', 45, '제목입니다3', 2819, 3);
+
+INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
+VALUES (CURRENT_TIMESTAMP - INTERVAL '1' DAY, NOW(), 'BOARD_DELETE', '내용입니다444.', 30, '제목입니다4', 982, 1);
+
+INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
+VALUES (CURRENT_TIMESTAMP - INTERVAL '30' HOUR, NOW(), 'BOARD_POST', '내용입니다.', 30, '제목입니다', 982, 1);
+
+INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
+VALUES (CURRENT_TIMESTAMP - INTERVAL '25' HOUR, NOW(), 'BOARD_POST', '내용입니다222.', 27, '제목입니다2', 1762, 2);
+
+INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
+VALUES (CURRENT_TIMESTAMP - INTERVAL '3' HOUR, NOW(), 'BOARD_POST', '내용입니다333', 45, '제목입니다3', 2819, 3);
+
+INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
+VALUES (CURRENT_TIMESTAMP - INTERVAL '1' HOUR, NOW(), 'BOARD_DELETE', '내용입니다444.', 30, '제목입니다4', 982, 1);
+
+INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
+VALUES (CURRENT_TIMESTAMP, NOW(), 'BOARD_POST', '내용입니다333', 45, '제목입니다3', 2819, 3);
+
 
 
 -- NoticeBoard 테이블 생성 코드
