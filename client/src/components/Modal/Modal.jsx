@@ -1,23 +1,9 @@
 import ModalPortal from './ModalPortal';
 
-function Modal({
-  title,
-  content,
-  showModal,
-  yesCallback,
-  noCallback,
-  handleCloseModal,
-}) {
+function Modal({ title, content, showModal, yesCallback, handleCloseModal }) {
   function onClickYesButton() {
     if (yesCallback) {
       yesCallback();
-    }
-    handleCloseModal();
-  }
-
-  function onClickNoButton() {
-    if (noCallback) {
-      noCallback();
     }
     handleCloseModal();
   }
@@ -32,7 +18,7 @@ function Modal({
             <button type="button" name="yes" onClick={onClickYesButton}>
               확인
             </button>
-            <button type="button" name="no" onClick={onClickNoButton}>
+            <button type="button" name="no" onClick={handleCloseModal}>
               취소
             </button>
           </div>
