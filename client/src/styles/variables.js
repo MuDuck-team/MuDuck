@@ -4,6 +4,7 @@ const variables = css`
   :root {
     --main-001: black;
     --main-002: #181818;
+    --main-003: rgba(217, 217, 217, 0.2);
 
     --font-color: #f2f2f2;
     --error-color: #d3233a;

@@ -11,6 +11,7 @@ const GlobalStyle = createGlobalStyle`
   }
   html, body {
     font-size: 62.5%;
+    background-color: black;
   }
   a {
     text-decoration: none;
@@ -19,6 +20,8 @@ const GlobalStyle = createGlobalStyle`
   button {
     cursor: pointer;
   }
+
+  
 `;
 
 export default GlobalStyle;
