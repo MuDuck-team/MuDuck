@@ -1,13 +1,20 @@
 package MuDuck.MuDuck.member.entity;
 
 import MuDuck.MuDuck.audit.Auditable;
+import MuDuck.MuDuck.board.entity.Board;
+import MuDuck.MuDuck.board.joinTable.BoardLike;
+import MuDuck.MuDuck.comment.entity.Comment;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,6 +49,15 @@ public class Member extends Auditable {
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false)
     private MemberStatus memberStatus = MemberStatus.MEMBER_ACTIVE;
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<BoardLike> boardLikes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    private List<Board> boards = new ArrayList<>();
 
     public enum MemberRole {
         USER("ROLE_USER"),
