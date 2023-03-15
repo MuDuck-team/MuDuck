@@ -46,7 +46,8 @@ function Header() {
 
 const GNB = styled.header`
   width: 100vw;
-  height: fit-content;
+  height: 56px;
+  background-color: var(--main-001);
   display: flex;
   justify-content: space-between;
   align-items: center;
