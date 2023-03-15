@@ -3,6 +3,7 @@ package MuDuck.MuDuck.category.joinTable;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.category.entity.Category;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,11 +20,11 @@ public class BoardCategory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardCategoryId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
     private Board board;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CATEGORY_ID")
     private Category category;
 }

@@ -4,6 +4,7 @@ import MuDuck.MuDuck.audit.Auditable;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.member.entity.Member;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,11 +21,11 @@ public class BoardLike extends Auditable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long boardLikesId;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
     private Board board;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 }
