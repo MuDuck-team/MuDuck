@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function Dropdown({ options, onClick }) {
+function Dropdown({ options, onClick, width, height }) {
   const [selectedOption, setSelectedOption] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -12,16 +12,22 @@ function Dropdown({ options, onClick }) {
   };
 
   return (
-    <DropdownWrapper>
-      <DropdownButton onClick={() => setIsOpen(!isOpen)}>
+    <DropdownWrapper width={width}>
+      <DropdownButton
+        width={width}
+        height={height}
+        onClick={() => setIsOpen(!isOpen)}
+      >
         {selectedOption ? selectedOption.categoryName : '카테고리 선택'}
       </DropdownButton>
       {isOpen && (
-        <DropdownOptions>
+        <DropdownOptions width={width} height={height}>
           {options.map(option => (
             <DropdownOption
               key={option.id}
               onClick={() => handleOptionClick(option)}
+              width={width}
+              height={height}
             >
               {option.categoryName}
             </DropdownOption>
