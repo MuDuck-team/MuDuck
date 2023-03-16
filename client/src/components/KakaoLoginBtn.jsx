@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import kakaoLarge from '../assets/kakaoLarge.png';
+import kakaoStart from '../assets/kakaoStart.png';
 
-function KakaoLoginBtn() {
+function KakaoLoginBtn({ props }) {
   const handleKaKaoLogin = () => {
     window.location.href = `${process.env.REACT_APP_SERVER_URL}/oauth2/authorization/kakao`;
     //  서버에 주소로 kakao oauth 로그인 요청을 보내는 창을 띄울 것인지?
@@ -15,12 +16,19 @@ function KakaoLoginBtn() {
     //  todo 어떤 방식으로 구현해야할지 잘 모르겠다.
   };
 
-  return (
+  return props ? (
     <>
       <KakaoLoginButton onClick={handleKaKaoLogin}>
         <ButtonImage src={kakaoLarge} />
       </KakaoLoginButton>
       <SingInLink to="/signup">카카오로 회원가입하기</SingInLink>
+    </>
+  ) : (
+    <>
+      <KakaoLoginButton onClick={handleKaKaoLogin}>
+        <ButtonImage src={kakaoStart} />
+      </KakaoLoginButton>
+      <SingInLink to="/login">이미 계정이 있으신가요? </SingInLink>
     </>
   );
 }
@@ -35,7 +43,7 @@ const KakaoLoginButton = styled.button`
   background-color: transparent;
   border: none;
   margin-top: 3.2rem;
-  margin-bottom: 1.6rem;
+  margin-bottom: 2rem;
   &:hover {
     filter: brightness(0.8);
   }
