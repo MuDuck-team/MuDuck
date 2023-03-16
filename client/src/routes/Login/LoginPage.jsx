@@ -13,7 +13,7 @@ function LoginPage() {
         <PointText>MuDcuk</PointText>
         <PointText>입니다.</PointText>
       </TextArea>
-      <KakaoLoginBtn />
+      <KakaoLoginBtn props="login" />
     </LoginPageConainer>
   );
 }
