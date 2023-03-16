@@ -1,8 +1,8 @@
 package MuDuck.MuDuck.noticeboard.mapper;
 
 import MuDuck.MuDuck.noticeboard.dto.NoticeBoardDto;
-import MuDuck.MuDuck.noticeboard.dto.NoticeBoardDto.Response;
 import MuDuck.MuDuck.noticeboard.entity.NoticeBoard;
+import MuDuck.MuDuck.utils.Chrono;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
@@ -12,7 +12,7 @@ public interface NoticeBoardMapper {
     default NoticeBoardDto.Response noticeBoardToNoticeBoardResponseDto(NoticeBoard noticeBoard){
         NoticeBoardDto.Response response = NoticeBoardDto.Response.builder()
                 .id(noticeBoard.getNoticeBoardId())
-                .lastCreatedAt(String.valueOf(noticeBoard.getCreatedAt()))
+                .lastCreatedAt(Chrono.timesAgo(noticeBoard.getCreatedAt()))
                 .title(noticeBoard.getTitle())
                 .build();
         return response;

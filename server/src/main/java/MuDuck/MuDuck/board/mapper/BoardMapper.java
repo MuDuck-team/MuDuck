@@ -2,6 +2,7 @@ package MuDuck.MuDuck.board.mapper;
 
 import MuDuck.MuDuck.board.dto.BoardDto;
 import MuDuck.MuDuck.board.entity.Board;
+import MuDuck.MuDuck.utils.Chrono;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
@@ -15,7 +16,7 @@ public interface BoardMapper {
                 .memberId(board.getMember().getMemberId())
                 .nickname(board.getMember().getNickName())
                 .userProfile(board.getMember().getPicture())
-                .lastCreatedAt(String.valueOf(board.getCreatedAt()))
+                .lastCreatedAt(Chrono.timesAgo(board.getCreatedAt()))
                 .title(board.getTitle())
                 .view(board.getViews())
                 .commentCount(board.getComments().size())
