@@ -1,5 +1,7 @@
+import Editors from '../../components/Editors';
+
 function AddPage() {
-  return <div>게시글 작성 페이지</div>;
+  return <Editors />;
 }
 
 export default AddPage;
