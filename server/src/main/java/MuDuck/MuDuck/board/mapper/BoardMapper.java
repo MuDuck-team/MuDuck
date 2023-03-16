@@ -15,6 +15,7 @@ public interface BoardMapper {
                 .memberId(board.getMember().getMemberId())
                 .nickname(board.getMember().getNickName())
                 .userProfile(board.getMember().getPicture())
+                .lastCreatedAt(String.valueOf(board.getCreatedAt()))
                 .title(board.getTitle())
                 .view(board.getViews())
                 .commentCount(board.getComments().size())
