@@ -22,8 +22,9 @@ export function ArticleCard({
   const onClick = () => {
     if (commentCount) {
       navigate(`/post/${id}`);
+    } else {
+      navigate(`/notice/${id}`);
     }
-    navigate(`/notice/${id}`);
   };
 
   return (
