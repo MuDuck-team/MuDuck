@@ -72,14 +72,8 @@ function PopularPosts() {
         {board.map(post => (
           <ArticleCard
             key={post.id}
-            id={post.id}
+            {...post}
             url={post.userProfile}
-            nickname={post.nickname}
-            title={post.title}
-            view={post.view}
-            commentCount={post.commentCount}
-            boardLike={post.boardLike}
-            createdAt={post.createdAt}
             width="100%"
             height="100%"
             borderRadius="8px"
@@ -91,14 +85,8 @@ function PopularPosts() {
         {board.map(post => (
           <ArticleCard
             key={post.id}
-            id={post.id}
+            {...post}
             url={post.userProfile}
-            nickname={post.nickname}
-            title={post.title}
-            view={post.view}
-            commentCount={post.commentCount}
-            boardLike={post.boardLike}
-            createdAt={post.createdAt}
             width="100%"
             height="100%"
             borderRadius="8px"

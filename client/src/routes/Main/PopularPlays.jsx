@@ -31,16 +31,8 @@ function PopularPlays() {
 
   return (
     <PlaySection>
-      {list.map(cat => (
-        <ImageCard
-          key={cat.id}
-          id={cat.id}
-          size="large"
-          src={cat.src}
-          alt={cat.title}
-          title={cat.title}
-          actor={cat.actor}
-        />
+      {list.map(play => (
+        <ImageCard key={play.id} size="large" {...play} />
       ))}
     </PlaySection>
   );
