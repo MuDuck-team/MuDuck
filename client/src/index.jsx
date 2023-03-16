@@ -18,6 +18,7 @@ import NoticePage from './routes/Notice/Notice';
 import AddPage from './routes/Add/AddPage';
 import UpdatePage from './routes/Update/UpdatePage';
 import MyPage from './routes/Mypage/MyPage';
+import AdminLoginPage from './routes/AdminLogin/AdminLoginPage';
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,7 @@ const router = createBrowserRouter([
           { path: '/add', element: <AddPage /> },
           { path: '/update', element: <UpdatePage /> },
           { path: '/mypage', element: <MyPage /> },
+          { path: '/admin', element: <AdminLoginPage /> },
         ],
       },
     ],
