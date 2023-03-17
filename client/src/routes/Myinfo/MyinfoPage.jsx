@@ -8,12 +8,13 @@ import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
 import ProfileImg from '../../components/ProfileImage/ProfileImg';
 import ProfileImgSetter from '../../components/ProfileImage/ProfileImgSetter';
+import uploadS3 from '../../components/ProfileImage/ProfileUploader';
 
 function MyinfoPage() {
   const [nickname, setNickname] = useState('');
   const [uploadSrc, setUploadSrc] = useState(null);
 
-  const handleChangeInput = event => {
+  const handleChangeNickname = event => {
     setNickname(event.target.value);
   };
 
@@ -21,10 +22,10 @@ function MyinfoPage() {
     setUploadSrc(null);
   };
 
-  const handleSubmit = event => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    console.log(nickname);
-    console.log(uploadSrc);
+    uploadS3(uploadSrc);
+    // axios.patch(서버)
   };
 
   return (
@@ -38,7 +39,7 @@ function MyinfoPage() {
           type="text"
           name="nickname"
           value={nickname}
-          onChange={handleChangeInput}
+          onChange={handleChangeNickname}
           id="nickname"
           placeholder=" 알파벳,한글,숫자 20자 이하로 입력해주세요"
           width="550px"
