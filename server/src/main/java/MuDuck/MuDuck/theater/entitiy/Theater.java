@@ -19,34 +19,34 @@ import lombok.Setter;
 public class Theater extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long theaterId;
+    private long theaterId;
     @Column(nullable = false, length = 30)
     private String placeName;
 
     // 경도
     @Column(nullable = false)
-    private Long longitude;
+    private double longitude;
 
     // 위도
     @Column(nullable = false)
-    private Long latitude;
+    private double latitude;
 
     @Column(nullable = false, length = 20)
     private String phone;
 
     @Column(nullable = false, length = 50)
-    private String addressName;
+    private String address;
     @Column(nullable = false, length = 50)
-    private String roadAddressName;
+    private String roadAddress;
     @Builder
-    public Theater(Long theaterId, String placeName, Long longitude, Long latitude, String phone,
-            String addressName, String roadAddressName) {
+    public Theater(long theaterId, String placeName, double longitude, double latitude, String phone,
+            String address, String roadAddress) {
         this.theaterId = theaterId;
         this.placeName = placeName;
         this.longitude = longitude;
         this.latitude = latitude;
         this.phone = phone;
-        this.addressName = addressName;
-        this.roadAddressName = roadAddressName;
+        this.address = address;
+        this.roadAddress = roadAddress;
     }
 }
