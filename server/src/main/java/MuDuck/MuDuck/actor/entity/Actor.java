@@ -26,7 +26,7 @@ import org.springframework.context.annotation.Lazy;
 public class Actor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long actorId;
+    private long actorId;
     @Column(length = 20, nullable = false)
     private String actorName;
     @Column(nullable = false)

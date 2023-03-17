@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class BoardCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardCategoryId;
+    private long boardCategoryId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")

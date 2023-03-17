@@ -32,7 +32,7 @@ public class Member extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long memberId;
+    private long memberId;
 
     @Column(nullable = false)
     private String email;

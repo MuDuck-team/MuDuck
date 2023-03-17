@@ -22,7 +22,7 @@ import lombok.Setter;
 public class NoticeBoard extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long noticeBoardId;
+    private long noticeBoardId;
 
     @Column(nullable = false, length = 30)
     private String title;
@@ -31,12 +31,13 @@ public class NoticeBoard extends Auditable {
     private String body;
 
     @Column(nullable = false)
-    private Integer views = 0;
+    private int views = 0;
+
     @Enumerated(EnumType.STRING)
     private NoticeStatus noticeBoardStatus = NoticeStatus.NOTICE_POST;
 
     @Builder
-    public NoticeBoard(Long noticeBoardId, String title, String body) {
+    public NoticeBoard(long noticeBoardId, String title, String body) {
         this.noticeBoardId = noticeBoardId;
         this.title = title;
         this.body = body;

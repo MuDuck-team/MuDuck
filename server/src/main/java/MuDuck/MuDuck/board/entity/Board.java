@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 public class Board extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardId;
+    private long boardId;
 
     @Column(nullable = false, length = 50)
     private String title;
@@ -39,10 +39,10 @@ public class Board extends Auditable {
     private String content;
 
     @Column(nullable = false)
-    private Integer views = 0;
+    private int views = 0;
 
     @Column(nullable = false, name = "likes")
-    private Integer like = 0;
+    private int like = 0;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 30)

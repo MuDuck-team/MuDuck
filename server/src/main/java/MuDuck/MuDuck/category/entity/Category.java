@@ -25,7 +25,7 @@ import lombok.NoArgsConstructor;
 public class Category extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long categoryId;
+    private long categoryId;
 
     @Column(nullable = false, length = 30)
     private String categoryName;

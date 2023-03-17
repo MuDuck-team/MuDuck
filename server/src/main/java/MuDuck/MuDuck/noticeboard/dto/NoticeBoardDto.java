@@ -9,7 +9,7 @@ public class NoticeBoardDto {
     @Getter
     @Builder
     public static class Response{
-        private Long id;
+        private long id;
         private String lastCreatedAt;
         private String title;
     }

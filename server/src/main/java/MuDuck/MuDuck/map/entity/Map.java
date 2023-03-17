@@ -26,7 +26,7 @@ import lombok.Setter;
 public class Map extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long mapId;
+    private long mapId;
 
     // 극장과의 연관관계 매핑 필드
     @ManyToOne(fetch = FetchType.LAZY)
@@ -34,18 +34,18 @@ public class Map extends Auditable {
     private Theater theater;
 
     @Column(nullable = false)
-    private Long placeId;
+    private long placeId;
 
     @Column(nullable = false, length = 30)
     private String placeName;
 
     // 경도
     @Column(nullable = false)
-    private Long longitude;
+    private long longitude;
 
     // 위도
     @Column(nullable = false)
-    private Long latitude;
+    private long latitude;
 
     @Enumerated(EnumType.STRING)
     private GroupCode categoryGroupCode;
