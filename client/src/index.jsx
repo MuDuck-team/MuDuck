@@ -24,9 +24,9 @@ import NoticePage from './routes/Notice/Notice';
 import NoticeAddPage, {
   loader as noticeAddPageLoader,
 } from './routes/NoticeAdd/NoticeAddPage';
-import NoticeEditePage, {
+import NoticeEditPage, {
   loader as noticeEditPageLoader,
-} from './routes/NoticeEdit/NoticeEditePage';
+} from './routes/NoticeEdit/NoticeEditPage';
 import MyPage from './routes/Mypage/MyPage';
 
 const router = createBrowserRouter([
@@ -66,7 +66,7 @@ const router = createBrowserRouter([
           },
           {
             path: '/notice/edit/:id',
-            element: <NoticeEditePage />,
+            element: <NoticeEditPage />,
             loader: noticeEditPageLoader,
           },
           { path: '/mypage', element: <MyPage /> },
