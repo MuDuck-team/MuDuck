@@ -27,7 +27,7 @@
       {
         "labelAttributes": ["htmlFor"]
       }
-    ]
-    // "import/no-extraneous-dependencies": ["error", { "devDependencies": false }]
+    ],
+    "react/no-array-index-key": "off"
   }
 }
