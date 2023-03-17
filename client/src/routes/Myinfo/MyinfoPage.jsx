@@ -6,8 +6,8 @@ import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
-import ProfileImg from '../../components/ProfileImg';
-import ProfileImgSetter from '../../components/ProfileImgSetter';
+import ProfileImg from '../../components/ProfileImage/ProfileImg';
+import ProfileImgSetter from '../../components/ProfileImage/ProfileImgSetter';
 
 function MyinfoPage() {
   const [nickname, setNickname] = useState('');

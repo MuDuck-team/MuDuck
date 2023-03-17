@@ -6,7 +6,7 @@ import { AiOutlineClose } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 import userInfo from '../recoil/userAtom';
 import { ReactComponent as Logo } from '../assets/logo.svg';
-import ProfileImg from './ProfileImg';
+import { ProfileImg } from './ProfileImage';
 import Button from './Button';
 
 function Header() {

@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import DefaultProfile from '../assets/DefaultProfile.png';
+import DefaultProfile from '../../assets/DefaultProfile.png';
 
 /** 공연정보에서 프로필이미지 사용할때는 type=actor, name=배우이름을 넘겨주기 */
 function ProfileImg({
