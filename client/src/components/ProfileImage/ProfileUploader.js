@@ -1,11 +1,11 @@
 import AWS from 'aws-sdk';
+const REGION = process.env.REACT_APP_REGION;
+const ACESS_KEY_ID = process.env.REACT_APP_ACCESS_KEY_ID;
+const SECRET_ACESS_KEY_ID = process.env.REACT_APP_SECRET_ACCESS_KEY_ID;
+const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
 
+//  s3로 파일을 올리는 함수
 const uploadS3 = uploadSrc => {
-  const REGION = process.env.REACT_APP_REGION;
-  const ACESS_KEY_ID = process.env.REACT_APP_ACCESS_KEY_ID;
-  const SECRET_ACESS_KEY_ID = process.env.REACT_APP_SECRET_ACCESS_KEY_ID;
-  const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
-
   AWS.config.update({
     region: REGION,
     accessKeyId: ACESS_KEY_ID,
@@ -29,6 +29,7 @@ const uploadS3 = uploadSrc => {
     .putObject(params)
     .on('httpUploadProgress', evt => {
       console.log(evt);
+      // 여기서 돌려받은 파일의 s3url 을 리턴시켜야함.
     })
     .send(err => {
       if (err) console.log(err);

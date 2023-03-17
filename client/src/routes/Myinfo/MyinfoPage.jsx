@@ -25,7 +25,12 @@ function MyinfoPage() {
   const handleSubmit = async event => {
     event.preventDefault();
     uploadS3(uploadSrc);
-    // axios.patch(서버)
+    /* const data = {
+     nickname,
+      url
+    }
+    */
+    // axios.patch(서버, data)
   };
 
   return (
