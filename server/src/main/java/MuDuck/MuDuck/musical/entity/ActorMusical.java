@@ -19,7 +19,7 @@ public class ActorMusical extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long musicalActorId;
+    private long musicalActorId;
 
     @Column(length = 10, nullable = false)
     private String role;

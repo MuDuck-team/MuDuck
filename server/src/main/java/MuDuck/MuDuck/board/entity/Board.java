@@ -18,16 +18,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Board extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardId;
+    private long boardId;
 
     @Column(nullable = false, length = 50)
     private String title;
@@ -36,10 +39,10 @@ public class Board extends Auditable {
     private String content;
 
     @Column(nullable = false)
-    private Integer view = 0;
+    private int views = 0;
 
     @Column(nullable = false, name = "likes")
-    private Integer like = 0;
+    private int like = 0;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 30)

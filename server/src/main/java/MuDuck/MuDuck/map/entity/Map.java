@@ -26,7 +26,7 @@ import lombok.Setter;
 public class Map extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long mapId;
+    private long mapId;
 
     // 극장과의 연관관계 매핑 필드
     @ManyToOne(fetch = FetchType.LAZY)
