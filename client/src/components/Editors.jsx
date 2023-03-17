@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form } from 'react-router-dom';
 import styled from 'styled-components';
 import Select from 'react-select';
@@ -6,12 +6,40 @@ import Button from './Button';
 import Dropdown from './DropDown';
 import { StyledInput, StyledTextArea } from './Input';
 
+// 더미데이터
+const objArr = [
+  { id: 1, categoryName: '최신순' },
+  { id: 2, categoryName: '조회순' },
+  { id: 3, categoryName: '이름순' },
+];
+
+// 더미데이터
+const options = [
+  {
+    id: 4,
+    label: '2014 레베카',
+    value: 1,
+  },
+  {
+    id: 5,
+    label: '2017 레베카',
+    value: 2,
+  },
+  {
+    id: 6,
+    label: '2019 헤드윅',
+    value: 3,
+  },
+];
+
+// DropDownSearch 스타일
 const customStyles = {
   control: baseStyles => ({
     ...baseStyles,
     backgroundColor: 'var(--main-002)',
     fontSize: 'var(--font-size-md)',
     width: '315px',
+    height: '43px',
     borderColor: 'var(--border-color)',
     '&:hover': { borderColor: 'var(--border-color)' },
   }),
@@ -36,32 +64,38 @@ const customStyles = {
   }),
 };
 
-const options = [
-  {
-    id: 4,
-    label: '2014 레베카',
-    value: 2,
-  },
-  {
-    id: 5,
-    label: '2017 레베카',
-    value: 2,
-  },
-  {
-    id: 6,
-    label: '2019 헤드윅',
-    value: 2,
-  },
-];
-
-function Editors() {
-  const [id] = useState([]);
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
+function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
+  const [ids, setIds] = useState([1]);
+  const [title, setTitle] = useState(defaultTitle);
+  const [content, setContent] = useState(defalutContent);
   const [selectedOptions, setSelectedOptions] = useState([]);
+  const isPost = pathname.includes('post');
 
+  useEffect(() => {
+    console.log(ids);
+  }, [ids]);
+
+  // DropdownSearch 전용 함수
   const handleChange = selected => {
     setSelectedOptions(selected);
+    if (!selected) {
+      const idsArray = ids.slice(0, 1);
+      setIds(idsArray);
+      return;
+    }
+    if (ids[1]) {
+      const idsArray = ids.map((id, idx) => (idx === 1 ? selected.value : id));
+      setIds(idsArray);
+      return;
+    }
+    const idsArray = [...ids, selected.value];
+    setIds(idsArray);
+  };
+
+  // Dropdown 전용 함수
+  const handleDropDown = dropDownid => {
+    const idsArray = ids.map((id, idx) => (idx === 0 ? dropDownid : id));
+    setIds(idsArray);
   };
 
   const handleValue = e => {
@@ -75,25 +109,42 @@ function Editors() {
 
   return (
     <EditorWrapper>
-      <h2>게시글 작성하기</h2>
-      <CategoryWrapper>
-        <CategoryContent>
-          <p>카테고리</p> <Dropdown width="315px" hegiht="37px" />
-        </CategoryContent>
-        <CategoryContent>
-          <p>뮤지컬</p>{' '}
-          <Select
-            options={options}
-            value={selectedOptions}
-            onChange={handleChange}
-            styles={customStyles}
-            isClearable="true"
-            isSearchable="true"
-          />
-        </CategoryContent>
-      </CategoryWrapper>
+      {pathname.includes('add') ? (
+        <StyledH2 isPost={isPost}>
+          {isPost ? '게시글' : '공지사항'} 작성하기
+        </StyledH2>
+      ) : (
+        <StyledH2 isPost={isPost}>
+          {isPost ? '게시글' : '공지사항'} 수정하기
+        </StyledH2>
+      )}
+      {isPost && (
+        <CategoryWrapper>
+          <CategoryContent>
+            <p>카테고리</p>{' '}
+            <Dropdown
+              width="315px"
+              height="42px"
+              options={objArr}
+              onClick={handleDropDown}
+              defaultValue={objArr[1]}
+            />
+          </CategoryContent>
+          <CategoryContent>
+            <p>뮤지컬</p>{' '}
+            <Select
+              options={options}
+              value={selectedOptions}
+              onChange={handleChange}
+              styles={customStyles}
+              isClearable="true"
+              isSearchable="true"
+            />
+          </CategoryContent>
+        </CategoryWrapper>
+      )}
       <Form>
-        <input type="hidden" name="id" value={id} />
+        <input type="hidden" name="id" value={ids} />
         <InputWrapper>
           <label htmlFor="title">제목</label>
           <StyledInput
@@ -133,12 +184,12 @@ function Editors() {
   );
 }
 
-const EditorWrapper = styled.article`
-  h2 {
-    margin-top: 40px;
-    margin-bottom: 8px;
-    font-size: var(--font-size-xxl);
-  }
+const EditorWrapper = styled.article``;
+
+const StyledH2 = styled.h2`
+  margin-top: 40px;
+  font-size: var(--font-size-xxl);
+  margin-bottom: ${props => (props.isPost ? '8px' : '30px')};
 `;
 
 const CategoryWrapper = styled.section`
