@@ -1,14 +1,68 @@
 import { useState } from 'react';
 import { Form } from 'react-router-dom';
 import styled from 'styled-components';
+import Select from 'react-select';
 import Button from './Button';
 import Dropdown from './DropDown';
 import { StyledInput, StyledTextArea } from './Input';
+
+const customStyles = {
+  control: baseStyles => ({
+    ...baseStyles,
+    backgroundColor: 'var(--main-002)',
+    fontSize: 'var(--font-size-md)',
+    width: '315px',
+    borderColor: 'var(--border-color)',
+    '&:hover': { borderColor: 'var(--border-color)' },
+  }),
+  container: baseStyles => ({
+    ...baseStyles,
+    '&:hover': { borderColor: 'var(--border-color)' },
+  }),
+  input: baseStyles => ({
+    ...baseStyles,
+    color: 'var(--font-color)',
+    '&::placeholder': { color: 'var(--font-color)' },
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    backgroundColor: state.isFocused ? 'var(--main-003)' : 'var(--main-002)',
+    fontSize: 'var(--font-size-md)',
+    color: 'var(--font-color)',
+  }),
+  menu: provided => ({
+    ...provided,
+    backgroundColor: 'var(--main-002)',
+  }),
+};
+
+const options = [
+  {
+    id: 4,
+    label: '2014 레베카',
+    value: 2,
+  },
+  {
+    id: 5,
+    label: '2017 레베카',
+    value: 2,
+  },
+  {
+    id: 6,
+    label: '2019 헤드윅',
+    value: 2,
+  },
+];
 
 function Editors() {
   const [id] = useState([]);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const handleChange = selected => {
+    setSelectedOptions(selected);
+  };
 
   const handleValue = e => {
     const { name, value } = e.target;
@@ -25,6 +79,17 @@ function Editors() {
       <CategoryWrapper>
         <CategoryContent>
           <p>카테고리</p> <Dropdown width="315px" hegiht="37px" />
+        </CategoryContent>
+        <CategoryContent>
+          <p>뮤지컬</p>{' '}
+          <Select
+            options={options}
+            value={selectedOptions}
+            onChange={handleChange}
+            styles={customStyles}
+            isClearable="true"
+            isSearchable="true"
+          />
         </CategoryContent>
       </CategoryWrapper>
       <Form>
@@ -78,7 +143,9 @@ const EditorWrapper = styled.article`
 
 const CategoryWrapper = styled.section`
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
 `;
 
 const CategoryContent = styled.div`
