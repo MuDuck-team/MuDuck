@@ -59,3 +59,22 @@ VALUES ('로그인 시 공지사항', '카카오 로그인 시 이메일 허용�
 INSERT INTO NOTICE_BOARD (title, body, views, created_at, last_modified_at, notice_board_status)
 VALUES ('커뮤니티 이용 공지사항', '커뮤니티 글 작성 시 허위사실유포 및 지나친 비방은 영구밴이 될 수 있습니다.', 0, NOW(), NOW(), 'NOTICE_POST');
 
+-- Theater 테이블 생성 코드
+INSERT INTO THEATER (place_Name, longitude, latitude, phone, address, road_Address, created_at, last_modified_at)
+VALUES ('오둥이 소극장', 12.1234, 13.1234, '02-555-5555', '서울특별시 송파구 잠실동 40-1번지 샤롯데씨어터', '서울특별시 송파구 올림픽로 240(잠실동) 샤롯데씨어터', NOW(), NOW());
+
+INSERT INTO THEATER (place_Name, longitude, latitude, phone, address, road_Address, created_at, last_modified_at)
+VALUES ('오둥이 중극장', 12.1234, 13.1234, '02-555-5555', '서울특별시 송파구 잠실동 40-1번지 샤롯데씨어터', '서울특별시 송파구 올림픽로 240(잠실동) 샤롯데씨어터', NOW(), NOW());
+
+INSERT INTO THEATER (place_Name, longitude, latitude, phone, address, road_Address, created_at, last_modified_at)
+VALUES ('오둥이 대극장', 12.1234, 13.1234, '02-555-5555', '서울특별시 송파구 잠실동 40-1번지 샤롯데씨어터', '서울특별시 송파구 올림픽로 240(잠실동) 샤롯데씨어터', NOW(), NOW());
+
+-- Map 테이블 생성 코드
+INSERT INTO MAP (theater_id, place_id, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (1, 1, '오둥이식당', 12.4545, 13.5555, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+
+INSERT INTO MAP (theater_id, place_id, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (2, 2, '오둥이식당', 12.4545, 13.5555, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+
+INSERT INTO MAP (theater_id, place_id, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (3, 3, '오둥이식당', 12.4545, 13.5555, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
