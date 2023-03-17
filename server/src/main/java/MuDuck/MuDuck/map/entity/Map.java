@@ -34,18 +34,18 @@ public class Map extends Auditable {
     private Theater theater;
 
     @Column(nullable = false)
-    private Long placeId;
+    private long placeId;
 
     @Column(nullable = false, length = 30)
     private String placeName;
 
     // 경도
     @Column(nullable = false)
-    private Long longitude;
+    private double longitude;
 
     // 위도
     @Column(nullable = false)
-    private Long latitude;
+    private double latitude;
 
     @Enumerated(EnumType.STRING)
     private GroupCode categoryGroupCode;
@@ -54,16 +54,16 @@ public class Map extends Auditable {
     private String phone;
 
     @Column(nullable = false, length = 50)
-    private String addressName;
+    private String address;
 
     @Column(nullable = false, length = 50)
-    private String roadAddressName;
+    private String roadAddress;
     
 
     @Builder
-    public Map(Long mapId, Theater theater, Long placeId, String placeName, Long longitude,
-            Long latitude, GroupCode categoryGroupCode, String phone, String addressName,
-            String roadAddressName) {
+    public Map(long mapId, Theater theater, Long placeId, String placeName, double longitude,
+            double latitude, GroupCode categoryGroupCode, String phone, String address,
+            String roadAddress) {
         this.mapId = mapId;
         this.theater = theater;
         this.placeId = placeId;
@@ -72,7 +72,7 @@ public class Map extends Auditable {
         this.latitude = latitude;
         this.categoryGroupCode = categoryGroupCode;
         this.phone = phone;
-        this.addressName = addressName;
-        this.roadAddressName = roadAddressName;
+        this.address = address;
+        this.roadAddress = roadAddress;
     }
 }

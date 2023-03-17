@@ -38,3 +38,6 @@ out/
 
 ### .yml 파일 ###
 *.yml
+
+### index.html ###
+!**/src/main/resources/static/docs/index.html
