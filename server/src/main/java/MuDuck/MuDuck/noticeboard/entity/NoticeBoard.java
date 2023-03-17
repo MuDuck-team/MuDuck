@@ -36,9 +36,10 @@ public class NoticeBoard extends Auditable {
     private NoticeStatus noticeBoardStatus = NoticeStatus.NOTICE_POST;
 
     @Builder
-    public NoticeBoard(Long noticeBoardId, String title) {
+    public NoticeBoard(Long noticeBoardId, String title, String body) {
         this.noticeBoardId = noticeBoardId;
         this.title = title;
+        this.body = body;
     }
 }
 

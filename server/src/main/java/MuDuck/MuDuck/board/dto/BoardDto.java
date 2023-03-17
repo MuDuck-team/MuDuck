@@ -1,11 +1,13 @@
 package MuDuck.MuDuck.board.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 public class BoardDto {
 
+    @AllArgsConstructor
     @Getter
     @Builder
     public static class Response{

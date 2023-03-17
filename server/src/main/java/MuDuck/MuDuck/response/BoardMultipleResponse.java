@@ -9,14 +9,14 @@ import org.springframework.data.domain.Page;
 
 @Getter
 public class BoardMultipleResponse {
-    private List<NoticeBoardDto.Response> noticeBoardResponse;
-    private List<BoardDto.Response> boardResponse;
+    private List<NoticeBoardDto.Response> noticeBoards;
+    private List<BoardDto.Response> boards;
     private PageInfo pageInfo;
 
     public BoardMultipleResponse(List<Response> noticeBoardResponse,
             List<BoardDto.Response> boardResponse, Page page) {
-        this.noticeBoardResponse = noticeBoardResponse;
-        this.boardResponse = boardResponse;
+        this.noticeBoards = noticeBoardResponse;
+        this.boards = boardResponse;
         this.pageInfo = new PageInfo(page.getNumber() + 1,
                 page.getSize(), page.getTotalElements(), page.getTotalPages());
     }
