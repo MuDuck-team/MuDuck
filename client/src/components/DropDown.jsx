@@ -1,8 +1,15 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function Dropdown({ options, onClick, width, height }) {
-  const [selectedOption, setSelectedOption] = useState(null);
+function Dropdown({
+  options,
+  onClick,
+  width,
+  height,
+  maxHeight,
+  defaultValue,
+}) {
+  const [selectedOption, setSelectedOption] = useState(defaultValue || null);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionClick = option => {
@@ -21,13 +28,12 @@ function Dropdown({ options, onClick, width, height }) {
         {selectedOption ? selectedOption.categoryName : '카테고리 선택'}
       </DropdownButton>
       {isOpen && (
-        <DropdownOptions width={width} height={height}>
+        <DropdownOptions width={width} maxHeight={maxHeight}>
           {options.map(option => (
             <DropdownOption
               key={option.id}
               onClick={() => handleOptionClick(option)}
               width={width}
-              height={height}
             >
               {option.categoryName}
             </DropdownOption>
@@ -55,10 +61,12 @@ const DropdownButton = styled.button`
   width: ${props => props.width || '200px'};
   height: ${props => props.height || 'auto'};
   color: var(--font-color);
+  height: ${props => props.height || 'auto'};
 `;
 
 const DropdownOptions = styled.ul`
   position: absolute;
+  z-index: 3;
   top: 100%;
   left: 0;
   right: 0;

@@ -13,10 +13,20 @@ import PlayPage from './routes/Play/PlayPage';
 import NearbyPage from './routes/Nearby/NearbyPage';
 import PostsPage from './routes/Posts/PostsPage';
 import PostPage from './routes/Post/PostPage';
+import PostAddPage, {
+  loader as postAddPageLoader,
+} from './routes/PostAdd/PostAddPage';
+import PostEditPage, {
+  loader as postEditPageLoader,
+} from './routes/PostEdit/PostEditPage';
 import NoticesPage from './routes/Notices/NoticesPage';
 import NoticePage from './routes/Notice/Notice';
-import AddPage from './routes/Add/AddPage';
-import UpdatePage from './routes/Update/UpdatePage';
+import NoticeAddPage, {
+  loader as noticeAddPageLoader,
+} from './routes/NoticeAdd/NoticeAddPage';
+import NoticeEditPage, {
+  loader as noticeEditPageLoader,
+} from './routes/NoticeEdit/NoticeEditPage';
 import MyPage from './routes/Mypage/MyPage';
 import AdminLoginPage from './routes/AdminLogin/AdminLoginPage';
 
@@ -38,10 +48,28 @@ const router = createBrowserRouter([
           { path: '/nearby', element: <NearbyPage /> },
           { path: '/posts', element: <PostsPage /> },
           { path: '/post/:id', element: <PostPage /> },
+          {
+            path: '/post/add',
+            element: <PostAddPage />,
+            loader: postAddPageLoader,
+          },
+          {
+            path: '/post/edit/:id',
+            element: <PostEditPage />,
+            loader: postEditPageLoader,
+          },
           { path: '/notices', element: <NoticesPage /> },
           { path: '/notice/:id', element: <NoticePage /> },
-          { path: '/add', element: <AddPage /> },
-          { path: '/update', element: <UpdatePage /> },
+          {
+            path: '/notice/add',
+            element: <NoticeAddPage />,
+            loader: noticeAddPageLoader,
+          },
+          {
+            path: '/notice/edit/:id',
+            element: <NoticeEditPage />,
+            loader: noticeEditPageLoader,
+          },
           { path: '/mypage', element: <MyPage /> },
           { path: '/admin', element: <AdminLoginPage /> },
         ],
