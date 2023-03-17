@@ -65,36 +65,40 @@ const customStyles = {
 };
 
 function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
-  const [ids, setIds] = useState([1]);
+  const [categoryIds, setIds] = useState([1]);
   const [title, setTitle] = useState(defaultTitle);
   const [content, setContent] = useState(defalutContent);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const isPost = pathname.includes('post');
 
   useEffect(() => {
-    console.log(ids);
-  }, [ids]);
+    console.log(categoryIds);
+  }, [categoryIds]);
 
   // DropdownSearch 전용 함수
   const handleChange = selected => {
     setSelectedOptions(selected);
     if (!selected) {
-      const idsArray = ids.slice(0, 1);
+      const idsArray = categoryIds.slice(0, 1);
       setIds(idsArray);
       return;
     }
-    if (ids[1]) {
-      const idsArray = ids.map((id, idx) => (idx === 1 ? selected.value : id));
+    if (categoryIds[1]) {
+      const idsArray = categoryIds.map((id, idx) =>
+        idx === 1 ? selected.value : id,
+      );
       setIds(idsArray);
       return;
     }
-    const idsArray = [...ids, selected.value];
+    const idsArray = [...categoryIds, selected.value];
     setIds(idsArray);
   };
 
   // Dropdown 전용 함수
   const handleDropDown = dropDownid => {
-    const idsArray = ids.map((id, idx) => (idx === 0 ? dropDownid : id));
+    const idsArray = categoryIds.map((id, idx) =>
+      idx === 0 ? dropDownid : id,
+    );
     setIds(idsArray);
   };
 
@@ -144,10 +148,12 @@ function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
         </CategoryWrapper>
       )}
       <Form>
-        <input type="hidden" name="id" value={ids} />
+        <input type="hidden" name="id" value={categoryIds} />
         <InputWrapper>
           <label htmlFor="title">제목</label>
           <StyledInput
+            type="text"
+            id="title"
             name="title"
             value={title}
             width="100%"
@@ -159,7 +165,6 @@ function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
         <InputWrapper>
           <label htmlFor="content">내용</label>
           <StyledTextArea
-            type="text"
             id="content"
             name="content"
             value={content}
@@ -190,6 +195,7 @@ const StyledH2 = styled.h2`
   margin-top: 40px;
   font-size: var(--font-size-xxl);
   margin-bottom: ${props => (props.isPost ? '8px' : '30px')};
+  font-weight: bold;
 `;
 
 const CategoryWrapper = styled.section`

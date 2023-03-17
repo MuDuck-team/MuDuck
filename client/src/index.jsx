@@ -18,7 +18,7 @@ import PostAddPage, {
 } from './routes/PostAdd/PostAddPage';
 import PostEditPage, {
   loader as postEditPageLoader,
-} from './routes/PostEdit/PostEditePage';
+} from './routes/PostEdit/PostEditPage';
 import NoticesPage from './routes/Notices/NoticesPage';
 import NoticePage from './routes/Notice/Notice';
 import NoticeAddPage, {
