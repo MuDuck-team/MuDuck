@@ -65,6 +65,7 @@ const ProfileImage = styled.img`
     props.uploadSrc &&
     css`
       filter: brightness(0.2);
+      transition: ease-in 0.08s;
     `}
 `;
 

@@ -17,6 +17,10 @@ function MyinfoPage() {
     setNickname(event.target.value);
   };
 
+  const handleClickKakaoProfile = () => {
+    setUploadSrc(null);
+  };
+
   const handleSubmit = event => {
     event.preventDefault();
     console.log(nickname);
@@ -36,7 +40,7 @@ function MyinfoPage() {
           value={nickname}
           onChange={handleChangeInput}
           id="nickname"
-          placeholder="  알파벳,한글,숫자 20자 이하로 입력해주세요"
+          placeholder=" 알파벳,한글,숫자 20자 이하로 입력해주세요"
           width="550px"
           height="30px"
         />
@@ -48,7 +52,7 @@ function MyinfoPage() {
               margin="1.6rem"
               src="https://cphoto.asiae.co.kr/listimglink/1/2021050711371325414_1620355033.jpg"
               // 유저정보 카카오프로필에서 가져올 예정.
-              // onClick={setProfileSubmitSrc(user.profile)}
+              onClick={handleClickKakaoProfile}
               uploadSrc={uploadSrc}
             />
             kakao 프로필로 계속하기
@@ -62,7 +66,8 @@ function MyinfoPage() {
             이미지 업로드
           </ProfileSelectionCard>
         </ProfileWrapper>
-        <WarningNotice>
+
+        <WarningWrapper>
           <WanringText>
             <BsFillExclamationCircleFill color="var(--error-color)" />
             <BoldSpan> 추가안내 </BoldSpan>
@@ -75,8 +80,9 @@ function MyinfoPage() {
             프로필 이미지를 선택하지 않은 경우
             <BoldSpan> 카카오 이미지 </BoldSpan>로 설정됩니다.
           </WanringText>
-        </WarningNotice>
+        </WarningWrapper>
         <SubmitButton
+          type="submit"
           width="545px"
           height="3.5rem"
           margin="1.6rem"
@@ -148,6 +154,7 @@ const InputLabel = styled.label`
 `;
 
 const FlexibleInput = styled(StyledInput)`
+  padding-left: 1rem;
   ::placeholder {
     font-size: 90%;
   }
@@ -186,7 +193,7 @@ const ProfileSelectionCard = styled.div`
   color: var(--border-color);
 `;
 
-const WarningNotice = styled(ProfileWrapper)`
+const WarningWrapper = styled(ProfileWrapper)`
   flex-direction: column;
   align-items: flex-start;
   padding: 2rem;
