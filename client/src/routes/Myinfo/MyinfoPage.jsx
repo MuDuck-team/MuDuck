@@ -2,24 +2,32 @@ import { useState } from 'react';
 // import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 // import userInfo from '../../recoil/userAtom';
+import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { StyledInput } from '../../components/Input';
+import Button from '../../components/Button';
 import ProfileImg from '../../components/ProfileImg';
+import ProfileImgSetter from '../../components/ProfileImgSetter';
 
 function MyinfoPage() {
-  // const user = useRecoilValue(userInfo);
-
   const [nickname, setNickname] = useState('');
-  // const [Image, setImage] = useState('../../assets/DefaultProfile.png');
+  const [uploadSrc, setUploadSrc] = useState(null);
 
   const handleChangeInput = event => {
     setNickname(event.target.value);
+  };
+
+  const handleSubmit = event => {
+    event.preventDefault();
+    console.log(nickname);
+    console.log(uploadSrc);
   };
 
   return (
     <SettingPageConainer>
       <MuduckLogo />
       <TextParagraph>KAKAO 계정을 이용한 회원가입</TextParagraph>
+
       <SettingForm>
         <InputLabel htmlFor="nickname">닉네임</InputLabel>
         <FlexibleInput
@@ -33,17 +41,48 @@ function MyinfoPage() {
           height="30px"
         />
 
-        <InputLabel htmlFor="nickname">프로필 이미지 선택</InputLabel>
+        <InputLabel htmlFor="profileAvatar">프로필 이미지 선택</InputLabel>
         <ProfileWrapper>
           <ProfileSelectionCard>
             <ProfileImg
               margin="1.6rem"
               src="https://cphoto.asiae.co.kr/listimglink/1/2021050711371325414_1620355033.jpg"
+              // 유저정보 카카오프로필에서 가져올 예정.
+              // onClick={setProfileSubmitSrc(user.profile)}
+              uploadSrc={uploadSrc}
             />
             kakao 프로필로 계속하기
           </ProfileSelectionCard>
-          <ProfileSelectionCard>이미지 업로드</ProfileSelectionCard>
+          <ProfileSelectionCard>
+            <ProfileImgSetter
+              id="profileAvatar"
+              uploadSrc={uploadSrc}
+              setUploadSrc={setUploadSrc}
+            />
+            이미지 업로드
+          </ProfileSelectionCard>
         </ProfileWrapper>
+        <WarningNotice>
+          <WanringText>
+            <BsFillExclamationCircleFill color="var(--error-color)" />
+            <BoldSpan> 추가안내 </BoldSpan>
+          </WanringText>
+          <WanringText>
+            <BoldSpan>프로필 이미지 변경</BoldSpan>은 회원가입 이후에도
+            가능합니다.
+          </WanringText>
+          <WanringText>
+            프로필 이미지를 선택하지 않은 경우
+            <BoldSpan> 카카오 이미지 </BoldSpan>로 설정됩니다.
+          </WanringText>
+        </WarningNotice>
+        <SubmitButton
+          width="545px"
+          height="3.5rem"
+          margin="1.6rem"
+          text="회원가입"
+          onClick={handleSubmit}
+        />
       </SettingForm>
     </SettingPageConainer>
   );
@@ -145,6 +184,46 @@ const ProfileSelectionCard = styled.div`
   background-color: rgba(255, 255, 255, 0.05);
   font-size: var(--font-size-sm);
   color: var(--border-color);
+`;
+
+const WarningNotice = styled(ProfileWrapper)`
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 2rem;
+  width: 545px;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  margin: 8px;
+  font-size: var(--font-size-sm);
+  color: var(--font-color);
+
+  @media screen and (max-width: 768px) {
+    width: 260px;
+  }
+`;
+
+const BoldSpan = styled.span`
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+`;
+
+const WanringText = styled(TextParagraph)`
+  font-size: var(--font-size-xs);
+  font-weight: 300;
+  margin-top: 2px;
+  margin-bottom: 8px;
+
+  @media screen and (max-width: 768px) {
+    margin-bottom: 1.6rem;
+    line-height: 2rem;
+    word-break: break-word;
+  }
+`;
+
+const SubmitButton = styled(Button)`
+  @media screen and (max-width: 768px) {
+    width: 260px;
+  }
 `;
 
 export default MyinfoPage;
