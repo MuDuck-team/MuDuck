@@ -23,7 +23,7 @@ import lombok.Setter;
 public class RecommendPlace extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long recommendPlaceId;
+    private long recommendPlaceId;
 
     // 회원과의 연관관계 설정
     @ManyToOne(fetch = FetchType.LAZY)
@@ -36,13 +36,13 @@ public class RecommendPlace extends Auditable {
     private Map map;
 
     @Column(nullable = false)
-    private Double score;
+    private double score;
 
     @Column(nullable = false, length = 50)
     private String oneLine;
 
     @Builder
-    public RecommendPlace(Long recommendPlaceId, Member member, Map map, Double score,
+    public RecommendPlace(long recommendPlaceId, Member member, Map map, double score,
             String oneLine) {
         this.recommendPlaceId = recommendPlaceId;
         this.member = member;
