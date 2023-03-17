@@ -1,8 +1,15 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function Dropdown({ options, onClick, width, height, maxHeight }) {
-  const [selectedOption, setSelectedOption] = useState(null);
+function Dropdown({
+  options,
+  onClick,
+  width,
+  height,
+  maxHeight,
+  defaultValue,
+}) {
+  const [selectedOption, setSelectedOption] = useState(defaultValue || null);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOptionClick = option => {
