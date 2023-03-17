@@ -16,11 +16,18 @@
       "error",
       { "singleQuote": true, "endOfLine": "auto" }
     ],
+
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": "off",
     "react/jsx-props-no-spreading": "off",
     "react/jsx-uses-react": "off",
     "react/prop-types": "off",
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "labelAttributes": ["htmlFor"]
+      }
+    ],
     "react/no-array-index-key": "off"
   }
 }
