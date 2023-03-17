@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+
 const REGION = process.env.REACT_APP_REGION;
 const ACESS_KEY_ID = process.env.REACT_APP_ACCESS_KEY_ID;
 const SECRET_ACESS_KEY_ID = process.env.REACT_APP_SECRET_ACCESS_KEY_ID;
@@ -23,7 +24,7 @@ const uploadS3 = uploadSrc => {
     Bucket: S3_BUCKET,
     Key: `profile/${uploadSrc.name}`,
   };
-  //  유저프로필이라는 폴더안에, 유저가 업로드한 사진의 이름으로 올리겠다.
+  //  프로필이라는 폴더 안에, 유저가 업로드한 사진의 이름으로 올리겠다.
 
   myBucket
     .putObject(params)

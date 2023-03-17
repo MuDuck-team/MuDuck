@@ -4,10 +4,10 @@ import styled, { css } from 'styled-components';
 //  ProfileSubmitSrc
 
 function ProfileImgSetter({ uploadSrc, setUploadSrc }) {
+  const defualtPhotoUrl =
+    'https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png';
   //  프리뷰용 state
-  const [image, setImage] = useState(
-    'https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png',
-  );
+  const [image, setImage] = useState(defualtPhotoUrl);
   const imageRef = useRef(null);
 
   const onChange = event => {
@@ -22,14 +22,12 @@ function ProfileImgSetter({ uploadSrc, setUploadSrc }) {
       setImage(file);
       setUploadSrc(file);
     } else {
-      setImage('../assets/DefaultProfile.png');
+      setImage(defualtPhotoUrl);
     }
 
     if (!file) {
       window.alert('프로필 사진을 업로드해 주세요');
-      setImage(
-        'https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png',
-      );
+      setImage(defualtPhotoUrl);
     }
 
     //  FileReader() 객체는 비동기적으로 파일의 내용을 읽어들이는 데 사용
@@ -51,8 +49,7 @@ function ProfileImgSetter({ uploadSrc, setUploadSrc }) {
         src={image}
         onClick={() => imageRef.current.click()}
         onError={() => {
-          imageRef.current.src =
-            'https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png';
+          imageRef.current.src = defualtPhotoUrl;
         }}
         uploadSrc={uploadSrc}
       />

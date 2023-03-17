@@ -103,8 +103,6 @@ function MyinfoPage() {
 const SettingPageConainer = styled.div`
   height: 100%;
   margin-top: 40px;
-  /* position: relative;
-  top: 10vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
