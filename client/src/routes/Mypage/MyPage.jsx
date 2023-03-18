@@ -22,23 +22,21 @@ function MyPage() {
 
   const [page, setPage] = useState(pageInfo.page);
   const [currentItems, setCurrentItems] = useState([]);
-  const [indexOfLastPost, setIndexOfLastPost] = useState(0);
-  const [indexOfFirstPost, setIndexOfFirstPost] = useState(0);
+  const indexOfLastPost = page * pageInfo.size;
+  const indexOfFirstPost = indexOfLastPost - pageInfo.size;
 
   useEffect(() => {
-    setIndexOfLastPost(page * pageInfo.size);
-    setIndexOfFirstPost(indexOfLastPost - pageInfo.size);
     setCurrentItems(PostData.slice(indexOfFirstPost, indexOfLastPost));
   }, [page, indexOfLastPost, indexOfFirstPost]);
 
   const [isEdit, setIsEdit] = useState(false);
 
-  const onChange = () => {
+  const onEditHandler = () => {
     setIsEdit(!isEdit);
   };
 
   return (
-    <Wrapper>
+    <MyPageLayout>
       <Category>마이 페이지</Category>
       <ProfileContainer>
         <ProfileImg src={initImage} />
@@ -55,7 +53,7 @@ function MyPage() {
                 bgColor="var(--main-003)"
                 hover="var(--main-002)"
                 active="var(--main-002)"
-                onClick={onChange}
+                onClick={onEditHandler}
               />
               <Button text="저장" />
             </ButtonContainer>
@@ -63,7 +61,7 @@ function MyPage() {
         ) : (
           <EditNicknameBox>
             <Nickname>{nickname}님</Nickname>
-            <EditButton type="button" onClick={onChange}>
+            <EditButton type="button" onClick={onEditHandler}>
               <EditIcon />
             </EditButton>
           </EditNicknameBox>
@@ -108,11 +106,11 @@ function MyPage() {
           />
         </CommentContainer>
       </ContentContainer>
-    </Wrapper>
+    </MyPageLayout>
   );
 }
 
-const Wrapper = styled.div`
+const MyPageLayout = styled.main`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -174,7 +172,7 @@ const ContentContainer = styled.div`
   height: 100%;
 `;
 
-const PostContainer = styled.div`
+const PostContainer = styled.section`
   width: 49%;
 
   @media screen and (max-width: 768px) {
@@ -182,7 +180,7 @@ const PostContainer = styled.div`
   }
 `;
 
-const CommentContainer = styled.div`
+const CommentContainer = styled.section`
   width: 49%;
   height: 100%;
 
