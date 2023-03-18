@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import DefaultProfile from '../assets/DefaultProfile.png';
+import styled, { css } from 'styled-components';
+import DefaultProfile from '../../assets/DefaultProfile.png';
 
 /** 공연정보에서 프로필이미지 사용할때는 type=actor, name=배우이름을 넘겨주기 */
 function ProfileImg({
@@ -61,6 +61,12 @@ const ProfileImage = styled.img`
   :active {
     filter: ${({ type }) => (type === 'actor' ? 'none' : 'brightness(0.5)')};
   }
+  ${props =>
+    props.uploadSrc &&
+    css`
+      filter: brightness(0.2);
+      transition: ease-in 0.08s;
+    `}
 `;
 
 export default ProfileImg;
