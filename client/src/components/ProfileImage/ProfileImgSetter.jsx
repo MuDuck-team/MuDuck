@@ -13,6 +13,12 @@ function ProfileImgSetter({ uploadSrc, setUploadSrc }) {
   const onChange = event => {
     const file = event.target.files[0];
 
+    if (!file) {
+      window.alert('프로필 사진을 업로드해 주세요');
+      setImage(defualtPhotoUrl);
+      return;
+    }
+
     if (file) {
       const fileExt = file.name.split('.').pop();
       if (!['jpeg', 'png', 'jpg', 'JPG', 'PNG', 'JPEG'].includes(fileExt)) {
@@ -22,11 +28,6 @@ function ProfileImgSetter({ uploadSrc, setUploadSrc }) {
       setImage(file);
       setUploadSrc(file);
     } else {
-      setImage(defualtPhotoUrl);
-    }
-
-    if (!file) {
-      window.alert('프로필 사진을 업로드해 주세요');
       setImage(defualtPhotoUrl);
     }
 
