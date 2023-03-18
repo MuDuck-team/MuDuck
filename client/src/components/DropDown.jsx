@@ -15,7 +15,7 @@ function Dropdown({
   const handleOptionClick = option => {
     setSelectedOption(option);
     setIsOpen(false);
-    onClick(option.id);
+    onClick(option);
   };
 
   return (
