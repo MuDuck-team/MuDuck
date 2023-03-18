@@ -8,7 +8,6 @@ export const StyledInput = styled.input`
   background-color: var(--main-001);
   color: var(--font-color);
   font-size: ${props => props.fontSize || 'var(--font-size-md)'};
-
   &:focus {
     outline: none;
   }

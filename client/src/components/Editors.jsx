@@ -150,7 +150,7 @@ function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
       <Form>
         <input type="hidden" name="id" value={categoryIds} />
         <InputWrapper>
-          <label htmlFor="title">제목</label>
+          <StyledLable htmlFor="title">제목</StyledLable>
           <StyledInput
             type="text"
             id="title"
@@ -163,7 +163,7 @@ function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
           />
         </InputWrapper>
         <InputWrapper>
-          <label htmlFor="content">내용</label>
+          <StyledLable htmlFor="content">내용</StyledLable>
           <StyledTextArea
             id="content"
             name="content"
@@ -236,5 +236,7 @@ const ButtonWrapper = styled.section`
     margin-left: 24px;
   }
 `;
+
+const StyledLable = styled.label``;
 
 export default Editors;

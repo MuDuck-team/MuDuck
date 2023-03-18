@@ -28,6 +28,7 @@ import NoticeEditPage, {
   loader as noticeEditPageLoader,
 } from './routes/NoticeEdit/NoticeEditPage';
 import MyPage from './routes/Mypage/MyPage';
+import AdminLoginPage from './routes/AdminLogin/AdminLoginPage';
 
 const router = createBrowserRouter([
   {
@@ -70,6 +71,7 @@ const router = createBrowserRouter([
             loader: noticeEditPageLoader,
           },
           { path: '/mypage', element: <MyPage /> },
+          { path: '/admin', element: <AdminLoginPage /> },
         ],
       },
     ],
