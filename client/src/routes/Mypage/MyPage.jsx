@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import PostData, { CommentData } from './ContentData';
-import ProfileImg from '../../components/ProfileImg';
+import ProfileImg from '../../components/ProfileImage/ProfileImg';
 import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
 import { MyPageCard } from '../../components/Cards';
