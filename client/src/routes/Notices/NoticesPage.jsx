@@ -29,7 +29,6 @@ const dummyData = {
 function getData({ page }) {
   console.log(page);
   return dummyData;
-  // https://axios-http.com/kr/docs/api_intro
 }
 
 export async function loader({ request }) {
@@ -74,7 +73,7 @@ function NoticesPage() {
 const StyledH2 = styled.h2`
   margin-top: 40px;
   font-size: var(--font-size-xxl);
-  margin-bottom: ${props => (props.isPost ? '8px' : '30px')};
+  margin-bottom: '8px';
   font-weight: bold;
 `;
 
