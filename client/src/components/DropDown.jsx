@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 function Dropdown({
@@ -8,15 +8,21 @@ function Dropdown({
   height,
   maxHeight,
   defaultValue,
+  selectedValue,
 }) {
   const [selectedOption, setSelectedOption] = useState(defaultValue || null);
   const [isOpen, setIsOpen] = useState(false);
+  console.log('DropDown', selectedOption);
 
   const handleOptionClick = option => {
     setSelectedOption(option);
     setIsOpen(false);
-    onClick(option.id);
+    onClick(option);
   };
+
+  useEffect(() => {
+    setSelectedOption(selectedValue);
+  }, [selectedValue]);
 
   return (
     <DropdownWrapper width={width}>
@@ -51,7 +57,6 @@ const DropdownWrapper = styled.div`
 `;
 
 const DropdownButton = styled.button`
-  padding: 10px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: var(--font-size-sm);
