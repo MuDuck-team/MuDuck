@@ -167,7 +167,7 @@ function PostsPage() {
 const StyledH2 = styled.h2`
   margin-top: 40px;
   font-size: var(--font-size-xxl);
-  margin-bottom: '8px';
+  margin-bottom: 30px;
   font-weight: bold;
 `;
 
