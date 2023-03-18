@@ -28,7 +28,7 @@ function KakaoLoginBtn({ isTypeLogin }) {
       <KakaoLoginButton onClick={handleKaKaoLogin}>
         <ButtonImage src={kakaoStart} />
       </KakaoLoginButton>
-      <SingInLink to="/login">이미 계정이 있으신가요? </SingInLink>
+      <SingInLink to="/login">이미 계정이 있으신가요?</SingInLink>
     </>
   );
 }
