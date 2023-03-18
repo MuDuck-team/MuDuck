@@ -11,7 +11,7 @@ import MyinfoPage from './routes/Myinfo/MyinfoPage';
 import PlaysPage from './routes/Plays/PlaysPage';
 import PlayPage from './routes/Play/PlayPage';
 import NearbyPage from './routes/Nearby/NearbyPage';
-import PostsPage from './routes/Posts/PostsPage';
+import PostsPage, { loader as postsPageLoader } from './routes/Posts/PostsPage';
 import PostPage from './routes/Post/PostPage';
 import PostAddPage, {
   loader as postAddPageLoader,
@@ -19,7 +19,9 @@ import PostAddPage, {
 import PostEditPage, {
   loader as postEditPageLoader,
 } from './routes/PostEdit/PostEditPage';
-import NoticesPage from './routes/Notices/NoticesPage';
+import NoticesPage, {
+  loader as noticesPageLoader,
+} from './routes/Notices/NoticesPage';
 import NoticePage from './routes/Notice/Notice';
 import NoticeAddPage, {
   loader as noticeAddPageLoader,
@@ -45,7 +47,7 @@ const router = createBrowserRouter([
           { path: '/plays', element: <PlaysPage /> },
           { path: '/play/:id', element: <PlayPage /> },
           { path: '/nearby', element: <NearbyPage /> },
-          { path: '/posts', element: <PostsPage /> },
+          { path: '/posts', element: <PostsPage />, loader: postsPageLoader },
           { path: '/post/:id', element: <PostPage /> },
           {
             path: '/post/add',
@@ -57,7 +59,11 @@ const router = createBrowserRouter([
             element: <PostEditPage />,
             loader: postEditPageLoader,
           },
-          { path: '/notices', element: <NoticesPage /> },
+          {
+            path: '/notices',
+            element: <NoticesPage />,
+            loader: noticesPageLoader,
+          },
           { path: '/notice/:id', element: <NoticePage /> },
           {
             path: '/notice/add',

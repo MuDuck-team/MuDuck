@@ -12,7 +12,6 @@ function Dropdown({
 }) {
   const [selectedOption, setSelectedOption] = useState(defaultValue || null);
   const [isOpen, setIsOpen] = useState(false);
-  console.log('DropDown', selectedOption);
 
   const handleOptionClick = option => {
     setSelectedOption(option);
