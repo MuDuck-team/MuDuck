@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 // import axios from 'axios';
 import { IoIosClose } from 'react-icons/io';
 import styled from 'styled-components';
-import ProfileImg from '../../components/ProfileImg';
+import ProfileImg from '../../components/ProfileImage/ProfileImg';
 import Button from '../../components/Button';
 import { ArticleCard } from '../../components/Cards';
 
