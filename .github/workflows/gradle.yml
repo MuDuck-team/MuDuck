@@ -31,10 +31,12 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+    - name: Move to server
+      run: cd ./server
     - name: Add permission
-      run: chmod +x ./server/gradlew
+      run: chmod +x ./gradlew
     - name: Build with Gradle
-      run: ./server/gradlew clean build
+      run: ./gradlew clean build
         
     - name: Make zip file
       run: zip -r ./backend-deploy.zip .
