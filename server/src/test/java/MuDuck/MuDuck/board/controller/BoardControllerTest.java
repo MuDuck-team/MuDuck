@@ -16,6 +16,10 @@ import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.entity.Board.BoardStatus;
 import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.board.service.BoardService;
+import MuDuck.MuDuck.category.dto.CategoryDto;
+import MuDuck.MuDuck.category.entity.Category;
+import MuDuck.MuDuck.category.mapper.CategoryMapper;
+import MuDuck.MuDuck.category.service.CategoryService;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.entity.Member.MemberRole;
 import MuDuck.MuDuck.member.entity.Member.MemberStatus;
@@ -66,6 +70,12 @@ class BoardControllerTest {
 
     @MockBean
     private NoticeBoardMapper noticeBoardMapper;
+
+    @MockBean
+    private CategoryService categoryService;
+
+    @MockBean
+    private CategoryMapper categoryMapper;
 
     @Autowired
     private Gson gson;
@@ -172,5 +182,55 @@ class BoardControllerTest {
                         )
 
                 ));
+    }
+
+    @Test
+    @WithMockUser
+    public void getCategoryListTest() throws Exception{
+        // given
+        Category category1 = Category.builder().categoryId(1L).categoryName("자유주제").build();
+        Category category2 = Category.builder().categoryId(2L).categoryName("공연정보/후기").build();
+        Category category3 = Category.builder().categoryId(3L).categoryName("시설정보").build();
+
+        Category category4 = Category.builder().categoryId(4L).categoryName("2014 레베카").parent(category2).build();
+        Category category5 = Category.builder().categoryId(5L).categoryName("2017 레베카").parent(category2).build();
+        Category category6 = Category.builder().categoryId(6L).categoryName("2019 헤드윅").parent(category2).build();
+
+        List<Category> categories = List.of(category1, category2, category3, category4, category5, category6);
+
+        CategoryDto.Response response1 = new CategoryDto.Response(1L, "자유주제", null);
+        CategoryDto.Response response2 = new CategoryDto.Response(2L, "공연정보/후기", null);
+        CategoryDto.Response response3 = new CategoryDto.Response(3L, "시설정보", null);
+
+        CategoryDto.Response response4 = new CategoryDto.Response(1L, "2014 레베카", 2L);
+        CategoryDto.Response response5 = new CategoryDto.Response(1L, "2017 레베카", 2L);
+        CategoryDto.Response response6 = new CategoryDto.Response(1L, "2019 헤드윅", 2L);
+
+        List<CategoryDto.Response> responses = List.of(response1, response2, response3, response4, response5, response6);
+
+        given(categoryService.findCategories()).willReturn(categories);
+        given(categoryMapper.categoriesToCategoryResponseDtos(Mockito.anyList())).willReturn(responses);
+
+        // when
+        ResultActions actions = mockMvc.perform(get("/board/writing").accept(MediaType.APPLICATION_JSON));
+
+        // then
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.category").isArray())
+                .andExpect(jsonPath("$.mentionedMusical").isArray())
+                .andDo(document("get-Category",
+                        getResponsePreProcessor(),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("category").type(JsonFieldType.ARRAY).description("1차 카테고리 목록 key 값"),
+                                        fieldWithPath("category[].id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                        fieldWithPath("category[].categoryName").type(JsonFieldType.STRING).description("카테고리 이름"),
+                                        fieldWithPath("category[].parentId").type(JsonFieldType.NULL).description("카테고리 부모카테고리 ID"),
+                                        fieldWithPath("mentionedMusical").type(JsonFieldType.ARRAY).description("2차 카테고리 목록 key 값"),
+                                        fieldWithPath("mentionedMusical[].id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                        fieldWithPath("mentionedMusical[].categoryName").type(JsonFieldType.STRING).description("카테고리 이름"),
+                                        fieldWithPath("mentionedMusical[].parentId").type(JsonFieldType.NUMBER).description("카테고리 부모카테고리 ID")
+                                )
+                        )));
     }
 }
