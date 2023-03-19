@@ -8,7 +8,13 @@ const { persistAtom } = recoilPersist({
 
 const userInfo = atom({
   key: 'userInfo',
-  default: null,
+  default: {
+    id: null,
+    token: '',
+    nickname: '',
+    profileImageUrl: '',
+    role: '',
+  },
   effects_UNSTABLE: [persistAtom],
 });
 

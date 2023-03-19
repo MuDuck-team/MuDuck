@@ -31,6 +31,7 @@ import NoticeEditPage, {
 } from './routes/NoticeEdit/NoticeEditPage';
 import MyPage from './routes/Mypage/MyPage';
 import AdminLoginPage from './routes/AdminLogin/AdminLoginPage';
+import OauthRedirectPage from './routes/OauthRedirect/OauthRedirectPage';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +44,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <MainPage /> },
           { path: '/login', element: <LoginPage /> },
+          { path: '/oauth/redirect', element: <OauthRedirectPage /> },
           { path: '/signup', element: <SingupPage /> },
           { path: '/myinfo', element: <MyinfoPage /> },
           { path: '/plays', element: <PlaysPage /> },
