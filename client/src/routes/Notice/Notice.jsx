@@ -1,7 +1,5 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { BsThreeDots } from 'react-icons/bs';
 import { IoMdEye, IoMdListBox } from 'react-icons/io';
 import ProfileImg from '../../components/ProfileImg';
 import MeatballsMenu from '../../components/MeatballsMenu';
@@ -15,12 +13,6 @@ function NoticePage() {
     title: '오둥이 관람 규칙',
     body: '오둥이는 귀엽습니다.',
     view: 30,
-  };
-
-  const [isEdit, setIsEdit] = useState(false);
-
-  const onEditHandler = () => {
-    setIsEdit(!isEdit);
   };
 
   return (
@@ -46,12 +38,7 @@ function NoticePage() {
               </NoticeInformation>
             </InformationWrapper>
           </InformationDetail>
-          <MenuWrapper>
-            <MenuButton onClick={onEditHandler}>
-              <MenuIcon />
-            </MenuButton>
-            {isEdit && <MeatballsMenu />}
-          </MenuWrapper>
+          <MeatballsMenu />
         </InformationContainer>
         <NoticeTitle>{notice.title}</NoticeTitle>
         <NoticeCotent>{notice.body}</NoticeCotent>
@@ -101,11 +88,6 @@ const InformationDetail = styled.div`
   align-items: center;
 `;
 
-const MenuWrapper = styled.div`
-  display: flex;
-  position: relative;
-`;
-
 const RoleText = styled.div`
   margin-bottom: 8px;
   font-size: var(--font-size-sm);
@@ -136,19 +118,6 @@ const ViewText = styled.span`
 const ViewIcon = styled(IoMdEye)`
   width: 14px;
   height: 14px;
-`;
-
-const MenuButton = styled.button`
-  padding: 0;
-  border: none;
-  background: none;
-`;
-
-const MenuIcon = styled(BsThreeDots)`
-  width: 20px;
-  height: 20px;
-  color: var(--font-color);
-  cursor: pointer;
 `;
 
 const NoticeTitle = styled.h3`
