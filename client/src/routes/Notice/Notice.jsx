@@ -1,7 +1,10 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { BsThreeDots } from 'react-icons/bs';
 import { IoMdEye, IoMdListBox } from 'react-icons/io';
 import ProfileImg from '../../components/ProfileImg';
+import MeatballsMenu from '../../components/MeatballsMenu';
 
 function NoticePage() {
   const initImage = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
@@ -14,22 +17,41 @@ function NoticePage() {
     view: 30,
   };
 
+  const [isEdit, setIsEdit] = useState(false);
+
+  const onEditHandler = () => {
+    setIsEdit(!isEdit);
+  };
+
   return (
     <NoticePageLayout>
       <Category>공지사항</Category>
       <ContentContainer>
         <InformationContainer>
-          <ProfileImg src={initImage} width="50px" height="50px" type="actor" />
-          <InformationWrapper>
-            <RoleText>관리자</RoleText>
-            <NoticeInformation>
-              <DateText>{notice.lastCreatedAt}</DateText>
-              <ViewCount>
-                <ViewIcon />
-                <ViewText>{notice.view}</ViewText>
-              </ViewCount>
-            </NoticeInformation>
-          </InformationWrapper>
+          <InformationDetail>
+            <ProfileImg
+              src={initImage}
+              width="50px"
+              height="50px"
+              type="actor"
+            />
+            <InformationWrapper>
+              <RoleText>관리자</RoleText>
+              <NoticeInformation>
+                <DateText>{notice.lastCreatedAt}</DateText>
+                <ViewCount>
+                  <ViewIcon />
+                  <ViewText>{notice.view}</ViewText>
+                </ViewCount>
+              </NoticeInformation>
+            </InformationWrapper>
+          </InformationDetail>
+          <MenuWrapper>
+            <MenuButton onClick={onEditHandler}>
+              <MenuIcon />
+            </MenuButton>
+            {isEdit && <MeatballsMenu />}
+          </MenuWrapper>
         </InformationContainer>
         <NoticeTitle>{notice.title}</NoticeTitle>
         <NoticeCotent>{notice.body}</NoticeCotent>
@@ -65,12 +87,23 @@ const ContentContainer = styled.article`
 
 const InformationContainer = styled.div`
   display: flex;
+  justify-content: space-between;
   align-items: center;
 `;
 
 const InformationWrapper = styled.div`
   display: flex;
   flex-direction: column;
+`;
+
+const InformationDetail = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const MenuWrapper = styled.div`
+  display: flex;
+  position: relative;
 `;
 
 const RoleText = styled.div`
@@ -103,6 +136,19 @@ const ViewText = styled.span`
 const ViewIcon = styled(IoMdEye)`
   width: 14px;
   height: 14px;
+`;
+
+const MenuButton = styled.button`
+  padding: 0;
+  border: none;
+  background: none;
+`;
+
+const MenuIcon = styled(BsThreeDots)`
+  width: 20px;
+  height: 20px;
+  color: var(--font-color);
+  cursor: pointer;
 `;
 
 const NoticeTitle = styled.h3`
