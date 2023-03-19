@@ -7,6 +7,7 @@ import styled from 'styled-components';
 import ProfileImg from '../../components/ProfileImage/ProfileImg';
 import Button from '../../components/Button';
 import { ArticleCard } from '../../components/Cards';
+import Mapbox from './Mapbox';
 
 function PlayPage() {
   // const { musicalId } = useParams();
@@ -35,6 +36,7 @@ function PlayPage() {
   //     );
   // });
 
+  // 더미데이터1
   const playDetail = {
     title: '베토벤',
     engTitle: 'Beethoven Secret',
@@ -46,6 +48,7 @@ function PlayPage() {
     plot: '베토벤의 원곡들에 기반하고 실화에서 영감받다.',
   };
 
+  // 더미데이터2
   const actorData = {
     actor: [
       {
@@ -83,6 +86,66 @@ function PlayPage() {
         profile:
           'https://search.pstatic.net/common?type=b&size=216&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201909%2F20190919185107998.jpg',
         role: '카스파 반 베토벤',
+      },
+    ],
+  };
+
+  //  더미데이터3
+  const postsData = {
+    posts: [
+      {
+        nickname: '조이',
+        title: '베토벤이 최고야',
+        lastCreatedAt: '2023.02.02',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Coco',
+        view: '22',
+        commentCount: '0',
+        boardLike: '10',
+      },
+      {
+        nickname: '해피',
+        title: 'H열 19번 좌석 조아',
+        lastCreatedAt: '2023.01.22',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Molly',
+        view: '21',
+        commentCount: '2',
+        boardLike: '1',
+      },
+      {
+        nickname: '반달',
+        title: '제작년이 더 좋았던듯?',
+        lastCreatedAt: '2023.01.20',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Abby',
+        view: '23',
+        commentCount: '3',
+        boardLike: '10',
+      },
+      {
+        nickname: '뮬리몰리',
+        title: '박효신 연기력 뭐임?',
+        lastCreatedAt: '2023.01.15',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Lucy',
+        view: '663',
+        commentCount: '52',
+        boardLike: '100',
+      },
+      {
+        nickname: '배고픈반달곰',
+        title: '이번달만 3번째임',
+        lastCreatedAt: '2023.01.12',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Angel',
+        view: '133',
+        commentCount: '2',
+        boardLike: '6',
+      },
+      {
+        nickname: '뮤지컬금단현상',
+        title: '아니? 마지막 왜저럼? 베토벤!?',
+        lastCreatedAt: '2023.01.11',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Sassy',
+        view: '121',
+        commentCount: '22',
+        boardLike: '10',
       },
     ],
   };
@@ -210,104 +273,66 @@ function PlayPage() {
           </ActorsBox>
         </DetailsBox>
       </ContentSection>
+
       <SubTitle fontSize="1.8rem" fontWeight="700" marginTop="3rem">
         커뮤니티게시글
       </SubTitle>
       <ContentSection>
         <ColumnContentSection>
-          <ArticleCard
-            width="100%"
-            height="30%"
-            marginBottom="1.5rem"
-            borderRadius="8px"
-            nickname="조이"
-            lastCreatedAt="2023.02.02"
-            title="베토벤이 최고야"
-            titlefontSize="1.8rem"
-            titleMarginBottom="1.5rem"
-            view="22"
-            url="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/cnoC/image/DsgJnnSn5FoSogwRJV90VZxyMs0"
-            commentCount="0"
-            boardLike="10"
-          />
-          <ArticleCard
-            width="100%"
-            height="30%"
-            marginBottom="1.5rem"
-            borderRadius="8px"
-            nickname="조이"
-            lastCreatedAt="2023.02.02"
-            title="베토벤이 최고야"
-            titlefontSize="1.8rem"
-            titleMarginBottom="1.5rem"
-            view="22"
-            url="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/cnoC/image/DsgJnnSn5FoSogwRJV90VZxyMs0"
-            commentCount="0"
-            boardLike="10"
-          />
-          <ArticleCard
-            width="100%"
-            height="30%"
-            marginBottom="1.5rem"
-            borderRadius="8px"
-            nickname="조이"
-            lastCreatedAt="2023.02.02"
-            title="베토벤이 최고야"
-            titlefontSize="1.8rem"
-            titleMarginBottom="1.5rem"
-            view="22"
-            url="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/cnoC/image/DsgJnnSn5FoSogwRJV90VZxyMs0"
-            commentCount="0"
-            boardLike="10"
-          />
+          {postsData.posts.slice(0, 3).map((post, idx) => {
+            return (
+              <ArticleCard
+                key={idx}
+                width="100%"
+                height="30%"
+                marginBottom="1.5rem"
+                borderRadius="8px"
+                nickname={post.nickname}
+                lastCreatedAt={post.lastCreatedAt}
+                title={post.title}
+                titlefontSize="1.8rem"
+                titleMarginBottom="1.5rem"
+                view={post.view}
+                url={post.url}
+                commentCount={post.commentCount}
+                boardLike={post.boardLike}
+              />
+            );
+          })}
         </ColumnContentSection>
         <ColumnContentSection>
-          <ArticleCard
-            width="100%"
-            height="30%"
-            marginBottom="1.5rem"
-            borderRadius="8px"
-            nickname="조이"
-            lastCreatedAt="2023.02.02"
-            title="박효신 미쳤음 최고야"
-            titlefontSize="1.8rem"
-            titleMarginBottom="1.5rem"
-            view="22"
-            url="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/cnoC/image/DsgJnnSn5FoSogwRJV90VZxyMs0"
-            commentCount="0"
-            boardLike="10"
-          />
-          <ArticleCard
-            width="100%"
-            height="30%"
-            marginBottom="1.5rem"
-            borderRadius="8px"
-            nickname="조이"
-            lastCreatedAt="2023.02.02"
-            title="박효신 미쳤음 최고야"
-            titlefontSize="1.8rem"
-            titleMarginBottom="1.5rem"
-            view="22"
-            url="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/cnoC/image/DsgJnnSn5FoSogwRJV90VZxyMs0"
-            commentCount="0"
-            boardLike="10"
-          />
-          <ArticleCard
-            width="100%"
-            height="30%"
-            marginBottom="1.5rem"
-            borderRadius="8px"
-            nickname="조이"
-            lastCreatedAt="2023.02.02"
-            title="박효신 미쳤음 최고야"
-            titlefontSize="1.8rem"
-            titleMarginBottom="1.5rem"
-            view="22"
-            url="https://img1.daumcdn.net/thumb/R1280x0.fjpg/?fname=http://t1.daumcdn.net/brunch/service/user/cnoC/image/DsgJnnSn5FoSogwRJV90VZxyMs0"
-            commentCount="0"
-            boardLike="10"
-          />
+          {postsData.posts.slice(3).map((post, index) => {
+            return (
+              <ArticleCard
+                key={index}
+                width="100%"
+                height="30%"
+                marginBottom="1.5rem"
+                borderRadius="8px"
+                nickname={post.nickname}
+                lastCreatedAt={post.lastCreatedAt}
+                title={post.title}
+                titlefontSize="1.8rem"
+                titleMarginBottom="1.5rem"
+                view={post.view}
+                url={post.url}
+                commentCount={post.commentCount}
+                boardLike={post.boardLike}
+              />
+            );
+          })}
         </ColumnContentSection>
+      </ContentSection>
+      <HeadingBox>
+        <SubTitle fontSize="1.8rem" fontWeight="700" marginTop="3rem">
+          주변시설정보
+        </SubTitle>
+        <SubTitle fontSize="1.4rem" fontWeight="500" marginTop="3rem">
+          리뷰쓰러가기
+        </SubTitle>
+      </HeadingBox>
+      <ContentSection>
+        <Mapbox />
       </ContentSection>
     </Container>
   );
@@ -318,9 +343,13 @@ const Container = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  border: 1px solid red;
+  /* border: 1px solid red; */
   padding-top: 40px;
   overflow-y: auto;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    flex-wrap: wrap;
+  }
 `;
 
 const ContentSection = styled.section`
@@ -433,8 +462,9 @@ const ModalBackground = styled.div`
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: rgba(0, 0, 0, 0.95);
   z-index: 0;
+  z-index: 54;
 `;
 
 const ModalContainer = styled.div`
@@ -442,13 +472,14 @@ const ModalContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  height: 70%;
+  height: 50%;
   width: 50%;
   padding: 30px;
   background: rgba(255, 255, 255, 0.2);
   border-radius: 8px;
   font-size: var(--font-size-sm);
   overflow-y: auto;
+  z-index: 55;
 `;
 
 export default PlayPage;
