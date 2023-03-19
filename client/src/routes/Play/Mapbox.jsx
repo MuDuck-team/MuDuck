@@ -24,7 +24,6 @@ function Mapbox() {
 
     //  스크립트 읽기 완료 후 카카오맵 설정
     myScript.then(() => {
-      console.log('script loaded!!!');
       const { kakao } = window;
       kakao.maps.load(() => {
         const mapContainer = document.getElementById('map');
@@ -36,27 +35,50 @@ function Mapbox() {
         const map = new kakao.maps.Map(mapContainer, options); // 맵생성
         console.log(map);
 
+        // const coffePositions = [
         const positions = [
           {
-            title: '미학 상차림',
+            title: '포비 광화문',
+            latlng: new kakao.maps.LatLng(37.5709794, 126.978891),
+          },
+          {
+            title: '카페 베란다',
             latlng: new kakao.maps.LatLng(
               37.57286713479182,
               126.97607241059578,
             ),
           },
           {
-            title: '평안도만두집',
-            latlng: new kakao.maps.LatLng(37.572695, 126.973265),
+            title: '쏘리에스프레소',
+            latlng: new kakao.maps.LatLng(37.5764652, 126.973331),
           },
           {
-            title: '어바웃진스',
-            latlng: new kakao.maps.LatLng(37.572844, 126.973266),
-          },
-          {
-            title: '루뽀',
-            latlng: new kakao.maps.LatLng(37.572972, 126.974402),
+            title: '도트블랭킷 안국점',
+            latlng: new kakao.maps.LatLng(37.5770079, 126.984085),
           },
         ];
+
+        // const foodPositions = [
+        //   {
+        //     title: '미학 상차림',
+        //     latlng: new kakao.maps.LatLng(
+        //       37.57286713479182,
+        //       126.97607241059578,
+        //     ),
+        //   },
+        //   {
+        //     title: '평안도만두집',
+        //     latlng: new kakao.maps.LatLng(37.572695, 126.973265),
+        //   },
+        //   {
+        //     title: '어바웃진스',
+        //     latlng: new kakao.maps.LatLng(37.572844, 126.973266),
+        //   },
+        //   {
+        //     title: '루뽀',
+        //     latlng: new kakao.maps.LatLng(37.572972, 126.974402),
+        //   },
+        // ];
 
         const imageSrc =
           'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png';
@@ -82,10 +104,14 @@ function Mapbox() {
     });
   }, []);
 
-  return <MapBox id="map">Mapbox</MapBox>;
+  return (
+    <MapContainer id="map">
+      <categoyBox />
+    </MapContainer>
+  );
 }
 
-const MapBox = styled.div`
+const MapContainer = styled.div`
   width: 100%;
   margin: 1rem;
   height: 60rem;
