@@ -13,8 +13,6 @@ function PlayPage() {
   // const { musicalId } = useParams();
   // const [data, setData] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const poster =
-    'https://image.yes24.com/themusical/fileStorage/ThemusicalAdmin/Play/Image/20221116431308101cf72e403b20a0959afce22eacee299a.jpg';
 
   // useEffect(() => {
   //   axios
@@ -37,53 +35,62 @@ function PlayPage() {
   // });
 
   // 더미데이터1
-  const playDetail = {
-    title: '베토벤',
-    engTitle: 'Beethoven Secret',
+  const musicalData = {
+    musicalKorName: '베토벤',
+    musicalEngName: 'Beethoven Secret',
     genre: '뮤지컬 > 오리지널',
     place: '세종문화회관 대극장',
-    duration: '2023.03.01 ~ 2023.04.30',
+    openDate: '2023.03.01',
+    closeDate: '2023.05.28',
     playtime: '120분 (인터미션 : 20분)',
     age: '8세이상 관람가능',
-    plot: '베토벤의 원곡들에 기반하고 실화에서 영감받다.',
+    musicalInfo: '베토벤의 원곡들에 기반하고 실화에서 영감받다.',
+    poster:
+      'https://image.yes24.com/themusical/fileStorage/ThemusicalAdmin/Play/Image/20221116431308101cf72e403b20a0959afce22eacee299a.jpg',
   };
 
   // 더미데이터2
-  const actorData = {
-    actor: [
+  const actorsData = {
+    actors: [
       {
-        name: '박효신',
-        profile:
+        id: '1',
+        actorName: '박효신',
+        picture:
           'https://search.pstatic.net/common?type=b&size=216&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201409%2F20140922203416508-3731873.jpg',
         role: '루드비히 반 베토벤',
       },
       {
-        name: '박은태',
-        profile:
+        id: '2',
+        actorName: '박은태',
+        picture:
           'https://search.pstatic.net/common?type=b&size=216&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201501%2F20150115133314557-8462978.jpg',
         role: '루드비히 반 베토벤',
       },
       {
-        name: '조정은',
-        profile:
+        id: '3',
+        actorName: '조정은',
+        picture:
           'https://search.pstatic.net/common?type=b&size=216&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201208%2F20120823143009309-3921969.jpg',
         role: '안토니 브렌타노',
       },
       {
-        name: '옥주현',
-        profile:
+        id: '4',
+        actorName: '옥주현',
+        picture:
           'https://search.pstatic.net/common?type=b&size=144&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2F89%2F202012111721595391.jpg',
         role: '안토니 브렌타노',
       },
       {
-        name: '이해준',
-        profile:
+        id: '5',
+        actorName: '이해준',
+        picture:
           'https://search.pstatic.net/common?type=b&size=216&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F202302%2F20230216145124709.jpg',
         role: '카스파 반 베토벤',
       },
       {
-        name: '윤소호',
-        profile:
+        id: '6',
+        actorName: '윤소호',
+        picture:
           'https://search.pstatic.net/common?type=b&size=216&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201909%2F20190919185107998.jpg',
         role: '카스파 반 베토벤',
       },
@@ -151,7 +158,7 @@ function PlayPage() {
   };
 
   const arr = [];
-  actorData.actor.forEach(role => {
+  actorsData.actors.forEach(role => {
     arr.push(role.role);
   });
   const playNameArr = [...new Set(arr)];
@@ -164,39 +171,44 @@ function PlayPage() {
     <Container>
       <ContentSection>
         <PosterBox>
-          <PosterImg src={poster} alt="Musical Poster" />
+          <PosterImg
+            src={musicalData.poster}
+            alt={`${musicalData.musicalKorName} Musical Poster`}
+          />
           {/* <PosterImg src={data.posterUrl} alt=`${data.musicalName} Musical Poster` /> */}
         </PosterBox>
         <DetailsBox>
           <Title>
-            {playDetail.title}
+            {musicalData.musicalKorName}
             <DescriptionText textColor="var(--main-003)">
-              {playDetail.engTitle}
+              {musicalData.musicalEngName}
             </DescriptionText>
           </Title>
           <SubTitle>
             세부장르
-            <DescriptionText>{playDetail.genre}</DescriptionText>
+            <DescriptionText>{musicalData.genre}</DescriptionText>
           </SubTitle>
           <SubTitle>
             공연장소
-            <PlaceLink to="/nearby">{playDetail.place}</PlaceLink>
+            <PlaceLink to="/nearby">{musicalData.place}</PlaceLink>
           </SubTitle>
           <SubTitle>
             공연기간
-            <DescriptionText>{playDetail.duration}</DescriptionText>
+            <DescriptionText>
+              `{musicalData.openDate}~{musicalData.closeDate}`
+            </DescriptionText>
           </SubTitle>
           <SubTitle>
             공연시간
-            <DescriptionText>{playDetail.playtime}</DescriptionText>
+            <DescriptionText>{musicalData.playtime}</DescriptionText>
           </SubTitle>
           <SubTitle>
             관람연령
-            <DescriptionText>{playDetail.age}</DescriptionText>
+            <DescriptionText>{musicalData.age}</DescriptionText>
           </SubTitle>
           <SubTitle>
             줄거리
-            <DescriptionText>{playDetail.plot}</DescriptionText>
+            <DescriptionText>{musicalData.musicalInfo}</DescriptionText>
           </SubTitle>
           <ActorsBox>
             <HeadingBox>
@@ -238,13 +250,13 @@ function PlayPage() {
                           {playName} 역
                         </SubTitle>
                         <ModalActorProfileBox>
-                          {actorData.actor.map(actor => {
+                          {actorsData.actors.map(actor => {
                             return actor.role === playName ? (
-                              <Profilelist key={actor.name}>
+                              <Profilelist key={actor.actorName}>
                                 <ProfileImg
                                   type="actor"
-                                  name={actor.name}
-                                  src={actor.profile}
+                                  name={actor.actorName}
+                                  src={actor.picture}
                                 />
                               </Profilelist>
                             ) : null;
@@ -258,13 +270,13 @@ function PlayPage() {
             ) : null}
 
             <ActorProfileBox>
-              {actorData.actor.slice(0, 5).map((actor, idx) => {
+              {actorsData.actors.slice(0, 5).map((actor, idx) => {
                 return (
                   <Profilelist key={idx}>
                     <ProfileImg
                       type="actor"
-                      name={actor.name}
-                      src={actor.profile}
+                      name={actor.actorName}
+                      src={actor.picture}
                     />
                   </Profilelist>
                 );
