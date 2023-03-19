@@ -19,7 +19,7 @@ function PlayPage() {
   //     .all([
   //       axios.get(`/musicals/${musicalId}`),
   //       axios.get(`/musicals/${musicalId}/actors`),
-  //       axios.get(`/musicals/${musicalId}/categorys/${musicalId}/board`),
+  //       axios.get(`/musicals/${musicalId}/board`),
   //     ])
   //     .then(
   //       axios
