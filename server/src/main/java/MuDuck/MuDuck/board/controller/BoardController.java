@@ -3,12 +3,14 @@ package MuDuck.MuDuck.board.controller;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.board.service.BoardService;
+import MuDuck.MuDuck.category.entity.Category;
 import MuDuck.MuDuck.category.mapper.CategoryMapper;
 import MuDuck.MuDuck.category.service.CategoryService;
 import MuDuck.MuDuck.noticeboard.entity.NoticeBoard;
 import MuDuck.MuDuck.noticeboard.mapper.NoticeBoardMapper;
 import MuDuck.MuDuck.noticeboard.service.NoticeBoardService;
 import MuDuck.MuDuck.response.BoardMultipleResponse;
+import MuDuck.MuDuck.response.CategoryMultipleResponse;
 import java.util.List;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -52,8 +54,10 @@ public class BoardController {
 
     }
 
-//    @GetMapping("/writing")
-//    public ResponseEntity getCategoryList(){
-//
-//    }
+    @GetMapping("/writing")
+    public ResponseEntity getCategoryList() {
+        List<Category> categories = categoryService.findCategories();
+
+        return new ResponseEntity<>(new CategoryMultipleResponse(categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
+    }
 }
