@@ -3,12 +3,15 @@ package MuDuck.MuDuck.board.controller;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.board.service.BoardService;
+import MuDuck.MuDuck.category.mapper.CategoryMapper;
+import MuDuck.MuDuck.category.service.CategoryService;
 import MuDuck.MuDuck.noticeboard.entity.NoticeBoard;
 import MuDuck.MuDuck.noticeboard.mapper.NoticeBoardMapper;
 import MuDuck.MuDuck.noticeboard.service.NoticeBoardService;
 import MuDuck.MuDuck.response.BoardMultipleResponse;
 import java.util.List;
 import javax.validation.constraints.Positive;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -21,25 +24,21 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/board")
+@RequiredArgsConstructor
 @Validated
 @Slf4j
 public class BoardController {
 
     private final static int SIZE = 8;
 
-    private BoardService boardService;
-    private BoardMapper boardMapper;
+    private final BoardService boardService;
+    private final BoardMapper boardMapper;
 
-    private NoticeBoardService noticeBoardService;
-    private NoticeBoardMapper noticeBoardMapper;
+    private final NoticeBoardService noticeBoardService;
+    private final NoticeBoardMapper noticeBoardMapper;
 
-    public BoardController(BoardService boardService, BoardMapper boardMapper,
-            NoticeBoardService noticeBoardService, NoticeBoardMapper noticeBoardMapper) {
-        this.boardService = boardService;
-        this.boardMapper = boardMapper;
-        this.noticeBoardService = noticeBoardService;
-        this.noticeBoardMapper = noticeBoardMapper;
-    }
+    private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
 
     @GetMapping
     public ResponseEntity getBoards(@Positive @RequestParam int page) {
@@ -52,4 +51,9 @@ public class BoardController {
                 boardMapper.boardsToBoardResponseDtos(boards), pageBoards), HttpStatus.OK);
 
     }
+
+//    @GetMapping("/writing")
+//    public ResponseEntity getCategoryList(){
+//
+//    }
 }
