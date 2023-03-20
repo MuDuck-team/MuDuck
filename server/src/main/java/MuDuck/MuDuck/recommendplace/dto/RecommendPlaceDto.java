@@ -1,11 +1,22 @@
 package MuDuck.MuDuck.recommendplace.dto;
 
+import javax.validation.constraints.DecimalMax;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Positive;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import org.hibernate.validator.constraints.Length;
 
+
 public class RecommendPlaceDto {
+    @Getter
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @Builder
     public static class Post{
         @NotNull
         @Positive
@@ -13,8 +24,8 @@ public class RecommendPlaceDto {
         @NotNull
         @Positive
         private long mapId;
-        @NotNull
-        @Pattern(regexp = "/^[0-9]{1}\\.{1}[0-9]{1}/", message = "올바른 별점을 입력해주세요")
+        @DecimalMin(value = "0.0", message = "최소 0.0 이상으로 입력해주세요")
+        @DecimalMax(value = "5.0", message = "최대 5.0 이하로 입력해주세요")
         private double score;
         @NotNull
         @Length(min = 3, max = 50)
@@ -26,7 +37,8 @@ public class RecommendPlaceDto {
         private long memberId;
         @Positive
         private long mapId;
-        @Pattern(regexp = "/^[0-9]{1}\\.{1}[0-9]{1}/", message = "올바른 별점을 입력해주세요")
+        @DecimalMin(value = "0.0", message = "최소 0.0 이상으로 입력해주세요")
+        @DecimalMax(value = "5.0", message = "최대 5.0 이하로 입력해주세요")
         private double score;
         @Length(min = 3, max = 50)
         private String oneLine;
