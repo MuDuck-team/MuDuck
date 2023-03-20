@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import axios from 'axios';
+import customAxios from '../../api/customAxios';
 import userInfo from '../../recoil/userAtom';
 import Loading from '../../components/Loading';
 
@@ -14,14 +14,14 @@ function OauthRedirectPage() {
     const token = searchParams.get('token') || '';
     setUser(initialUserState => ({ ...initialUserState, token }));
 
-    axios({
+    customAxios({
       method: 'get',
-      url: '서버주소/회원정보요청엔드포인트',
+      url: '/회원정보요청엔드포인트',
       headers: {
         Authorization: token,
       },
     }).then(res => {
-      setUser(...res.data);
+      setUser(initialUserState => ({ ...initialUserState, ...res.data }));
     });
 
     navigate(-2 || '/');
