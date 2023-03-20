@@ -40,4 +40,4 @@ out/
 *.yml
 
 ### index.html ###
-!**/src/main/resources/static/docs/index.html
+./src/main/resources/static/docs/index.html
