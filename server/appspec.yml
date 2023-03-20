@@ -2,7 +2,7 @@ version: 0.0
 os: linux
 files:
   - source: /
-    destination: /home/ubuntu/app/
+    destination: /home/ubuntu/app
     overwrite: yes
 
 permissions:
@@ -12,7 +12,19 @@ permissions:
     group: ubuntu
 
 hooks:
+  BeforeInstall:
+    - location: server_clear.sh
+      timeout: 3000
+      runas: root
+  AfterInstall:
+    - location: initialize.sh
+      timeout: 3000
+      runas: root
   ApplicationStart:
-    - location: deploy.sh
-      timeout: 60
-      runas: ubuntu
+    - location: server_start.sh
+      timeout: 3000
+      runas: root
+  ApplicationStop:
+    - location: server_stop.sh
+      timeout: 3000
+      runas: root
