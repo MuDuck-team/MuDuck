@@ -1,6 +1,4 @@
 import { useLoaderData } from 'react-router-dom';
-// import MapSection from './MapSection';
-
 import MyMapContainer from './MyMapContainer';
 
 const responce = {
@@ -112,9 +110,7 @@ export async function loader({ params }) {
 function NearbyPage() {
   const { localData } = useLoaderData();
   const { theater, restaurants, cafes, parkings } = localData;
-  // const size = { width: '100%', height: '540px' };
   console.log(theater, restaurants, cafes, parkings);
-  // return <MapSection size={size} {...localData} />;
   return <MyMapContainer />;
 }
 

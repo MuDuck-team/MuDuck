@@ -35,14 +35,22 @@ function MyMap({ searchPlace, countRef }) {
     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
     // 인포윈도우에 장소명을 표시합니다
     function displayInfowindow(marker, title) {
-      const content = `<div style="padding:5px;z-index:1;">${title}</div>`;
+      const content = `<div style="padding:5px; z-index:1;">${title}</div>`;
 
       infowindow.setContent(content);
       infowindow.open(map, marker);
     }
 
-    function closeDisplayInfowindow(marker, title) {
-      const content = `<div style="padding:5px;z-index:1;">${title}</div>`;
+    function closeDisplayInfowindow(marker, place) {
+      const content = `<div style="padding:20px;z-index:1; background-color:var(--main-001); color:var(--font-color); ">카카오 후기 : <a style="color:var(--font-color);" 
+      onMouseOver="this.style.color='#00ff84'"
+      onMouseOut="this.style.color='var(--font-color)'"
+       href=${place.place_url} target="_blank"> ${place.place_name}</a>
+      <hr style="margin: 6px 0; " />
+      <div style="margin-bottom: 6px; ">${place.address_name}</div>
+      <div>${place.phone}</div>
+      </div>
+      `;
 
       infowindow.setContent(content);
       infowindow.open(map, marker);
@@ -149,8 +157,6 @@ function MyMap({ searchPlace, countRef }) {
       // 지도에 표시되고 있는 마커를 제거합니다
       removeMarker();
 
-      console.log(places);
-
       for (let i = 0; i < places.length; i += 1) {
         // 마커를 생성하고 지도에 표시합니다
         const placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
@@ -166,8 +172,8 @@ function MyMap({ searchPlace, countRef }) {
         // mouseout 했을 때는 인포윈도우를 닫습니다
 
         (() => {
-          kakao.maps.event.addListener(marker, 'click', () => {
-            closeDisplayInfowindow(marker, title);
+          kakao.maps.event.addListener(marker, 'mouseover', () => {
+            closeDisplayInfowindow(marker, places[i]);
           });
 
           // kakao.maps.event.addListener(marker, 'mouseout', () => {
