@@ -32,28 +32,18 @@ include::{snippets}/get-theater/http-response.adoc[]
 include::{snippets}/get-theater/response-body.adoc[]
 
 == BoardController
-=== 게시판 목록 조회(페이지 정보 없이)
+=== 게시판 목록 조회
 .http-request
-include::{snippets}/get-board/http-request.adoc[]
-
-.http-response
-include::{snippets}/get-board/http-response.adoc[]
-
-.response-fields
-include::{snippets}/get-board/response-fields.adoc[]
-
-=== 게시판 목록 조회(페이지 정보와 함께)
-.http-request
-include::{snippets}/get-board-with-page/http-request.adoc[]
+include::{snippets}/get-boards/http-request.adoc[]
 
 .request-parameters
-include::{snippets}/get-board-with-page/request-parameters.adoc[]
+include::{snippets}/get-boards/request-parameters.adoc[]
 
 .http-response
-include::{snippets}/get-board-with-page/http-response.adoc[]
+include::{snippets}/get-boards/http-response.adoc[]
 
 .response-fields
-include::{snippets}/get-board-with-page/response-fields.adoc[]
+include::{snippets}/get-boards/response-fields.adoc[]
 
 === 카테고리 목록 조회
 .http-request

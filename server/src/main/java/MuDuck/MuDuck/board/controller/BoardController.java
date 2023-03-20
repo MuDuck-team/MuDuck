@@ -16,6 +16,7 @@ import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -31,8 +32,6 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class BoardController {
 
-    private final static int SIZE = 8;
-
     private final BoardService boardService;
     private final BoardMapper boardMapper;
 
@@ -42,21 +41,41 @@ public class BoardController {
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
-    @GetMapping
-    public ResponseEntity getBoards(){
-        return getBoards(1);
-    }
+//    @GetMapping
+//    public ResponseEntity getBoards() {
+//        return getBoards(1);
+//    }
+//
+//    @GetMapping(params = "page")
+//    public ResponseEntity getBoards(@Positive @RequestParam int page) {
+//        Page<Board> pageBoards = boardService.findBoards(page - 1, SIZE);
+//        List<Board> boards = pageBoards.getContent();
+//        List<NoticeBoard> noticeBoards = noticeBoardService.getTopNoticeBoard();
+//        List<Category> categories = categoryService.findCategories();
+//
+//        return new ResponseEntity<>(new BoardMultipleResponse(
+//                noticeBoardMapper.noticeBoardsToNoticeBoardResponseDtos(noticeBoards),
+//                boardMapper.boardsToBoardResponseDtos(boards), pageBoards,
+//                categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
+//
+//    }
 
-    @GetMapping(params = "page")
-    public ResponseEntity getBoards(@Positive @RequestParam int page) {
-        Page<Board> pageBoards = boardService.findBoards(page - 1, SIZE);
+    @GetMapping
+    public ResponseEntity getBoards(
+            @Positive @RequestParam(required = false, defaultValue = "1") int page,
+            @RequestParam(required = false, defaultValue = "recent") String sortBy,
+            @RequestParam(required = false, defaultValue = "전체") String categoryName) {
+        // categoryName이 주어진 값 이외의 것을 넣으면 Exception 발생시키는 코드 추가해야함
+
+        Page<Board> pageBoards = boardService.findBoards(page - 1, sortBy, categoryName);
         List<Board> boards = pageBoards.getContent();
         List<NoticeBoard> noticeBoards = noticeBoardService.getTopNoticeBoard();
         List<Category> categories = categoryService.findCategories();
 
         return new ResponseEntity<>(new BoardMultipleResponse(
                 noticeBoardMapper.noticeBoardsToNoticeBoardResponseDtos(noticeBoards),
-                boardMapper.boardsToBoardResponseDtos(boards), pageBoards, categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
+                boardMapper.boardsToBoardResponseDtos(boards), pageBoards,
+                categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
 
     }
 
@@ -64,6 +83,7 @@ public class BoardController {
     public ResponseEntity getCategoryList() {
         List<Category> categories = categoryService.findCategories();
 
-        return new ResponseEntity<>(new CategoryMultipleResponse(categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
+        return new ResponseEntity<>(new CategoryMultipleResponse(
+                categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
     }
 }
