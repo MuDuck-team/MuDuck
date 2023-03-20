@@ -43,6 +43,11 @@ public class BoardController {
     private final CategoryMapper categoryMapper;
 
     @GetMapping
+    public ResponseEntity getBoards(){
+        return getBoards(1);
+    }
+
+    @GetMapping(params = "page")
     public ResponseEntity getBoards(@Positive @RequestParam int page) {
         Page<Board> pageBoards = boardService.findBoards(page - 1, SIZE);
         List<Board> boards = pageBoards.getContent();
