@@ -78,3 +78,12 @@ VALUES (2, 2, '오둥이식당', 12.4545, 13.5555, 'FD6', '02-123-4567', '서울
 
 INSERT INTO MAP (theater_id, place_id, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
 VALUES (3, 3, '오둥이식당', 12.4545, 13.5555, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+
+-- Category 테이블 생성 코드
+INSERT INTO Category(category_name, parent_id) VALUES ('자유주제', NULL);
+INSERT INTO Category(category_name, parent_id) VALUES ('공연정보/후기', NULL);
+INSERT INTO Category(category_name, parent_id) VALUES ('시설정보', NULL);
+
+INSERT INTO Category(category_name, parent_id) VALUES ('2014 레베카', 2);
+INSERT INTO Category(category_name, parent_id) VALUES ('2017 레베카', 2);
+INSERT INTO Category(category_name, parent_id) VALUES ('2019 헤드윅', 2);
