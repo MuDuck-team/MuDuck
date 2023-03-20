@@ -32,21 +32,21 @@ spring:
             user-name-attribute: id
         registration:
           google:
-            clientId: ${{secrets.GOOGLE_CLIENT_ID}}
-            clientSecret: ${{secrets.GOOGLE_CLIENT_SECRET}}
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
             scope:
               - email
               - profile
           naver:
-            client-id: ${{secrets.NAVER_CLIENT_ID}}
-            client-secret: ${{secrets.NAVER_CLIENT_SECRET}}
+            client-id: ${NAVER_CLIENT_ID}
+            client-secret: ${NAVER_CLIENT_SECRET}
             authorizationGrantType: authorization_code
             redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
             scope: name, nickname, email, profile_image
             client-name: Naver
           kakao:
-            client-id: ${{secrets.KAKAO_CLIENT_ID}}
-            client-secret: ${{secrets.KAKAO_CLIENT_SECRET}}
+            client-id: ${KAKAO_CLIENT_ID}
+            client-secret: ${KAKAO_CLIENT_SECRET}
             authorization-grant-type: authorization_code
             client-authentication-method: POST
             redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
@@ -64,9 +64,9 @@ server:
       force-response: true
 jwt:
   key:
-    secret: ${{secrets.JWT_SECRET_KEY}}
+    secret: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 30
   refresh-token-expiration-minutes: 420
 mail:
   address:
-    admin: ${{secrets.ADMIN_EMAIL}}
+    admin: ${ADMIN_EMAIL}
