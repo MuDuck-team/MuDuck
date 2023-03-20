@@ -10,7 +10,9 @@ import SingupPage from './routes/Signup/SingupPage';
 import MyinfoPage from './routes/Myinfo/MyinfoPage';
 import PlaysPage from './routes/Plays/PlaysPage';
 import PlayPage from './routes/Play/PlayPage';
-import NearbyPage from './routes/Nearby/NearbyPage';
+import NearbyPage, {
+  loader as nearbyPageLoader,
+} from './routes/Nearby/NearbyPage';
 import PostsPage, { loader as postsPageLoader } from './routes/Posts/PostsPage';
 import PostPage from './routes/Post/PostPage';
 import PostAddPage, {
@@ -47,7 +49,11 @@ const router = createBrowserRouter([
           { path: '/myinfo', element: <MyinfoPage /> },
           { path: '/plays', element: <PlaysPage /> },
           { path: '/play/:id', element: <PlayPage /> },
-          { path: '/nearby', element: <NearbyPage /> },
+          {
+            path: '/nearby/:id',
+            element: <NearbyPage />,
+            loader: nearbyPageLoader,
+          },
           { path: '/posts', element: <PostsPage />, loader: postsPageLoader },
           { path: '/post/:id', element: <PostPage /> },
           {
