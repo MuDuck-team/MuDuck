@@ -21,7 +21,7 @@ function PlaysPage() {
 
   useEffect(() => {
     setCurrentItems(PlayData.slice(indexOfFirstPost, indexOfLastPost));
-  }, [page, indexOfLastPost, indexOfFirstPost]);
+  }, [page]);
 
   const [id, setId] = useState();
   console.log(id);
