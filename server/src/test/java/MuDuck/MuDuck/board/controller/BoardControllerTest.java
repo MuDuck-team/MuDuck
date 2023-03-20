@@ -152,9 +152,9 @@ class BoardControllerTest {
                 .andDo(document(
                         "get-boards",
                         getResponsePreProcessor(),
-                        requestParameters(List.of(parameterWithName("page").description("페이지 번호").optional(),
-                                parameterWithName("sortBy").description("정렬 기준").optional(),
-                                parameterWithName("categoryName").description("카테고리 이름").optional())),
+                        requestParameters(List.of(parameterWithName("page").optional().description("페이지 번호"),
+                                parameterWithName("sortBy").optional().description("정렬 기준"),
+                                parameterWithName("categoryName").optional().description("카테고리 이름"))),
                         responseFields(
                                 List.of(
                                         fieldWithPath("noticeBoards").type(JsonFieldType.ARRAY)
