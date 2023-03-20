@@ -4,7 +4,7 @@ import userAtom from '../recoil/userAtom';
 
 const [user, setUser] = useRecoilState(userAtom);
 
-// 커스텀 악시오스 생성
+// !커스텀 악시오스 생성
 const customAxios = axios.create({
   baseURL: '서버주소',
   headers: {
@@ -19,7 +19,8 @@ customAxios.defaults.headers.common.authorization = token
   ? `Bearer ${token}`
   : null;
 
-//  응답이 오류나고 그 오류코드가 access-token 만료일때
+// !응답에러 처리
+// 오류가 AccessToken 만료때문에 난 경우
 customAxios.interceptors.response.use(
   res => {
     return res;
