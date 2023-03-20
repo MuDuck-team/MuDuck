@@ -28,7 +28,6 @@ import MuDuck.MuDuck.noticeboard.dto.NoticeBoardDto.Response;
 import MuDuck.MuDuck.noticeboard.entity.NoticeBoard;
 import MuDuck.MuDuck.noticeboard.mapper.NoticeBoardMapper;
 import MuDuck.MuDuck.noticeboard.service.NoticeBoardService;
-import MuDuck.MuDuck.response.BoardMultipleResponse;
 import com.google.gson.Gson;
 import java.util.ArrayList;
 import java.util.List;
@@ -108,15 +107,31 @@ class BoardControllerTest {
         Page<Board> pageBoards = new PageImpl<>(List.of(board1, board2),
                 PageRequest.of(0, 8, Sort.by("createdAt")), 2);
 
-        BoardMultipleResponse boardMultipleResponse = new BoardMultipleResponse(
-                noticeBoardResponse, boardResponse, pageBoards);
+        Category category1 = Category.builder().categoryId(1L).categoryName("자유주제").build();
+        Category category2 = Category.builder().categoryId(2L).categoryName("공연정보/후기").build();
+        Category category3 = Category.builder().categoryId(3L).categoryName("시설정보").build();
+
+        List<Category> categories = List.of(category1, category2, category3);
+
+        CategoryDto.Response categoryResponse1 = new CategoryDto.Response(1L, "자유주제", null);
+        CategoryDto.Response categoryResponse2 = new CategoryDto.Response(2L, "공연정보/후기", null);
+        CategoryDto.Response categoryResponse3 = new CategoryDto.Response(3L, "시설정보", null);
+
+        List<CategoryDto.Response> categoryResponseList = List.of(categoryResponse1,
+                categoryResponse2, categoryResponse3);
+
+//        BoardMultipleResponse boardMultipleResponse = new BoardMultipleResponse(
+//                noticeBoardResponse, boardResponse, pageBoards, categoryResponseList);
 
         given(boardService.findBoards(Mockito.anyInt(), Mockito.anyInt())).willReturn(pageBoards);
-//        given(pageBoards.getContent()).willReturn(pageBoards.getContent());
         given(noticeBoardService.getTopNoticeBoard()).willReturn(noticeBoards);
+        given(categoryService.findCategories()).willReturn(categories);
+
         given(noticeBoardMapper.noticeBoardsToNoticeBoardResponseDtos(
                 Mockito.anyList())).willReturn(noticeBoardResponse);
         given(boardMapper.boardsToBoardResponseDtos(Mockito.anyList())).willReturn(boardResponse);
+        given(categoryMapper.categoriesToCategoryResponseDtos(Mockito.anyList())).willReturn(
+                categoryResponseList);
 
         // when
         String page = "1";
@@ -138,7 +153,8 @@ class BoardControllerTest {
                                 List.of(
                                         fieldWithPath("noticeBoards").type(JsonFieldType.ARRAY)
                                                 .description("공지사항 목록 key 값"),
-                                        fieldWithPath("noticeBoards[].id").type(JsonFieldType.NUMBER)
+                                        fieldWithPath("noticeBoards[].id").type(
+                                                        JsonFieldType.NUMBER)
                                                 .description("공지사항 글 식별자"),
                                         fieldWithPath("noticeBoards[].lastCreatedAt").type(
                                                         JsonFieldType.STRING)
@@ -149,9 +165,11 @@ class BoardControllerTest {
                                                 .description("게시판 목록 key 값"),
                                         fieldWithPath("boards[].id").type(JsonFieldType.NUMBER)
                                                 .description("게시글 식별자"),
-                                        fieldWithPath("boards[].memberId").type(JsonFieldType.NUMBER)
+                                        fieldWithPath("boards[].memberId").type(
+                                                        JsonFieldType.NUMBER)
                                                 .description("유저 식별자"),
-                                        fieldWithPath("boards[].nickname").type(JsonFieldType.STRING)
+                                        fieldWithPath("boards[].nickname").type(
+                                                        JsonFieldType.STRING)
                                                 .description("유저 닉네임"),
                                         fieldWithPath("boards[].lastCreatedAt").type(
                                                         JsonFieldType.STRING)
@@ -165,7 +183,8 @@ class BoardControllerTest {
                                                 .description("조회수"),
                                         fieldWithPath("boards[].commentCount").type(
                                                 JsonFieldType.NUMBER).description("댓글 개수"),
-                                        fieldWithPath("boards[].boardLike").type(JsonFieldType.NUMBER)
+                                        fieldWithPath("boards[].boardLike").type(
+                                                        JsonFieldType.NUMBER)
                                                 .description("좋아요 수"),
                                         fieldWithPath("pageInfo").type(JsonFieldType.OBJECT)
                                                 .description("페이지 정보 key 값"),
@@ -176,8 +195,15 @@ class BoardControllerTest {
                                         fieldWithPath("pageInfo.totalElements").type(
                                                 JsonFieldType.NUMBER).description("총 게시글 개수"),
                                         fieldWithPath("pageInfo.totalPages").type(
-                                                JsonFieldType.NUMBER).description("총 페이지 수")
-
+                                                JsonFieldType.NUMBER).description("총 페이지 수"),
+                                        fieldWithPath("categoryList").type(JsonFieldType.ARRAY)
+                                                .description("1차 카테고리 목록"),
+                                        fieldWithPath("categoryList[].id").type(
+                                                JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                        fieldWithPath("categoryList[].categoryName").type(
+                                                JsonFieldType.STRING).description("카테고리 이름"),
+                                        fieldWithPath("categoryList[].parentId").type(
+                                                JsonFieldType.NULL).description("부모 카테고리 식별자")
                                 )
                         )
 
@@ -186,17 +212,21 @@ class BoardControllerTest {
 
     @Test
     @WithMockUser
-    public void getCategoryListTest() throws Exception{
+    public void getCategoryListTest() throws Exception {
         // given
         Category category1 = Category.builder().categoryId(1L).categoryName("자유주제").build();
         Category category2 = Category.builder().categoryId(2L).categoryName("공연정보/후기").build();
         Category category3 = Category.builder().categoryId(3L).categoryName("시설정보").build();
 
-        Category category4 = Category.builder().categoryId(4L).categoryName("2014 레베카").parent(category2).build();
-        Category category5 = Category.builder().categoryId(5L).categoryName("2017 레베카").parent(category2).build();
-        Category category6 = Category.builder().categoryId(6L).categoryName("2019 헤드윅").parent(category2).build();
+        Category category4 = Category.builder().categoryId(4L).categoryName("2014 레베카")
+                .parent(category2).build();
+        Category category5 = Category.builder().categoryId(5L).categoryName("2017 레베카")
+                .parent(category2).build();
+        Category category6 = Category.builder().categoryId(6L).categoryName("2019 헤드윅")
+                .parent(category2).build();
 
-        List<Category> categories = List.of(category1, category2, category3, category4, category5, category6);
+        List<Category> categories = List.of(category1, category2, category3, category4, category5,
+                category6);
 
         CategoryDto.Response response1 = new CategoryDto.Response(1L, "자유주제", null);
         CategoryDto.Response response2 = new CategoryDto.Response(2L, "공연정보/후기", null);
@@ -206,30 +236,41 @@ class BoardControllerTest {
         CategoryDto.Response response5 = new CategoryDto.Response(1L, "2017 레베카", 2L);
         CategoryDto.Response response6 = new CategoryDto.Response(1L, "2019 헤드윅", 2L);
 
-        List<CategoryDto.Response> responses = List.of(response1, response2, response3, response4, response5, response6);
+        List<CategoryDto.Response> responses = List.of(response1, response2, response3, response4,
+                response5, response6);
 
         given(categoryService.findCategories()).willReturn(categories);
-        given(categoryMapper.categoriesToCategoryResponseDtos(Mockito.anyList())).willReturn(responses);
+        given(categoryMapper.categoriesToCategoryResponseDtos(Mockito.anyList())).willReturn(
+                responses);
 
         // when
-        ResultActions actions = mockMvc.perform(get("/board/writing").accept(MediaType.APPLICATION_JSON));
+        ResultActions actions = mockMvc.perform(
+                get("/board/writing").accept(MediaType.APPLICATION_JSON));
 
         // then
         actions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.category").isArray())
                 .andExpect(jsonPath("$.mentionedMusical").isArray())
-                .andDo(document("get-Category",
+                .andDo(document("get-category",
                         getResponsePreProcessor(),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("category").type(JsonFieldType.ARRAY).description("1차 카테고리 목록 key 값"),
-                                        fieldWithPath("category[].id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
-                                        fieldWithPath("category[].categoryName").type(JsonFieldType.STRING).description("카테고리 이름"),
-                                        fieldWithPath("category[].parentId").type(JsonFieldType.NULL).description("카테고리 부모카테고리 ID"),
-                                        fieldWithPath("mentionedMusical").type(JsonFieldType.ARRAY).description("2차 카테고리 목록 key 값"),
-                                        fieldWithPath("mentionedMusical[].id").type(JsonFieldType.NUMBER).description("카테고리 식별자"),
-                                        fieldWithPath("mentionedMusical[].categoryName").type(JsonFieldType.STRING).description("카테고리 이름"),
-                                        fieldWithPath("mentionedMusical[].parentId").type(JsonFieldType.NUMBER).description("카테고리 부모카테고리 ID")
+                                        fieldWithPath("category").type(JsonFieldType.ARRAY)
+                                                .description("1차 카테고리 목록 key 값"),
+                                        fieldWithPath("category[].id").type(JsonFieldType.NUMBER)
+                                                .description("카테고리 식별자"),
+                                        fieldWithPath("category[].categoryName").type(
+                                                JsonFieldType.STRING).description("카테고리 이름"),
+                                        fieldWithPath("category[].parentId").type(
+                                                JsonFieldType.NULL).description("카테고리 부모카테고리 ID"),
+                                        fieldWithPath("mentionedMusical").type(JsonFieldType.ARRAY)
+                                                .description("2차 카테고리 목록 key 값"),
+                                        fieldWithPath("mentionedMusical[].id").type(
+                                                JsonFieldType.NUMBER).description("카테고리 식별자"),
+                                        fieldWithPath("mentionedMusical[].categoryName").type(
+                                                JsonFieldType.STRING).description("카테고리 이름"),
+                                        fieldWithPath("mentionedMusical[].parentId").type(
+                                                JsonFieldType.NUMBER).description("카테고리 부모카테고리 ID")
                                 )
                         )));
     }

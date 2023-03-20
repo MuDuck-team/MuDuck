@@ -36,8 +36,21 @@ include::{snippets}/get-theater/response-body.adoc[]
 .http-request
 include::{snippets}/get-board/http-request.adoc[]
 
+.request-parameters
+include::{snippets}/get-board/request-parameters.adoc[]
+
 .http-response
 include::{snippets}/get-board/http-response.adoc[]
 
 .response-fields
 include::{snippets}/get-board/response-fields.adoc[]
+
+=== 카테고리 목록 조회
+.http-request
+include::{snippets}/get-Category/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-Category/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-Category/response-fields.adoc[]

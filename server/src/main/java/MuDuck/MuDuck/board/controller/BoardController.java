@@ -47,10 +47,11 @@ public class BoardController {
         Page<Board> pageBoards = boardService.findBoards(page - 1, SIZE);
         List<Board> boards = pageBoards.getContent();
         List<NoticeBoard> noticeBoards = noticeBoardService.getTopNoticeBoard();
+        List<Category> categories = categoryService.findCategories();
 
         return new ResponseEntity<>(new BoardMultipleResponse(
                 noticeBoardMapper.noticeBoardsToNoticeBoardResponseDtos(noticeBoards),
-                boardMapper.boardsToBoardResponseDtos(boards), pageBoards), HttpStatus.OK);
+                boardMapper.boardsToBoardResponseDtos(boards), pageBoards, categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
 
     }
 
