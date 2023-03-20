@@ -1,12 +1,11 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import { IoMdEye, IoMdListBox } from 'react-icons/io';
-import ProfileImg from '../../components/ProfileImg';
-import MeatballsMenu from '../../components/MeatballsMenu';
+import { IoMdListBox } from 'react-icons/io';
+import PostInfo from '../../components/PostInfo';
 
 function NoticePage() {
-  const initImage = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
-
+  const profileUrl = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
+  const nickname = '관리자';
   const notice = {
     id: 1,
     lastCreatedAt: '2023.03.13',
@@ -19,27 +18,12 @@ function NoticePage() {
     <NoticePageLayout>
       <Category>공지사항</Category>
       <ContentContainer>
-        <InformationContainer>
-          <InformationDetail>
-            <ProfileImg
-              src={initImage}
-              width="50px"
-              height="50px"
-              type="actor"
-            />
-            <InformationWrapper>
-              <RoleText>관리자</RoleText>
-              <NoticeInformation>
-                <DateText>{notice.lastCreatedAt}</DateText>
-                <ViewCount>
-                  <ViewIcon />
-                  <ViewText>{notice.view}</ViewText>
-                </ViewCount>
-              </NoticeInformation>
-            </InformationWrapper>
-          </InformationDetail>
-          <MeatballsMenu />
-        </InformationContainer>
+        <PostInfo
+          profileUrl={profileUrl}
+          nickname={nickname}
+          createdAt={notice.lastCreatedAt}
+          viewCount={notice.view}
+        />
         <NoticeTitle>{notice.title}</NoticeTitle>
         <NoticeCotent>{notice.body}</NoticeCotent>
       </ContentContainer>
@@ -70,54 +54,6 @@ const Category = styled.h2`
 
 const ContentContainer = styled.article`
   border-top: 1px solid var(--border-color);
-`;
-
-const InformationContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const InformationWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const InformationDetail = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const RoleText = styled.div`
-  margin-bottom: 8px;
-  font-size: var(--font-size-sm);
-  font-weight: bold;
-`;
-
-const NoticeInformation = styled.div`
-  display: flex;
-`;
-
-const DateText = styled.span`
-  display: flex;
-  align-items: center;
-  margin-right: 12px;
-  font-size: var(--font-size-xs);
-`;
-
-const ViewCount = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const ViewText = styled.span`
-  margin-left: 4px;
-  font-size: var(--font-size-xs);
-`;
-
-const ViewIcon = styled(IoMdEye)`
-  width: 14px;
-  height: 14px;
 `;
 
 const NoticeTitle = styled.h3`
