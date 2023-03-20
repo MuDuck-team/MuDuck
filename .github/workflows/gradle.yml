@@ -36,6 +36,8 @@ jobs:
         distribution: 'temurin'
     - name: Add permission
       run: chmod +x ./gradlew
+    - name: Test What Wrong
+      run: ./gradlew test -i
     - name: Build with Gradle
       run: ./gradlew clean build
         
