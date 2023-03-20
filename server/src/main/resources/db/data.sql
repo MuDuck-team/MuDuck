@@ -93,3 +93,9 @@ INSERT INTO Category(category_name, parent_id) VALUES ('시설정보', NULL);
 INSERT INTO Category(category_name, parent_id) VALUES ('2014 레베카', 2);
 INSERT INTO Category(category_name, parent_id) VALUES ('2017 레베카', 2);
 INSERT INTO Category(category_name, parent_id) VALUES ('2019 헤드윅', 2);
+
+-- BOARD_CATEGORY 테이블 생성 코드
+INSERT INTO BOARD_CATEGORY(board_id, category_id) VALUES (1, 1);
+INSERT INTO BOARD_CATEGORY(board_id, category_id) VALUES (2, 2);
+INSERT INTO BOARD_CATEGORY(board_id, category_id) VALUES (2, 4);
+INSERT INTO BOARD_CATEGORY(board_id, category_id) VALUES (3, 3);

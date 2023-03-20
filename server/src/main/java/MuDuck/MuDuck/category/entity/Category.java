@@ -1,13 +1,10 @@
 package MuDuck.MuDuck.category.entity;
 
 import MuDuck.MuDuck.audit.Auditable;
-import MuDuck.MuDuck.board.joinTable.BoardLike;
-import MuDuck.MuDuck.category.joinTable.BoardCategory;
-import MuDuck.MuDuck.comment.entity.Comment;
+import MuDuck.MuDuck.boardCategory.entity.BoardCategory;
 import MuDuck.MuDuck.musical.entity.Musical;
 import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

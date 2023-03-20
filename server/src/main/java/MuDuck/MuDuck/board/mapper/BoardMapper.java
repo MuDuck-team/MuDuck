@@ -22,7 +22,7 @@ public interface BoardMapper {
                 .title(board.getTitle())
                 .view(board.getViews())
                 .commentCount(board.getComments().size())
-                .boardLike(board.getLike())
+                .boardLike(board.getLikes())
                 .build();
         return response;
     }
