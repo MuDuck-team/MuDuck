@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
+import useSetRecoilState from 'recoil';
 import customAxios from '../../api/customAxios';
 import userInfo from '../../recoil/userAtom';
 import Loading from '../../components/Loading';
@@ -12,6 +12,7 @@ function OauthRedirectPage() {
   useEffect(() => {
     const { searchParams } = new URL(window.location.href).searchParams;
     const token = searchParams.get('token') || '';
+    const signup = searchParams.has('signup');
     setUser(initialUserState => ({ ...initialUserState, token }));
 
     customAxios({
@@ -24,7 +25,12 @@ function OauthRedirectPage() {
       setUser(initialUserState => ({ ...initialUserState, ...res.data }));
     });
 
-    navigate(-2 || '/');
+    if (signup) {
+      return navigate('/myinfo');
+    }
+    return navigate('/');
+    //  회원가입일때 -> '/myinfo'
+    //  로그인일때 -> '/' 이거나 navigate(-2) 거나....
   });
 
   return (
