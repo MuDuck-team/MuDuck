@@ -21,34 +21,34 @@ INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, t
 VALUES (CURRENT_TIMESTAMP - INTERVAL '60' DAY, NOW(), 'BOARD_POST', '내용입니다333', 45, '제목입니다3', 2819, 3);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '55' DAY, NOW(), 'BOARD_DELETE', '내용입니다444.', 30, '제목입니다4', 982, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '55' DAY, NOW(), 'BOARD_DELETE', '삭제된 내용입니다444.', 31, '삭제된 제목입니다4', 983, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '30' DAY, NOW(), 'BOARD_POST', '내용입니다.', 30, '제목입니다', 982, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '30' DAY, NOW(), 'BOARD_POST', '내용입니다.', 32, '제목입니다', 984, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '25' DAY, NOW(), 'BOARD_POST', '내용입니다222.', 27, '제목입니다2', 1762, 2);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '25' DAY, NOW(), 'BOARD_POST', '내용입니다222.', 29, '제목입니다2', 1763, 2);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '3' DAY, NOW(), 'BOARD_POST', '내용입니다333', 45, '제목입니다3', 2819, 3);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '3' DAY, NOW(), 'BOARD_POST', '내용입니다333', 46, '제목입니다3', 2820, 3);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '1' DAY, NOW(), 'BOARD_DELETE', '내용입니다444.', 30, '제목입니다4', 982, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '1' DAY, NOW(), 'BOARD_DELETE', '삭제된 내용입니다444.', 35, '삭제된 제목입니다4', 980, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '30' HOUR, NOW(), 'BOARD_POST', '내용입니다.', 30, '제목입니다', 982, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '30' HOUR, NOW(), 'BOARD_POST', '내용입니다.', 34, '제목입니다', 979, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '25' HOUR, NOW(), 'BOARD_POST', '내용입니다222.', 27, '제목입니다2', 1762, 2);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '25' HOUR, NOW(), 'BOARD_POST', '내용입니다222.', 28, '제목입니다2', 1760, 2);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '3' HOUR, NOW(), 'BOARD_POST', '내용입니다333', 45, '제목입니다3', 2819, 3);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '3' HOUR, NOW(), 'BOARD_POST', '내용입니다333', 192, '제목입니다3', 2815, 3);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '1' HOUR, NOW(), 'BOARD_DELETE', '내용입니다444.', 30, '제목입니다4', 982, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '1' HOUR, NOW(), 'BOARD_DELETE', '삭제된 내용입니다444.', 181, '삭제된 제목입니다4', 959, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP, NOW(), 'BOARD_POST', '내용입니다333', 45, '제목입니다3', 2819, 3);
+VALUES (CURRENT_TIMESTAMP, NOW(), 'BOARD_POST', '내용입니다333', 10, '제목입니다3', 2930, 3);
 
 
 
