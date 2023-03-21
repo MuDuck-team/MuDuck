@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import MyMap from './MyMap';
 
-function MyMapContainer({ placeData }) {
+function MyMapContainer({ placeData, onMarkerClick }) {
   const [inputText, setInputText] = useState('');
   const [searchPlace, setSearchPlace] = useState('');
   const [category, setCategory] = useState('');
@@ -71,6 +71,7 @@ function MyMapContainer({ placeData }) {
         countRef={countRef}
         placeData={placeData}
         category={category}
+        onMarkerClick={onMarkerClick}
       />
     </StyledMapContainer>
   );

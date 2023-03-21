@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLoaderData } from 'react-router-dom';
 import MyMapContainer from './MyMapContainer';
 
@@ -116,8 +117,14 @@ export async function loader({ params }) {
 function NearbyPage() {
   const { placeData } = useLoaderData();
   const { theater, restaurants, cafes, parkings } = placeData;
+  const [selectPlaceObj, setSelectPlaceObj] = useState({});
+  console.log(selectPlaceObj);
+
+  const onMarkerClick = obj => {
+    setSelectPlaceObj(obj);
+  };
   console.log(theater, restaurants, cafes, parkings);
-  return <MyMapContainer placeData={placeData} />;
+  return <MyMapContainer placeData={placeData} onMarkerClick={onMarkerClick} />;
 }
 
 export default NearbyPage;

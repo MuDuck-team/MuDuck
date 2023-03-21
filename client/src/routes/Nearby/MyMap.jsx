@@ -4,7 +4,7 @@ import changeObjKeys from '../../utile/changeObjKeys';
 
 const { kakao } = window;
 
-function MyMap({ searchPlace, countRef, placeData, category }) {
+function MyMap({ searchPlace, countRef, placeData, category, onMarkerClick }) {
   useEffect(() => {
     const { latitube: defalutLat, longitude: defalutLng } = placeData.theater;
 
@@ -234,9 +234,9 @@ function MyMap({ searchPlace, countRef, placeData, category }) {
             closeDisplayInfowindow(marker, places[i]);
           });
 
-          // kakao.maps.event.addListener(marker, 'mouseout', () => {
-          //   infowindow.close();
-          // });
+          kakao.maps.event.addListener(marker, 'click', () => {
+            onMarkerClick(places[i]);
+          });
 
           itemEl.onmouseover = () => {
             displayInfowindow(marker, title);
