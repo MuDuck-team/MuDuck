@@ -5,6 +5,7 @@ import MyMap from './MyMap';
 function MyMapContainer({ placeData }) {
   const [inputText, setInputText] = useState('');
   const [searchPlace, setSearchPlace] = useState('');
+  const [category, setCategory] = useState('');
   // 처음에 들어갔을 때 경고창을 막기 위하여 작성
   const countRef = useRef(0);
 
@@ -18,6 +19,16 @@ function MyMapContainer({ placeData }) {
     setInputText('');
     countRef.current += 1;
   };
+
+  const onClick = e => {
+    const target = e.target.closest('li');
+    setCategory(target.name);
+  };
+
+  const hello = () => {
+    console.log('hello');
+  };
+
   return (
     <StyledMapContainer>
       <StyledForm onSubmit={handleSubmit}>
@@ -27,15 +38,30 @@ function MyMapContainer({ placeData }) {
       </StyledForm>
       <CategoryContainer className="category">
         <ul>
-          <li id="coffeeMenu">
+          <li
+            value="restaurants"
+            role="presentation"
+            data-name="restaurants"
+            onClick={onClick}
+          >
             <span className="ico_comm ico_coffee" />
-            커피숍
+            맛집
           </li>
-          <li id="storeMenu">
+          <li
+            id="storeMenu"
+            data-name="cafes"
+            role="presentation"
+            onClick={onClick}
+          >
             <span className="ico_comm ico_store" />
-            편의점
+            카페
           </li>
-          <li id="carparkMenu">
+          <li
+            id="carparkMenu"
+            data-name="packings"
+            role="presentation"
+            onClick={onClick}
+          >
             <span className="ico_comm ico_carpark" />
             주차장
           </li>
@@ -45,6 +71,8 @@ function MyMapContainer({ placeData }) {
         searchPlace={searchPlace}
         countRef={countRef}
         placeData={placeData}
+        category={category}
+        hello={hello}
       />
     </StyledMapContainer>
   );
