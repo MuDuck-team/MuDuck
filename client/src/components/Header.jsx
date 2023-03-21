@@ -21,6 +21,9 @@ function Header() {
 
   const LogoutHandler = () => {
     setUser(null);
+    localStorage.removeItem('localToken');
+    // customAxios.patch('logout')햐
+    // 쿠키에 담긴 refresh 토큰 제거를 위해서
   };
 
   return (
