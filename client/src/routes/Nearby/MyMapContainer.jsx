@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import styled from 'styled-components';
 import MyMap from './MyMap';
 
-function MyMapContainer() {
+function MyMapContainer({ placeData }) {
   const [inputText, setInputText] = useState('');
   const [searchPlace, setSearchPlace] = useState('');
   // 처음에 들어갔을 때 경고창을 막기 위하여 작성
@@ -25,7 +25,11 @@ function MyMapContainer() {
         <input type="text" value={inputText} onChange={onChange} size="15" />
         <button type="submit">검색하기</button>
       </StyledForm>
-      <MyMap searchPlace={searchPlace} countRef={countRef} />
+      <MyMap
+        searchPlace={searchPlace}
+        countRef={countRef}
+        placeData={placeData}
+      />
     </StyledMapContainer>
   );
 }

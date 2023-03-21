@@ -5,8 +5,8 @@ const responce = {
   theater: {
     id: 1,
     placeName: '오둥이극장',
-    longitude: 37.5709794,
-    latitube: 126.978891,
+    longitude: 126.978891,
+    latitube: 37.5709794,
     phone: '02-555-5555',
     address: '서울특별시 어쩌구 23로 233',
     roadAddress: '서울특별시 어쩌구 23로 233',
@@ -22,8 +22,9 @@ const responce = {
       phone: '02-555-5555',
       score: 5.0,
       totalReview: 200,
-      longitude: 37.57286713479182,
-      latitube: 126.97607241059578,
+      longitude: 126.97607241059578,
+      latitube: 37.57286713479182,
+      placeUrl: 'http://place.map.kakao.com/10753713',
     },
     {
       id: 2,
@@ -35,8 +36,9 @@ const responce = {
       phone: '02-555-5555',
       score: 5.0,
       totalReview: 200,
-      longitude: 37.572695,
-      latitube: 126.973265,
+      longitude: 126.973265,
+      latitube: 37.572695,
+      placeUrl: 'http://place.map.kakao.com/10753713',
     },
   ],
   cafes: [
@@ -50,8 +52,9 @@ const responce = {
       phone: '02-555-5555',
       score: 5.0,
       totalReview: 200,
-      longitude: 37.57286713479182,
-      latitube: 126.97607241059578,
+      longitude: 126.97607241059578,
+      latitube: 37.57286713479182,
+      placeUrl: 'http://place.map.kakao.com/10753713',
     },
     {
       id: 4,
@@ -63,8 +66,9 @@ const responce = {
       phone: '02-555-5555',
       score: 5.0,
       totalReview: 200,
-      longitude: 37.5764652,
-      latitube: 126.973331,
+      longitude: 126.973331,
+      latitube: 37.5764652,
+      placeUrl: 'http://place.map.kakao.com/10753713',
     },
   ],
   parkings: [
@@ -78,8 +82,9 @@ const responce = {
       phone: '02-555-5555',
       score: 5.0,
       totalReview: 200,
-      longitude: 37.5770079,
-      latitube: 126.984085,
+      longitude: 126.984085,
+      latitube: 37.5770079,
+      placeUrl: 'http://place.map.kakao.com/10753713',
     },
     {
       id: 5,
@@ -91,8 +96,9 @@ const responce = {
       phone: '02-555-5555',
       score: 5.0,
       totalReview: 200,
-      longitude: 37.572972,
-      latitube: 126.974402,
+      longitude: 126.974402,
+      latitube: 37.572972,
+      placeUrl: 'http://place.map.kakao.com/10753713',
     },
   ],
 };
@@ -103,15 +109,15 @@ function getData(id) {
 }
 
 export async function loader({ params }) {
-  const localData = await getData(params.id);
-  return { localData };
+  const placeData = await getData(params.id);
+  return { placeData };
 }
 
 function NearbyPage() {
-  const { localData } = useLoaderData();
-  const { theater, restaurants, cafes, parkings } = localData;
+  const { placeData } = useLoaderData();
+  const { theater, restaurants, cafes, parkings } = placeData;
   console.log(theater, restaurants, cafes, parkings);
-  return <MyMapContainer />;
+  return <MyMapContainer placeData={placeData} />;
 }
 
 export default NearbyPage;

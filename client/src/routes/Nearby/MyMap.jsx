@@ -3,13 +3,21 @@ import styled from 'styled-components';
 
 const { kakao } = window;
 
-function MyMap({ searchPlace, countRef }) {
+function MyMap({ searchPlace, countRef, placeData }) {
   useEffect(() => {
+    const { latitube: defalutLat, longitude: defalutLng } = placeData.theater;
+
+    const theaterMarkerPosition = new kakao.maps.LatLng(defalutLat, defalutLng);
+
+    const theaterMarker = new kakao.maps.Marker({
+      position: theaterMarkerPosition,
+    });
+
     let markers = [];
 
     const mapContainer = document.getElementById('map'); // 지도를 표시할 div
     const mapOption = {
-      center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
+      center: new kakao.maps.LatLng(defalutLat, defalutLng), // 지도의 중심좌표
       level: 3, // 지도의 확대 레벨
     };
 
@@ -18,6 +26,8 @@ function MyMap({ searchPlace, countRef }) {
 
     // 장소 검색 객체를 생성합니다
     const ps = new kakao.maps.services.Places();
+
+    theaterMarker.setMap(map);
 
     // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
     const infowindow = new kakao.maps.InfoWindow({
