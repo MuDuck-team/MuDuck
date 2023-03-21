@@ -39,7 +39,7 @@ customAxios.interceptors.response.use(
 
       // access token이 만료되어 발생하는 에러인 경우 --서버랑 코드, 메세지 합의봐야함
       if (
-        errResponseData.error?.message === 'jwt expired' ||
+        errResponseData.error?.message === 'token expired' &&
         errResponseStatus === 401
       ) {
         return async function regenerateToken() {
@@ -53,11 +53,14 @@ customAxios.interceptors.response.use(
                 ...initialUserState,
                 token: newToken,
               }));
+              localStorage.setItem('localToken', JSON.stringify(newToken));
+              const localToken = localStorage.getItem('localToken');
+              console.log(localToken);
               // 실패했던 기존 request 재시도
               return customAxios(prevRequest);
             })
             .catch(e => {
-              window.location.href = '/';
+              window.location.href = '/login';
               return new Error(e);
             });
         };
