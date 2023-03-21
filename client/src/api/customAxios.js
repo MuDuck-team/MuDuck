@@ -1,23 +1,26 @@
 import axios from 'axios';
-import { useRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import userAtom from '../recoil/userAtom';
 
-const [user, setUser] = useRecoilState(userAtom);
+const token = localStorage.getItem('localToken')
+  ? JSON.parse(localStorage.getItem('localToken'))
+  : null;
 
 // !커스텀 악시오스 생성
 const customAxios = axios.create({
   baseURL: '서버주소',
   headers: {
     'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
   },
 });
 
 customAxios.defaults.withCredentials = true;
-const { token } = user.token;
-// const authorization = JSON.parse(localStorage.getItem('Authorization'));
-customAxios.defaults.headers.common.authorization = token
-  ? `Bearer ${token}`
-  : null;
+
+// const { token } = user.token;
+// customAxios.defaults.headers.common.authorization = token
+//   ? `Bearer ${token}`
+//   : null;
 
 // !응답에러 처리
 // 오류가 AccessToken 만료때문에 난 경우
@@ -26,6 +29,8 @@ customAxios.interceptors.response.use(
     return res;
   },
   async error => {
+    const setUser = useSetRecoilState(userAtom);
+
     // response에서 error가 발생했을 경우 catch로 넘어가기 전에 처리
     try {
       const errResponseStatus = error.response.status;
