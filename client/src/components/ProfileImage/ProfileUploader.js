@@ -1,53 +1,39 @@
-import AWS from 'aws-sdk';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
+import { v4 as uuidv4 } from 'uuid';
 
-const REGION = process.env.REACT_APP_REGION;
-const ACESS_KEY_ID = process.env.REACT_APP_ACCESS_KEY_ID;
-const SECRET_ACESS_KEY_ID = process.env.REACT_APP_SECRET_ACCESS_KEY_ID;
+const ACESS_KEY_ID = process.env.REACT_APP_ACESS_KEY_ID;
+const SECRET_ACESS_KEY_ID = process.env.REACT_APP_SECRET_ACESS_KEY_ID;
 const S3_BUCKET = process.env.REACT_APP_S3_BUCKET;
+const REGION = process.env.REACT_APP_REGION;
 
 //  s3로 파일을 올리는 함수
-const uploadS3 = uploadSrc => {
-  AWS.config.update({
-    region: REGION,
-    accessKeyId: ACESS_KEY_ID,
-    secretAccessKey: SECRET_ACESS_KEY_ID,
-  });
-
-  const myBucket = new AWS.S3({
-    params: { Bucket: S3_BUCKET },
-    region: REGION,
-  });
+async function uploadS3(uploadSrc) {
+  const uniqeTitle = uuidv4();
+  console.log(uniqeTitle);
 
   const params = {
     ACL: 'public-read',
     Body: uploadSrc,
     Bucket: S3_BUCKET,
-    Key: `profile/${uploadSrc.name}`,
+    Key: `profile/${uniqeTitle}`,
   };
-  //  프로필이라는 폴더 안에, 유저가 업로드한 사진의 이름으로 올리겠다.
 
-  myBucket
-    .putObject(params)
-    .on('httpUploadProgress', evt => {
-      console.log(evt);
-      // 여기서 돌려받은 파일의 s3url 을 리턴시켜야함.
-    })
-    .send(err => {
-      if (err) console.log(err);
-    });
+  const client = new S3Client({
+    bucketName: S3_BUCKET,
+    region: REGION,
+    credentials: {
+      accessKeyId: ACESS_KEY_ID,
+      secretAccessKey: SECRET_ACESS_KEY_ID,
+    },
+  });
 
-  /* 
-이렇게도 가능
-const AWS = require('aws-sdk')
-const s3 = new AWS.S3(config)
-
-s3.upload(params).promise()
-    .then((data)=>{
-        console.log(data.Location)
-    })
-    .catch(err=>console.log(err))
-    
-    */
-};
+  try {
+    await client.send(new PutObjectCommand(params));
+  } catch (err) {
+    console.log(err);
+    return err;
+  }
+  return `https://${params.Bucket}.s3.ap-northeast-2.amazonaws.com/${params.Key}`;
+}
 
 export default uploadS3;

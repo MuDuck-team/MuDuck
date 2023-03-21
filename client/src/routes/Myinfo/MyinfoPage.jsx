@@ -24,13 +24,15 @@ function MyinfoPage() {
 
   const handleSubmit = async event => {
     event.preventDefault();
-    uploadS3(uploadSrc);
-    /* const data = {
-     nickname,
-      url
-    }
-    */
-    // axios.patch(서버, data)
+    const resultUrl = await uploadS3(uploadSrc);
+
+    const updatedData = {
+      nickname,
+      resultUrl,
+    };
+
+    console.log(updatedData);
+    // cusomAxios.Patch(서버, data)
   };
 
   return (
