@@ -49,6 +49,7 @@ public class BoardDto {
         private String nickname;
         private String createdAt;
         private int view;
+        private int like;
         private int totalComment;
         private String category;
     }

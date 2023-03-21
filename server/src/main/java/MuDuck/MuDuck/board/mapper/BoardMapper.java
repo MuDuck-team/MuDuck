@@ -44,6 +44,7 @@ public interface BoardMapper {
                         .nickname(member.getNickName())
                         .createdAt(board.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                         .view(board.getViews())
+                        .like(board.getLikes())
                         .totalComment(board.getComments().size())
                         .category(category)
                         .build())
