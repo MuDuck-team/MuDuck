@@ -3,6 +3,7 @@ package MuDuck.MuDuck.comment.entity;
 import MuDuck.MuDuck.audit.Auditable;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.member.entity.Member;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,10 +16,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Comment extends Auditable {

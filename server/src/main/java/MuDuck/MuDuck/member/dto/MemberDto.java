@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+@Getter
 public class MemberDto {
     @Getter
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -15,5 +16,4 @@ public class MemberDto {
         private String profileImageUrl;
         private String role;
     }
-
 }

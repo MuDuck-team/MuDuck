@@ -2,7 +2,7 @@ package MuDuck.MuDuck.member.entity;
 
 import MuDuck.MuDuck.audit.Auditable;
 import MuDuck.MuDuck.board.entity.Board;
-import MuDuck.MuDuck.board.joinTable.BoardLike;
+import MuDuck.MuDuck.boardLike.entity.BoardLike;
 import MuDuck.MuDuck.comment.entity.Comment;
 import java.util.ArrayList;
 import java.util.List;
