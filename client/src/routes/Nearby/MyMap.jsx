@@ -42,13 +42,17 @@ function MyMap({ searchPlace, countRef }) {
     }
 
     function closeDisplayInfowindow(marker, place) {
-      const content = `<div style="padding:20px;z-index:1; background-color:var(--main-001); color:var(--font-color); ">카카오 후기 : <a style="color:var(--font-color);" 
-      onMouseOver="this.style.color='#00ff84'"
-      onMouseOut="this.style.color='var(--font-color)'"
-       href=${place.place_url} target="_blank"> ${place.place_name}</a>
-      <hr style="margin: 6px 0; " />
-      <div style="margin-bottom: 6px; ">${place.address_name}</div>
-      <div>${place.phone}</div>
+      const content = `
+      <div class="speech-bubble">
+        <h4>${place.place_name}</h4>
+        <div>
+          <a href=${place.place_url} target="_blank"> 
+          카카오 리뷰 보기
+        </a>
+       </div>
+        <hr/>
+        <address>${place.address_name}</address>
+        <footer>${place.phone}</footer>
       </div>
       `;
 
@@ -157,6 +161,8 @@ function MyMap({ searchPlace, countRef }) {
       // 지도에 표시되고 있는 마커를 제거합니다
       removeMarker();
 
+      console.log(places);
+
       for (let i = 0; i < places.length; i += 1) {
         // 마커를 생성하고 지도에 표시합니다
         const placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
@@ -239,11 +245,11 @@ function MyMap({ searchPlace, countRef }) {
   return (
     <StyledMapWrapper className="map_wrap">
       <StyledMap id="map" />
-      <div id="menu_wrap" className="bg_white">
+      <StyledMenu id="menu_wrap" className="bg_white">
         <hr />
-        <ul id="placesList" />
-        <div id="pagination" />
-      </div>
+        <StyledUl id="placesList" />
+        <StyledPagenation id="pagination" />
+      </StyledMenu>
     </StyledMapWrapper>
   );
 }
@@ -261,6 +267,36 @@ const StyledMapWrapper = styled.div`
   left: 0;
   width: 100%;
   height: 100%;
+
+  .speech-bubble {
+    background-color: var(--main-001);
+    padding: 20px;
+    z-index: 1;
+    color: var(--font-color);
+
+    h4 {
+      font-weight: 700;
+      font-size: var(--font-size-sm);
+      margin-bottom: 8px;
+    }
+
+    a {
+      color: var(--button-color);
+      font-weight: 500;
+
+      :hover {
+        color: #c77a27;
+      }
+    }
+
+    hr {
+      margin: 8px 0;
+    }
+
+    address {
+      margin-bottom: 4px;
+    }
+  }
 
   &,
   & * {
@@ -281,7 +317,10 @@ const StyledMapWrapper = styled.div`
     height: 100%;
     color: #000;
   }
-  #menu_wrap {
+`;
+
+const StyledMenu = styled.div`
+  & {
     position: absolute;
     top: 0;
     left: 0;
@@ -298,58 +337,60 @@ const StyledMapWrapper = styled.div`
   .bg_white {
     background: #fff;
   }
-  #menu_wrap hr {
+  & hr {
     display: block;
     height: 1px;
     border: 0;
     border-top: 2px solid #5f5f5f;
     margin: 35px 0 3px;
   }
-  #menu_wrap .option {
+  & .option {
     text-align: center;
   }
-  #menu_wrap .option p {
+  & .option p {
     margin: 10px 0;
   }
-  #menu_wrap .option button {
+  & .option button {
     margin-left: 5px;
   }
+`;
 
-  #placesList li {
+const StyledUl = styled.ul`
+  & li {
     list-style: none;
   }
-  #placesList .item {
+  & .item {
     position: relative;
     border-bottom: 1px solid #888;
     overflow: hidden;
     cursor: pointer;
     min-height: 65px;
   }
-  #placesList .item span {
+  & .item span {
     display: block;
     margin-top: 4px;
   }
-  #placesList .item h5,
-  #placesList .item .info {
+  & .item h5,
+  & .item .info {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
-  #placesList .item .info {
+  & .item .info {
     padding: 10px 0 10px 55px;
   }
-  #placesList .info .gray {
+  & .info .gray {
     color: #8a8a8a;
   }
-  #placesList .info .jibun {
+  & .info .jibun {
     padding-left: 26px;
     background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png)
       no-repeat;
   }
-  #placesList .info .tel {
+  & .info .tel {
     color: #009900;
   }
-  #placesList .item .markerbg {
+  & .item .markerbg {
     float: left;
     position: absolute;
     width: 36px;
@@ -358,60 +399,63 @@ const StyledMapWrapper = styled.div`
     background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png)
       no-repeat;
   }
-  #placesList .item .marker_1 {
+  & .item .marker_1 {
     background-position: 0 -10px;
   }
-  #placesList .item .marker_2 {
+  & .item .marker_2 {
     background-position: 0 -56px;
   }
-  #placesList .item .marker_3 {
+  & .item .marker_3 {
     background-position: 0 -102px;
   }
-  #placesList .item .marker_4 {
+  & .item .marker_4 {
     background-position: 0 -148px;
   }
-  #placesList .item .marker_5 {
+  & .item .marker_5 {
     background-position: 0 -194px;
   }
-  #placesList .item .marker_6 {
+  & .item .marker_6 {
     background-position: 0 -240px;
   }
-  #placesList .item .marker_7 {
+  & .item .marker_7 {
     background-position: 0 -286px;
   }
-  #placesList .item .marker_8 {
+  & .item .marker_8 {
     background-position: 0 -332px;
   }
-  #placesList .item .marker_9 {
+  & .item .marker_9 {
     background-position: 0 -378px;
   }
-  #placesList .item .marker_10 {
+  & .item .marker_10 {
     background-position: 0 -423px;
   }
-  #placesList .item .marker_11 {
+  & .item .marker_11 {
     background-position: 0 -470px;
   }
-  #placesList .item .marker_12 {
+  & .item .marker_12 {
     background-position: 0 -516px;
   }
-  #placesList .item .marker_13 {
+  & .item .marker_13 {
     background-position: 0 -562px;
   }
-  #placesList .item .marker_14 {
+  & .item .marker_14 {
     background-position: 0 -608px;
   }
-  #placesList .item .marker_15 {
+  & .item .marker_15 {
     background-position: 0 -654px;
   }
-  #pagination {
+`;
+
+const StyledPagenation = styled.div`
+  & {
     margin: 10px auto;
     text-align: center;
   }
-  #pagination a {
+  & a {
     display: inline-block;
     margin-right: 10px;
   }
-  #pagination .on {
+  & .on {
     font-weight: bold;
     cursor: default;
     color: #777;
