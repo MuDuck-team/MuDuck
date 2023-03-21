@@ -1,4 +1,4 @@
-package MuDuck.MuDuck.category.joinTable;
+package MuDuck.MuDuck.boardCategory.entity;
 
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.category.entity.Category;
