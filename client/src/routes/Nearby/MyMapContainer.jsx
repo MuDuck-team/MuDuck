@@ -24,7 +24,8 @@ function MyMapContainer({ placeData }) {
   const onClick = e => {
     const target = e.target.closest('li');
     setCategory(target.dataset.name);
-    console.log(category);
+    setSearchPlace('');
+    countRef.current = 0;
   };
 
   return (

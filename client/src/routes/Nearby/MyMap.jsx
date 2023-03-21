@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
+import changeObjKeys from '../../utile/changeObjKeys';
 
 const { kakao } = window;
 
-function MyMap({ searchPlace, countRef, placeData }) {
+function MyMap({ searchPlace, countRef, placeData, category }) {
   useEffect(() => {
     const { latitube: defalutLat, longitude: defalutLng } = placeData.theater;
 
@@ -144,6 +145,32 @@ function MyMap({ searchPlace, countRef, placeData }) {
       return marker;
     }
 
+    // imageMarker를 생성합니다
+    // function addImageMarker(position, idx) {
+    //   const imageSrc =
+    //     'https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png'; // 마커 이미지 url, 스프라이트 이미지를 씁니다
+    //   const imageSize = new kakao.maps.Size(36, 37); // 마커 이미지의 크기
+    //   const imgOptions = {
+    //     spriteSize: new kakao.maps.Size(36, 691), // 스프라이트 이미지의 크기
+    //     spriteOrigin: new kakao.maps.Point(0, idx * 46 + 10), // 스프라이트 이미지 중 사용할 영역의 좌상단 좌표
+    //     offset: new kakao.maps.Point(13, 37), // 마커 좌표에 일치시킬 이미지 내에서의 좌표
+    //   };
+    //   const markerImage = new kakao.maps.MarkerImage(
+    //     imageSrc,
+    //     imageSize,
+    //     imgOptions,
+    //   );
+    //   const marker = new kakao.maps.Marker({
+    //     position, // 마커의 위치
+    //     image: markerImage,
+    //   });
+
+    //   marker.setMap(map); // 지도 위에 마커를 표출합니다
+    //   markers.push(marker); // 배열에 생성된 마커를 추가합니다
+
+    //   return marker;
+    // }
+
     // 검색결과 항목을 Element로 반환하는 함수입니다
     function getListItem(index, places) {
       const el = document.createElement('li');
@@ -169,11 +196,17 @@ function MyMap({ searchPlace, countRef, placeData }) {
     }
 
     // 검색 결과 목록과 마커를 표출하는 함수입니다
-    function displayPlaces(places) {
+    function displayPlaces(placesProp, isMarker) {
       const listEl = document.getElementById('placesList');
       const menuEl = document.getElementById('menu_wrap');
       const fragment = document.createDocumentFragment();
       const bounds = new kakao.maps.LatLngBounds();
+      let places;
+      if (isMarker) {
+        places = placesProp.map(obj => changeObjKeys(obj));
+      } else {
+        places = placesProp;
+      }
 
       // 검색 결과 목록에 추가된 항목들을 제거합니다
       removeAllChildNods(listEl);
@@ -181,10 +214,9 @@ function MyMap({ searchPlace, countRef, placeData }) {
       // 지도에 표시되고 있는 마커를 제거합니다
       removeMarker();
 
-      console.log(places);
-
       for (let i = 0; i < places.length; i += 1) {
         // 마커를 생성하고 지도에 표시합니다
+
         const placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
         const marker = addMarker(placePosition, i);
         const itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
@@ -242,6 +274,24 @@ function MyMap({ searchPlace, countRef, placeData }) {
       }
     }
 
+    // 카테고리를 클릭했을 때 마커를 보여주는 함수입니다.
+    function choiceCategory() {
+      if (!category) {
+        return undefined;
+      }
+
+      if (category === 'restaurants') {
+        displayPlaces(placeData.restaurants, true);
+        return undefined;
+      }
+      if (category === 'cafes') {
+        displayPlaces(placeData.cafes, true);
+        return undefined;
+      }
+      displayPlaces(placeData.parkings, true);
+      return undefined;
+    }
+
     // 키워드 검색을 요청하는 함수입니다
     function searchPlaces() {
       if (!searchPlace.replace(/^\s+|\s+$/g, '')) {
@@ -260,7 +310,8 @@ function MyMap({ searchPlace, countRef, placeData }) {
 
     // 키워드로 장소를 검색합니다
     searchPlaces();
-  }, [searchPlace, placeData]);
+    choiceCategory();
+  }, [searchPlace, placeData, category]);
 
   return (
     <StyledMapWrapper className="map_wrap">
