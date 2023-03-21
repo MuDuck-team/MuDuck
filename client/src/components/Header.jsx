@@ -21,6 +21,8 @@ function Header() {
 
   const LogoutHandler = () => {
     setUser(null);
+    localStorage.removeItem('localToken');
+    //customAxios.patch('logout')
   };
 
   return (
