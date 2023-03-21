@@ -1,13 +1,17 @@
 package MuDuck.MuDuck.auth.config;
 
+import MuDuck.MuDuck.auth.handler.MemberAccessDeniedHandler;
+import MuDuck.MuDuck.auth.handler.MemberAuthenticationEntryPoint;
 import MuDuck.MuDuck.auth.handler.MemberLogoutSuccessHandler;
 import MuDuck.MuDuck.auth.handler.OAuth2AuthenticationFailureHandler;
 import MuDuck.MuDuck.auth.handler.OAuth2AuthenticationSuccessHandler;
 import MuDuck.MuDuck.auth.jwt.JwtTokenizer;
 import MuDuck.MuDuck.auth.jwt.filter.JwtAuthenticationProcessingFilter;
+import MuDuck.MuDuck.auth.jwt.filter.JwtExceptionFilter;
 import MuDuck.MuDuck.auth.jwt.filter.JwtVerificationFilter;
 import MuDuck.MuDuck.auth.service.CustomOAuth2UserService;
 import MuDuck.MuDuck.auth.utils.CustomAuthorityUtils;
+import MuDuck.MuDuck.auth.utils.ExceptionResponse;
 import java.util.Arrays;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -35,6 +39,8 @@ public class SecurityConfiguration {
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils customAuthorityUtils;
 
+    private final ExceptionResponse exceptionResponse;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -52,6 +58,7 @@ public class SecurityConfiguration {
                 .and()
                 // 접근 권한 설정
                 .authorizeRequests(auth -> auth
+                        .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
                         .antMatchers(HttpMethod.PATCH, "/members/**", "/answers/**",
                                 "/questions/**").hasRole("USER")
                         .antMatchers(HttpMethod.POST, "/answers/**", "/questions/**")
@@ -62,6 +69,10 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.POST, "/auth/login/**").permitAll()
                         .anyRequest().permitAll()
                 )
+                .exceptionHandling()
+                .accessDeniedHandler(new MemberAccessDeniedHandler(exceptionResponse))
+                .authenticationEntryPoint(new MemberAuthenticationEntryPoint(exceptionResponse))
+                .and()
                 .oauth2Login()
                 .userInfoEndpoint()
                 .userService(customOAuth2UserService)
@@ -100,9 +111,10 @@ public class SecurityConfiguration {
         public void configure(HttpSecurity builder) throws Exception {
 //          // jwt 검증 필터 추가
             JwtVerificationFilter jwtVerificationFilter = new JwtVerificationFilter(jwtTokenizer, customAuthorityUtils);
-
+            JwtExceptionFilter jwtExceptionFilter = new JwtExceptionFilter(exceptionResponse);
             builder
-                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class);
+                    .addFilterAfter(jwtVerificationFilter, OAuth2LoginAuthenticationFilter.class)
+                    .addFilterBefore(jwtExceptionFilter, JwtVerificationFilter.class);
         }
     }
 }
