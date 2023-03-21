@@ -5,7 +5,7 @@ import { IoMdEye } from 'react-icons/io';
 import ProfileImg from './ProfileImage/ProfileImg';
 import MeatballsMenu from './MeatballsMenu';
 
-function PostInfo({
+function WriterInfo({
   profileUrl,
   nickname,
   createdAt,
@@ -45,7 +45,11 @@ function PostInfo({
           </PostInformation>
         </InformationWrapper>
       </InformationDetail>
-      {type === 'post' ? <MeatballsMenu /> : <DeleteButton>삭제</DeleteButton>}
+      {type === 'postWriter' ? (
+        <MeatballsMenu />
+      ) : (
+        <DeleteButton>삭제</DeleteButton>
+      )}
     </InformationContainer>
   );
 }
@@ -117,4 +121,4 @@ const DeleteButton = styled.button`
   }
 `;
 
-export default PostInfo;
+export default WriterInfo;

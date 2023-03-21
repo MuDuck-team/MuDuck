@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled, { css } from 'styled-components';
-import PostInfo from '../../components/PostInfo';
+import WriterInfo from '../../components/WriterInfo';
 import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
 
@@ -19,7 +19,7 @@ function CommentList({ comment }) {
 
   return (
     <CommentContainer>
-      <PostInfo
+      <WriterInfo
         profileUrl={head.userProfile}
         nickname={head.nickname}
         createdAt={head.createdAt}
@@ -42,7 +42,7 @@ function CommentList({ comment }) {
       {isShowReply &&
         comments.map(reply => (
           <ReplyContainer>
-            <PostInfo
+            <WriterInfo
               key={reply.id}
               profileUrl={reply.head.userProfile}
               nickname={reply.head.nickname}

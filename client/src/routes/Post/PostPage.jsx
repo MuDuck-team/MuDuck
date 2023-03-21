@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { IoMdListBox } from 'react-icons/io';
 import PostData from './PostData';
-import PostInfo from '../../components/PostInfo';
+import WriterInfo from '../../components/WriterInfo';
 import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
 import CommentList from './CommentList';
@@ -23,7 +23,7 @@ function PostPage() {
     <PostPageLayout>
       <Category>커뮤니티</Category>
       <ContentContainer>
-        <PostInfo
+        <WriterInfo
           profileUrl={head.userProfile}
           nickname={head.nickname}
           createdAt={head.createdAt}
@@ -31,7 +31,7 @@ function PostPage() {
           totalComment={head.totalComment}
           boardLike={head.boardLike}
           category={head.category}
-          type="post"
+          type="postWriter"
         />
         <PostTitle>{body.title}</PostTitle>
         <PostCotent>{body.content}</PostCotent>
