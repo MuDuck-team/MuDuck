@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import javax.servlet.ServletException;
@@ -21,17 +22,19 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
-    private final Gson gson;
     private final JwtCreateService jwtCreateService;
     private final MemberRepository memberRepository;
+
+    private final String REDIRECT_URL = "http://localhost:3000/oauth/redirect";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -54,6 +57,8 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
         String email = (String) attributes.get("email");
 
+        boolean firstStatus = checkFirstLogin(email);
+
         Member member = saveOrUpdate(oAuth2Attribute);
 
         String accessToken = jwtCreateService.delegateAccessToken(member);
@@ -68,16 +73,20 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
                 .build();
 
         // Header 설정
-        response.setHeader("accessToken", "Bearer " + accessToken);
+        //response.setHeader("accessToken", "Bearer " + accessToken);
         response.addHeader("Set-Cookie", cookie.toString());
 
-        // Body 설정
-        response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
-        String body = objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(member);
-        response.getWriter().write(body);
+        // queryParam 에 담을 MultiValue 설정
+        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
+        multiValueMap.add("signup", String.valueOf(firstStatus));
+        multiValueMap.add("accessToken", "Bearer "+accessToken);
+        log.info("accessToken : {}", "Bearer " + accessToken);
 
-        response.sendRedirect("http://localhost:3000");
+        String uri = UriComponentsBuilder.fromUriString(REDIRECT_URL)
+                .queryParams(multiValueMap)
+                .build().toUriString();
+
+        response.sendRedirect(uri);
     }
 
     private Member saveOrUpdate(OAuth2Attribute attributes) {
@@ -94,6 +103,13 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
                     .build();
             return memberRepository.save(newMember);
         }
+    }
+
+    private boolean checkFirstLogin(String email){
+
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        return member.isEmpty();
     }
 
 }

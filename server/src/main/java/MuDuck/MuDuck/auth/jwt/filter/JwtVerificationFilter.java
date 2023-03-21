@@ -33,8 +33,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             setAuthenticationToContext(claims);
         } catch (SignatureException se) {
             request.setAttribute("exception", se);
-            // 인증 시간이 지났을 경우
         } catch (ExpiredJwtException ee) {
+            // 인증 시간이 지났을 경우
             request.setAttribute("exception", ee);
         } catch (Exception e) {
             request.setAttribute("exception", e);
