@@ -25,6 +25,22 @@ function MyMapContainer({ placeData }) {
         <input type="text" value={inputText} onChange={onChange} size="15" />
         <button type="submit">검색하기</button>
       </StyledForm>
+      <CategoryContainer className="category">
+        <ul>
+          <li id="coffeeMenu">
+            <span className="ico_comm ico_coffee" />
+            커피숍
+          </li>
+          <li id="storeMenu">
+            <span className="ico_comm ico_store" />
+            편의점
+          </li>
+          <li id="carparkMenu">
+            <span className="ico_comm ico_carpark" />
+            주차장
+          </li>
+        </ul>
+      </CategoryContainer>
       <MyMap
         searchPlace={searchPlace}
         countRef={countRef}
@@ -57,6 +73,56 @@ const StyledForm = styled.form`
   button {
     width: 60px;
     font-size: 8px;
+  }
+`;
+
+const CategoryContainer = styled.section`
+  position: absolute;
+  z-index: 3;
+  top: 3px;
+  right: 3px;
+  display: flex;
+  width: 160px;
+  height: 50px;
+  justify-content: space-evenly;
+  overflow: hidden;
+  border: 1px solid black;
+  font-size: var(--font-size-xs);
+  background-color: var(--main-001);
+  border-radius: 8px;
+  text-align: center;
+
+  & .menu_selected {
+    background: #ff5f4a;
+    color: #fff;
+    border-left: 1px solid #915b2f;
+    border-right: 1px solid #915b2f;
+    margin: 0 -1px;
+  }
+  & li {
+    list-style: none;
+    float: left;
+    width: 50px;
+    height: 45px;
+    padding-top: 5px;
+    cursor: pointer;
+  }
+  & .ico_comm {
+    display: block;
+    margin: 0 auto 2px;
+    width: 22px;
+    height: 26px;
+    background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png')
+      no-repeat;
+  }
+  & .ico_coffee {
+    background-position: -10px 0;
+  }
+  & .ico_store {
+    background-position: -10px -36px;
+  }
+  & .ico_carpark {
+    background-position: -10px -72px;
   }
 `;
 

@@ -7,10 +7,20 @@ function MyMap({ searchPlace, countRef, placeData }) {
   useEffect(() => {
     const { latitube: defalutLat, longitude: defalutLng } = placeData.theater;
 
+    const theaterMarkerImageSrc =
+      'https://muduckbucket.s3.ap-northeast-2.amazonaws.com/profile/1b28969c-82f7-4f4a-ae1d-ae04178766d5';
+    const theaterMarkerImageSize = new kakao.maps.Size(64, 69);
+    const theaterMarkerOption = { offset: new kakao.maps.Point(27, 69) };
+    const theaterImage = new kakao.maps.MarkerImage(
+      theaterMarkerImageSrc,
+      theaterMarkerImageSize,
+      theaterMarkerOption,
+    );
     const theaterMarkerPosition = new kakao.maps.LatLng(defalutLat, defalutLng);
 
     const theaterMarker = new kakao.maps.Marker({
       position: theaterMarkerPosition,
+      image: theaterImage,
     });
 
     let markers = [];
@@ -250,7 +260,7 @@ function MyMap({ searchPlace, countRef, placeData }) {
 
     // 키워드로 장소를 검색합니다
     searchPlaces();
-  }, [searchPlace]);
+  }, [searchPlace, placeData]);
 
   return (
     <StyledMapWrapper className="map_wrap">
