@@ -88,12 +88,14 @@ const StyledForm = styled.form`
   align-items: center;
   justify-content: space-between;
   position: absolute;
-  top: 10px;
+  top: 0;
   left: 0;
   background-color: #313131;
-  border-radius: 0 0 2px 2px;
-  width: 245px;
-  padding: 5px 0;
+  border-radius: 10px 10px 0 0;
+  margin: 10px 0 30px 10px;
+  width: 250px;
+  height: 37px;
+  padding: 5px 3px;
   z-index: 3;
   font-size: 8px;
 

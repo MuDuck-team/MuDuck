@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import changeObjKeys from '../../utile/changeObjKeys';
+import {
+  changeMuDuckToKakaoObj,
+  changeKakaoToMuDuckObj,
+} from '../../utile/changeObjKeys';
 
 const { kakao } = window;
 
@@ -183,7 +186,7 @@ function MyMap({ searchPlace, countRef, placeData, category, onMarkerClick }) {
       const bounds = new kakao.maps.LatLngBounds();
       let places;
       if (isMarker) {
-        places = placesProp.map(obj => changeObjKeys(obj));
+        places = placesProp.map(obj => changeMuDuckToKakaoObj(obj));
       } else {
         places = placesProp;
       }
@@ -215,7 +218,7 @@ function MyMap({ searchPlace, countRef, placeData, category, onMarkerClick }) {
           });
 
           kakao.maps.event.addListener(marker, 'click', () => {
-            onMarkerClick(places[i]);
+            onMarkerClick(changeKakaoToMuDuckObj(places[i]));
           });
 
           itemEl.onmouseover = () => {
