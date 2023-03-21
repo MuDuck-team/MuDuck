@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useSetRecoilState from 'recoil';
-import customAxios from '../../api/customAxios';
+import { useSetRecoilState } from 'recoil';
 import userInfo from '../../recoil/userAtom';
+import customAxios from '../../api/customAxios';
 import Loading from '../../components/Loading';
 
 function OauthRedirectPage() {
@@ -10,10 +10,13 @@ function OauthRedirectPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const { searchParams } = new URL(window.location.href).searchParams;
-    const token = searchParams.get('token') || '';
-    const signup = searchParams.has('signup');
+    const params = new URLSearchParams(document.location.search);
+    const token = params.get('accessToken');
+    const signup = params.has('signup');
+
     setUser(initialUserState => ({ ...initialUserState, token }));
+    console.log(token);
+    console.log(signup);
 
     customAxios({
       method: 'get',
