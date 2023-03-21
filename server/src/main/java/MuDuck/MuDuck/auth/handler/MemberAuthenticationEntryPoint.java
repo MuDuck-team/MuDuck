@@ -8,30 +8,24 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
-// 인증은 성공했지만 리소스에 대한 권한이 없는 경우 호출
-@Slf4j
+// 인증에 실패했을 때 호출
 @Component
 @RequiredArgsConstructor
-public class MemberAccessDeniedHandler implements AccessDeniedHandler {
+public class MemberAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
     private final ExceptionResponse exceptionResponse;
-
     @Override
-    public void handle(HttpServletRequest request, HttpServletResponse response,
-            AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        //ErrorResponder.sendErrorResponse(response, HttpStatus.FORBIDDEN);
-        log.warn("Forbidden error happened: {}", accessDeniedException.getMessage());
-        log.info("권한이 없는 접근");
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException) throws IOException, ServletException {
 
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        Map<String, Object> body = exceptionResponse.createUnauthorizedErrorResponse(request, response, accessDeniedException);
+        Map<String, Object> body = exceptionResponse.createUnauthorizedErrorResponse(request, response, authException);
 
         final ObjectMapper mapper = new ObjectMapper();
         // response 객체에 응답 객체를 넣어줌
