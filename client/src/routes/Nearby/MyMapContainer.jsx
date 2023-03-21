@@ -17,16 +17,14 @@ function MyMapContainer({ placeData }) {
     e.preventDefault();
     setSearchPlace(inputText);
     setInputText('');
+    setCategory('');
     countRef.current += 1;
   };
 
   const onClick = e => {
     const target = e.target.closest('li');
-    setCategory(target.name);
-  };
-
-  const hello = () => {
-    console.log('hello');
+    setCategory(target.dataset.name);
+    console.log(category);
   };
 
   return (
@@ -72,7 +70,6 @@ function MyMapContainer({ placeData }) {
         countRef={countRef}
         placeData={placeData}
         category={category}
-        hello={hello}
       />
     </StyledMapContainer>
   );
