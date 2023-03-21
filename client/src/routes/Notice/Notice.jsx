@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoMdListBox } from 'react-icons/io';
-import PostInfo from '../../components/PostInfo';
+import WriterInfo from '../../components/WriterInfo';
 
 function NoticePage() {
   const profileUrl = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
@@ -18,11 +18,12 @@ function NoticePage() {
     <NoticePageLayout>
       <Category>공지사항</Category>
       <ContentContainer>
-        <PostInfo
+        <WriterInfo
           profileUrl={profileUrl}
           nickname={nickname}
           createdAt={notice.lastCreatedAt}
           viewCount={notice.view}
+          type="postWriter"
         />
         <NoticeTitle>{notice.title}</NoticeTitle>
         <NoticeCotent>{notice.body}</NoticeCotent>

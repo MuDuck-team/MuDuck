@@ -1,18 +1,19 @@
 import styled from 'styled-components';
 import { BsFillChatFill } from 'react-icons/bs';
-import { FiHeart } from 'react-icons/fi';
+import { AiOutlineHeart } from 'react-icons/ai';
 import { IoMdEye } from 'react-icons/io';
-import ProfileImg from './ProfileImg';
+import ProfileImg from './ProfileImage/ProfileImg';
 import MeatballsMenu from './MeatballsMenu';
 
-function PostInfo({
+function WriterInfo({
   profileUrl,
   nickname,
   createdAt,
   viewCount,
-  chatCount,
-  heartCount,
+  totalComment,
+  boardLike,
   category,
+  type,
 }) {
   return (
     <InformationContainer>
@@ -28,23 +29,27 @@ function PostInfo({
                 <InfoText>{viewCount}</InfoText>
               </InfoBox>
             )}
-            {chatCount && (
+            {totalComment && (
               <InfoBox>
                 <ChatIcon />
-                <InfoText>{chatCount}</InfoText>
+                <InfoText>{totalComment}</InfoText>
               </InfoBox>
             )}
-            {heartCount && (
+            {boardLike && (
               <InfoBox>
                 <HeartIcon />
-                <InfoText>{heartCount}</InfoText>
+                <InfoText>{boardLike}</InfoText>
               </InfoBox>
             )}
             {category && <InfoText>카테고리 | {category}</InfoText>}
           </PostInformation>
         </InformationWrapper>
       </InformationDetail>
-      <MeatballsMenu />
+      {type === 'postWriter' ? (
+        <MeatballsMenu />
+      ) : (
+        <DeleteButton>삭제</DeleteButton>
+      )}
     </InformationContainer>
   );
 }
@@ -99,10 +104,21 @@ const ChatIcon = styled(BsFillChatFill)`
   margin-right: 2px;
 `;
 
-const HeartIcon = styled(FiHeart)`
-  width: 12px;
-  height: 12px;
+const HeartIcon = styled(AiOutlineHeart)`
+  width: 14px;
+  height: 14px;
   margin-right: 2px;
 `;
 
-export default PostInfo;
+const DeleteButton = styled.button`
+  padding: 0;
+  border: none;
+  background: none;
+  font-size: var(--font-size-xs);
+  color: var(--font-color);
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+export default WriterInfo;
