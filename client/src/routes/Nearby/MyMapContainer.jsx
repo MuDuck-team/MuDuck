@@ -119,14 +119,14 @@ const CategoryContainer = styled.section`
   border-radius: 8px;
   text-align: center;
 
-  & .menu_selected {
+  .menu_selected {
     background: #ff5f4a;
     color: #fff;
     border-left: 1px solid #915b2f;
     border-right: 1px solid #915b2f;
     margin: 0 -1px;
   }
-  & li {
+  li {
     list-style: none;
     float: left;
     width: 50px;
@@ -134,7 +134,7 @@ const CategoryContainer = styled.section`
     padding-top: 5px;
     cursor: pointer;
   }
-  & .ico_comm {
+  .ico_comm {
     display: block;
     margin: 0 auto 2px;
     width: 22px;
@@ -142,13 +142,13 @@ const CategoryContainer = styled.section`
     background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/category.png')
       no-repeat;
   }
-  & .ico_coffee {
+  .ico_coffee {
     background-position: -10px 0;
   }
-  & .ico_store {
+  .ico_store {
     background-position: -10px -36px;
   }
-  & .ico_carpark {
+  .ico_carpark {
     background-position: -10px -72px;
   }
 `;

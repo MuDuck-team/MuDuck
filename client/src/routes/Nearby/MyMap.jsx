@@ -333,12 +333,6 @@ const StyledMap = styled.div`
 `;
 
 const StyledMapWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-
   .speech-bubble {
     background-color: var(--main-001);
     padding: 20px;
@@ -369,99 +363,90 @@ const StyledMapWrapper = styled.div`
     }
   }
 
-  &,
-  & * {
-    margin: 0;
-    padding: 0;
-    font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
-    font-size: 12px;
-  }
-  & a,
-  & a:hover,
-  & a:active {
+  a,
+  a:hover,
+  a:active {
     color: #000;
     text-decoration: none;
   }
-  & {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    color: #000;
-  }
+
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: #000;
 `;
 
 const StyledMenu = styled.div`
-  & {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 250px;
-    margin: 10px 0 30px 10px;
-    padding: 5px;
-    overflow-y: auto;
-    background: rgba(255, 255, 255, 0.7);
-    z-index: 1;
-    font-size: 12px;
-    border-radius: 10px;
-  }
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 250px;
+  margin: 10px 0 30px 10px;
+  padding: 5px;
+  overflow-y: auto;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+  font-size: 12px;
+  border-radius: 10px;
+
   .bg_white {
     background: #fff;
   }
-  & hr {
+  hr {
     display: block;
     height: 1px;
     border: 0;
     border-top: 2px solid #5f5f5f;
     margin: 35px 0 3px;
   }
-  & .option {
+  .option {
     text-align: center;
   }
-  & .option p {
+  .option p {
     margin: 10px 0;
   }
-  & .option button {
+  .option button {
     margin-left: 5px;
   }
 `;
 
 const StyledUl = styled.ul`
-  & li {
+  li {
     list-style: none;
   }
-  & .item {
+  .item {
     position: relative;
     border-bottom: 1px solid #888;
     overflow: hidden;
     cursor: pointer;
     min-height: 65px;
   }
-  & .item span {
+  .item span {
     display: block;
     margin-top: 4px;
   }
-  & .item h5,
-  & .item .info {
+  .item h5,
+  .item .info {
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
-  & .item .info {
+  .item .info {
     padding: 10px 0 10px 55px;
   }
-  & .info .gray {
+  .info .gray {
     color: #8a8a8a;
   }
-  & .info .jibun {
+  .info .jibun {
     padding-left: 26px;
     background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/places_jibun.png)
       no-repeat;
   }
-  & .info .tel {
+  .info .tel {
     color: #009900;
   }
-  & .item .markerbg {
+  .item .markerbg {
     float: left;
     position: absolute;
     width: 36px;
@@ -470,63 +455,62 @@ const StyledUl = styled.ul`
     background: url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/marker_number_blue.png)
       no-repeat;
   }
-  & .item .marker_1 {
+  .item .marker_1 {
     background-position: 0 -10px;
   }
-  & .item .marker_2 {
+  .item .marker_2 {
     background-position: 0 -56px;
   }
-  & .item .marker_3 {
+  .item .marker_3 {
     background-position: 0 -102px;
   }
-  & .item .marker_4 {
+  .item .marker_4 {
     background-position: 0 -148px;
   }
-  & .item .marker_5 {
+  .item .marker_5 {
     background-position: 0 -194px;
   }
-  & .item .marker_6 {
+  .item .marker_6 {
     background-position: 0 -240px;
   }
-  & .item .marker_7 {
+  .item .marker_7 {
     background-position: 0 -286px;
   }
-  & .item .marker_8 {
+  .item .marker_8 {
     background-position: 0 -332px;
   }
-  & .item .marker_9 {
+  .item .marker_9 {
     background-position: 0 -378px;
   }
-  & .item .marker_10 {
+  .item .marker_10 {
     background-position: 0 -423px;
   }
-  & .item .marker_11 {
+  .item .marker_11 {
     background-position: 0 -470px;
   }
-  & .item .marker_12 {
+  .item .marker_12 {
     background-position: 0 -516px;
   }
-  & .item .marker_13 {
+  .item .marker_13 {
     background-position: 0 -562px;
   }
-  & .item .marker_14 {
+  .item .marker_14 {
     background-position: 0 -608px;
   }
-  & .item .marker_15 {
+  .item .marker_15 {
     background-position: 0 -654px;
   }
 `;
 
 const StyledPagenation = styled.div`
-  & {
-    margin: 10px auto;
-    text-align: center;
-  }
-  & a {
+  margin: 10px auto;
+  text-align: center;
+
+  a {
     display: inline-block;
     margin-right: 10px;
   }
-  & .on {
+  .on {
     font-weight: bold;
     cursor: default;
     color: #777;
