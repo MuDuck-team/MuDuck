@@ -1,12 +1,11 @@
 package MuDuck.MuDuck.auth.config;
 
 import MuDuck.MuDuck.auth.handler.MemberAccessDeniedHandler;
-import MuDuck.MuDuck.auth.handler.MemberAuthenticationEntryPoint;
+import MuDuck.MuDuck.auth.jwt.entrypoint.MemberAuthenticationEntryPoint;
 import MuDuck.MuDuck.auth.handler.MemberLogoutSuccessHandler;
 import MuDuck.MuDuck.auth.handler.OAuth2AuthenticationFailureHandler;
 import MuDuck.MuDuck.auth.handler.OAuth2AuthenticationSuccessHandler;
 import MuDuck.MuDuck.auth.jwt.JwtTokenizer;
-import MuDuck.MuDuck.auth.jwt.filter.JwtAuthenticationProcessingFilter;
 import MuDuck.MuDuck.auth.jwt.filter.JwtExceptionFilter;
 import MuDuck.MuDuck.auth.jwt.filter.JwtVerificationFilter;
 import MuDuck.MuDuck.auth.service.CustomOAuth2UserService;
@@ -18,7 +17,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
