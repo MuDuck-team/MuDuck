@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { BsFillChatFill } from 'react-icons/bs';
 import { FiHeart } from 'react-icons/fi';
 import { IoMdEye } from 'react-icons/io';
-import ProfileImg from './ProfileImg';
+import ProfileImg from './ProfileImage/ProfileImg';
 import MeatballsMenu from './MeatballsMenu';
 
 function PostInfo({
