@@ -22,7 +22,7 @@ function ImageCard({ id, size, src, alt, title, actor, ...props }) {
 const sizes = {
   medium: css`
     --web-width: 18.4%;
-    --mobile-width: 30.6%;
+    --mobile-width: 48%;
     --title-size: var(--font-size-md);
     --actor-size: var(--font-size-xs);
   `,
