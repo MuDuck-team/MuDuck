@@ -6,21 +6,28 @@ import MuDuck.MuDuck.board.service.BoardService;
 import MuDuck.MuDuck.category.entity.Category;
 import MuDuck.MuDuck.category.mapper.CategoryMapper;
 import MuDuck.MuDuck.category.service.CategoryService;
+import MuDuck.MuDuck.comment.entity.Comment;
+import MuDuck.MuDuck.comment.mapper.CommentMapper;
+import MuDuck.MuDuck.comment.service.CommentService;
+import MuDuck.MuDuck.member.entity.Member;
+import MuDuck.MuDuck.member.service.MemberService;
 import MuDuck.MuDuck.noticeboard.entity.NoticeBoard;
 import MuDuck.MuDuck.noticeboard.mapper.NoticeBoardMapper;
 import MuDuck.MuDuck.noticeboard.service.NoticeBoardService;
+import MuDuck.MuDuck.response.BoardContentMultipleResponse;
 import MuDuck.MuDuck.response.BoardMultipleResponse;
 import MuDuck.MuDuck.response.CategoryMultipleResponse;
+import java.security.Principal;
 import java.util.List;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,24 +48,10 @@ public class BoardController {
     private final CategoryService categoryService;
     private final CategoryMapper categoryMapper;
 
-//    @GetMapping
-//    public ResponseEntity getBoards() {
-//        return getBoards(1);
-//    }
-//
-//    @GetMapping(params = "page")
-//    public ResponseEntity getBoards(@Positive @RequestParam int page) {
-//        Page<Board> pageBoards = boardService.findBoards(page - 1, SIZE);
-//        List<Board> boards = pageBoards.getContent();
-//        List<NoticeBoard> noticeBoards = noticeBoardService.getTopNoticeBoard();
-//        List<Category> categories = categoryService.findCategories();
-//
-//        return new ResponseEntity<>(new BoardMultipleResponse(
-//                noticeBoardMapper.noticeBoardsToNoticeBoardResponseDtos(noticeBoards),
-//                boardMapper.boardsToBoardResponseDtos(boards), pageBoards,
-//                categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
-//
-//    }
+    private final MemberService memberService;
+
+    private final CommentService commentService;
+    private final CommentMapper commentMapper;
 
     @GetMapping
     public ResponseEntity getBoards(
@@ -77,6 +70,30 @@ public class BoardController {
                 boardMapper.boardsToBoardResponseDtos(boards), pageBoards,
                 categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
 
+    }
+
+    @GetMapping("/{board-id}")
+    public ResponseEntity getBoardContent(@Positive @PathVariable("board-id") long boardId,
+            Principal principal) {
+        Board board = boardService.findBoard(boardId);
+        Member boardWriter = board.getMember();
+        String category = boardService.findCategory(board);
+
+        // principal.getName은 유저의 이메일을 반환, 비로그인인 경우는 principal이 null로 반환됨
+        boolean isLiked;
+        if (principal == null) { // 비회원인 경우
+            isLiked = false;
+        } else { // 회원인 경우
+            String email = principal.getName();
+            Member member = memberService.findByEmail(email);
+            isLiked = boardService.isLiked(member);
+        }
+
+        List<Comment> onlyComment = commentService.getCommentWithoutReply(board.getComments());
+
+        return new ResponseEntity<>(new BoardContentMultipleResponse(
+                boardMapper.multiInfoToBoardContentResponse(boardWriter, board, category, isLiked),
+                commentMapper.commentsToCommentResponseDtos(onlyComment)), HttpStatus.OK);
     }
 
     @GetMapping("/writing")

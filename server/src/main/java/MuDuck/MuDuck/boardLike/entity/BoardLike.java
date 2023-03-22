@@ -1,4 +1,4 @@
-package MuDuck.MuDuck.board.joinTable;
+package MuDuck.MuDuck.boardLike.entity;
 
 import MuDuck.MuDuck.audit.Auditable;
 import MuDuck.MuDuck.board.entity.Board;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class BoardLike extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardLikesId;
+    private long boardLikesId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "BOARD_ID")
