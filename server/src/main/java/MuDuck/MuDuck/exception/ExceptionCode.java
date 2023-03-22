@@ -8,7 +8,13 @@ public enum ExceptionCode {
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_MEMBER_STATUS(400, "Invalid member status"),
     THEATER_NOT_FOUND(404, "Theater not found"),
-    THEATER_EXISTS(409, "Theater exists");
+    THEATER_EXISTS(409, "Theater exists"),
+    MUSICAL_NOT_FOUND(404,"Musical not found"),
+    MUSICAL_EXISTS(409, "Musical exists"),
+    INVALID_MUSICAL_STATE(400, "Invalid musical state"),
+    ACTOR_NOT_FOUND(404,"Musical not found"),
+    ACTOR_EXISTS(409, "Musical exists"),
+    INVALID_ACTOR_STATE(400, "Invalid musical state");
 
     @Getter
     private int status;
