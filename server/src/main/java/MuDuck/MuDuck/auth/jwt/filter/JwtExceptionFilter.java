@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-@Component
+
 @RequiredArgsConstructor
 public class JwtExceptionFilter extends OncePerRequestFilter {
 
@@ -32,12 +32,11 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     private void setErrorResponse(HttpServletRequest request, HttpServletResponse response, JwtException ex)
             throws IOException {
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
         Map<String, Object> body = exceptionResponse.createUnauthorizedErrorResponse(request, response, ex);
-
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), body);
-        response.setStatus(HttpServletResponse.SC_OK);
+        String content = mapper.writeValueAsString(body);
+        response.getWriter().write(content);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }

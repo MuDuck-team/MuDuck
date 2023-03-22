@@ -2,6 +2,8 @@ package MuDuck.MuDuck.auth.handler;
 
 import MuDuck.MuDuck.auth.attribute.OAuth2Attribute;
 import MuDuck.MuDuck.auth.jwt.service.JwtCreateService;
+import MuDuck.MuDuck.exception.BusinessLogicException;
+import MuDuck.MuDuck.exception.ExceptionCode;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -34,7 +36,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
     private final JwtCreateService jwtCreateService;
     private final MemberRepository memberRepository;
 
-    private final String REDIRECT_URL = "http://localhost:3000/oauth/redirect";
+    private final String REDIRECT_URL = "http://localhost:8080/oauth/redirect";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -55,7 +57,9 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
         log.info("안에 있는 정보들 : {}", attributes);
 
-        String email = (String) attributes.get("email");
+        String email = oAuth2Attribute.getUseremail();
+
+        log.info("이메일 정보 : {} ", email);
 
         boolean firstStatus = checkFirstLogin(email);
 
@@ -63,6 +67,8 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
         String accessToken = jwtCreateService.delegateAccessToken(member);
         String refreshToken = jwtCreateService.delegateRefreshToken(member);
+
+        addRefreshToken(email, refreshToken);
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
                 .maxAge(7 * 24 * 60 * 60)
@@ -81,6 +87,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         multiValueMap.add("signup", String.valueOf(firstStatus));
         multiValueMap.add("accessToken", "Bearer "+accessToken);
         log.info("accessToken : {}", "Bearer " + accessToken);
+        log.info("refreshToken : {}", refreshToken);
 
         String uri = UriComponentsBuilder.fromUriString(REDIRECT_URL)
                 .queryParams(multiValueMap)
@@ -110,6 +117,18 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
         Optional<Member> member = memberRepository.findByEmail(email);
 
         return member.isEmpty();
+    }
+
+    private void addRefreshToken(String email, String refreshToken){
+
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        Member newMember = member.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        newMember.setRefreshToken(refreshToken);
+
+        memberRepository.save(newMember);
     }
 
 }
