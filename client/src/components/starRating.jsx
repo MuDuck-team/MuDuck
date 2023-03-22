@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function StarRating({ defaultValue = 0, readonly = false, onClick }) {
+function StarRating({ defaultValue = 0, readonly = false, onClick, size }) {
   const [rating, setRating] = useState(Math.round(defaultValue));
   const [hover, setHover] = useState(0);
   return (
-    <Wrapper className="star-rating">
+    <Wrapper className="star-rating" size={size}>
       {[...Array(5)].map((star, i) => {
         let index = i;
         index += 1;
@@ -46,7 +46,7 @@ const Button = styled.button`
 const Wrapper = styled.section`
   span {
     display: inline-block;
-    font-size: 30px;
+    font-size: ${props => props.size || '--font-size-md'};
   }
   .on {
     color: #ffd300;
