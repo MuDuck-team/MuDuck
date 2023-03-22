@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function StarRating() {
+function StarRating({ readonly = false }) {
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   return (
@@ -14,9 +14,18 @@ function StarRating() {
             type="button"
             key={index}
             className={index <= (hover || rating) ? 'on' : 'off'}
-            onClick={() => setRating(index)}
-            onMouseEnter={() => setHover(index)}
-            onMouseLeave={() => setHover(rating)}
+            onClick={() => {
+              if (readonly) return;
+              setRating(index);
+            }}
+            onMouseEnter={() => {
+              if (readonly) return;
+              setHover(index);
+            }}
+            onMouseLeave={() => {
+              if (readonly) return;
+              setHover(rating);
+            }}
           >
             <span className="star">&#9733;</span>
           </Button>
