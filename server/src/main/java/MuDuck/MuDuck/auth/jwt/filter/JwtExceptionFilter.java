@@ -13,7 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
-@Component
+
 @RequiredArgsConstructor
 public class JwtExceptionFilter extends OncePerRequestFilter {
 

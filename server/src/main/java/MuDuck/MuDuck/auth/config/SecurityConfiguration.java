@@ -36,7 +36,6 @@ public class SecurityConfiguration {
     private final MemberLogoutSuccessHandler memberLogoutSuccessHandler;
     private final JwtTokenizer jwtTokenizer;
     private final CustomAuthorityUtils customAuthorityUtils;
-
     private final ExceptionResponse exceptionResponse;
 
     @Bean

@@ -1,13 +1,13 @@
 
 --Member 테이블의 Stub 데이터를 생성
-INSERT INTO MEMBER (created_at, last_modified_at, email, member_role, member_status, nick_name, picture)
-VALUES (NOW(), NOW(), 'wth0086@kakao.com', 'USER', 'MEMBER_ACTIVE', 'VIP좌석은전동석', 'http://k.kakaocdn.net/dn/bBVgYE/btqBEDuAYhw/kHtB5rTFXn2ZUubKUXxPFK/img_640x640.jpg');
+INSERT INTO MEMBER (created_at, last_modified_at, email, member_role, member_status, nick_name, picture, refresh_token)
+VALUES (NOW(), NOW(), 'wth0086@kakao.com', 'USER', 'MEMBER_ACTIVE', 'VIP좌석은전동석', 'http://k.kakaocdn.net/dn/bBVgYE/btqBEDuAYhw/kHtB5rTFXn2ZUubKUXxPFK/img_640x640.jpg', '1234');
 
-INSERT INTO MEMBER (created_at, last_modified_at, email, member_role, member_status, nick_name, picture)
-VALUES (NOW(), NOW(), 'GodKwanwoo@kakao.com', 'USER', 'MEMBER_ACTIVE', '쥴리어스11세', 'http://k.kakaocdn.net/dn/uGDxN/btrNu67LG5T/tlsvzNzHBY0Ly9kbJ3IYOk/img_640x640.jpg');
+INSERT INTO MEMBER (created_at, last_modified_at, email, member_role, member_status, nick_name, picture, refresh_token)
+VALUES (NOW(), NOW(), 'GodKwanwoo@kakao.com', 'USER', 'MEMBER_ACTIVE', '쥴리어스11세', 'http://k.kakaocdn.net/dn/uGDxN/btrNu67LG5T/tlsvzNzHBY0Ly9kbJ3IYOk/img_640x640.jpg', '1234');
 
-INSERT INTO MEMBER (created_at, last_modified_at, email, member_role, member_status, nick_name, picture)
-VALUES (NOW(), NOW(), 'Clerk6@kakao.com', 'USER', 'MEMBER_ACTIVE', '로또아빠', 'http://k.kakaocdn.net/dn/b4u0oh/btr0BDZkfjs/mA86GXvrlkuzv37iF9ud71/img_640x640.jpg');
+INSERT INTO MEMBER (created_at, last_modified_at, email, member_role, member_status, nick_name, picture, refresh_token)
+VALUES (NOW(), NOW(), 'Clerk6@kakao.com', 'USER', 'MEMBER_ACTIVE', '로또아빠', 'http://k.kakaocdn.net/dn/b4u0oh/btr0BDZkfjs/mA86GXvrlkuzv37iF9ud71/img_640x640.jpg', '1234');
 
 -- Board 테이블 생성 코드
 --Member가 생성되고 Board가 생성되어야합니다.

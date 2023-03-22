@@ -62,6 +62,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
                 jwtTokenizer.getSecretKey());
         Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
 
+        log.info("claims : {}", claims);
+
         return claims;
     }
 
