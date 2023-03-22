@@ -2,7 +2,7 @@ package MuDuck.MuDuck.board.entity;
 
 import MuDuck.MuDuck.audit.Auditable;
 import MuDuck.MuDuck.board.joinTable.BoardLike;
-import MuDuck.MuDuck.category.joinTable.BoardCategory;
+import MuDuck.MuDuck.boardCategory.entity.BoardCategory;
 import MuDuck.MuDuck.comment.entity.Comment;
 import MuDuck.MuDuck.member.entity.Member;
 import java.util.ArrayList;
@@ -41,8 +41,8 @@ public class Board extends Auditable {
     @Column(nullable = false)
     private int views = 0;
 
-    @Column(nullable = false, name = "likes")
-    private int like = 0;
+    @Column(nullable = false)
+    private int likes = 0;
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 30)

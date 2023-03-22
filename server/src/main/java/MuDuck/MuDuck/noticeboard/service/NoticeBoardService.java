@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class NoticeBoardService {
-    private final static int TOP_NUM = 2; // 게시판 목록 상위에 표시할 숫자를 의미한다.
-
     private final NoticeBoardRepository noticeBoardRepository;
     private final CustomBeanUtils<NoticeBoard> beanUtils;
 
@@ -20,6 +18,6 @@ public class NoticeBoardService {
     }
 
     public List<NoticeBoard> getTopNoticeBoard(){
-        return noticeBoardRepository.findTopNoticeBoardBy(TOP_NUM);
+        return noticeBoardRepository.findTop2ByOrderByCreatedAtDesc();
     }
 }
