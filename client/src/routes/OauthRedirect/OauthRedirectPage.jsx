@@ -1,12 +1,14 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import userInfo from '../../recoil/userAtom';
+import { userInfo, userState, adminState } from '../../recoil/userAtom';
 import customAxios from '../../api/customAxios';
 import Loading from '../../components/Loading';
 
 function OauthRedirectPage() {
   const setUser = useSetRecoilState(userInfo);
+  const setUserStatus = useSetRecoilState(userState);
+  const setAdminStatus = useSetRecoilState(adminState);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +33,13 @@ function OauthRedirectPage() {
         Authorization: token,
       },
     }).then(res => {
-      setUser(initialUserState => ({ ...initialUserState, ...res.data }));
+      if (res.data.role === 'admin') {
+        setAdminStatus(!adminState);
+        setUser(initialUserState => ({ ...initialUserState, ...res.data }));
+      } else {
+        setUserStatus(!userState);
+        setUser(initialUserState => ({ ...initialUserState, ...res.data }));
+      }
     });
 
     if (signup) {

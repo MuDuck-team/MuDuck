@@ -5,9 +5,7 @@ import kakaoStart from '../assets/kakaoStart.png';
 
 function KakaoLoginBtn({ isTypeLogin }) {
   const handleKaKaoLogin = () => {
-    window.location.href = `${process.env.REACT_APP_SERVER_URL}/oauth2/authorization/{kakao-id}?redirect_url="http://localhost:3000/oauth/redirect`;
-    //  서버에 주소로 kakao oauth 로그인 요청을 보내는 창을 띄울 것인지?
-    //  window.location.href = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${REST_API_KEY}&redirect_uri=${REDIRECT_URI}`;
+    window.location.href = `${process.env.REACT_APP_SERVER_URL}oauth2/authorization/kakao/redirect_url="http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com/oauth/redirect"`;
   };
 
   return isTypeLogin ? (

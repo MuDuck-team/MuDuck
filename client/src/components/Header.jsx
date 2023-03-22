@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
-import userInfo from '../recoil/userAtom';
+import { userInfo } from '../recoil/userAtom';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import ProfileImg from './ProfileImage/ProfileImg';
 import Button from './Button';
@@ -22,7 +22,7 @@ function Header() {
   const LogoutHandler = () => {
     setUser(null);
     localStorage.removeItem('localToken');
-    //customAxios.patch('logout')
+    //  customAxios.patch('logout')
   };
 
   return (

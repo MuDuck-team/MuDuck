@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useSetRecoilState } from 'recoil';
-import userAtom from '../recoil/userAtom';
+import { userInfo } from '../recoil/userAtom';
 
 const token = localStorage.getItem('localToken')
   ? JSON.parse(localStorage.getItem('localToken'))
@@ -8,7 +8,7 @@ const token = localStorage.getItem('localToken')
 
 // !커스텀 악시오스 생성
 const customAxios = axios.create({
-  baseURL: '서버주소',
+  baseURL: `${process.env.REACT_APP_SERVER_URL}`,
   headers: {
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
@@ -29,7 +29,7 @@ customAxios.interceptors.response.use(
     return res;
   },
   async error => {
-    const setUser = useSetRecoilState(userAtom);
+    const setUser = useSetRecoilState(userInfo);
 
     // response에서 error가 발생했을 경우 catch로 넘어가기 전에 처리
     try {
