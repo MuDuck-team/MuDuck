@@ -59,6 +59,7 @@ function MyinfoPage() {
         headers: {
           Authorization: localToken,
         },
+        data: { ...updatedUserData },
       })
         .then(res => {
           const result = res.data;
@@ -82,6 +83,7 @@ function MyinfoPage() {
         headers: {
           Authorization: localToken,
         },
+        data: { ...updatedUserData },
       })
         .then(res => {
           const result = res.data;
