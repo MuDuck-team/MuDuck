@@ -28,6 +28,14 @@ function MyMapContainer({ placeData, onMarkerClick }) {
     countRef.current = 0;
   };
 
+  const getIndex = () => {
+    const categoryArr = ['restaurants', 'cafes', 'parkings'];
+    return categoryArr.findIndex(ele => category === ele) + 1;
+  };
+
+  // const nth = getIndex();
+  // console.log(nth);
+
   return (
     <StyledMapContainer>
       <StyledForm onSubmit={handleSubmit}>
@@ -35,7 +43,7 @@ function MyMapContainer({ placeData, onMarkerClick }) {
         <input type="text" value={inputText} onChange={onChange} size="15" />
         <button type="submit">검색하기</button>
       </StyledForm>
-      <CategoryContainer className="category">
+      <CategoryContainer getIndex={getIndex} className="category">
         <ul>
           <li role="presentation" data-name="restaurants" onClick={onClick}>
             <span className="ico_comm ico_coffee" />
@@ -110,9 +118,8 @@ const CategoryContainer = styled.section`
   height: 50px;
   justify-content: space-evenly;
   overflow: hidden;
-  border: 1px solid black;
   font-size: var(--font-size-xs);
-  background-color: white;
+  background-color: #3e3e3e;
   border-radius: 8px;
   text-align: center;
 
@@ -124,14 +131,27 @@ const CategoryContainer = styled.section`
     margin: 0 -1px;
   }
 
+  ul {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+  }
+
   li {
     list-style: none;
-    float: left;
-    width: 50px;
+    width: 52px;
     height: 100%;
     padding-top: 5px;
     cursor: pointer;
     background-color: var(--main-001);
+  }
+
+  li:nth-child(${({ getIndex }) => getIndex()}) {
+    background-color: var(--error-color);
+  }
+
+  li:hover {
+    opacity: 0.75;
   }
 
   .ico_comm {
