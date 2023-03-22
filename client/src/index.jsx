@@ -12,7 +12,7 @@ import PlaysPage from './routes/Plays/PlaysPage';
 import PlayPage from './routes/Play/PlayPage';
 import NearbyPage from './routes/Nearby/NearbyPage';
 import PostsPage, { loader as postsPageLoader } from './routes/Posts/PostsPage';
-import PostPage from './routes/Post/PostPage';
+import PostPage, { loader as postPageLoader } from './routes/Post/PostPage';
 import PostAddPage, {
   loader as postAddPageLoader,
 } from './routes/PostAdd/PostAddPage';
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
           { path: '/play/:id', element: <PlayPage /> },
           { path: '/nearby', element: <NearbyPage /> },
           { path: '/posts', element: <PostsPage />, loader: postsPageLoader },
-          { path: '/post/:id', element: <PostPage /> },
+          { path: '/post/:id', element: <PostPage />, loader: postPageLoader },
           {
             path: '/post/add',
             element: <PostAddPage />,
