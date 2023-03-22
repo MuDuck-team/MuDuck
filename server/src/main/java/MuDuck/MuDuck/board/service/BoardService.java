@@ -49,6 +49,11 @@ public class BoardService {
     private final BoardLikeRepository boardLikeRepository;
     private final CustomBeanUtils<Board> beanUtils;
 
+    public Board createBoard(Board board){
+        Board createdBoard = boardRepository.save(board);
+        return createdBoard;
+    }
+
     public Page<Board> findBoards(int page, String sortBy, String categoryName){
         if (categoryName.equals("전체")){
             return boardRepository.findWithoutDeleteBoard(PageRequest.of(page, SIZE, Sort.by(sortByDictWhenAll.get(sortBy)).descending()));

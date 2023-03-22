@@ -8,12 +8,34 @@ import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.utils.Chrono;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface BoardMapper {
+
+    default Board boardPostToBoard(BoardDto.Post requestBody, Member member){
+        Board board = Board.builder()
+                .title(requestBody.getTitle())
+                .content(requestBody.getContent())
+                .member(member)
+                .build();
+
+        return board;
+    }
+
+    // id 리스트에 다 null로 담겨 오는 경우 때문에 체크해서 Exception 날려주는 상황이 필요하다.
+    default List<Long> boardPostToCategoryIds(BoardDto.Post requestBody){
+        List<Long> categoryIds = new ArrayList<>();
+        for(Long id : requestBody.getId()){
+            if(id != null){
+                categoryIds.add(id);
+            }
+        }
+        return categoryIds;
+    }
 
     default BoardDto.Response boardToBoardResponseDto(Board board) {
         Member member = board.getMember();

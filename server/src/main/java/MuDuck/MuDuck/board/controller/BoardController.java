@@ -1,8 +1,11 @@
 package MuDuck.MuDuck.board.controller;
 
+import MuDuck.MuDuck.board.dto.BoardDto;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.board.service.BoardService;
+import MuDuck.MuDuck.boardCategory.entity.BoardCategory;
+import MuDuck.MuDuck.boardCategory.service.BoardCategoryService;
 import MuDuck.MuDuck.category.entity.Category;
 import MuDuck.MuDuck.category.mapper.CategoryMapper;
 import MuDuck.MuDuck.category.service.CategoryService;
@@ -28,6 +31,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -52,6 +57,24 @@ public class BoardController {
 
     private final CommentService commentService;
     private final CommentMapper commentMapper;
+
+    private final BoardCategoryService boardCategoryService;
+
+    @PostMapping("/writing")
+    public ResponseEntity postBoard(@Validated @RequestBody BoardDto.Post requestBody, Principal principal){
+        // 로그인 되어 있는 유저 이메일 받아오기.
+        // 글 작성은 반드시 로그인 상태여야하므로 null인 상황은 고려하지 않는다. (SecurityConfiguration에서 걸러줄 예정)
+        String email = principal.getName();
+        Member member = memberService.findByEmail(email); // 글 작성자
+
+        Board board = boardMapper.boardPostToBoard(requestBody, member);
+        Board createdBoard = boardService.createBoard(board);
+
+        List<Long> categoryIds = boardMapper.boardPostToCategoryIds(requestBody);
+//        List<BoardCategory> boardCategories = boardCategoryService.getBoardCategories(categoryIds, createdBoard);
+
+        return  null;
+    }
 
     @GetMapping
     public ResponseEntity getBoards(

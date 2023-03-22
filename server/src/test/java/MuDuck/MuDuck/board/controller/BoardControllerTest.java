@@ -21,6 +21,7 @@ import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.entity.Board.BoardStatus;
 import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.board.service.BoardService;
+import MuDuck.MuDuck.boardCategory.service.BoardCategoryService;
 import MuDuck.MuDuck.category.dto.CategoryDto;
 import MuDuck.MuDuck.category.entity.Category;
 import MuDuck.MuDuck.category.mapper.CategoryMapper;
@@ -101,6 +102,9 @@ class BoardControllerTest {
     @MockBean
     private CommentService commentService;
 
+    @MockBean
+    private BoardCategoryService boardCategoryService;
+
     @Autowired
     private Gson gson;
 
@@ -109,9 +113,9 @@ class BoardControllerTest {
     public void getBoards() throws Exception {
         // given
         Member member1 = new Member(1L, "wth0086@gmail.com", "사진주소1", "닉네임1", MemberRole.USER,
-                MemberStatus.MEMBER_ACTIVE, null, null, null);
+                MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
         Member member2 = new Member(2L, "wth0086@naver.com", "사진주소2", "닉네임2", MemberRole.USER,
-                MemberStatus.MEMBER_ACTIVE, null, null, null);
+                MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
 
         NoticeBoard noticeBoard = NoticeBoard.builder().noticeBoardId(1L).title("공지글 제목입니다")
                 .body("공지글 내용입니다").build();
@@ -312,7 +316,7 @@ class BoardControllerTest {
     public void getBoardContentTest() throws Exception {
         // given
         Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
-                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null);
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
         Board board = new Board(1, "제목입니다", "title", 982, 60, BoardStatus.BOARD_POST, null, null,
                 member, null);
 
