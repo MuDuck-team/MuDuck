@@ -1,13 +1,15 @@
-= Theaters API 문서
+= MuDuck API 문서
 :sectnums:
 :toc: left
 :toclevels: 4
 :toc-title: Table of Contents
 :source-highlighter: prettify
 
-kim kwan woo <kkte03@gmail.com>
+김관우 <kkte03@gmail.com>
+우태희 <wth0086@gmail.com>
+육경득 <wowykd@gmail.com>
 
-v1.0.0, 2023.03.17
+v1.0.8, 2023.03.22
 
 ***
 == TheaterController
@@ -59,8 +61,27 @@ include::{snippets}/get-category/response-fields.adoc[]
 .http-request
 include::{snippets}/get-individual-board/http-request.adoc[]
 
+.path-parameters
+include::{snippets}/get-individual-board/path-parameters.adoc[]
+
 .http-response
 include::{snippets}/get-individual-board/http-response.adoc[]
 
 .response-fields
 include::{snippets}/get-individual-board/response-fields.adoc[]
+
+=== 게시글 등록
+.http-request
+include::{snippets}/board-post/http-request.adoc[]
+
+.request-body
+include::{snippets}/board-post/request-body.adoc[]
+
+.request-fields
+include::{snippets}/board-post/request-fields.adoc[]
+
+.http-response
+include::{snippets}/board-post/http-response.adoc[]
+
+.response-fields
+include::{snippets}/board-post/response-fields.adoc[]

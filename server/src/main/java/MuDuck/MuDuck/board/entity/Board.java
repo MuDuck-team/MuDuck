@@ -7,6 +7,7 @@ import MuDuck.MuDuck.comment.entity.Comment;
 import MuDuck.MuDuck.member.entity.Member;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -50,19 +51,23 @@ public class Board extends Auditable {
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 30)
+    @Builder.Default
     private BoardStatus boardStatus = BoardStatus.BOARD_POST;
 
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<BoardLike> boardLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @Builder.Default
     private List<BoardCategory> boardCategories = new ArrayList<>();
 
     public enum BoardStatus {
