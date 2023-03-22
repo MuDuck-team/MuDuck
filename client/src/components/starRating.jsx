@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function StarRating({ readonly = false }) {
-  const [rating, setRating] = useState(0);
+function StarRating({ defaultValue = 0, readonly = false }) {
+  const [rating, setRating] = useState(Math.round(defaultValue));
   const [hover, setHover] = useState(0);
   return (
     <Wrapper className="star-rating">
