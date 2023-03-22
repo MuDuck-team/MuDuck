@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 
-function StarRating({ defaultValue = 0, readonly = false }) {
+function StarRating({ defaultValue = 0, readonly = false, onClick }) {
   const [rating, setRating] = useState(Math.round(defaultValue));
   const [hover, setHover] = useState(0);
   return (
@@ -17,6 +17,7 @@ function StarRating({ defaultValue = 0, readonly = false }) {
             onClick={() => {
               if (readonly) return;
               setRating(index);
+              onClick(index);
             }}
             onMouseEnter={() => {
               if (readonly) return;
