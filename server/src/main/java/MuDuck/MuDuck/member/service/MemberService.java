@@ -31,7 +31,7 @@ public class MemberService {
 
         Member updatedMember = beanUtils.copyNonNullProperties(member, findedMember);
 
-        return updatedMember;
+        return memberRepository.save(updatedMember);
     }
 
     public Member getMember(long memberId){
