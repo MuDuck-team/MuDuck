@@ -5,7 +5,7 @@ import kakaoStart from '../assets/kakaoStart.png';
 
 function KakaoLoginBtn({ isTypeLogin }) {
   const handleKaKaoLogin = () => {
-    window.location.href = `${process.env.REACT_APP_SERVER_URL}oauth2/authorization/kakao/redirect_url="http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com/oauth/redirect"`;
+    window.location.href = `${process.env.REACT_APP_SERVER_URL}/oauth2/authorization/kakao?redirect_url="http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com/oauth/redirect"`;
   };
 
   return isTypeLogin ? (

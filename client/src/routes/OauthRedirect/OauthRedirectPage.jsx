@@ -28,12 +28,12 @@ function OauthRedirectPage() {
 
     customAxios({
       method: 'get',
-      url: '/회원정보요청엔드포인트',
+      url: '/members/my-info',
       headers: {
         Authorization: token,
       },
     }).then(res => {
-      if (res.data.role === 'admin') {
+      if (res.data.role === 'ROLE_ADMIN') {
         setAdminStatus(!adminState);
         setUser(initialUserState => ({ ...initialUserState, ...res.data }));
       } else {

@@ -103,8 +103,8 @@ function MyinfoPage() {
           <ProfileSelectionCard>
             <ProfileImg
               margin="1.6rem"
-              // src={user.profileImageUrl}
-              src="https://cphoto.asiae.co.kr/listimglink/1/2021050711371325414_1620355033.jpg"
+              src={user.profileImageUrl}
+              // src="https://cphoto.asiae.co.kr/listimglink/1/2021050711371325414_1620355033.jpg"
               onClick={handleClickKakaoProfile}
               uploadSrc={uploadSrc}
             />

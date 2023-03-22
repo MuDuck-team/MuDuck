@@ -16,6 +16,14 @@
       "error",
       { "singleQuote": true, "endOfLine": "auto" }
     ],
+    "import/no-extraneous-dependencies": [
+      "error",
+      {
+        "devDependencies": false,
+        "optionalDependencies": false,
+        "peerDependencies": false
+      }
+    ],
 
     "react/react-in-jsx-scope": "off",
     "react/jsx-filename-extension": "off",

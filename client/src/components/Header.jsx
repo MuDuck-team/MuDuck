@@ -44,7 +44,11 @@ function Header() {
             {isShow ? (
               <TabLink to="/mypage">마이페이지</TabLink>
             ) : (
-              <ProfileImg src={user.profile} width="30px" height="30px" />
+              <ProfileImg
+                src={user.profileImageUrl}
+                width="30px"
+                height="30px"
+              />
             )}
 
             <LogoutBtn
