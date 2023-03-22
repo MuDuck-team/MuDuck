@@ -42,7 +42,7 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
             // 인증 시간이 지났을 경우
             //request.setAttribute("exception", ee);
             log.info("Expired JWT token.");
-            throw new JwtException("토큰 기한 만료");
+            throw new JwtException("Token expired");
         } catch (Exception e) {
             request.setAttribute("exception", e);
         }
@@ -61,6 +61,8 @@ public class JwtVerificationFilter extends OncePerRequestFilter {
         String base64EncodedSecretKey = jwtTokenizer.encodeBase64SecretKey(
                 jwtTokenizer.getSecretKey());
         Map<String, Object> claims = jwtTokenizer.getClaims(jws, base64EncodedSecretKey).getBody();
+
+        log.info("claims : {}", claims);
 
         return claims;
     }

@@ -29,13 +29,12 @@ public class MemberAccessDeniedHandler implements AccessDeniedHandler {
         log.warn("Forbidden error happened: {}", accessDeniedException.getMessage());
         log.info("권한이 없는 접근");
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
         Map<String, Object> body = exceptionResponse.createUnauthorizedErrorResponse(request, response, accessDeniedException);
-
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         final ObjectMapper mapper = new ObjectMapper();
         // response 객체에 응답 객체를 넣어줌
-        mapper.writeValue(response.getOutputStream(), body);
-        response.setStatus(HttpServletResponse.SC_OK);
+        String content = mapper.writeValueAsString(body);
+        response.getWriter().write(content);
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
     }
 }

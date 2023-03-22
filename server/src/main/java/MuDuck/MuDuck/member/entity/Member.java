@@ -59,6 +59,8 @@ public class Member extends Auditable {
 
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<Board> boards = new ArrayList<>();
+    @Column
+    private String refreshToken;
 
     public enum MemberRole {
         USER("ROLE_USER"),
@@ -84,4 +86,5 @@ public class Member extends Auditable {
             this.status = status;
         }
     }
+
 }

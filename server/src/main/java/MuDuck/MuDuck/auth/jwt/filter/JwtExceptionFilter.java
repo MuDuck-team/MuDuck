@@ -34,12 +34,11 @@ public class JwtExceptionFilter extends OncePerRequestFilter {
     private void setErrorResponse(HttpServletRequest request, HttpServletResponse response, JwtException ex)
             throws IOException {
 
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-
         Map<String, Object> body = exceptionResponse.createUnauthorizedErrorResponse(request, response, ex);
-
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         final ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(response.getOutputStream(), body);
-        response.setStatus(HttpServletResponse.SC_OK);
+        String content = mapper.writeValueAsString(body);
+        response.getWriter().write(content);
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 }
