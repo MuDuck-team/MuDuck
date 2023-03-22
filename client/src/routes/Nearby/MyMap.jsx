@@ -270,6 +270,7 @@ function MyMap({ searchPlace, countRef, placeData, category, onMarkerClick }) {
         displayPlaces(placeData.cafes, true);
       }
       if (category === 'parkings') {
+        console.log(placeData.parkings);
         displayPlaces(placeData.parkings, true);
       }
       displayPagination({});

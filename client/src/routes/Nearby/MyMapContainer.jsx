@@ -57,7 +57,7 @@ function MyMapContainer({ placeData, onMarkerClick }) {
           </li>
           <li
             id="carparkMenu"
-            data-name="packings"
+            data-name="parkings"
             role="presentation"
             onClick={onClick}
           >
