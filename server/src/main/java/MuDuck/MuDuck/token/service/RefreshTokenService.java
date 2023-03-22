@@ -21,7 +21,6 @@ public class RefreshTokenService {
     private final JwtTokenizer jwtTokenizer;
     private final MemberRepository memberRepository;
     private final JwtCreateService jwtCreateService;
-    private final String REDIRECT_URL = "http://localhost:8080/rere";
     public String reissuanceRefreshToken(String refreshToken) {
 
         String accessToken = "";
@@ -47,30 +46,7 @@ public class RefreshTokenService {
             return accessToken;
         }
 
-//        log.info("넘어온 토큰 값 : {} ", refreshToken);
-//
-//        log.info("claims 유효기간 확인 : {}", claims.get("exp"));
-//        // 토큰 유효기간 가져오기
-//        long exp = Long.parseLong(String.valueOf(claims.get("exp")));
-//
-//        log.info("유효기간 확인 : {}", exp);
-//
-//        Date date = new Date(exp * 1000L);
-//
         accessToken = createAccessToken(refreshToken);
-
-        // 현재 시간 가져오기
-//        Date current = new Date(System.currentTimeMillis());
-//
-//        // 해당 시간 과 지금 시간을 비교하기
-//        if(current.getTime() > date.getTime()){
-//            // 유효 기간이 남아 있을 경우 재발급
-//            // 해당 리프레쉬 토큰이 있는 멤버가 있는지 검증
-//            accessToken = createAccessToken(refreshToken);
-//        }else{
-//            // 유효 기간이 지났을 경우 처리
-//            accessToken = "Failed";
-//        }
 
         return accessToken;
     }
