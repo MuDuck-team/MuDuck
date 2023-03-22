@@ -37,12 +37,7 @@ function MyMapContainer({ placeData, onMarkerClick }) {
       </StyledForm>
       <CategoryContainer className="category">
         <ul>
-          <li
-            value="restaurants"
-            role="presentation"
-            data-name="restaurants"
-            onClick={onClick}
-          >
+          <li role="presentation" data-name="restaurants" onClick={onClick}>
             <span className="ico_comm ico_coffee" />
             맛집
           </li>
@@ -117,7 +112,7 @@ const CategoryContainer = styled.section`
   overflow: hidden;
   border: 1px solid black;
   font-size: var(--font-size-xs);
-  background-color: var(--main-001);
+  background-color: white;
   border-radius: 8px;
   text-align: center;
 
@@ -128,14 +123,17 @@ const CategoryContainer = styled.section`
     border-right: 1px solid #915b2f;
     margin: 0 -1px;
   }
+
   li {
     list-style: none;
     float: left;
     width: 50px;
-    height: 45px;
+    height: 100%;
     padding-top: 5px;
     cursor: pointer;
+    background-color: var(--main-001);
   }
+
   .ico_comm {
     display: block;
     margin: 0 auto 2px;
