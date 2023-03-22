@@ -39,7 +39,7 @@ function PostPage() {
           createdAt={head.createdAt}
           viewCount={head.view}
           totalComment={head.totalComment}
-          boardLike={head.boardLike}
+          like={head.like}
           category={head.category}
           type="postWriter"
         />

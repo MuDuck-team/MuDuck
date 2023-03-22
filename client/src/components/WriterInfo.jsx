@@ -11,7 +11,7 @@ function WriterInfo({
   createdAt,
   viewCount,
   totalComment,
-  boardLike,
+  like,
   category,
   type,
 }) {
@@ -23,22 +23,22 @@ function WriterInfo({
           <Nickname>{nickname}</Nickname>
           <PostInformation>
             <InfoText>{createdAt}</InfoText>
-            {viewCount && (
+            {viewCount >= 0 && (
               <InfoBox>
                 <ViewIcon />
                 <InfoText>{viewCount}</InfoText>
               </InfoBox>
             )}
-            {totalComment && (
+            {totalComment >= 0 && (
               <InfoBox>
                 <ChatIcon />
                 <InfoText>{totalComment}</InfoText>
               </InfoBox>
             )}
-            {boardLike && (
+            {like >= 0 && (
               <InfoBox>
                 <HeartIcon />
-                <InfoText>{boardLike}</InfoText>
+                <InfoText>{like}</InfoText>
               </InfoBox>
             )}
             {category && <InfoText>카테고리 | {category}</InfoText>}
