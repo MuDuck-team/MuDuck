@@ -10,7 +10,9 @@ public enum ExceptionCode {
     THEATER_NOT_FOUND(404, "Theater not found"),
     THEATER_EXISTS(409, "Theater exists"),
     BOARD_NOT_FOUND(404, "Board not found"),
-    BOARD_EXISTS(409, "Board exists");
+    BOARD_EXISTS(409, "Board exists"),
+    CATEGORY_NOT_FOUND(404, "Category not found"),
+    CATEGORY_EXISTS(409, "Category exists");
 
     @Getter
     private int status;

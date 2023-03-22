@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import javax.persistence.Access;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,6 +18,18 @@ import lombok.Getter;
 
 @Getter
 public class BoardDto {
+
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @Getter
+    @Builder
+    public static class Post{
+        @NotEmpty(message = "카테고리 아이디 값이 적어도 1개 있어야 합니다.")
+        private List<Long> id; // 카테고리 식별자가 들어있다.
+        @NotBlank(message = "게시글의 제목 값이 없습니다.")
+        private String title;
+        @NotBlank(message = "게시글 본문 값이 없습니다.")
+        private String content;
+    }
 
     @AllArgsConstructor
     @Getter
