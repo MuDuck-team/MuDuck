@@ -1,8 +1,8 @@
 package MuDuck.MuDuck.board.entity;
 
 import MuDuck.MuDuck.audit.Auditable;
-import MuDuck.MuDuck.board.joinTable.BoardLike;
 import MuDuck.MuDuck.boardCategory.entity.BoardCategory;
+import MuDuck.MuDuck.boardLike.entity.BoardLike;
 import MuDuck.MuDuck.comment.entity.Comment;
 import MuDuck.MuDuck.member.entity.Member;
 import java.util.ArrayList;
@@ -20,12 +20,16 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
+@Builder
 @Entity
 public class Board extends Auditable {
     @Id

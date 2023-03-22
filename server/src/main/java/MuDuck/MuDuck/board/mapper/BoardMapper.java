@@ -1,15 +1,41 @@
 package MuDuck.MuDuck.board.mapper;
 
 import MuDuck.MuDuck.board.dto.BoardDto;
+import MuDuck.MuDuck.board.dto.BoardDto.BoardContentBody;
+import MuDuck.MuDuck.board.dto.BoardDto.BoardContentHead;
+import MuDuck.MuDuck.board.dto.BoardDto.BoardContentResponse;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.utils.Chrono;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface BoardMapper {
+
+    default Board boardPostToBoard(BoardDto.Post requestBody, Member member){
+        Board board = Board.builder()
+                .title(requestBody.getTitle())
+                .content(requestBody.getContent())
+                .member(member)
+                .build();
+
+        return board;
+    }
+
+    // id 리스트에 다 null로 담겨 오는 경우 때문에 체크해서 Exception 날려주는 상황이 필요하다.
+    default List<Long> boardPostToCategoryIds(BoardDto.Post requestBody){
+        List<Long> categoryIds = new ArrayList<>();
+        for(Long id : requestBody.getId()){
+            if(id != null){
+                categoryIds.add(id);
+            }
+        }
+        return categoryIds;
+    }
 
     default BoardDto.Response boardToBoardResponseDto(Board board) {
         Member member = board.getMember();
@@ -29,5 +55,27 @@ public interface BoardMapper {
 
     default List<BoardDto.Response> boardsToBoardResponseDtos(List<Board> boards) {
         return boards.stream().map(board -> boardToBoardResponseDto(board)).collect(Collectors.toList());
+    }
+
+    // 여기서의 Member는 글 작성자를 의미한다.
+    default BoardDto.BoardContentResponse multiInfoToBoardContentResponse(Member member, Board board, String category, boolean isLiked){
+        BoardDto.BoardContentResponse response = BoardContentResponse.builder()
+                .id(board.getBoardId())
+                .head(BoardContentHead.builder()
+                        .userProfile(member.getPicture())
+                        .nickname(member.getNickName())
+                        .createdAt(board.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
+                        .view(board.getViews())
+                        .like(board.getLikes())
+                        .totalComment(board.getComments().size())
+                        .category(category)
+                        .build())
+                .body(BoardContentBody.builder()
+                        .title(board.getTitle())
+                        .content(board.getContent())
+                        .build())
+                .liked(isLiked)
+                .build();
+        return response;
     }
 }

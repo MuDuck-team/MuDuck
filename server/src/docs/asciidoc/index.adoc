@@ -19,7 +19,7 @@ include::{snippets}/get-theaters/http-request.adoc[]
 include::{snippets}/get-theaters/http-response.adoc[]
 
 .response-fields
-include::{snippets}/get-theaters/response-body.adoc[]
+include::{snippets}/get-theaters/response-fields.adoc[]
 
 === 원하는 극장 조회
 .http-request
@@ -29,7 +29,7 @@ include::{snippets}/get-theater/http-request.adoc[]
 include::{snippets}/get-theater/http-response.adoc[]
 
 .response-fields
-include::{snippets}/get-theater/response-body.adoc[]
+include::{snippets}/get-theater/response-fields.adoc[]
 
 == BoardController
 === 게시판 목록 조회
@@ -47,10 +47,61 @@ include::{snippets}/get-boards/response-fields.adoc[]
 
 === 카테고리 목록 조회
 .http-request
-include::{snippets}/get-Category/http-request.adoc[]
+include::{snippets}/get-category/http-request.adoc[]
 
 .http-response
-include::{snippets}/get-Category/http-response.adoc[]
+include::{snippets}/get-category/http-response.adoc[]
 
 .response-fields
-include::{snippets}/get-Category/response-fields.adoc[]
+include::{snippets}/get-category/response-fields.adoc[]
+
+=== 게시글 조회
+.http-request
+include::{snippets}/get-individual-board/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-individual-board/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-individual-board/response-fields.adoc[]
+
+== MusicalController
+=== 작품 전체 목록 조회
+.http-request
+include::{snippets}/get-musicals/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-musicals/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-musicals/response-fields.adoc[]
+
+=== 작품 장르별 목록 조회
+.http-request
+include::{snippets}/get-musicals-genre/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-musicals-genre/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-musicals-genre/response-fields.adoc[]
+
+=== 작품 조건별 목록 조회
+.http-request
+include::{snippets}/get-musicals-filter/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-musicals-filter/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-musicals-filter/response-fields.adoc[]
+
+=== 작품 상태별 목록 조회
+.http-request
+include::{snippets}/get-musicals-state/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-musicals-state/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-musicals-state/response-fields.adoc[]

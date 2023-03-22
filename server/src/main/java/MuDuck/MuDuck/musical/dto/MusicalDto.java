@@ -1,7 +1,7 @@
 package MuDuck.MuDuck.musical.dto;
 
 import MuDuck.MuDuck.musical.entity.Musical;
-import MuDuck.MuDuck.musical.entity.Musical.Genre;
+import MuDuck.MuDuck.theater.dto.TheaterDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
@@ -18,7 +18,6 @@ public class MusicalDto {
     @Getter
     @AllArgsConstructor
     public static class Post {
-
         @Positive
         @Setter
         private Long musicalId;
@@ -64,8 +63,11 @@ public class MusicalDto {
     @AllArgsConstructor
     @Getter
     @Builder
+    @JsonPropertyOrder({"id", "musicalKorName", "musicalEngName", "poster", "genre", "musicalInfo", "musicalState", "openDate",
+            "closeDate", "age", "runningTime", "intermission", "views", "theaters" })
     public static class ResponseMusical{
-        private Long id;
+        @JsonProperty("id")
+        private Long musicalId;
         private String musicalKorName;
         private String musicalEngName;
         private String poster;
@@ -77,8 +79,10 @@ public class MusicalDto {
         private Musical.Age age;
         private Integer runningTime;
         private Integer intermission;
+        @JsonProperty("actors")
         private List<ActorMusicalResponseDto.detail> actorMusicals;
         private Integer views;
+        private List<TheaterDto.Response> theaters;
 
         public String getGenre(){
             return genre.getDescription();
@@ -91,6 +95,7 @@ public class MusicalDto {
         public String getAge(){
             return age.getStepDescription();
         }
+
     }
 
     @AllArgsConstructor
@@ -104,6 +109,7 @@ public class MusicalDto {
         private String poster;
         @JsonProperty("actors")
         private List<ActorMusicalResponseDto.listing> actorMusicals;
+
     }
 
     @AllArgsConstructor

@@ -11,26 +11,42 @@ import static org.springframework.restdocs.request.RequestDocumentation.requestP
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import MuDuck.MuDuck.auth.jwt.filter.JwtExceptionFilter;
+import MuDuck.MuDuck.auth.utils.ExceptionResponse;
 import MuDuck.MuDuck.board.dto.BoardDto;
+import MuDuck.MuDuck.board.dto.BoardDto.BoardContentBody;
+import MuDuck.MuDuck.board.dto.BoardDto.BoardContentHead;
+import MuDuck.MuDuck.board.dto.BoardDto.BoardContentResponse;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.entity.Board.BoardStatus;
 import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.board.service.BoardService;
+import MuDuck.MuDuck.boardCategory.service.BoardCategoryService;
 import MuDuck.MuDuck.category.dto.CategoryDto;
 import MuDuck.MuDuck.category.entity.Category;
 import MuDuck.MuDuck.category.mapper.CategoryMapper;
 import MuDuck.MuDuck.category.service.CategoryService;
+import MuDuck.MuDuck.comment.dto.CommentDto;
+import MuDuck.MuDuck.comment.dto.CommentDto.CommentsHead;
+import MuDuck.MuDuck.comment.entity.Comment;
+import MuDuck.MuDuck.comment.entity.Comment.CommentStatus;
+import MuDuck.MuDuck.comment.mapper.CommentMapper;
+import MuDuck.MuDuck.comment.service.CommentService;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.entity.Member.MemberRole;
 import MuDuck.MuDuck.member.entity.Member.MemberStatus;
+import MuDuck.MuDuck.member.service.MemberService;
 import MuDuck.MuDuck.noticeboard.dto.NoticeBoardDto;
 import MuDuck.MuDuck.noticeboard.dto.NoticeBoardDto.Response;
 import MuDuck.MuDuck.noticeboard.entity.NoticeBoard;
 import MuDuck.MuDuck.noticeboard.mapper.NoticeBoardMapper;
 import MuDuck.MuDuck.noticeboard.service.NoticeBoardService;
 import com.google.gson.Gson;
+import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +60,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
-import org.springframework.restdocs.snippet.Attributes.Attribute;
+import org.springframework.security.test.context.support.WithAnonymousUser;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -77,6 +93,18 @@ class BoardControllerTest {
     @MockBean
     private CategoryMapper categoryMapper;
 
+    @MockBean
+    private MemberService memberService;
+
+    @MockBean
+    private CommentMapper commentMapper;
+
+    @MockBean
+    private CommentService commentService;
+
+    @MockBean
+    private BoardCategoryService boardCategoryService;
+
     @Autowired
     private Gson gson;
 
@@ -85,9 +113,9 @@ class BoardControllerTest {
     public void getBoards() throws Exception {
         // given
         Member member1 = new Member(1L, "wth0086@gmail.com", "사진주소1", "닉네임1", MemberRole.USER,
-                MemberStatus.MEMBER_ACTIVE, null, null, null);
+                MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
         Member member2 = new Member(2L, "wth0086@naver.com", "사진주소2", "닉네임2", MemberRole.USER,
-                MemberStatus.MEMBER_ACTIVE, null, null, null);
+                MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
 
         NoticeBoard noticeBoard = NoticeBoard.builder().noticeBoardId(1L).title("공지글 제목입니다")
                 .body("공지글 내용입니다").build();
@@ -152,9 +180,11 @@ class BoardControllerTest {
                 .andDo(document(
                         "get-boards",
                         getResponsePreProcessor(),
-                        requestParameters(List.of(parameterWithName("page").optional().description("페이지 번호"),
-                                parameterWithName("sortBy").optional().description("정렬 기준"),
-                                parameterWithName("categoryName").optional().description("카테고리 이름"))),
+                        requestParameters(
+                                List.of(parameterWithName("page").optional().description("페이지 번호"),
+                                        parameterWithName("sortBy").optional().description("정렬 기준"),
+                                        parameterWithName("categoryName").optional()
+                                                .description("카테고리 이름"))),
                         responseFields(
                                 List.of(
                                         fieldWithPath("noticeBoards").type(JsonFieldType.ARRAY)
@@ -279,5 +309,147 @@ class BoardControllerTest {
                                                 JsonFieldType.NUMBER).description("카테고리 부모카테고리 ID")
                                 )
                         )));
+    }
+
+    @Test
+    @WithMockUser
+    public void getBoardContentTest() throws Exception {
+        // given
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+        Board board = new Board(1, "제목입니다", "title", 982, 60, BoardStatus.BOARD_POST, null, null,
+                member, null);
+
+        Comment comment1 = new Comment(1, "댓글입니다", CommentStatus.COMMENT_POST, member, board, null,
+                null);
+        Comment comment2 = new Comment(2, "대댓글입니다", CommentStatus.COMMENT_POST, member, board,
+                comment1, null);
+        Comment comment3 = new Comment(3, "대댓글입니다2", CommentStatus.COMMENT_POST, member, board,
+                comment1, null);
+
+        String category = "자유주제";
+        boolean isLiked = true;
+
+        List<Comment> comments = List.of(comment1, comment2, comment3);
+        member.setComments(comments);
+        board.setComments(comments);
+
+        List<Comment> onlyCommentList = List.of(comment1);
+
+        List<Comment> replyList = List.of(comment2, comment3);
+        comment1.setChildren(replyList);
+
+        BoardDto.BoardContentResponse boardContentResponse = BoardContentResponse.builder()
+                .id(board.getBoardId())
+                .head(BoardContentHead.builder()
+                        .userProfile(member.getPicture())
+                        .nickname(member.getNickName())
+                        .createdAt("2022.12.21")
+                        .view(board.getViews())
+                        .like(board.getLikes())
+                        .totalComment(board.getComments().size())
+                        .category(category)
+                        .build())
+                .body(BoardContentBody.builder()
+                        .title(board.getTitle())
+                        .content(board.getContent())
+                        .build())
+                .liked(isLiked)
+                .build();
+
+        CommentDto.Response replyResponse1 = CommentDto.Response.builder()
+                .id(2L)
+                .head(CommentsHead.builder()
+                        .userProfile(member.getPicture())
+                        .nickname(member.getNickName())
+                        .createdAt("2023.03.21 17:30")
+                        .build())
+                .body("대댓글입니다1")
+                .parentId(1L)
+                .comments(new ArrayList<>())
+                .build();
+
+        CommentDto.Response replyResponse2 = CommentDto.Response.builder()
+                .id(3L)
+                .head(CommentsHead.builder()
+                        .userProfile(member.getPicture())
+                        .nickname(member.getNickName())
+                        .createdAt("2023.03.21 18:00")
+                        .build())
+                .body("대댓글입니다2")
+                .parentId(1L)
+                .comments(new ArrayList<>())
+                .build();
+
+        List<CommentDto.Response> replyResponseList = List.of(replyResponse1, replyResponse2);
+
+        CommentDto.Response commentResponse = CommentDto.Response.builder()
+                .id(1L)
+                .head(CommentsHead.builder()
+                        .userProfile(member.getPicture())
+                        .nickname(member.getNickName())
+                        .createdAt("2023.03.21 17:00")
+                        .build())
+                .body("댓글입니다")
+                .comments(replyResponseList)
+                .build();
+
+        List<CommentDto.Response> commentResponseList = List.of(commentResponse);
+
+        given(boardService.findBoard(Mockito.anyLong())).willReturn(board);
+        given(boardService.findCategory(Mockito.any())).willReturn(category);
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+        given(boardService.isLiked(Mockito.any())).willReturn(isLiked);
+
+        given(commentService.getCommentWithoutReply(Mockito.anyList())).willReturn(onlyCommentList);
+
+        given(boardMapper.multiInfoToBoardContentResponse(Mockito.any(), Mockito.any(),
+                Mockito.anyString(), Mockito.anyBoolean())).willReturn(boardContentResponse);
+        given(commentMapper.commentsToCommentResponseDtos(Mockito.anyList())).willReturn(commentResponseList);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                get("/board/{board-id}", member.getMemberId()).accept(MediaType.APPLICATION_JSON));
+
+        // then
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.boardContent").isMap())
+                .andExpect(jsonPath("$.comments").isArray())
+                .andDo(document("get-individual-board",
+                        getResponsePreProcessor(),
+                        responseFields(List.of(
+                                fieldWithPath("boardContent").type(JsonFieldType.OBJECT).description("게시글 key 값"),
+                                fieldWithPath("boardContent.id").type(JsonFieldType.NUMBER).description("게시글 식별자"),
+                                fieldWithPath("boardContent.head").type(JsonFieldType.OBJECT).description("게시글 Header key 값"),
+                                fieldWithPath("boardContent.head.userProfile").type(JsonFieldType.STRING).description("게시글 작성자 프로필 사진 주소"),
+                                fieldWithPath("boardContent.head.nickname").type(JsonFieldType.STRING).description("게시글 작성자 닉네임"),
+                                fieldWithPath("boardContent.head.createdAt").type(JsonFieldType.STRING).description("게시글 작성 날짜"),
+                                fieldWithPath("boardContent.head.view").type(JsonFieldType.NUMBER).description("게시글 조회수"),
+                                fieldWithPath("boardContent.head.like").type(JsonFieldType.NUMBER).description("게시글 좋아요 수"),
+                                fieldWithPath("boardContent.head.totalComment").type(JsonFieldType.NUMBER).description("게시글 총 댓글 수"),
+                                fieldWithPath("boardContent.head.category").type(JsonFieldType.STRING).description("게시글이 속한 카테고리 이름"),
+                                fieldWithPath("boardContent.body").type(JsonFieldType.OBJECT).description("게시글 Body key 값"),
+                                fieldWithPath("boardContent.body.title").type(JsonFieldType.STRING).description("게시글 제목"),
+                                fieldWithPath("boardContent.body.content").type(JsonFieldType.STRING).description("게시글 내용"),
+                                fieldWithPath("boardContent.liked").type(JsonFieldType.BOOLEAN).description("회원이 좋아요를 눌렀었는지 여부"),
+                                fieldWithPath("comments").type(JsonFieldType.ARRAY).description("댓글 목록 key 값"),
+                                fieldWithPath("comments[].id").type(JsonFieldType.NUMBER).description("댓글 식별자"),
+                                fieldWithPath("comments[].head").type(JsonFieldType.OBJECT).description("댓글 Header key 값"),
+                                fieldWithPath("comments[].head.userProfile").type(JsonFieldType.STRING).description("댓글 작성자 프로필 사진 주소"),
+                                fieldWithPath("comments[].head.nickname").type(JsonFieldType.STRING).description("댓글 작성자 닉네임"),
+                                fieldWithPath("comments[].head.createdAt").type(JsonFieldType.STRING).description("댓글 작성 날짜"),
+                                fieldWithPath("comments[].body").type(JsonFieldType.STRING).description("댓글 내용"),
+                                fieldWithPath("comments[].parentId").type(JsonFieldType.NULL).description("대댓글의 부모 ID 대댓글인 경우만 존재"),
+                                fieldWithPath("comments[].comments").type(JsonFieldType.ARRAY).description("댓글의 대댓글 목록 key 값"),
+                                fieldWithPath("comments[].comments[].id").type(JsonFieldType.NUMBER).description("대댓글 식별자"),
+                                fieldWithPath("comments[].comments[].head").type(JsonFieldType.OBJECT).description("대댓글 Header key 값"),
+                                fieldWithPath("comments[].comments[].head.userProfile").type(JsonFieldType.STRING).description("대댓글 작성자 프로필 사진 주소"),
+                                fieldWithPath("comments[].comments[].head.nickname").type(JsonFieldType.STRING).description("대댓글 작성자 닉네임"),
+                                fieldWithPath("comments[].comments[].head.createdAt").type(JsonFieldType.STRING).description("대댓글 작성 날짜"),
+                                fieldWithPath("comments[].comments[].body").type(JsonFieldType.STRING).description("대댓글 내용"),
+                                fieldWithPath("comments[].comments[].parentId").type(JsonFieldType.NUMBER).description("대댓글의 부모 ID"),
+                                fieldWithPath("comments[].comments[].comments").type(JsonFieldType.ARRAY).description("대댓글은 comments 리스트가 비어있어야한다")
+                        ))));
     }
 }

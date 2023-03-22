@@ -2,12 +2,15 @@ package MuDuck.MuDuck.auth.handler;
 
 import MuDuck.MuDuck.auth.attribute.OAuth2Attribute;
 import MuDuck.MuDuck.auth.jwt.service.JwtCreateService;
+import MuDuck.MuDuck.exception.BusinessLogicException;
+import MuDuck.MuDuck.exception.ExceptionCode;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.repository.MemberRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import javax.servlet.ServletException;
@@ -21,17 +24,19 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
-
-    private final Gson gson;
     private final JwtCreateService jwtCreateService;
     private final MemberRepository memberRepository;
+
+    private final String REDIRECT_URL = "http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com/oauth/redirect";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -52,12 +57,18 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
         log.info("안에 있는 정보들 : {}", attributes);
 
-        String email = (String) attributes.get("email");
+        String email = oAuth2Attribute.getUseremail();
+
+        log.info("이메일 정보 : {} ", email);
+
+        boolean firstStatus = checkFirstLogin(email);
 
         Member member = saveOrUpdate(oAuth2Attribute);
 
         String accessToken = jwtCreateService.delegateAccessToken(member);
         String refreshToken = jwtCreateService.delegateRefreshToken(member);
+
+        addRefreshToken(email, refreshToken);
 
         ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
                 .maxAge(7 * 24 * 60 * 60)
@@ -68,16 +79,21 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
                 .build();
 
         // Header 설정
-        response.setHeader("accessToken", "Bearer " + accessToken);
+        //response.setHeader("accessToken", "Bearer " + accessToken);
         response.addHeader("Set-Cookie", cookie.toString());
 
-        // Body 설정
-        response.setContentType("application/json");
-        response.setCharacterEncoding("utf-8");
-        String body = objectMapper.registerModule(new JavaTimeModule()).writeValueAsString(member);
-        response.getWriter().write(body);
+        // queryParam 에 담을 MultiValue 설정
+        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
+        multiValueMap.add("signup", String.valueOf(firstStatus));
+        multiValueMap.add("accessToken", "Bearer "+accessToken);
+        log.info("accessToken : {}", "Bearer " + accessToken);
+        log.info("refreshToken : {}", refreshToken);
 
-        response.sendRedirect("http://localhost:3000");
+        String uri = UriComponentsBuilder.fromUriString(REDIRECT_URL)
+                .queryParams(multiValueMap)
+                .build().toUriString();
+
+        response.sendRedirect(uri);
     }
 
     private Member saveOrUpdate(OAuth2Attribute attributes) {
@@ -94,6 +110,25 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
                     .build();
             return memberRepository.save(newMember);
         }
+    }
+
+    private boolean checkFirstLogin(String email){
+
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        return member.isEmpty();
+    }
+
+    private void addRefreshToken(String email, String refreshToken){
+
+        Optional<Member> member = memberRepository.findByEmail(email);
+
+        Member newMember = member.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        newMember.setRefreshToken(refreshToken);
+
+        memberRepository.save(newMember);
     }
 
 }

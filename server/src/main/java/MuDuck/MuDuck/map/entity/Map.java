@@ -36,6 +36,9 @@ public class Map extends Auditable {
     @Column(nullable = false)
     private long placeId;
 
+    @Column(nullable = false)
+    private String placeUrl;
+
     @Column(nullable = false, length = 30)
     private String placeName;
 
@@ -61,12 +64,13 @@ public class Map extends Auditable {
     
 
     @Builder
-    public Map(long mapId, Theater theater, Long placeId, String placeName, double longitude,
-            double latitude, GroupCode categoryGroupCode, String phone, String address,
-            String roadAddress) {
+    private Map(long mapId, Theater theater, long placeId, String placeUrl, String placeName,
+            double longitude, double latitude, GroupCode categoryGroupCode, String phone,
+            String address, String roadAddress) {
         this.mapId = mapId;
         this.theater = theater;
         this.placeId = placeId;
+        this.placeUrl = placeUrl;
         this.placeName = placeName;
         this.longitude = longitude;
         this.latitude = latitude;

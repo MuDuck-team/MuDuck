@@ -33,7 +33,7 @@ public class MusicalServiceMockTest {
         MockitoAnnotations.initMocks(this);
         actor = new Actor(1L, "전동석","http://ticketimage.interpark.com/PlayDictionary/DATA/PlayDic/PlayDicUpload/040004/09/07/0400040907_16138_02825.gif");
         musical = new Musical(1L,"테스트","test","http://localhost:8080", Genre.GENRE_CREATED, "테스팅정보", MusicalState.MUSICAL_YET, "2023.03.20", "2023.03.21",
-                Age.AGE_19, 162, 20);
+                Age.AGE_19, 162, 20,100);
         actorMusical = new ActorMusical(1L, "줄리엣", musical, actor);
     }
 

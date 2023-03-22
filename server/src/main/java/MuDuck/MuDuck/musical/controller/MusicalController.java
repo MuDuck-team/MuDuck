@@ -1,9 +1,12 @@
 package MuDuck.MuDuck.musical.controller;
 
+import MuDuck.MuDuck.musical.dto.MusicalDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto.MultiResponseDto;
+import MuDuck.MuDuck.musical.dto.MusicalDto.SingleResponseDto;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.musical.mapper.MusicalMapper;
 import MuDuck.MuDuck.musical.service.MusicalService;
+import MuDuck.MuDuck.theater.entitiy.Theater;
 import java.util.List;
 import javax.validation.constraints.Positive;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,4 +71,12 @@ public class MusicalController {
 
         return new ResponseEntity<>(new MultiResponseDto<>(musicalMapper.musicalsToMusicalResponseDtos(musicals), pageMusicals), HttpStatus.OK);
     }
+
+//    @GetMapping("/{musical-id}")
+//    public ResponseEntity getMusical(@PathVariable("musical-id") @Positive Long musicalId){
+//        Musical response = musicalService.findMusical(musicalId);
+//        Theater responseTheater = theaterService.find
+//        return new ResponseEntity<>(new MultiResponseDto<>(musicalMapper.musicalToMusicalResponseDto(response),musicalMapper.theaterToMusicalResponseDto(theater)),HttpStatus.OK);
+//    }
+
 }
