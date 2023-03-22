@@ -36,7 +36,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
     private final JwtCreateService jwtCreateService;
     private final MemberRepository memberRepository;
 
-    private final String REDIRECT_URL = "http://localhost:8080/oauth/redirect";
+    private final String REDIRECT_URL = "http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com/oauth/redirect";
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
