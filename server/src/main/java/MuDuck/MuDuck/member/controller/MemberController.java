@@ -66,8 +66,13 @@ public class MemberController {
         if(!member.getEmail().equals(principal.getName())){
             throw new BusinessLogicException(ExceptionCode.NOT_SAME_USER);
         }
+        Member patchMember = memberMapper.memberPatchDtoToMember(patch);
 
-        return null;
+        Member updateMember = memberService.updateMember(patchMember);
+
+        MemberDto.Response response = memberMapper.memberToResponseDto(updateMember);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 }
