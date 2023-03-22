@@ -28,18 +28,21 @@ function MyinfoPage() {
   };
 
   const handleValidateNickname = () => {
-    const nickRegEx = /^[가-힣a-z0-9_-]{4,20}$/;
+    const nickRegEx = /^[가-힣a-z0-9_-]{2,20}$/;
     if (!nickRegEx.test(nickname)) {
       alert(
-        '닉네임은 4자이상 20자이하, 한글,영문 대소문자, 숫자만 사용할 수 있습니다.',
+        '닉네임은 2자이상 20자이하, 한글,영문 대소문자, 숫자만 사용할 수 있습니다.',
       );
     }
   };
 
   const handleSubmit = async event => {
+    const localToken = localStorage.getItem('localToken');
+
     event.preventDefault();
     console.log(`변경된 nickname :  ${nickname}`);
     console.log(`변경된 이미지src :  ${uploadSrc}`);
+    console.log(user.token);
 
     if (!uploadSrc && !nickname) {
       navigate('/');
@@ -49,8 +52,14 @@ function MyinfoPage() {
         profileImageUrl: null,
       };
       console.log(updatedUserData);
-      customAxios
-        .patch(`/members/${user.id}`, updatedUserData)
+
+      customAxios({
+        method: 'patch',
+        url: `/members/${user.id}`,
+        headers: {
+          Authorization: localToken,
+        },
+      })
         .then(res => {
           const result = res.data;
           setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...result }));
@@ -67,8 +76,13 @@ function MyinfoPage() {
       };
       console.log(updatedUserData);
 
-      customAxios
-        .patch(`/members/${user.id}`, updatedUserData)
+      customAxios({
+        method: 'patch',
+        url: `/members/${user.id}`,
+        headers: {
+          Authorization: localToken,
+        },
+      })
         .then(res => {
           const result = res.data;
           setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...result }));

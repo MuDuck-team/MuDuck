@@ -1,28 +1,29 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
 import { userInfo } from '../recoil/userAtom';
+import customAxios from '../api/customAxios';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import ProfileImg from './ProfileImage/ProfileImg';
 import Button from './Button';
 
 function Header() {
   const [isShow, setIsShow] = useState(false);
-
-  //* 유저정보 가져오기
   const [user, setUser] = useRecoilState(userInfo);
+  const navigate = useNavigate();
 
   const toggleHandler = () => {
     setIsShow(!isShow);
   };
 
   const LogoutHandler = () => {
+    navigate('/');
     setUser(null);
     localStorage.removeItem('localToken');
-    //  customAxios.patch('logout')
+    customAxios.post('/logout');
   };
 
   return (

@@ -2,25 +2,21 @@ import axios from 'axios';
 import { useSetRecoilState } from 'recoil';
 import { userInfo } from '../recoil/userAtom';
 
-const token = localStorage.getItem('localToken')
-  ? JSON.parse(localStorage.getItem('localToken'))
-  : null;
+// const token = localStorage.getItem('localToken')
+//   ? JSON.parse(localStorage.getItem('localToken'))
+//   : null;
+
+axios.defaults.withCredentials = true;
 
 // !커스텀 악시오스 생성
 const customAxios = axios.create({
   baseURL: `${process.env.REACT_APP_SERVER_URL}`,
   headers: {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${token}`,
   },
 });
 
 customAxios.defaults.withCredentials = true;
-
-// const { token } = user.token;
-// customAxios.defaults.headers.common.authorization = token
-//   ? `Bearer ${token}`
-//   : null;
 
 // !응답에러 처리
 // 오류가 AccessToken 만료때문에 난 경우
@@ -44,7 +40,7 @@ customAxios.interceptors.response.use(
       ) {
         return async function regenerateToken() {
           await customAxios
-            .get('api/user/token')
+            .get('/refresh-token/reissuance')
             .then(async res => {
               const { newToken } = res.data.token;
               // header 새로운 token으로 재설정
