@@ -47,6 +47,9 @@ function Header() {
             ) : (
               <ProfileImg
                 src={user.profileImageUrl}
+                onClick={() => {
+                  navigate('/mypage');
+                }}
                 width="30px"
                 height="30px"
               />
