@@ -14,7 +14,8 @@ function OauthRedirectPage() {
   useEffect(() => {
     const params = new URLSearchParams(document.location.search);
     const token = params.get('accessToken');
-    const signup = params.has('signup');
+    const signup = params.get('signup');
+    console.log(signup);
 
     setUser(initialUserState => ({ ...initialUserState, token }));
 
@@ -42,7 +43,7 @@ function OauthRedirectPage() {
       }
     });
 
-    if (signup) {
+    if (signup === 'true') {
       return navigate('/myinfo');
     }
     return navigate('/');
