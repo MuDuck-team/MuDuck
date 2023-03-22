@@ -46,7 +46,7 @@ customAxios.interceptors.response.use(
           await customAxios
             .get('api/user/token')
             .then(async res => {
-              const { newToken } = res.headers.Authorization;
+              const { newToken } = res.data.token;
               // header 새로운 token으로 재설정
               prevRequest.headers.Authorization = `Bearer ${newToken}`;
               setUser(initialUserState => ({
