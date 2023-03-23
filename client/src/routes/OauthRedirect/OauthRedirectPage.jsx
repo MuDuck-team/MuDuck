@@ -15,17 +15,9 @@ function OauthRedirectPage() {
     const params = new URLSearchParams(document.location.search);
     const token = params.get('accessToken');
     const signup = params.get('signup');
-    console.log(signup);
-
-    setUser(initialUserState => ({ ...initialUserState, token }));
 
     localStorage.setItem('localToken', token);
-    // localStorage.setItem('localToken', JSON.stringify(token));
     const localToken = localStorage.getItem('localToken');
-    console.log(`로컬토큰이 저장됨 : ${localToken}`);
-    //  커스텀 악시오스에 헤더에 토큰을 기본적으로 보내기위해
-    //  recoil 밸류를 가져오자니 react hook 룰 위반
-    //  따로 로컬스토리지에 저장하는 방식으로 진행
 
     customAxios({
       method: 'get',

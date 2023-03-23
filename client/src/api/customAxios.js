@@ -1,6 +1,4 @@
 import axios from 'axios';
-import { useSetRecoilState } from 'recoil';
-import { userInfo } from '../recoil/userAtom';
 
 // const token = localStorage.getItem('localToken')
 //   ? JSON.parse(localStorage.getItem('localToken'))
@@ -20,13 +18,12 @@ customAxios.defaults.withCredentials = true;
 
 // !응답에러 처리
 // 오류가 AccessToken 만료때문에 난 경우
+
 customAxios.interceptors.response.use(
   res => {
     return res;
   },
   async error => {
-    const setUser = useSetRecoilState(userInfo);
-
     // response에서 error가 발생했을 경우 catch로 넘어가기 전에 처리
     try {
       const errResponseStatus = error.response.status;
@@ -44,12 +41,8 @@ customAxios.interceptors.response.use(
             .then(async res => {
               const { newToken } = res.data.token;
               // header 새로운 token으로 재설정
-              prevRequest.headers.Authorization = `Bearer ${newToken}`;
-              setUser(initialUserState => ({
-                ...initialUserState,
-                token: newToken,
-              }));
-              localStorage.setItem('localToken', JSON.stringify(newToken));
+              prevRequest.headers.Authorization = newToken;
+              localStorage.setItem('localToken', newToken);
               const localToken = localStorage.getItem('localToken');
               console.log(localToken);
               // 실패했던 기존 request 재시도

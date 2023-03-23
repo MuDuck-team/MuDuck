@@ -10,7 +10,6 @@ export const userInfo = atom({
   key: 'userInfo',
   default: {
     id: null,
-    token: '',
     nickname: '',
     profileImageUrl: '',
     role: '',
