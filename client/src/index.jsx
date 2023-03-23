@@ -9,7 +9,7 @@ import LoginPage from './routes/Login/LoginPage';
 import SingupPage from './routes/Signup/SingupPage';
 import MyinfoPage from './routes/Myinfo/MyinfoPage';
 import PlaysPage from './routes/Plays/PlaysPage';
-import PlayPage from './routes/Play/PlayPage';
+import PlayPage, { loader as playPageLoader } from './routes/Play/PlayPage';
 import NearbyPage from './routes/Nearby/NearbyPage';
 import PostsPage, { loader as postsPageLoader } from './routes/Posts/PostsPage';
 import PostPage from './routes/Post/PostPage';
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
           { path: '/signup', element: <SingupPage /> },
           { path: '/myinfo', element: <MyinfoPage /> },
           { path: '/plays', element: <PlaysPage /> },
-          { path: '/play/:id', element: <PlayPage /> },
+          { path: '/play/:id', element: <PlayPage />, loader: playPageLoader },
           { path: '/nearby', element: <NearbyPage /> },
           { path: '/posts', element: <PostsPage />, loader: postsPageLoader },
           { path: '/post/:id', element: <PostPage /> },
