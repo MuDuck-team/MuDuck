@@ -13,7 +13,8 @@ public enum ExceptionCode {
     BOARD_EXISTS(409, "Board exists"),
     CATEGORY_NOT_FOUND(404, "Category not found"),
     CATEGORY_EXISTS(409, "Category exists"),
-    NOT_SAME_USER(401, "Not the same user");
+    NOT_SAME_USER(401, "Not the same user"),
+    DUPLICATE_NICKNAME(409, "Duplicate nickname");
 
     @Getter
     private int status;

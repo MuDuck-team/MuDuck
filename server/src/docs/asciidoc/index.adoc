@@ -64,3 +64,37 @@ include::{snippets}/get-individual-board/http-response.adoc[]
 
 .response-fields
 include::{snippets}/get-individual-board/response-fields.adoc[]
+
+== MemberController
+=== 현재 로그인한 회원 정보 조회
+.http-request
+include::{snippets}/get-my-info/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-my-info/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-my-info/response-fields.adoc[]
+
+=== 해당 아이디를 가진 회원 정보 조회
+.http-request
+include::{snippets}/get-member/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-member/response-fields.adoc[]
+
+=== 해당 아이디를 가진 회원 정보 수정
+.http-request
+include::{snippets}/update-member/http-request.adoc[]
+
+.request-fields
+include::{snippets}/update-member/request-fields.adoc[]
+
+.http-response
+include::{snippets}/update-member/http-response.adoc[]
+
+.response-fields
+include::{snippets}/update-member/response-fields.adoc[]

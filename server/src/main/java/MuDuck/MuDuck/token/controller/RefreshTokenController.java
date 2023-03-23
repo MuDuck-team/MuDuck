@@ -26,7 +26,7 @@ public class RefreshTokenController {
 
         String newToken = refreshTokenService.reissuanceRefreshToken(refreshToken);
 
-        URI redirectUri = new URI("http://localhost:8080/test/test");
+        URI redirectUri = new URI("http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com/login");
 
         HttpHeaders httpHeaders = new HttpHeaders();
 
