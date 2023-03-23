@@ -162,7 +162,7 @@ function NearbyPage() {
   console.log(theater, restaurants, cafes, parkings);
   return (
     <>
-      <h2>{theater.placeName}</h2>
+      <StyledH2>{theater.placeName}</StyledH2>
       <MyMapContainer placeData={placeData} onMarkerClick={onMarkerClick} />
       <CommentCotainer>
         <H3>{getText(selectPlaceObj)}</H3>
@@ -209,6 +209,13 @@ function NearbyPage() {
     </>
   );
 }
+
+const StyledH2 = styled.h2`
+  margin-top: 40px;
+  font-size: var(--font-size-xxl);
+  margin-bottom: 30px;
+  font-weight: bold;
+`;
 
 const CommentCotainer = styled.section`
   margin-top: 32px;
