@@ -17,6 +17,6 @@ public class MemberLogoutSuccessHandler implements LogoutSuccessHandler {
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response,
             Authentication authentication) throws IOException, ServletException {
         log.info("logout 완료입니다.");
-        response.sendRedirect("login");
+        //response.sendRedirect("login");
     }
 }

@@ -6,9 +6,11 @@ import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.repository.MemberRepository;
 import MuDuck.MuDuck.utils.CustomBeanUtils;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -21,12 +23,16 @@ public class MemberService {
 
     public Member createMember(Member member) {
         verifyExistEmail(member);
+
         Member savedMember = memberRepository.save(member);
 
         return savedMember;
     }
 
     public Member updateMember(Member member) {
+        // 닉네임 중복 체크
+        verifyExistNickName(member.getNickName());
+
         Member findedMember = findVerifiedMember(member.getMemberId());
 
         Member updatedMember = beanUtils.copyNonNullProperties(member, findedMember);
@@ -36,14 +42,20 @@ public class MemberService {
 
     public Member getMember(long memberId){
 
+        log.info("getMember 에 들어온 값 : {}", memberId);
+
         return findVerifiedMember(memberId);
 
     }
 
     private Member findVerifiedMember(long memberId) {
+        log.info("Service 에 들어온 아이디 값 : {}", memberId);
+
         Optional<Member> optionalMember = memberRepository.findById(memberId);
+
         Member findMember = optionalMember.orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
         return findMember;
     }
 
@@ -66,5 +78,14 @@ public class MemberService {
         Member findMember = optionalMember.orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
         return findMember;
+    }
+
+    private void verifyExistNickName(String nickName){
+
+        Optional<Member> optionalMember = memberRepository.findByNickName(nickName);
+        if(optionalMember.isPresent()){
+            throw new BusinessLogicException(ExceptionCode.DUPLICATE_NICKNAME);
+        }
+
     }
 }
