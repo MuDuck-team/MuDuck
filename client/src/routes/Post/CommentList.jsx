@@ -41,9 +41,8 @@ function CommentList({ comment }) {
       )}
       {isShowReply &&
         comments.map(reply => (
-          <ReplyContainer>
+          <ReplyContainer key={reply.id}>
             <WriterInfo
-              key={reply.id}
               profileUrl={reply.head.userProfile}
               nickname={reply.head.nickname}
               createdAt={reply.head.createdAt}
