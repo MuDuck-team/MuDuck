@@ -12,6 +12,7 @@ const variables = css`
     --border-color: #3e3e3e;
     --line-color: #eee;
 
+    --font-size-xxs: 1rem;
     --font-size-xs: 1.2rem;
     --font-size-sm: 1.4rem;
     --font-size-md: 1.6rem;
