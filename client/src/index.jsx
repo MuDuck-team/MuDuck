@@ -14,7 +14,7 @@ import NearbyPage, {
   loader as nearbyPageLoader,
 } from './routes/Nearby/NearbyPage';
 import PostsPage, { loader as postsPageLoader } from './routes/Posts/PostsPage';
-import PostPage from './routes/Post/PostPage';
+import PostPage, { loader as postPageLoader } from './routes/Post/PostPage';
 import PostAddPage, {
   loader as postAddPageLoader,
 } from './routes/PostAdd/PostAddPage';
@@ -55,7 +55,7 @@ const router = createBrowserRouter([
             loader: nearbyPageLoader,
           },
           { path: '/posts', element: <PostsPage />, loader: postsPageLoader },
-          { path: '/post/:id', element: <PostPage /> },
+          { path: '/post/:id', element: <PostPage />, loader: postPageLoader },
           {
             path: '/post/add',
             element: <PostAddPage />,

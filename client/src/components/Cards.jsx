@@ -17,6 +17,10 @@ export function ArticleCard({
   height,
   backgroundColor,
   borderRadius,
+  marginBottom,
+  marginRight,
+  titlefontSize,
+  titleMarginBottom,
 }) {
   const navigate = useNavigate();
 
@@ -35,14 +39,16 @@ export function ArticleCard({
       onClick={onClick}
       backgroundColor={backgroundColor}
       borderRadius={borderRadius}
+      marginBottom={marginBottom}
+      marginRight={marginRight}
     >
       <ContentWrapper>
-        <TopWrapper>
+        <TopWrapper titleMarginBottom={titleMarginBottom}>
           <img alt="profile" src={url} />
           {nickname} {lastCreatedAt}
         </TopWrapper>
         <BottomWrapper>
-          <TitleWrapper>{title}</TitleWrapper>
+          <TitleWrapper titlefontSize={titlefontSize}>{title}</TitleWrapper>
           {commentCount && (
             <IconsWrapper>
               <Icon>
@@ -136,6 +142,8 @@ const RatingContainer = styled.section`
 const CardContainer = styled.article`
   width: ${props => props.width};
   height: ${props => props.height};
+  margin-bottom: ${props => props.marginBottom};
+  margin-right: ${props => props.marginRight};
   background-color: ${props => props.backgroundColor || 'var(--main-002)'};
   font-size: var(--font-size-md);
   color: var(--font-color);
@@ -155,7 +163,7 @@ const ContentWrapper = styled.div`
 const TopWrapper = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: ${props => props.titleMarginBottom || '8px'};
 
   font-size: var(--font-size-xs);
 
@@ -174,7 +182,7 @@ const BottomWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  font-size: var(--font-size-lg);
+  font-size: ${props => props.titlefontSize || 'var(--font-size-lg)'};
 `;
 
 const IconsWrapper = styled.div`

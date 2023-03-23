@@ -48,6 +48,7 @@ const ProfileContainer = styled.div`
 /** 공연정보에서 배우프로필용으로 사용할 경우 type="actor" 프롭스를 내려 호버나 액티브 컬러를 지정하지 않습니다.
 나머지 유저 프로필이나, 댓글창 프로필에서 사용할 경우 따로 type을 지정하지 않고 사용합니다. */
 const ProfileImage = styled.img`
+  object-fit: cover;
   src: ${({ src }) => src};
   alt: ${({ alt }) => alt || 'Profile Image'};
   height: ${({ height }) => height || '75px'};
