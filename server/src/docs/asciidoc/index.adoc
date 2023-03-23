@@ -86,6 +86,13 @@ include::{snippets}/board-post/http-response.adoc[]
 .response-fields
 include::{snippets}/board-post/response-fields.adoc[]
 
+=== 게시글 삭제
+.http-request
+include::{snippets}/delete-board/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-board/path-parameters.adoc[]
+
 
 == MusicalController
 === 작품 전체 목록 조회

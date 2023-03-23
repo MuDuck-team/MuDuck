@@ -15,6 +15,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 public class BoardDto {
@@ -28,6 +29,18 @@ public class BoardDto {
         @NotBlank(message = "게시글의 제목 값이 없습니다.")
         private String title;
         @NotBlank(message = "게시글 본문 값이 없습니다.")
+        private String content;
+    }
+
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @Getter
+    @Setter
+    @Builder
+    public static class Patch{
+        private long boardId;
+
+        private String title;
+
         private String content;
     }
 

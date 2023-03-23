@@ -1,6 +1,7 @@
 package MuDuck.MuDuck.board.service;
 
 import MuDuck.MuDuck.board.entity.Board;
+import MuDuck.MuDuck.board.entity.Board.BoardStatus;
 import MuDuck.MuDuck.board.repository.BoardRepository;
 import MuDuck.MuDuck.boardCategory.entity.BoardCategory;
 import MuDuck.MuDuck.boardCategory.repository.BoardCategoryRepository;
@@ -87,6 +88,36 @@ public class BoardService {
         }else{
             return true;
         }
+    }
+
+    public Board updateBoard(Board board, long memberId){
+        Board originalBoard = findVerifiedBoard(board.getBoardId());
+        Board updatedBoard;
+        if(originalBoard.getMember().getMemberId() != memberId){ // 수정을 요청한 멤버가 작성자가 아니라면
+            throw new BusinessLogicException(ExceptionCode.INVALID_MEMBER_STATUS);
+        }else{ // 수정을 요청한 멤버가 작성자라면
+            if(originalBoard.getBoardStatus() == BoardStatus.BOARD_DELETE){ // 이미 삭제 된 게시물에 업데이트 요청하는거라면
+                throw new BusinessLogicException(ExceptionCode.BOARD_REMOVED);
+            }else {
+                updatedBoard = beanUtils.copyNonNullProperties(board, originalBoard);
+            }
+        }
+        return boardRepository.save(updatedBoard);
+    }
+
+    public void deleteBoard(long boardId, long memberId){
+        Board board = findVerifiedBoard(boardId);
+
+        if(board.getMember().getMemberId() != memberId){ // 삭제를 요청하는 멤버가 작성자가 아니라면
+            throw new BusinessLogicException(ExceptionCode.INVALID_MEMBER_STATUS);
+        }else{ // 삭제를 요청하는 멤버가 작성자라면
+            if(board.getBoardStatus() == BoardStatus.BOARD_DELETE){ // 이미 삭제된 상태라면
+                throw new BusinessLogicException(ExceptionCode.BOARD_REMOVED);
+            }else {
+                board.setBoardStatus(BoardStatus.BOARD_DELETE);
+            }
+        }
+        boardRepository.save(board);
     }
 
     @Transactional(readOnly=true)

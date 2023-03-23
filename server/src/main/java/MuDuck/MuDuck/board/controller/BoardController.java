@@ -23,6 +23,7 @@ import MuDuck.MuDuck.response.CategoryMultipleResponse;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,12 +65,12 @@ public class BoardController {
     private final BoardCategoryService boardCategoryService;
 
     @PostMapping("/writing")
-    public ResponseEntity postBoard(@Validated @RequestBody BoardDto.Post requestBody,
+    public ResponseEntity postBoard(@Valid @RequestBody BoardDto.Post requestBody,
             Principal principal) {
         // 로그인 되어 있는 유저 이메일 받아오기.
         // 글 작성은 반드시 로그인 상태여야하므로 null인 상황은 고려하지 않는다. (SecurityConfiguration에서 걸러줄 예정)
         String email = principal.getName();
-        Member member = memberService.findByEmail(email); // 글 작성자
+        Member member = memberService.findByEmail(email); // 글 작성자이자 로그인한 유저
 
         Board board = boardMapper.boardPostToBoard(requestBody, member);
 
@@ -136,5 +139,41 @@ public class BoardController {
 
         return new ResponseEntity<>(new CategoryMultipleResponse(
                 categoryMapper.categoriesToCategoryResponseDtos(categories)), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{board-id}")
+    public ResponseEntity patchBoard(@Positive @PathVariable("board-id") long boardId,
+            @Valid @RequestBody BoardDto.Patch requestBody, Principal principal) {
+        // 로그인 되어 있는 유저 이메일 받아오기.
+        // 글 수정은 반드시 로그인 상태여야하므로 null인 상황은 고려하지 않는다. (SecurityConfiguration에서 걸러줄 예정)
+        String email = principal.getName();
+        Member member = memberService.findByEmail(email); // 로그인한 유저
+
+        requestBody.setBoardId(boardId);
+
+        Board board = boardMapper.boardPatchToBoard(requestBody);
+
+        Board updatedBoard = boardService.updateBoard(board, member.getMemberId());
+
+        List<Comment> onlyComment = commentService.getCommentWithoutReply(updatedBoard.getComments());
+        String category = boardService.findCategory(updatedBoard);
+        boolean isLiked = boardService.isLiked(member);
+
+        return new ResponseEntity<>(new BoardContentMultipleResponse(
+                boardMapper.multiInfoToBoardContentResponse(member, updatedBoard, category, isLiked),
+                commentMapper.commentsToCommentResponseDtos(onlyComment)), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{board-id}")
+    public ResponseEntity deleteBoard(@Positive @PathVariable("board-id") long boardId,
+            Principal principal) {
+        // 로그인 되어 있는 유저 이메일 받아오기.
+        // 글 삭제는 반드시 로그인 상태여야하므로 null인 상황은 고려하지 않는다. (SecurityConfiguration에서 걸러줄 예정)
+        String email = principal.getName();
+        Member member = memberService.findByEmail(email); // 로그인한 유저
+
+        boardService.deleteBoard(boardId, member.getMemberId());
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
