@@ -5,7 +5,13 @@
 |{{#tableCellContent}}`+{{path}}+`{{/tableCellContent}}
 |{{#tableCellContent}}`+{{type}}+`{{/tableCellContent}}
 |{{#tableCellContent}}{{description}}{{/tableCellContent}}
-|{{#tableCellContent}}_{{optional}}_{{/tableCellContent}}
+|{{#tableCellContent}}
+ifeval::["{{optional}}"=="true"]
+`*true*`
+endif::[]
+ifeval::["{{optional}}"=="false"]
+`false`
+endif::[]{{/tableCellContent}}
 |{{#tableCellContent}}{{regexp}}{{/tableCellContent}}
 
 {{/fields}}
