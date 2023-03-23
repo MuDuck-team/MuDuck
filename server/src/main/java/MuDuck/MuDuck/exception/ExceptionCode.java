@@ -13,7 +13,13 @@ public enum ExceptionCode {
     BOARD_EXISTS(409, "Board exists"),
     CATEGORY_NOT_FOUND(404, "Category not found"),
     CATEGORY_EXISTS(409, "Category exists"),
-    NOT_SAME_USER(401, "Not the same user");
+    NOT_SAME_USER(401, "Not the same user"),
+    MUSICAL_NOT_FOUND(404,"Musical not found"),
+    MUSICAL_EXISTS(409, "Musical exists"),
+    INVALID_MUSICAL_STATE(400, "Invalid musical state"),
+    ACTOR_NOT_FOUND(404,"Musical not found"),
+    ACTOR_EXISTS(409, "Musical exists"),
+    INVALID_ACTOR_STATE(400, "Invalid musical state");
 
     @Getter
     private int status;
