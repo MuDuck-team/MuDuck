@@ -12,4 +12,8 @@ public interface MemberMapper {
     @Mapping(source = "memberRole.role", target = "role")
     @Mapping(source = "nickName", target = "nickname")
     MemberDto.Response memberToResponseDto(Member member);
+
+    @Mapping(source = "nickname", target = "nickName")
+    @Mapping(source = "profileImageUrl", target = "picture")
+    Member memberPatchDtoToMember(MemberDto.Patch patch);
 }
