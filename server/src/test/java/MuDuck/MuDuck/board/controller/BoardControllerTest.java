@@ -669,8 +669,8 @@ class BoardControllerTest {
                         .category("자유주제")
                         .build())
                 .body(BoardContentBody.builder()
-                        .title(board.getTitle())
-                        .content(board.getContent())
+                        .title(updatedBoard.getTitle())
+                        .content(updatedBoard.getContent())
                         .build())
                 .liked(false)
                 .build();
