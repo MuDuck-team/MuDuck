@@ -87,6 +87,22 @@ include::{snippets}/board-post/http-response.adoc[]
 .response-fields
 include::{snippets}/board-post/response-fields.adoc[]
 
+=== 게시글 수정
+.http-request
+include::{snippets}/patch-board/http-request.adoc[]
+
+.request-body
+include::{snippets}/patch-board/request-body.adoc[]
+
+.path-parameters
+include::{snippets}/patch-board/path-parameters.adoc[]
+
+.response-body
+include::{snippets}/patch-board/response-body.adoc[]
+
+.response-fields
+include::{snippets}/patch-board/response-fields.adoc[]
+
 === 게시글 삭제
 .http-request
 include::{snippets}/delete-board/http-request.adoc[]
