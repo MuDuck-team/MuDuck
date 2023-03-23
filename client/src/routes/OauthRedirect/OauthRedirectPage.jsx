@@ -25,23 +25,22 @@ function OauthRedirectPage() {
       headers: {
         Authorization: localToken,
       },
-    }).then(res => {
-      if (res.data.role === 'ROLE_ADMIN') {
-        setAdminStatus(!adminState);
-        setUser(initialUserState => ({ ...initialUserState, ...res.data }));
-      } else {
-        setUserStatus(!userState);
-        setUser(initialUserState => ({ ...initialUserState, ...res.data }));
-      }
-    });
-
-    if (signup === 'true') {
-      return navigate('/myinfo');
-    }
-    return navigate('/');
-
-    //  회원가입일때 -> '/myinfo'
-    //  로그인일때 -> '/'
+    })
+      .then(res => {
+        if (res.data.role === 'ROLE_ADMIN') {
+          setAdminStatus(!adminState);
+          setUser(initialUserState => ({ ...initialUserState, ...res.data }));
+        } else {
+          setUserStatus(!userState);
+          setUser(initialUserState => ({ ...initialUserState, ...res.data }));
+        }
+      })
+      .then(() => {
+        if (signup === 'true') {
+          return navigate('/myinfo');
+        }
+        return navigate('/');
+      });
   }, []);
 
   return (
