@@ -21,6 +21,7 @@ import MuDuck.MuDuck.response.BoardContentMultipleResponse;
 import MuDuck.MuDuck.response.BoardMultipleResponse;
 import MuDuck.MuDuck.response.CategoryMultipleResponse;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -61,19 +62,29 @@ public class BoardController {
     private final BoardCategoryService boardCategoryService;
 
     @PostMapping("/writing")
-    public ResponseEntity postBoard(@Validated @RequestBody BoardDto.Post requestBody, Principal principal){
+    public ResponseEntity postBoard(@Validated @RequestBody BoardDto.Post requestBody,
+            Principal principal) {
         // 로그인 되어 있는 유저 이메일 받아오기.
         // 글 작성은 반드시 로그인 상태여야하므로 null인 상황은 고려하지 않는다. (SecurityConfiguration에서 걸러줄 예정)
         String email = principal.getName();
         Member member = memberService.findByEmail(email); // 글 작성자
 
         Board board = boardMapper.boardPostToBoard(requestBody, member);
-        Board createdBoard = boardService.createBoard(board);
 
         List<Long> categoryIds = boardMapper.boardPostToCategoryIds(requestBody);
-//        List<BoardCategory> boardCategories = boardCategoryService.getBoardCategories(categoryIds, createdBoard);
+        List<BoardCategory> boardCategories = boardCategoryService.getBoardCategories(categoryIds,
+                board);
+        board.setBoardCategories(boardCategories);
 
-        return  null;
+        Board createdBoard = boardService.createBoard(board);
+
+        createdBoard.setBoardCategories(boardCategories);
+        String category = boardService.findCategory(createdBoard);
+
+        return new ResponseEntity<>(new BoardContentMultipleResponse(
+                boardMapper.multiInfoToBoardContentResponse(member, createdBoard, category, false),
+                commentMapper.commentsToCommentResponseDtos(new ArrayList<>())),
+                HttpStatus.CREATED);
     }
 
     @GetMapping
