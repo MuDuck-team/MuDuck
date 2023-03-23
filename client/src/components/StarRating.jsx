@@ -43,13 +43,20 @@ function StarRating({
 }
 
 const Button = styled.button`
+  display: flex;
+  align-items: center;
   background-color: transparent;
   border: none;
   outline: none;
   cursor: pointer;
+
+  span {
+    padding-bottom: 5px;
+  }
 `;
 
 const Wrapper = styled.section`
+  display: flex;
   width: ${props => props.width || '130px'};
   span {
     display: inline-block;
