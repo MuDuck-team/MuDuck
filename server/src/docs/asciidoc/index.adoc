@@ -70,6 +70,22 @@ include::{snippets}/get-individual-board/http-response.adoc[]
 .response-fields
 include::{snippets}/get-individual-board/response-fields.adoc[]
 
+=== 게시글 등록
+.http-request
+include::{snippets}/board-post/http-request.adoc[]
+
+.request-body
+include::{snippets}/board-post/request-body.adoc[]
+
+.request-fields
+include::{snippets}/board-post/request-fields.adoc[]
+
+.http-response
+include::{snippets}/board-post/http-response.adoc[]
+
+.response-fields
+include::{snippets}/board-post/response-fields.adoc[]
+
 
 == MusicalController
 === 작품 전체 목록 조회
@@ -111,20 +127,3 @@ include::{snippets}/get-musicals-state/http-response.adoc[]
 
 .response-fields
 include::{snippets}/get-musicals-state/response-fields.adoc[]
-
-=== 게시글 등록
-.http-request
-include::{snippets}/board-post/http-request.adoc[]
-
-.request-body
-include::{snippets}/board-post/request-body.adoc[]
-
-.request-fields
-include::{snippets}/board-post/request-fields.adoc[]
-
-.http-response
-include::{snippets}/board-post/http-response.adoc[]
-
-.response-fields
-include::{snippets}/board-post/response-fields.adoc[]
-
