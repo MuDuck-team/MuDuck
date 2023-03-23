@@ -37,8 +37,6 @@ public class BoardDto {
     @Setter
     @Builder
     public static class Patch{
-        private long boardId;
-
         private String title;
 
         private String content;

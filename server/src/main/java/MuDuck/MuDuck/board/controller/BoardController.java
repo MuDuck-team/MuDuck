@@ -149,9 +149,7 @@ public class BoardController {
         String email = principal.getName();
         Member member = memberService.findByEmail(email); // 로그인한 유저
 
-        requestBody.setBoardId(boardId);
-
-        Board board = boardMapper.boardPatchToBoard(requestBody);
+        Board board = boardMapper.boardPatchToBoard(requestBody, boardId);
 
         Board updatedBoard = boardService.updateBoard(board, member.getMemberId());
 

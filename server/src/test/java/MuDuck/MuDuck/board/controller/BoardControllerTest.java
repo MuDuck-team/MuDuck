@@ -14,6 +14,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.response
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,12 +60,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -561,6 +564,12 @@ class BoardControllerTest {
                 post("/board/writing").accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf()));
 
+        // Rest Docs에서 정규식 표현을 위해 선언
+        ConstraintDescriptions postBoardConstraints = new ConstraintDescriptions(BoardDto.Post.class);
+        List<String> idDescriptions = postBoardConstraints.descriptionsForProperty("id");
+        List<String> titleDescriptions = postBoardConstraints.descriptionsForProperty("title");
+        List<String> contentDescriptions = postBoardConstraints.descriptionsForProperty("content");
+
         // then
         actions.andExpect(status().isCreated())
                 .andExpect(jsonPath("$.boardContent").isMap())
@@ -570,11 +579,11 @@ class BoardControllerTest {
                         getResponsePreProcessor(),
                         requestFields(List.of(
                                 fieldWithPath("id").type(JsonFieldType.ARRAY)
-                                        .description("카테고리 식별자 목록"),
+                                        .description("카테고리 식별자 목록").attributes(key("regexp").value(idDescriptions)),
                                 fieldWithPath("title").type(JsonFieldType.STRING)
-                                        .description("게시글 제목"),
+                                        .description("게시글 제목").attributes(key("regexp").value(titleDescriptions)),
                                 fieldWithPath("content").type(JsonFieldType.STRING)
-                                        .description("게시물 내용")
+                                        .description("게시물 내용").attributes(key("regexp").value(contentDescriptions))
                         )),
                         responseFields(List.of(
                                 fieldWithPath("boardContent").type(JsonFieldType.OBJECT)
@@ -615,32 +624,27 @@ class BoardControllerTest {
     @WithMockUser
     public void patchBoardTest() throws Exception {
         // given
-        BoardDto.Patch patch = Patch.builder()
+        BoardDto.Patch requestBody = Patch.builder()
                 .title("수정된 제목입니다")
                 .content("수정된 내용입니다")
                 .build();
-        String requestBody = gson.toJson(patch);
 
-        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+        Member member = new Member(1L, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
                 MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
-        Board board = Board.builder()
-                .boardId(1L)
-                .title("수정된 제목입니다.")
-                .content("수정된 내용입니다.")
-                .build();
-        Board updatedBoard = new Board(1, "수정된 제목입니다", "수정된 내용입니다.", 982, 60,
+
+        Board board = new Board(1L, "제목입니다", "내용입니다", 30, 30, BoardStatus.BOARD_POST, null,
+                new ArrayList<>(), member, null);
+
+        Board updatedBoard = new Board(1L, "수정된 제목입니다", "수정된 내용입니다.", 982, 60,
                 BoardStatus.BOARD_POST, null, null,
                 member, null);
 
-        Comment comment1 = new Comment(1, "댓글입니다", CommentStatus.COMMENT_POST, member, board, null,
+        Comment comment1 = new Comment(1L, "댓글입니다", CommentStatus.COMMENT_POST, member, updatedBoard, null,
                 null);
-        Comment comment2 = new Comment(2, "대댓글입니다", CommentStatus.COMMENT_POST, member, board,
+        Comment comment2 = new Comment(2L, "대댓글입니다", CommentStatus.COMMENT_POST, member, updatedBoard,
                 comment1, null);
-        Comment comment3 = new Comment(3, "대댓글입니다2", CommentStatus.COMMENT_POST, member, board,
+        Comment comment3 = new Comment(3L, "대댓글입니다2", CommentStatus.COMMENT_POST, member, updatedBoard,
                 comment1, null);
-
-        String category = "자유주제";
-        boolean isLiked = true;
 
         List<Comment> comments = List.of(comment1, comment2, comment3);
         member.setComments(comments);
@@ -651,22 +655,24 @@ class BoardControllerTest {
         List<Comment> replyList = List.of(comment2, comment3);
         comment1.setChildren(replyList);
 
+        updatedBoard.setComments(comments);
+
         BoardDto.BoardContentResponse boardContentResponse = BoardContentResponse.builder()
-                .id(updatedBoard.getBoardId())
+                .id(board.getBoardId())
                 .head(BoardContentHead.builder()
                         .userProfile(member.getPicture())
                         .nickname(member.getNickName())
                         .createdAt("2022.12.21")
-                        .view(updatedBoard.getViews())
-                        .like(updatedBoard.getLikes())
-                        .totalComment(updatedBoard.getComments().size())
-                        .category(category)
+                        .view(board.getViews())
+                        .like(board.getLikes())
+                        .totalComment(board.getComments().size())
+                        .category("자유주제")
                         .build())
                 .body(BoardContentBody.builder()
-                        .title(updatedBoard.getTitle())
-                        .content(updatedBoard.getContent())
+                        .title(board.getTitle())
+                        .content(board.getContent())
                         .build())
-                .liked(isLiked)
+                .liked(false)
                 .build();
 
         CommentDto.Response replyResponse1 = CommentDto.Response.builder()
@@ -709,20 +715,25 @@ class BoardControllerTest {
         List<CommentDto.Response> commentResponseList = List.of(commentResponse);
 
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
-        given(boardMapper.boardPatchToBoard(Mockito.any())).willReturn(board);
+        given(boardMapper.boardPatchToBoard(Mockito.any(), Mockito.anyLong())).willReturn(board);
         given(boardService.updateBoard(Mockito.any(), Mockito.anyLong())).willReturn(updatedBoard);
         given(commentService.getCommentWithoutReply(Mockito.anyList())).willReturn(onlyCommentList);
         given(boardService.findCategory(Mockito.any())).willReturn("자유주제");
         given(boardService.isLiked(Mockito.any())).willReturn(false);
-        given(boardMapper.multiInfoToBoardContentResponse(Mockito.any(), Mockito.any(),
-                Mockito.anyString(), Mockito.anyBoolean())).willReturn(boardContentResponse);
-        given(commentMapper.commentsToCommentResponseDtos(Mockito.anyList())).willReturn(
-                commentResponseList);
+        given(boardMapper.multiInfoToBoardContentResponse(Mockito.any(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).willReturn(boardContentResponse);
+        given(commentMapper.commentsToCommentResponseDtos(Mockito.anyList())).willReturn(commentResponseList);
+
+        String requestBodyJson = gson.toJson(requestBody);
 
         // when
         ResultActions actions = mockMvc.perform(
                 patch("/board/{board-id}", 1L).accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf()));
+                        .contentType(MediaType.APPLICATION_JSON).content(requestBodyJson).with(csrf()));
+
+        // Rest Docs에서 정규식 표현을 위해 선언
+        ConstraintDescriptions patchBoardConstraints = new ConstraintDescriptions(BoardDto.Patch.class);
+        List<String> titleDescriptions = patchBoardConstraints.descriptionsForProperty("title");
+        List<String> contentDescriptions = patchBoardConstraints.descriptionsForProperty("content");
 
         // then
         actions.andExpect(status().isOk())
@@ -732,8 +743,8 @@ class BoardControllerTest {
                         getResponsePreProcessor(),
                         pathParameters(parameterWithName("board-id").description("게시글 식별자")),
                         requestFields(List.of(
-                                fieldWithPath("title").type(JsonFieldType.STRING).optional().description("게시글 제목"),
-                                fieldWithPath("content").type(JsonFieldType.STRING).optional().description("게시글 내용")
+                                fieldWithPath("title").type(JsonFieldType.STRING).optional().description("게시글 제목").optional().attributes(key("regexp").value(titleDescriptions)),
+                                fieldWithPath("content").type(JsonFieldType.STRING).optional().description("게시글 내용").optional().attributes(key("regexp").value(contentDescriptions))
                         )),
                         responseFields(List.of(
                                 fieldWithPath("boardContent").type(JsonFieldType.OBJECT)
