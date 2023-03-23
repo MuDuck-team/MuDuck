@@ -9,9 +9,12 @@ import MuDuck.MuDuck.boardCategory.service.BoardCategoryService;
 import MuDuck.MuDuck.category.entity.Category;
 import MuDuck.MuDuck.category.mapper.CategoryMapper;
 import MuDuck.MuDuck.category.service.CategoryService;
+import MuDuck.MuDuck.comment.dto.CommentDto;
 import MuDuck.MuDuck.comment.entity.Comment;
 import MuDuck.MuDuck.comment.mapper.CommentMapper;
 import MuDuck.MuDuck.comment.service.CommentService;
+import MuDuck.MuDuck.exception.BusinessLogicException;
+import MuDuck.MuDuck.exception.ExceptionCode;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.service.MemberService;
 import MuDuck.MuDuck.noticeboard.entity.NoticeBoard;
@@ -153,12 +156,14 @@ public class BoardController {
 
         Board updatedBoard = boardService.updateBoard(board, member.getMemberId());
 
-        List<Comment> onlyComment = commentService.getCommentWithoutReply(updatedBoard.getComments());
+        List<Comment> onlyComment = commentService.getCommentWithoutReply(
+                updatedBoard.getComments());
         String category = boardService.findCategory(updatedBoard);
         boolean isLiked = boardService.isLiked(member);
 
         return new ResponseEntity<>(new BoardContentMultipleResponse(
-                boardMapper.multiInfoToBoardContentResponse(member, updatedBoard, category, isLiked),
+                boardMapper.multiInfoToBoardContentResponse(member, updatedBoard, category,
+                        isLiked),
                 commentMapper.commentsToCommentResponseDtos(onlyComment)), HttpStatus.OK);
     }
 
@@ -173,5 +178,97 @@ public class BoardController {
         boardService.deleteBoard(boardId, member.getMemberId());
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{board-id}/comment")
+    public ResponseEntity postComment(@Positive @PathVariable("board-id") long boardId,
+            @Valid @RequestBody CommentDto.Post requestBody, Principal principal) {
+        // 대댓글 등록 구현부터 해놓고 생각해보기 - 대댓글 등록 함수 사용하면 될 것 같다는 생각이 들었다. => 따로 구현하자 commentId를 null로 입력하는건 좋지 않을 것 같다.
+        // postComment() 때는 null이지만 이것 때문에 허용하면 postReply에 null을 넣는 사태를 막을 수 없다.
+
+        // 댓글을 누가 작성했는지 파악해야 함
+        String email = principal.getName();
+        Member member = memberService.findByEmail(email);
+
+        // 어느 게시물에 작성하는지도 파악해야 함
+        Board board = boardService.findBoard(boardId);
+        String category = boardService.findCategory(board);
+        boolean isLike = boardService.isLiked(member);
+
+        Comment comment = commentMapper.commentPostDtoToComment(requestBody);
+        comment.setMember(member);
+        comment.setBoard(board);
+
+        Comment createdComment = commentService.createComment(comment);
+
+        Board updatedBoard = boardService.findBoard(boardId);
+        List<Comment> onlyComment = commentService.getCommentWithoutReply(
+                updatedBoard.getComments());
+
+        return new ResponseEntity<>(new BoardContentMultipleResponse(
+                boardMapper.multiInfoToBoardContentResponse(member, board, category, isLike),
+                commentMapper.commentsToCommentResponseDtos(onlyComment)
+        ), HttpStatus.CREATED);
+    }
+
+    @PostMapping("/{board-id}/comment/{comment-id}")
+    public ResponseEntity postReply(@Positive @PathVariable("board-id") long boardId,
+            @Positive @PathVariable("comment-id") long commentId,
+            @Valid @RequestBody CommentDto.Post requestBody, Principal principal) {
+        // 댓글을 누가 작성했는지 파악해야 함
+        String email = principal.getName();
+        Member member = memberService.findByEmail(email);
+
+        // 어느 게시물에 작성하는지도 파악해야 함
+        Board board = boardService.findBoard(boardId);
+        String category = boardService.findCategory(board);
+        boolean isLike = boardService.isLiked(member);
+
+        // 어느 부모 댓글에 다는 대댓글인지도 파악해야 함
+        Comment parentComment = commentService.findComment(commentId);
+
+        if(parentComment.getParent() != null){ // 대댓글을 달려는 댓글의 부모가 null이 아니라면 대댓글에 대댓글을 게시하려고 시도 중이니 Exception 처리
+            throw new BusinessLogicException(ExceptionCode.INVALID_COMMENT);
+        }
+
+        Comment comment = commentMapper.commentPostDtoToComment(requestBody);
+        comment.setMember(member);
+        comment.setBoard(board);
+        comment.setParent(parentComment);
+
+        Comment createdComment = commentService.createComment(comment);
+
+        Board updatedBoard = boardService.findBoard(boardId);
+        List<Comment> onlyComment = commentService.getCommentWithoutReply(
+                updatedBoard.getComments());
+
+        return new ResponseEntity<>(new BoardContentMultipleResponse(
+                boardMapper.multiInfoToBoardContentResponse(member, board, category, isLike),
+                commentMapper.commentsToCommentResponseDtos(onlyComment)
+        ), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{board-id}/comment/{comment-id}")
+    public ResponseEntity deleteComment(@Positive @PathVariable("board-id") long boardId,
+            @Positive @PathVariable("comment-id") long commentId, Principal principal) {
+        // 요청자의 신분을 확인
+        String email = principal.getName();
+        Member member = memberService.findByEmail(email);
+
+        commentService.deleteComment(commentId, member);
+
+        // 어느 게시물에 작성하는지도 파악해야 함
+        Board board = boardService.findBoard(boardId);
+        String category = boardService.findCategory(board);
+        boolean isLike = boardService.isLiked(member);
+
+        Board updatedBoard = boardService.findBoard(boardId);
+        List<Comment> onlyComment = commentService.getCommentWithoutReply(
+                updatedBoard.getComments());
+
+        return new ResponseEntity<>(new BoardContentMultipleResponse(
+                boardMapper.multiInfoToBoardContentResponse(member, board, category, isLike),
+                commentMapper.commentsToCommentResponseDtos(onlyComment)
+        ), HttpStatus.CREATED);
     }
 }
