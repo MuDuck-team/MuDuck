@@ -11,6 +11,7 @@ public enum ExceptionCode {
     THEATER_EXISTS(409, "Theater exists"),
     BOARD_NOT_FOUND(404, "Board not found"),
     BOARD_EXISTS(409, "Board exists"),
+    BOARD_REMOVED(404, "Board Already Removed"),
     CATEGORY_NOT_FOUND(404, "Category not found"),
     CATEGORY_EXISTS(409, "Category exists"),
     NOT_SAME_USER(401, "Not the same user"),
