@@ -8,6 +8,7 @@ export const changeMuDuckToKakaoObj = muDuckObj => {
   kakaoObj.y = muDuckObj.latitube;
   kakaoObj.place_url = muDuckObj.placeUrl;
   kakaoObj.score = muDuckObj.score;
+  kakaoObj.id = muDuckObj.categoryGroupCode;
 
   return kakaoObj;
 };
@@ -23,6 +24,7 @@ export const changeKakaoToMuDuckObj = kakaoObj => {
   muDuckObj.placeUrl = kakaoObj.place_url;
   muDuckObj.score = kakaoObj.score;
   muDuckObj.mapId = kakaoObj.id;
+  muDuckObj.categoryGroupCode = kakaoObj.id;
 
   // category_group_code
   return muDuckObj;
