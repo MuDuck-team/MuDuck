@@ -210,4 +210,32 @@ VALUES (1, 10, 4.2, '한줄평이지롱');
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
 VALUES (2, 10, 4.9, '한줄평이지롱');
 
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (1, 11, 4.8, '한줄평이지롱');
 
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (2, 11, 4.9, '한줄평이지롱');
+
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (1, 12, 4.8, '한줄평이지롱');
+
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (2, 12, 4.5, '한줄평이지롱');
+
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (1, 13, 4.3, '한줄평이지롱');
+
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (2, 13, 4.1, '한줄평이지롱');
+
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (1, 14, 4.4, '한줄평이지롱');
+
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (2, 14, 4.5, '한줄평이지롱');
+
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (1, 15, 4.5, '한줄평이지롱');
+
+INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+VALUES (2, 15, 4.3, '한줄평이지롱');
