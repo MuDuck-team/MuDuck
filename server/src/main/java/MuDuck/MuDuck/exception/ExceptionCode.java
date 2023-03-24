@@ -26,7 +26,6 @@ public enum ExceptionCode {
     COMMENT_REMOVED(404, "Comment Already Removed"),
     INVALID_COMMENT(400, "Can't post reply to reply"),
     INVALID_ACTOR_STATE(400, "Invalid musical state"),
-    INVALID_ACTOR_STATE(400, "Invalid musical state"),
     NOT_FOUND_COOKIE(404, "Cookie Not Found");
 
 
