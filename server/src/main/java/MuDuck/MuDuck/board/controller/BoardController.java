@@ -229,18 +229,6 @@ public class BoardController {
 
         commentService.deleteComment(commentId, member);
 
-        // 어느 게시물에 작성하는지도 파악해야 함
-        Board board = boardService.findBoard(boardId);
-        String category = boardService.findCategory(board);
-        boolean isLike = boardService.isLiked(member);
-
-        Board updatedBoard = boardService.findBoard(boardId);
-        List<Comment> onlyComment = commentService.getCommentWithoutReply(
-                updatedBoard.getComments());
-
-        return new ResponseEntity<>(new BoardContentMultipleResponse(
-                boardMapper.multiInfoToBoardContentResponse(member, board, category, isLike),
-                commentMapper.commentsToCommentResponseDtos(onlyComment)
-        ), HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

@@ -142,6 +142,12 @@ include::{snippets}/post-reply/request-fields.adoc[]
 .http-response
 include::{snippets}/post-reply/http-response.adoc[]
 
+=== 댓글 삭제
+.http-request
+include::{snippets}/delete-board/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-board/path-parameters.adoc[]
 
 == MusicalController
 === 작품 전체 목록 조회
