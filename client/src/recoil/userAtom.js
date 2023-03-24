@@ -23,6 +23,6 @@ export const userState = atom({
 });
 
 export const adminState = atom({
-  key: 'adinState',
+  key: 'adminState',
   default: false,
 });
