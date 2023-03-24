@@ -1,6 +1,8 @@
 import { RecoilRoot } from 'recoil';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import axios from 'axios';
+import customAxios from './api/customAxios';
 import GlobalStyle from './styles/GlobalStyle';
 import Root from './routes/Root';
 import ErrorPage from './routes/Error/ErrorPage';
@@ -31,6 +33,7 @@ import NoticeEditPage, {
 } from './routes/NoticeEdit/NoticeEditPage';
 import MyPage from './routes/Mypage/MyPage';
 import AdminLoginPage from './routes/AdminLogin/AdminLoginPage';
+import OauthRedirectPage from './routes/OauthRedirect/OauthRedirectPage';
 
 const router = createBrowserRouter([
   {
@@ -43,6 +46,7 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <MainPage /> },
           { path: '/login', element: <LoginPage /> },
+          { path: '/oauth/redirect', element: <OauthRedirectPage /> },
           { path: '/signup', element: <SingupPage /> },
           { path: '/myinfo', element: <MyinfoPage /> },
           { path: '/plays', element: <PlaysPage /> },
@@ -83,6 +87,9 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+axios.defaults.withCredentials = true;
+customAxios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

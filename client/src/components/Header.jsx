@@ -1,29 +1,29 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
-import userInfo from '../recoil/userAtom';
+import { userInfo } from '../recoil/userAtom';
+import customAxios from '../api/customAxios';
 import { ReactComponent as Logo } from '../assets/logo.svg';
 import ProfileImg from './ProfileImage/ProfileImg';
 import Button from './Button';
 
 function Header() {
   const [isShow, setIsShow] = useState(false);
-
-  //* 유저정보 가져오기
   const [user, setUser] = useRecoilState(userInfo);
+  const navigate = useNavigate();
 
   const toggleHandler = () => {
     setIsShow(!isShow);
   };
 
   const LogoutHandler = () => {
+    navigate('/');
     setUser(null);
     localStorage.removeItem('localToken');
-    // customAxios.patch('logout')햐
-    // 쿠키에 담긴 refresh 토큰 제거를 위해서
+    customAxios.post('/logout');
   };
 
   return (
@@ -45,7 +45,14 @@ function Header() {
             {isShow ? (
               <TabLink to="/mypage">마이페이지</TabLink>
             ) : (
-              <ProfileImg src={user.profile} width="30px" height="30px" />
+              <ProfileImg
+                src={user.profileImageUrl}
+                onClick={() => {
+                  navigate('/mypage');
+                }}
+                width="30px"
+                height="30px"
+              />
             )}
 
             <LogoutBtn
