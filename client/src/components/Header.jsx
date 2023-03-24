@@ -19,6 +19,10 @@ function Header() {
     setIsShow(!isShow);
   };
 
+  const tapCloseHander = () => {
+    setIsShow(false);
+  };
+
   const LogoutHandler = () => {
     navigate('/');
     setUser(null);
@@ -34,16 +38,26 @@ function Header() {
         </Link>
       </Logobox>
       <NavTab isShow={isShow}>
-        <TabLink to="/plays">뮤지컬</TabLink>
-        <TabLink to="/nearby">주변시설</TabLink>
-        <TabLink to="/posts">커뮤니티</TabLink>
-        <TabLink to="/notices">공지사항</TabLink>
+        <TabLink to="/plays" onClick={tapCloseHander}>
+          뮤지컬
+        </TabLink>
+        <TabLink to="/nearby/1" onClick={tapCloseHander}>
+          주변시설
+        </TabLink>
+        <TabLink to="/posts" onClick={tapCloseHander}>
+          커뮤니티
+        </TabLink>
+        <TabLink to="/notices" onClick={tapCloseHander}>
+          공지사항
+        </TabLink>
       </NavTab>
       <SignInOrUser isShow={isShow}>
         {user ? (
           <>
             {isShow ? (
-              <TabLink to="/mypage">마이페이지</TabLink>
+              <TabLink to="/mypage" onClick={tapCloseHander}>
+                마이페이지
+              </TabLink>
             ) : (
               <ProfileImg
                 src={user.profileImageUrl}
@@ -62,7 +76,9 @@ function Header() {
             />
           </>
         ) : (
-          <TabLink to="/login">SignIn</TabLink>
+          <TabLink to="/login" onClick={tapCloseHander}>
+            SignIn
+          </TabLink>
         )}
       </SignInOrUser>
       <MenuIcon onClick={toggleHandler}>
