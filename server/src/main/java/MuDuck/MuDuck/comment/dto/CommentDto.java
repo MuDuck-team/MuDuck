@@ -38,6 +38,7 @@ public class CommentDto {
     @Getter
     @Builder
     public static class CommentsHead{
+        private long memberId;
         private String userProfile;
         private String nickname;
         private String createdAt;

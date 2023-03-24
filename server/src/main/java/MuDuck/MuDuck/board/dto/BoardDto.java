@@ -71,6 +71,7 @@ public class BoardDto {
     @Getter
     @Builder
     public static class BoardContentHead{
+        private long memberId;
         private String userProfile;
         private String nickname;
         private String createdAt;

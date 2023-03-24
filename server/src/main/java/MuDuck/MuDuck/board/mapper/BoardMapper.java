@@ -69,6 +69,7 @@ public interface BoardMapper {
         BoardDto.BoardContentResponse response = BoardContentResponse.builder()
                 .id(board.getBoardId())
                 .head(BoardContentHead.builder()
+                        .memberId(member.getMemberId())
                         .userProfile(member.getPicture())
                         .nickname(member.getNickName())
                         .createdAt(board.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))

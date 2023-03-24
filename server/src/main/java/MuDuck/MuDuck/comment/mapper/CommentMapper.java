@@ -22,6 +22,7 @@ public interface CommentMapper {
         CommentDto.Response response = Response.builder()
                 .id(comment.getCommentId())
                 .head(CommentsHead.builder()
+                        .memberId(member.getMemberId())
                         .userProfile(member.getPicture())
                         .nickname(member.getNickName())
                         .createdAt(comment.getCreatedAt()
