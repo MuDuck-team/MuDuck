@@ -21,6 +21,11 @@ public enum ExceptionCode {
     INVALID_MUSICAL_STATE(400, "Invalid musical state"),
     ACTOR_NOT_FOUND(404,"Musical not found"),
     ACTOR_EXISTS(409, "Musical exists"),
+    COMMENT_NOT_FOUND(404, "Comment not found"),
+    COMMENT_EXISTS(409, "Comment exists"),
+    COMMENT_REMOVED(404, "Comment Already Removed"),
+    INVALID_COMMENT(400, "Can't post reply to reply"),
+    INVALID_ACTOR_STATE(400, "Invalid musical state"),
     INVALID_ACTOR_STATE(400, "Invalid musical state"),
     NOT_FOUND_COOKIE(404, "Cookie Not Found");
 
