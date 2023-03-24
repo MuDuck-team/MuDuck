@@ -152,17 +152,9 @@ public class BoardController {
 
         Board board = boardMapper.boardPatchToBoard(requestBody, boardId);
 
-        Board updatedBoard = boardService.updateBoard(board, member.getMemberId());
+        boardService.updateBoard(board, member.getMemberId());
 
-        List<Comment> onlyComment = commentService.getCommentWithoutReply(
-                updatedBoard.getComments());
-        String category = boardService.findCategory(updatedBoard);
-        boolean isLiked = boardService.isLiked(member);
-
-        return new ResponseEntity<>(new BoardContentMultipleResponse(
-                boardMapper.multiInfoToBoardContentResponse(member, updatedBoard, category,
-                        isLiked),
-                commentMapper.commentsToCommentResponseDtos(onlyComment)), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{board-id}")
@@ -190,23 +182,14 @@ public class BoardController {
 
         // 어느 게시물에 작성하는지도 파악해야 함
         Board board = boardService.findBoard(boardId);
-        String category = boardService.findCategory(board);
-        boolean isLike = boardService.isLiked(member);
 
         Comment comment = commentMapper.commentPostDtoToComment(requestBody);
         comment.setMember(member);
         comment.setBoard(board);
 
-        Comment createdComment = commentService.createComment(comment);
+        commentService.createComment(comment);
 
-        Board updatedBoard = boardService.findBoard(boardId);
-        List<Comment> onlyComment = commentService.getCommentWithoutReply(
-                updatedBoard.getComments());
-
-        return new ResponseEntity<>(new BoardContentMultipleResponse(
-                boardMapper.multiInfoToBoardContentResponse(member, board, category, isLike),
-                commentMapper.commentsToCommentResponseDtos(onlyComment)
-        ), HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/{board-id}/comments/{comment-id}")
