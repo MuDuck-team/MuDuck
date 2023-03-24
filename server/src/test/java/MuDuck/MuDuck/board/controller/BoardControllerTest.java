@@ -546,7 +546,8 @@ class BoardControllerTest {
                         .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf()));
 
         // Rest Docs에서 정규식 표현을 위해 선언
-        ConstraintDescriptions postBoardConstraints = new ConstraintDescriptions(BoardDto.Post.class);
+        ConstraintDescriptions postBoardConstraints = new ConstraintDescriptions(
+                BoardDto.Post.class);
         List<String> idDescriptions = postBoardConstraints.descriptionsForProperty("id");
         List<String> titleDescriptions = postBoardConstraints.descriptionsForProperty("title");
         List<String> contentDescriptions = postBoardConstraints.descriptionsForProperty("content");
@@ -558,14 +559,18 @@ class BoardControllerTest {
                         getResponsePreProcessor(),
                         requestFields(List.of(
                                 fieldWithPath("categoryIds").type(JsonFieldType.ARRAY)
-                                        .description("카테고리 식별자 목록").attributes(key("regexp").value(idDescriptions)),
+                                        .description("카테고리 식별자 목록")
+                                        .attributes(key("regexp").value(idDescriptions)),
                                 fieldWithPath("title").type(JsonFieldType.STRING)
-                                        .description("게시글 제목").attributes(key("regexp").value(titleDescriptions)),
+                                        .description("게시글 제목")
+                                        .attributes(key("regexp").value(titleDescriptions)),
                                 fieldWithPath("content").type(JsonFieldType.STRING)
-                                        .description("게시물 내용").attributes(key("regexp").value(contentDescriptions))
+                                        .description("게시물 내용")
+                                        .attributes(key("regexp").value(contentDescriptions))
                         )),
                         responseFields(List.of(
-                                fieldWithPath("boardId").type(JsonFieldType.NUMBER).description("생성된 게시글 식별자")
+                                fieldWithPath("boardId").type(JsonFieldType.NUMBER)
+                                        .description("생성된 게시글 식별자")
                         ))));
     }
 
@@ -593,21 +598,27 @@ class BoardControllerTest {
         // when
         ResultActions actions = mockMvc.perform(
                 patch("/boards/{board-id}", 1L).accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON).content(requestBodyJson).with(csrf()));
+                        .contentType(MediaType.APPLICATION_JSON).content(requestBodyJson)
+                        .with(csrf()));
 
         // Rest Docs에서 정규식 표현을 위해 선언
-        ConstraintDescriptions patchBoardConstraints = new ConstraintDescriptions(BoardDto.Patch.class);
+        ConstraintDescriptions patchBoardConstraints = new ConstraintDescriptions(
+                BoardDto.Patch.class);
         List<String> titleDescriptions = patchBoardConstraints.descriptionsForProperty("title");
         List<String> contentDescriptions = patchBoardConstraints.descriptionsForProperty("content");
 
         // then
         actions.andExpect(status().isOk())
                 .andDo(document("patch-board",
-                        getResponsePreProcessor(),
+                        getRequestPreProcessor(),
                         pathParameters(parameterWithName("board-id").description("게시글 식별자")),
                         requestFields(List.of(
-                                fieldWithPath("title").type(JsonFieldType.STRING).optional().description("게시글 제목").optional().attributes(key("regexp").value(titleDescriptions)),
-                                fieldWithPath("content").type(JsonFieldType.STRING).optional().description("게시글 내용").optional().attributes(key("regexp").value(contentDescriptions))
+                                fieldWithPath("title").type(JsonFieldType.STRING).optional()
+                                        .description("게시글 제목")
+                                        .attributes(key("regexp").value(titleDescriptions)),
+                                fieldWithPath("content").type(JsonFieldType.STRING).optional()
+                                        .description("게시글 내용")
+                                        .attributes(key("regexp").value(contentDescriptions))
                         ))));
 
     }
@@ -631,5 +642,49 @@ class BoardControllerTest {
                 .andDo(document(
                         "delete-board",
                         pathParameters(parameterWithName("board-id").description("게시글 식별자"))));
+    }
+
+    @Test
+    @DisplayName("댓글 작성하기 컨트롤러 테스트")
+    @WithMockUser
+    public void postComment() throws Exception {
+        // given
+        CommentDto.Post post = CommentDto.Post.builder().body("댓글입니다.").build();
+
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+
+        Board board = new Board(1L, "제목입니다", "내용입니다", 30, 30, BoardStatus.BOARD_POST, null,
+                new ArrayList<>(), member, null);
+
+        Comment comment = Comment.builder().body("댓글입니다.").member(member).board(board).build();
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+        given(boardService.findBoard(Mockito.anyLong())).willReturn(board);
+        given(commentMapper.commentPostDtoToComment(Mockito.any())).willReturn(comment);
+
+        String requestBody = gson.toJson(post);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                post("/boards/{board-id}/comments", 1L).accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf())
+        );
+
+        // Rest Docs에서 정규식 표현을 위해 선언
+        ConstraintDescriptions patchBoardConstraints = new ConstraintDescriptions(
+                CommentDto.Post.class);
+        List<String> bodyDescriptions = patchBoardConstraints.descriptionsForProperty("body");
+
+        // then
+        actions.andExpect(status().isCreated())
+                .andDo(document("post-comment",
+                        getRequestPreProcessor(),
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자")),
+                        requestFields(List.of(
+                                fieldWithPath("body").type(JsonFieldType.STRING)
+                                        .description("댓글 내용")
+                                        .attributes(key("regexp").value(bodyDescriptions)
+                                        )))));
     }
 }

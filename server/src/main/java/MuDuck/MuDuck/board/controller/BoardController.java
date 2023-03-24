@@ -187,6 +187,8 @@ public class BoardController {
         comment.setMember(member);
         comment.setBoard(board);
 
+        commentService.createComment(comment);
+
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

@@ -110,6 +110,22 @@ include::{snippets}/delete-board/http-request.adoc[]
 .path-parameters
 include::{snippets}/delete-board/path-parameters.adoc[]
 
+=== 댓글 등록
+.http-request
+include::{snippets}/post-comment/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/post-comment/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/post-comment/request-body.adoc[]
+
+.request-fields
+include::{snippets}/post-comment/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-comment/http-response.adoc[]
+
 
 == MusicalController
 === 작품 전체 목록 조회
