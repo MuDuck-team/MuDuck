@@ -84,8 +84,6 @@ include::{snippets}/board-post/request-fields.adoc[]
 .http-response
 include::{snippets}/board-post/http-response.adoc[]
 
-.response-fields
-include::{snippets}/board-post/response-fields.adoc[]
 
 === 게시글 수정
 .http-request

@@ -67,7 +67,7 @@ public class BoardController {
 
     private final BoardCategoryService boardCategoryService;
 
-    @PostMapping("/writing")
+    @PostMapping
     public ResponseEntity postBoard(@Valid @RequestBody BoardDto.Post requestBody,
             Principal principal) {
         // 로그인 되어 있는 유저 이메일 받아오기.
@@ -82,15 +82,9 @@ public class BoardController {
                 board);
         board.setBoardCategories(boardCategories);
 
-        Board createdBoard = boardService.createBoard(board);
+        boardService.createBoard(board);
 
-        createdBoard.setBoardCategories(boardCategories);
-        String category = boardService.findCategory(createdBoard);
-
-        return new ResponseEntity<>(new BoardContentMultipleResponse(
-                boardMapper.multiInfoToBoardContentResponse(member, createdBoard, category, false),
-                commentMapper.commentsToCommentResponseDtos(new ArrayList<>())),
-                HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping
