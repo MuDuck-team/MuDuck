@@ -170,7 +170,7 @@ class BoardControllerTest {
         queryParams.add("categoryName", categoryName);
 
         ResultActions actions = mockMvc.perform(
-                get("/board").params(queryParams).accept(MediaType.APPLICATION_JSON));
+                get("/boards").params(queryParams).accept(MediaType.APPLICATION_JSON));
 
         // then
         actions.andExpect(status().isOk())
@@ -281,7 +281,7 @@ class BoardControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                get("/board/writing").accept(MediaType.APPLICATION_JSON));
+                get("/boards/category").accept(MediaType.APPLICATION_JSON));
 
         // then
         actions.andExpect(status().isOk())
@@ -416,7 +416,7 @@ class BoardControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                get("/board/{board-id}", board.getBoardId()).accept(MediaType.APPLICATION_JSON));
+                get("/boards/{board-id}", board.getBoardId()).accept(MediaType.APPLICATION_JSON));
 
         // then
         actions.andExpect(status().isOk())
@@ -826,7 +826,7 @@ class BoardControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                delete("/board/{board-id}", 1L).accept(MediaType.APPLICATION_JSON).with(csrf()));
+                delete("/boards/{board-id}", 1L).accept(MediaType.APPLICATION_JSON).with(csrf()));
 
         // then
         actions.andExpect(status().isNoContent())
