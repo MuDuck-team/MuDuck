@@ -202,8 +202,6 @@ public class BoardController {
 
         // 어느 게시물에 작성하는지도 파악해야 함
         Board board = boardService.findBoard(boardId);
-        String category = boardService.findCategory(board);
-        boolean isLike = boardService.isLiked(member);
 
         // 어느 부모 댓글에 다는 대댓글인지도 파악해야 함
         Comment parentComment = commentService.findComment(commentId);
