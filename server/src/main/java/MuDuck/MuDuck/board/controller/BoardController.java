@@ -195,10 +195,7 @@ public class BoardController {
         List<Comment> onlyComment = commentService.getCommentWithoutReply(
                 updatedBoard.getComments());
 
-        return new ResponseEntity<>(new BoardContentMultipleResponse(
-                boardMapper.multiInfoToBoardContentResponse(member, board, category, isLike),
-                commentMapper.commentsToCommentResponseDtos(onlyComment)
-        ), HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("/{board-id}/comments/{comment-id}")
