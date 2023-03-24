@@ -126,6 +126,22 @@ include::{snippets}/post-comment/request-fields.adoc[]
 .http-response
 include::{snippets}/post-comment/http-response.adoc[]
 
+=== 대댓글 등록
+.http-request
+include::{snippets}/post-reply/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/post-reply/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/post-reply/request-body.adoc[]
+
+.request-fields
+include::{snippets}/post-reply/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-reply/http-response.adoc[]
+
 
 == MusicalController
 === 작품 전체 목록 조회

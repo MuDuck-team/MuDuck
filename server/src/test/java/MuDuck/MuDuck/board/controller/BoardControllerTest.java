@@ -687,4 +687,52 @@ class BoardControllerTest {
                                         .attributes(key("regexp").value(bodyDescriptions)
                                         )))));
     }
+
+    @Test
+    @DisplayName("대댓글 작성하기 컨트롤러 테스트")
+    @WithMockUser
+    public void postReply() throws Exception {
+        // given
+        CommentDto.Post post = CommentDto.Post.builder().body("대댓글입니다.").build();
+
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+
+        Board board = new Board(1L, "제목입니다", "내용입니다", 30, 30, BoardStatus.BOARD_POST, null,
+                new ArrayList<>(), member, null);
+
+        Comment comment = Comment.builder().body("댓글입니다.").member(member).board(board).build();
+
+        Comment reply = Comment.builder().body("대댓글입니다.").member(member).board(board).build();
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+        given(boardService.findBoard(Mockito.anyLong())).willReturn(board);
+        given(commentService.findComment(Mockito.anyLong())).willReturn(comment);
+        given(commentMapper.commentPostDtoToComment(Mockito.any())).willReturn(reply);
+
+        String requestBody = gson.toJson(post);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                post("/boards/{board-id}/comments/{comment-id}", 1L, 1L).accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf())
+        );
+
+        // then
+        // Rest Docs에서 정규식 표현을 위해 선언
+        ConstraintDescriptions patchBoardConstraints = new ConstraintDescriptions(
+                CommentDto.Post.class);
+        List<String> bodyDescriptions = patchBoardConstraints.descriptionsForProperty("body");
+
+        // then
+        actions.andExpect(status().isCreated())
+                .andDo(document("post-reply",
+                        getRequestPreProcessor(),
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자"), parameterWithName("comment-id").description("부모 댓글 식별자")),
+                        requestFields(List.of(
+                                fieldWithPath("body").type(JsonFieldType.STRING)
+                                        .description("대댓글 내용")
+                                        .attributes(key("regexp").value(bodyDescriptions)
+                                        )))));
+    }
 }
