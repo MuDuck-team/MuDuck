@@ -1,8 +1,10 @@
 import { useState } from 'react';
-// import { useRecoilValue } from 'recoil';
+import { useRecoilState } from 'recoil';
 import styled from 'styled-components';
-// import userInfo from '../../recoil/userAtom';
+import { useNavigate } from 'react-router-dom';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
+import customAxios from '../../api/customAxios';
+import { userInfo } from '../../recoil/userAtom';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
@@ -13,6 +15,9 @@ import uploadS3 from '../../components/ProfileImage/ProfileUploader';
 function MyinfoPage() {
   const [nickname, setNickname] = useState('');
   const [uploadSrc, setUploadSrc] = useState(null);
+  const [user, setUserInfo] = useRecoilState(userInfo);
+  const navigate = useNavigate();
+  let updatedUserData = { nickname: '', profileImageUrl: '' };
 
   const handleChangeNickname = event => {
     setNickname(event.target.value);
@@ -22,15 +27,65 @@ function MyinfoPage() {
     setUploadSrc(null);
   };
 
+  const handleValidateNickname = () => {
+    const nickRegEx = /^[가-힣a-z0-9_-]{2,20}$/;
+    if (!nickRegEx.test(nickname)) {
+      alert(
+        '닉네임은 2자이상 20자이하, 한글,영문 대소문자, 숫자만 사용할 수 있습니다.',
+      );
+    }
+  };
+
   const handleSubmit = async event => {
     event.preventDefault();
-    uploadS3(uploadSrc);
-    /* const data = {
-     nickname,
-      url
+    const localToken = localStorage.getItem('localToken');
+
+    if (!uploadSrc && !nickname) {
+      navigate('/');
+    } else if (!uploadSrc) {
+      updatedUserData = {
+        nickname,
+        profileImageUrl: null,
+      };
+
+      customAxios({
+        method: 'patch',
+        url: `/members/${user.id}`,
+        headers: {
+          Authorization: localToken,
+        },
+        data: { ...updatedUserData },
+      })
+        .then(res => {
+          const result = res.data;
+          setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...result }));
+        })
+        .then(() => {
+          navigate('/');
+        });
+    } else {
+      const resultUrl = await uploadS3(uploadSrc);
+      updatedUserData = {
+        nickname,
+        profileImageUrl: resultUrl,
+      };
+
+      customAxios({
+        method: 'patch',
+        url: `/members/${user.id}`,
+        headers: {
+          Authorization: localToken,
+        },
+        data: { ...updatedUserData },
+      })
+        .then(res => {
+          const result = res.data;
+          setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...result }));
+        })
+        .then(() => {
+          navigate('/');
+        });
     }
-    */
-    // axios.patch(서버, data)
   };
 
   return (
@@ -45,6 +100,7 @@ function MyinfoPage() {
           name="nickname"
           value={nickname}
           onChange={handleChangeNickname}
+          onBlur={handleValidateNickname}
           id="nickname"
           placeholder=" 알파벳,한글,숫자 20자 이하로 입력해주세요"
           width="550px"
@@ -56,8 +112,7 @@ function MyinfoPage() {
           <ProfileSelectionCard>
             <ProfileImg
               margin="1.6rem"
-              src="https://cphoto.asiae.co.kr/listimglink/1/2021050711371325414_1620355033.jpg"
-              // 유저정보 카카오프로필에서 가져올 예정.
+              src={user.profileImageUrl}
               onClick={handleClickKakaoProfile}
               uploadSrc={uploadSrc}
             />

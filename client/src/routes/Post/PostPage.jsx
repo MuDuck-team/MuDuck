@@ -1,16 +1,26 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
+import axios from 'axios';
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { IoMdListBox } from 'react-icons/io';
-import PostData from './PostData';
 import WriterInfo from '../../components/WriterInfo';
 import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
 import CommentList from './CommentList';
 
+export async function loader({ params }) {
+  const response = await axios.get(
+    `${process.env.REACT_APP_API_URL}/board/${params.id}`,
+  );
+  const responseData = response.data;
+  return { responseData };
+}
+
 function PostPage() {
-  const { boardContent, comments } = PostData;
+  const { responseData } = useLoaderData();
+
+  const { boardContent, comments } = responseData;
   const { head, body, liked } = boardContent;
 
   const [isLike, setIsLike] = useState(liked);
@@ -29,7 +39,7 @@ function PostPage() {
           createdAt={head.createdAt}
           viewCount={head.view}
           totalComment={head.totalComment}
-          boardLike={head.boardLike}
+          like={head.like}
           category={head.category}
           type="postWriter"
         />

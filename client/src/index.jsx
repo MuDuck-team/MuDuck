@@ -1,6 +1,8 @@
 import { RecoilRoot } from 'recoil';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import axios from 'axios';
+import customAxios from './api/customAxios';
 import GlobalStyle from './styles/GlobalStyle';
 import Root from './routes/Root';
 import ErrorPage from './routes/Error/ErrorPage';
@@ -12,7 +14,7 @@ import PlaysPage from './routes/Plays/PlaysPage';
 import PlayPage, { loader as playPageLoader } from './routes/Play/PlayPage';
 import NearbyPage from './routes/Nearby/NearbyPage';
 import PostsPage, { loader as postsPageLoader } from './routes/Posts/PostsPage';
-import PostPage from './routes/Post/PostPage';
+import PostPage, { loader as postPageLoader } from './routes/Post/PostPage';
 import PostAddPage, {
   loader as postAddPageLoader,
 } from './routes/PostAdd/PostAddPage';
@@ -31,6 +33,7 @@ import NoticeEditPage, {
 } from './routes/NoticeEdit/NoticeEditPage';
 import MyPage from './routes/Mypage/MyPage';
 import AdminLoginPage from './routes/AdminLogin/AdminLoginPage';
+import OauthRedirectPage from './routes/OauthRedirect/OauthRedirectPage';
 
 const router = createBrowserRouter([
   {
@@ -43,13 +46,14 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <MainPage /> },
           { path: '/login', element: <LoginPage /> },
+          { path: '/oauth/redirect', element: <OauthRedirectPage /> },
           { path: '/signup', element: <SingupPage /> },
           { path: '/myinfo', element: <MyinfoPage /> },
           { path: '/plays', element: <PlaysPage /> },
           { path: '/play/:id', element: <PlayPage />, loader: playPageLoader },
           { path: '/nearby', element: <NearbyPage /> },
           { path: '/posts', element: <PostsPage />, loader: postsPageLoader },
-          { path: '/post/:id', element: <PostPage /> },
+          { path: '/post/:id', element: <PostPage />, loader: postPageLoader },
           {
             path: '/post/add',
             element: <PostAddPage />,
@@ -83,6 +87,9 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+axios.defaults.withCredentials = true;
+customAxios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
