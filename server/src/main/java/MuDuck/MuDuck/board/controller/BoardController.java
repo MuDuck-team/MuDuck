@@ -159,10 +159,7 @@ public class BoardController {
         String category = boardService.findCategory(updatedBoard);
         boolean isLiked = boardService.isLiked(member);
 
-        return new ResponseEntity<>(new BoardContentMultipleResponse(
-                boardMapper.multiInfoToBoardContentResponse(member, updatedBoard, category,
-                        isLiked),
-                commentMapper.commentsToCommentResponseDtos(onlyComment)), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{board-id}")
