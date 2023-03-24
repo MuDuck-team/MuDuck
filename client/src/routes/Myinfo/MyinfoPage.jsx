@@ -37,12 +37,8 @@ function MyinfoPage() {
   };
 
   const handleSubmit = async event => {
-    const localToken = localStorage.getItem('localToken');
-
     event.preventDefault();
-    console.log(`변경된 nickname :  ${nickname}`);
-    console.log(`변경된 이미지src :  ${uploadSrc}`);
-    console.log(user.token);
+    const localToken = localStorage.getItem('localToken');
 
     if (!uploadSrc && !nickname) {
       navigate('/');
@@ -51,7 +47,6 @@ function MyinfoPage() {
         nickname,
         profileImageUrl: null,
       };
-      console.log(updatedUserData);
 
       customAxios({
         method: 'patch',
@@ -70,12 +65,10 @@ function MyinfoPage() {
         });
     } else {
       const resultUrl = await uploadS3(uploadSrc);
-      console.log(resultUrl);
       updatedUserData = {
         nickname,
         profileImageUrl: resultUrl,
       };
-      console.log(updatedUserData);
 
       customAxios({
         method: 'patch',
@@ -120,7 +113,6 @@ function MyinfoPage() {
             <ProfileImg
               margin="1.6rem"
               src={user.profileImageUrl}
-              // src="https://cphoto.asiae.co.kr/listimglink/1/2021050711371325414_1620355033.jpg"
               onClick={handleClickKakaoProfile}
               uploadSrc={uploadSrc}
             />

@@ -32,12 +32,9 @@ customAxios.interceptors.response.use(
   async function (error) {
     // response에서 error가 발생했을 경우 catch로 넘어가기 전에 처리
     try {
-      console.log('인터셉터동작중');
       const errResponseMessage = error.response.data.message;
       const errStatus = error.response.status;
       const prevRequest = error.config;
-
-      console.log(errResponseMessage);
 
       if (errResponseMessage === 'Token expired' && errStatus === 401) {
         reissueToken()
