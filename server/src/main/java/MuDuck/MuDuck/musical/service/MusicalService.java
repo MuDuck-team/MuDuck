@@ -3,6 +3,7 @@ package MuDuck.MuDuck.musical.service;
 import MuDuck.MuDuck.actor.service.ActorService;
 import MuDuck.MuDuck.exception.BusinessLogicException;
 import MuDuck.MuDuck.exception.ExceptionCode;
+import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.musical.repository.MusicalRepository;
 import java.util.Optional;
@@ -126,4 +127,7 @@ public class MusicalService {
         return musicalRepository.findActorByMusicalId(musicalId);
     }
 
+    public Musical findMusicalBoards (long musicalId){
+        return musicalRepository.findBoardByMusicalId(musicalId);
+    }
 }

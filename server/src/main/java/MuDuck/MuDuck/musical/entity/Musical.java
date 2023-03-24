@@ -73,6 +73,9 @@ public class Musical extends Auditable {
     @JoinColumn(name = "THEATER_ID")
     private Theater theater;
 
+    @OneToMany(mappedBy = "musical", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Category> categories = new ArrayList<>();
+
     public Musical(Long musicalId, String musicalKorName, String musicalEngName, String poster,
             Genre genre, String musicalInfo, MusicalState musicalState, String openDate,
             String closeDate, Age age, Integer runningTime, Integer intermission, Integer views

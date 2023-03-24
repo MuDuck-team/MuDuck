@@ -1,14 +1,23 @@
 package MuDuck.MuDuck.musical.controller;
 
+import MuDuck.MuDuck.board.entity.Board;
+import MuDuck.MuDuck.board.service.BoardService;
+import MuDuck.MuDuck.category.entity.Category;
+import MuDuck.MuDuck.member.entity.Member;
+import MuDuck.MuDuck.member.service.MemberService;
+import MuDuck.MuDuck.musical.dto.ActorMusicalResponseDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto.MultiResponseDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto.SingleResponseDto;
+import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.musical.mapper.MusicalMapper;
 import MuDuck.MuDuck.musical.service.MusicalService;
 import MuDuck.MuDuck.theater.entitiy.Theater;
+import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.Positive;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -21,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/musicals")
 @Validated
 @Slf4j
@@ -28,18 +38,9 @@ public class MusicalController {
     private final static String MUSICAL_DEFAULT_URL = "/musicals";
     private final MusicalService musicalService;
     private final MusicalMapper musicalMapper;
-    //private final ActorMusical actorMusical;
+    private final MemberService memberService;
+    private final BoardService boardService;
 
-//    public MusicalController(MusicalService musicalService, MusicalMapper musicalMapper, ActorMusical actorMusical) {
-//        this.musicalService = musicalService;
-//        this.musicalMapper = musicalMapper;
-//        this.actorMusical = actorMusical;
-//    }
-
-    public MusicalController(MusicalService musicalService, MusicalMapper musicalMapper) {
-        this.musicalService = musicalService;
-        this.musicalMapper = musicalMapper;
-    }
     @GetMapping
     public ResponseEntity getMusicals(@Positive @RequestParam int page, @Positive @RequestParam int size){
         Page<Musical> pageMusicals = musicalService.findMusicals(page - 1, size);
@@ -77,8 +78,14 @@ public class MusicalController {
 //        List<ActorMusical> actorMusicalList = musicalService.findMusicalActors(musicalId);
 //        return new ResponseEntity<>(musicalService.find(musicalId),HttpStatus.OK);
         Musical response = musicalService.findMusicalActors(musicalId);
-
+        //List<Musical>actorMusicalList = new ArrayList<>();
         return new ResponseEntity<>(musicalMapper.actorMusicalToMusicalResponseDto(response),HttpStatus.OK);
     }
+
+//    @GetMapping("/{musical-id}/board")
+//    public ResponseEntity getBoards(@PathVariable("musical-id") @Positive Long musicalId){
+//
+//        return new ResponseEntity<>(musicalMapper.boardsToMusicalResponseDto())
+//    }
 
 }

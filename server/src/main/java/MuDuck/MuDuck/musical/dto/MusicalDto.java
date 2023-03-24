@@ -1,5 +1,6 @@
 package MuDuck.MuDuck.musical.dto;
 
+import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.theater.dto.TheaterDto;
@@ -111,8 +112,21 @@ public class MusicalDto {
         private String poster;
         @JsonProperty("actors")
         private List<ActorMusicalResponseDto.listing> actorMusicals;
-
     }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    public static class MusicalBoards {
+        private Long musicalId;
+        private String title;
+        private String nickName;
+        private String createdAt;
+        private int view;
+        private int like;
+        private String category;
+    }
+
 
     @AllArgsConstructor
     @Getter

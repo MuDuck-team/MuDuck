@@ -145,9 +145,9 @@ INSERT INTO Category (category_name, parent_id) VALUES ('자유주제', NULL);
 INSERT INTO Category (category_name, parent_id) VALUES ('공연정보/후기', NULL);
 INSERT INTO Category (category_name, parent_id) VALUES ('시설정보', NULL);
 
-INSERT INTO Category (category_name, parent_id) VALUES ('2014 레베카', 2);
-INSERT INTO Category (category_name, parent_id) VALUES ('2017 레베카', 2);
-INSERT INTO Category (category_name, parent_id) VALUES ('2019 헤드윅', 2);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2014 레베카', 2, 28);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2017 레베카', 2, 29);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2019 헤드윅', 2, 30);
 
 -- BOARD_CATEGORY 테이블 생성 코드
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (1, 1);
@@ -315,11 +315,11 @@ VALUES (26, '웃는남자12', 'The Man Who Laughs', 'https://encrypted-tbn0.gsta
 INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views)
 VALUES (27, '레드북13', 'RedBook', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_CREATED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 배경으로 한 레드북은 여자들이 쓰는 소설이 담긴 잡지가 사회적 비난에 부딪히면서 시작되는 이야기이다.', 'MUSICAL_FINISH', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20,124);
 INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views)
-VALUES (28, '웃는남자13', 'The Man Who Laughs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_LICENSED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 ', 'MUSICAL_YET', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20, 100);
+VALUES (28, '레베카', 'The Man Who Laughs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_LICENSED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 ', 'MUSICAL_YET', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20, 100);
 INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views)
-VALUES (29, '레드북14', 'RedBook', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_CREATED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 배경으로 한 레드북은 여자들이 쓰는 소설이 담긴 잡지가 사회적 비난에 부딪히면서 시작되는 이야기이다.', 'MUSICAL_ONAIR', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20,20);
+VALUES (29, '레베카', 'RedBook', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_CREATED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 배경으로 한 레드북은 여자들이 쓰는 소설이 담긴 잡지가 사회적 비난에 부딪히면서 시작되는 이야기이다.', 'MUSICAL_ONAIR', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20,20);
 INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views)
-VALUES (30, '웃는남자14', 'The Man Who Laughs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_LICENSED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 ', 'MUSICAL_FINISH', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20, 123);
+VALUES (30, '헤드윅', 'The Man Who Laughs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_LICENSED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 ', 'MUSICAL_FINISH', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20, 123);
 
 
 -- ACTOR 테이블 생성코드
