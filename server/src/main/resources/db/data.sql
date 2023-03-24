@@ -91,6 +91,7 @@ VALUES (1, 10753713,'http://place.map.kakao.com/10753713', '오둥이식당4', 1
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
 VALUES (1, 10753713,'http://place.map.kakao.com/10753713', '오둥이식당5', 126.97607241059578, 37.57286713479182, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
 
+
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
 VALUES (1, 1934809750,'http://place.map.kakao.com/1934809750', '오둥이카페1', 126.973265, 37.572695, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
 
@@ -120,6 +121,24 @@ VALUES (1, 1624572111,'http://place.map.kakao.com/1624572111', '오둥이주차�
 
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
 VALUES (1, 1624572111,'http://place.map.kakao.com/1624572111', '오둥이주차장5', 126.97607241059578, 37.57286713479182, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+
+INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (1, 10753713,'http://place.map.kakao.com/10753713', '오둥이식당6', 126.97607241059578, 37.57286713479182, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+
+INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (1, 10753713,'http://place.map.kakao.com/10753713', '오둥이식당7', 126.97607241059578, 37.57286713479182, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+
+INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (1, 1934809750,'http://place.map.kakao.com/1934809750', '오둥이카페6', 126.973265, 37.572695, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+
+INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (1, 1934809750,'http://place.map.kakao.com/1934809750', '오둥이카페7', 126.973265, 37.572695, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+
+INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (1, 1624572111,'http://place.map.kakao.com/1624572111', '오둥이주차장6', 126.97607241059578, 37.57286713479182, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+
+INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (1, 1624572111,'http://place.map.kakao.com/1624572111', '오둥이주차장7', 126.97607241059578, 37.57286713479182, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
 
 -- Category 테이블 생성 코드
 INSERT INTO Category (category_name, parent_id) VALUES ('자유주제', NULL);
