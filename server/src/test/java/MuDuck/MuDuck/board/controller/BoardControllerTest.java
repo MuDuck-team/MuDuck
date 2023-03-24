@@ -529,11 +529,14 @@ class BoardControllerTest {
                 BoardCategory.builder().board(board).category(category1).build(),
                 BoardCategory.builder().board(board).category(category2).build());
 
+        board.setBoardId(1L);
+
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
         given(boardMapper.boardPostToBoard(Mockito.any(), Mockito.any())).willReturn(board);
         given(boardMapper.boardPostToCategoryIds(Mockito.any())).willReturn(categoryIds);
         given(boardCategoryService.getBoardCategories(Mockito.anyList(), Mockito.any())).willReturn(
                 boardCategories);
+        given(boardService.createBoard(Mockito.any())).willReturn(board);
 
         // when
         ResultActions actions = mockMvc.perform(
@@ -558,6 +561,9 @@ class BoardControllerTest {
                                         .description("게시글 제목").attributes(key("regexp").value(titleDescriptions)),
                                 fieldWithPath("content").type(JsonFieldType.STRING)
                                         .description("게시물 내용").attributes(key("regexp").value(contentDescriptions))
+                        )),
+                        responseFields(List.of(
+                                fieldWithPath("boardId").type(JsonFieldType.NUMBER).description("생성된 게시글 식별자")
                         ))));
     }
 //

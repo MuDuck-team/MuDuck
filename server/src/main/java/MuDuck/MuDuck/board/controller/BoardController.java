@@ -25,7 +25,9 @@ import MuDuck.MuDuck.response.BoardMultipleResponse;
 import MuDuck.MuDuck.response.CategoryMultipleResponse;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -82,9 +84,9 @@ public class BoardController {
                 board);
         board.setBoardCategories(boardCategories);
 
-        boardService.createBoard(board);
+        Board createdBoard = boardService.createBoard(board);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(Map.of("boardId", createdBoard.getBoardId()), HttpStatus.CREATED);
     }
 
     @GetMapping
