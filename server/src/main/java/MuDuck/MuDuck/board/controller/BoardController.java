@@ -45,7 +45,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/board")
+@RequestMapping("/boards")
 @RequiredArgsConstructor
 @Validated
 @Slf4j
@@ -136,7 +136,7 @@ public class BoardController {
                 commentMapper.commentsToCommentResponseDtos(onlyComment)), HttpStatus.OK);
     }
 
-    @GetMapping("/writing")
+    @GetMapping("/category")
     public ResponseEntity getCategoryList() {
         List<Category> categories = categoryService.findCategories();
 
@@ -180,7 +180,7 @@ public class BoardController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/{board-id}/comment")
+    @PostMapping("/{board-id}/comments")
     public ResponseEntity postComment(@Positive @PathVariable("board-id") long boardId,
             @Valid @RequestBody CommentDto.Post requestBody, Principal principal) {
         // 대댓글 등록 구현부터 해놓고 생각해보기 - 대댓글 등록 함수 사용하면 될 것 같다는 생각이 들었다. => 따로 구현하자 commentId를 null로 입력하는건 좋지 않을 것 같다.
@@ -211,7 +211,7 @@ public class BoardController {
         ), HttpStatus.CREATED);
     }
 
-    @PostMapping("/{board-id}/comment/{comment-id}")
+    @PostMapping("/{board-id}/comments/{comment-id}")
     public ResponseEntity postReply(@Positive @PathVariable("board-id") long boardId,
             @Positive @PathVariable("comment-id") long commentId,
             @Valid @RequestBody CommentDto.Post requestBody, Principal principal) {
@@ -248,7 +248,7 @@ public class BoardController {
         ), HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/{board-id}/comment/{comment-id}")
+    @DeleteMapping("/{board-id}/comments/{comment-id}")
     public ResponseEntity deleteComment(@Positive @PathVariable("board-id") long boardId,
             @Positive @PathVariable("comment-id") long commentId, Principal principal) {
         // 요청자의 신분을 확인
