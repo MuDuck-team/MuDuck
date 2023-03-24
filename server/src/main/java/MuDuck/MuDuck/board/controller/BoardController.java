@@ -152,12 +152,7 @@ public class BoardController {
 
         Board board = boardMapper.boardPatchToBoard(requestBody, boardId);
 
-        Board updatedBoard = boardService.updateBoard(board, member.getMemberId());
-
-        List<Comment> onlyComment = commentService.getCommentWithoutReply(
-                updatedBoard.getComments());
-        String category = boardService.findCategory(updatedBoard);
-        boolean isLiked = boardService.isLiked(member);
+        boardService.updateBoard(board, member.getMemberId());
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
