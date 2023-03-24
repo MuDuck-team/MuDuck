@@ -72,11 +72,13 @@ public class MusicalController {
         return new ResponseEntity<>(new MultiResponseDto<>(musicalMapper.musicalsToMusicalResponseDtos(musicals), pageMusicals), HttpStatus.OK);
     }
 
-//    @GetMapping("/{musical-id}")
-//    public ResponseEntity getMusical(@PathVariable("musical-id") @Positive Long musicalId){
-//        Musical response = musicalService.findMusical(musicalId);
-//        Theater responseTheater = theaterService.find
-//        return new ResponseEntity<>(new MultiResponseDto<>(musicalMapper.musicalToMusicalResponseDto(response),musicalMapper.theaterToMusicalResponseDto(theater)),HttpStatus.OK);
-//    }
+    @GetMapping("/{musical-id}/actors")
+    public ResponseEntity getActors(@PathVariable("musical-id") @Positive Long musicalId){
+//        List<ActorMusical> actorMusicalList = musicalService.findMusicalActors(musicalId);
+//        return new ResponseEntity<>(musicalService.find(musicalId),HttpStatus.OK);
+        Musical response = musicalService.findMusicalActors(musicalId);
+
+        return new ResponseEntity<>(musicalMapper.actorMusicalToMusicalResponseDto(response),HttpStatus.OK);
+    }
 
 }

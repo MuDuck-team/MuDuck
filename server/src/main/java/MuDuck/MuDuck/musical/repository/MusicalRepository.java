@@ -1,5 +1,6 @@
 package MuDuck.MuDuck.musical.repository;
 
+import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Musical;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -14,4 +15,5 @@ public interface MusicalRepository extends JpaRepository<Musical, Long> {
     Page<Musical> findByGenre(String genre, Pageable pageable);
     @Query(value = "SELECT * FROM MUSICALS as m WHERE m.MUSICAL_STATE = :state", nativeQuery = true)
     Page<Musical> findByMusicalState(String state, Pageable pageable);
+    ActorMusical findActorByMusicalId(Long musialId);
 }
