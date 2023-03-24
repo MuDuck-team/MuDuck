@@ -104,6 +104,8 @@ public class BoardService {
             if(originalBoard.getBoardStatus() == BoardStatus.BOARD_DELETE){ // 이미 삭제 된 게시물에 업데이트 요청하는거라면
                 throw new BusinessLogicException(ExceptionCode.BOARD_REMOVED);
             }else {
+                board.setViews(originalBoard.getViews());
+                board.setLikes(originalBoard.getLikes());
                 updatedBoard = beanUtils.copyNonNullProperties(board, originalBoard);
             }
         }
