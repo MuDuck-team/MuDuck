@@ -1,6 +1,8 @@
 import { RecoilRoot } from 'recoil';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import axios from 'axios';
+import customAxios from './api/customAxios';
 import GlobalStyle from './styles/GlobalStyle';
 import Root from './routes/Root';
 import ErrorPage from './routes/Error/ErrorPage';
@@ -85,6 +87,9 @@ const router = createBrowserRouter([
     ],
   },
 ]);
+
+axios.defaults.withCredentials = true;
+customAxios.defaults.withCredentials = true;
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
