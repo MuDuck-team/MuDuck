@@ -182,18 +182,10 @@ public class BoardController {
 
         // 어느 게시물에 작성하는지도 파악해야 함
         Board board = boardService.findBoard(boardId);
-        String category = boardService.findCategory(board);
-        boolean isLike = boardService.isLiked(member);
 
         Comment comment = commentMapper.commentPostDtoToComment(requestBody);
         comment.setMember(member);
         comment.setBoard(board);
-
-        Comment createdComment = commentService.createComment(comment);
-
-        Board updatedBoard = boardService.findBoard(boardId);
-        List<Comment> onlyComment = commentService.getCommentWithoutReply(
-                updatedBoard.getComments());
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
