@@ -2,6 +2,7 @@ import { AiOutlineEye, AiOutlineHeart } from 'react-icons/ai';
 import { BsChatSquareDots } from 'react-icons/bs';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import StarRating from './StarRating';
 
 export function ArticleCard({
   url,
@@ -68,8 +69,32 @@ export function ArticleCard({
   );
 }
 
-export function ratingCard({ width, height }) {
-  <CardContainer width={width} height={height} />;
+export function RatingCard({
+  width,
+  height,
+  title,
+  address,
+  value,
+  reviewsNum,
+}) {
+  return (
+    <CardContainer width={width} height={height} borderRadius="8px">
+      <ContentWrapper>
+        <TopContainer>
+          <div>{title}</div>
+          <RatingContainer>
+            평점 {value}
+            <StarRating defaultValue={value} size="16px" readonly />
+          </RatingContainer>
+        </TopContainer>
+        <MiddleContainer>
+          <div>{address}</div>
+          <div>리뷰 수 {reviewsNum} 건</div>
+        </MiddleContainer>
+        <BottomContainer>한줄평 더보기</BottomContainer>
+      </ContentWrapper>
+    </CardContainer>
+  );
 }
 
 export function MyPageCard({ width, height, title, lastCreatedAt, id }) {
@@ -90,6 +115,29 @@ export function MyPageCard({ width, height, title, lastCreatedAt, id }) {
     </CardContainer>
   );
 }
+
+const Flex = styled.section`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const TopContainer = styled(Flex)`
+  align-items: center;
+`;
+
+const MiddleContainer = styled(Flex)`
+  font-size: var(--font-size-xxs);
+  margin-bottom: 8px;
+`;
+
+const BottomContainer = styled.div`
+  font-size: var(--font-size-xs);
+`;
+
+const RatingContainer = styled.section`
+  display: flex;
+  align-items: center;
+`;
 
 const CardContainer = styled.article`
   width: ${props => props.width};
