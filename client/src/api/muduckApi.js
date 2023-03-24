@@ -1,7 +1,5 @@
 import customAxios from './customAxios';
 
-const token = localStorage.getItem('localToken');
-
 // 뮤지컬정보를 가져오는 api
 export const getMusicalDetail = async musicalId => {
   return customAxios({
@@ -20,6 +18,7 @@ export const getActorsDetail = async musicalId => {
 
 // 해당 뮤지컬관련 커뮤니티글 가져오기
 export const getRelatedBoard = async musicalId => {
+  const token = localStorage.getItem('localToken');
   return customAxios({
     method: 'get',
     url: `/musicals/${musicalId}/board`,

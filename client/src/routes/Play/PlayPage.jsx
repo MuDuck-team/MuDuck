@@ -1,4 +1,4 @@
-import { useLoaderData, useParams } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import styled from 'styled-components';
 import AboutMusical from './AboutMusical';
 import { ArticleCard } from '../../components/Cards';
@@ -9,16 +9,14 @@ import {
   getRelatedBoard,
 } from '../../api/muduckApi';
 
-const { musicalId } = useParams();
-
-export const loader = async () => {
+export async function loader({ params }) {
   const [musicalData, actorsData, postsData] = await Promise.all([
-    getMusicalDetail(musicalId),
-    getActorsDetail(musicalId),
-    getRelatedBoard(musicalId),
+    getMusicalDetail(params.id),
+    getActorsDetail(params.id),
+    getRelatedBoard(params.id),
   ]);
   return { musicalData, actorsData, postsData };
-};
+}
 
 function PlayPage() {
   const { musicalData, actorsData, postsData } = useLoaderData();
