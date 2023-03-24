@@ -1,6 +1,7 @@
 package MuDuck.MuDuck.advice;
 
 import MuDuck.MuDuck.exception.BusinessLogicException;
+import MuDuck.MuDuck.exception.ExceptionCode;
 import MuDuck.MuDuck.response.ErrorResponse;
 import javax.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingRequestCookieException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -55,6 +57,16 @@ public class GlobalExceptionAdvice {
         log.error("# handle Exception", e);
 
         final ErrorResponse response = ErrorResponse.of(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return response;
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ErrorResponse handleMissingRequestCookieException(MissingRequestCookieException e){
+        log.error("MissingRequestCookieException : {}",e.getMessage());
+
+        final ErrorResponse response = ErrorResponse.of(ExceptionCode.NOT_FOUND_COOKIE);
 
         return response;
     }
