@@ -91,17 +91,17 @@ include::{snippets}/board-post/response-fields.adoc[]
 .http-request
 include::{snippets}/patch-board/http-request.adoc[]
 
-.request-body
-include::{snippets}/patch-board/request-body.adoc[]
-
 .path-parameters
 include::{snippets}/patch-board/path-parameters.adoc[]
 
-.response-body
-include::{snippets}/patch-board/response-body.adoc[]
+.request-body
+include::{snippets}/patch-board/request-body.adoc[]
 
-.response-fields
-include::{snippets}/patch-board/response-fields.adoc[]
+.request-fields
+include::{snippets}/patch-board/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-board/http-response.adoc[]
 
 === 게시글 삭제
 .http-request
