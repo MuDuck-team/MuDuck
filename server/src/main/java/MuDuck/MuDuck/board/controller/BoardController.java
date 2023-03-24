@@ -127,6 +127,8 @@ public class BoardController {
 
         List<Comment> onlyComment = commentService.getCommentWithoutReply(board.getComments());
 
+        boardService.addView(board);
+
         return new ResponseEntity<>(new BoardContentMultipleResponse(
                 boardMapper.multiInfoToBoardContentResponse(boardWriter, board, category, isLiked),
                 commentMapper.commentsToCommentResponseDtos(onlyComment)), HttpStatus.OK);
