@@ -10,9 +10,12 @@ import MainPage from './routes/Main/MainPage';
 import LoginPage from './routes/Login/LoginPage';
 import SingupPage from './routes/Signup/SingupPage';
 import MyinfoPage from './routes/Myinfo/MyinfoPage';
-import PlaysPage from './routes/Plays/PlaysPage';
 import PlayPage, { loader as playPageLoader } from './routes/Play/PlayPage';
 import NearbyPage from './routes/Nearby/NearbyPage';
+import PlayPage from './routes/Play/PlayPage';
+import NearbyPage, {
+  loader as nearbyPageLoader,
+} from './routes/Nearby/NearbyPage';
 import PostsPage, { loader as postsPageLoader } from './routes/Posts/PostsPage';
 import PostPage, { loader as postPageLoader } from './routes/Post/PostPage';
 import PostAddPage, {
@@ -50,8 +53,17 @@ const router = createBrowserRouter([
           { path: '/signup', element: <SingupPage /> },
           { path: '/myinfo', element: <MyinfoPage /> },
           { path: '/plays', element: <PlaysPage /> },
+<<<<<<< HEAD
           { path: '/play/:id', element: <PlayPage />, loader: playPageLoader },
           { path: '/nearby', element: <NearbyPage /> },
+=======
+          { path: '/play/:id', element: <PlayPage /> },
+          {
+            path: '/nearby/:id',
+            element: <NearbyPage />,
+            loader: nearbyPageLoader,
+          },
+>>>>>>> f4609395041f2027188509a743fd90b87df783df
           { path: '/posts', element: <PostsPage />, loader: postsPageLoader },
           { path: '/post/:id', element: <PostPage />, loader: postPageLoader },
           {
