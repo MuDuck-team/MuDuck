@@ -1,12 +1,5 @@
 import axios from 'axios';
 
-<<<<<<< HEAD
-// const token = localStorage.getItem('localToken')
-//   ? JSON.parse(localStorage.getItem('localToken'))
-//   : null;
-
-=======
->>>>>>> 5f287372d0f055afaa60673c39698bba1fcd6a19
 axios.defaults.withCredentials = true;
 
 // !커스텀 악시오스 생성
