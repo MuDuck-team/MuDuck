@@ -1,15 +1,19 @@
 package MuDuck.MuDuck.board.controller;
 
+import static MuDuck.MuDuck.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static MuDuck.MuDuck.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,10 +22,12 @@ import MuDuck.MuDuck.board.dto.BoardDto;
 import MuDuck.MuDuck.board.dto.BoardDto.BoardContentBody;
 import MuDuck.MuDuck.board.dto.BoardDto.BoardContentHead;
 import MuDuck.MuDuck.board.dto.BoardDto.BoardContentResponse;
+import MuDuck.MuDuck.board.dto.BoardDto.Post;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.entity.Board.BoardStatus;
 import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.board.service.BoardService;
+import MuDuck.MuDuck.boardCategory.entity.BoardCategory;
 import MuDuck.MuDuck.boardCategory.service.BoardCategoryService;
 import MuDuck.MuDuck.category.dto.CategoryDto;
 import MuDuck.MuDuck.category.entity.Category;
@@ -58,6 +64,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.constraints.ConstraintDescriptions;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -498,126 +505,67 @@ class BoardControllerTest {
                         ))));
     }
 
-//    @Test
-//    @DisplayName("게시글 등록 컨트롤러 테스트")
-//    @WithMockUser
-//    public void postBoardTest() throws Exception {
-//        // given
-//        BoardDto.Post post = Post.builder()
-//                .id(List.of(2L, 4L))
-//                .title("제목입니다")
-//                .content("내용입니다")
-//                .build();
-//        String requestBody = gson.toJson(post);
-//
-//        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
-//                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
-//        Board board = Board.builder().title("제목입니다").content("내용입니다").member(member).build();
-//
-//        Category category1 = Category.builder().categoryId(2L).categoryName("공연정보/후기").build();
-//        Category category2 = Category.builder().categoryId(4L).categoryName("2014 레베카").build();
-//
-//        List<Long> categoryIds = List.of(2L, 4L);
-//        List<BoardCategory> boardCategories = List.of(
-//                BoardCategory.builder().board(board).category(category1).build(),
-//                BoardCategory.builder().board(board).category(category2).build());
-//
-//        Board createdBoard = board;
-//        createdBoard.setBoardCategories(boardCategories);
-//
-//        String category = "공연정보/후기";
-//
-//        BoardDto.BoardContentResponse boardContentResponse = BoardContentResponse.builder()
-//                .id(board.getBoardId())
-//                .head(BoardContentHead.builder()
-//                        .userProfile(member.getPicture())
-//                        .nickname(member.getNickName())
-//                        .createdAt("2022.12.21")
-//                        .view(board.getViews())
-//                        .like(board.getLikes())
-//                        .totalComment(board.getComments().size())
-//                        .category(category)
-//                        .build())
-//                .body(BoardContentBody.builder()
-//                        .title(board.getTitle())
-//                        .content(board.getContent())
-//                        .build())
-//                .liked(false)
-//                .build();
-//
-//        List<CommentDto.Response> commentResponseList = new ArrayList<>();
-//
-//        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
-//        given(boardMapper.boardPostToBoard(Mockito.any(), Mockito.any())).willReturn(board);
-//        given(boardMapper.boardPostToCategoryIds(Mockito.any())).willReturn(categoryIds);
-//        given(boardCategoryService.getBoardCategories(Mockito.anyList(), Mockito.any())).willReturn(
-//                boardCategories);
-//        given(boardService.createBoard(Mockito.any())).willReturn(createdBoard);
-//        given(boardService.findCategory(Mockito.any())).willReturn(category);
-//        given(boardMapper.multiInfoToBoardContentResponse(Mockito.any(), Mockito.any(),
-//                Mockito.anyString(), Mockito.anyBoolean())).willReturn(boardContentResponse);
-//        given(commentMapper.commentsToCommentResponseDtos(Mockito.anyList())).willReturn(
-//                commentResponseList);
-//
-//        // when
-//        ResultActions actions = mockMvc.perform(
-//                post("/board/writing").accept(MediaType.APPLICATION_JSON)
-//                        .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf()));
-//
-//        // Rest Docs에서 정규식 표현을 위해 선언
-//        ConstraintDescriptions postBoardConstraints = new ConstraintDescriptions(BoardDto.Post.class);
-//        List<String> idDescriptions = postBoardConstraints.descriptionsForProperty("id");
-//        List<String> titleDescriptions = postBoardConstraints.descriptionsForProperty("title");
-//        List<String> contentDescriptions = postBoardConstraints.descriptionsForProperty("content");
-//
-//        // then
-//        actions.andExpect(status().isCreated())
-//                .andExpect(jsonPath("$.boardContent").isMap())
-//                .andExpect(jsonPath("$.comments").isArray())
-//                .andDo(document("board-post",
-//                        getRequestPreProcessor(),
-//                        getResponsePreProcessor(),
-//                        requestFields(List.of(
-//                                fieldWithPath("id").type(JsonFieldType.ARRAY)
-//                                        .description("카테고리 식별자 목록").attributes(key("regexp").value(idDescriptions)),
-//                                fieldWithPath("title").type(JsonFieldType.STRING)
-//                                        .description("게시글 제목").attributes(key("regexp").value(titleDescriptions)),
-//                                fieldWithPath("content").type(JsonFieldType.STRING)
-//                                        .description("게시물 내용").attributes(key("regexp").value(contentDescriptions))
-//                        )),
-//                        responseFields(List.of(
-//                                fieldWithPath("boardContent").type(JsonFieldType.OBJECT)
-//                                        .description("게시글 key 값"),
-//                                fieldWithPath("boardContent.id").type(JsonFieldType.NUMBER)
-//                                        .description("게시글 식별자"),
-//                                fieldWithPath("boardContent.head").type(JsonFieldType.OBJECT)
-//                                        .description("게시글 Header key 값"),
-//                                fieldWithPath("boardContent.head.userProfile").type(
-//                                        JsonFieldType.STRING).description("게시글 작성자 프로필 사진 주소"),
-//                                fieldWithPath("boardContent.head.nickname").type(
-//                                        JsonFieldType.STRING).description("게시글 작성자 닉네임"),
-//                                fieldWithPath("boardContent.head.createdAt").type(
-//                                        JsonFieldType.STRING).description("게시글 작성 날짜"),
-//                                fieldWithPath("boardContent.head.view").type(JsonFieldType.NUMBER)
-//                                        .description("게시글 조회수"),
-//                                fieldWithPath("boardContent.head.like").type(JsonFieldType.NUMBER)
-//                                        .description("게시글 좋아요 수"),
-//                                fieldWithPath("boardContent.head.totalComment").type(
-//                                        JsonFieldType.NUMBER).description("게시글 총 댓글 수"),
-//                                fieldWithPath("boardContent.head.category").type(
-//                                        JsonFieldType.STRING).description("게시글이 속한 카테고리 이름"),
-//                                fieldWithPath("boardContent.body").type(JsonFieldType.OBJECT)
-//                                        .description("게시글 Body key 값"),
-//                                fieldWithPath("boardContent.body.title").type(JsonFieldType.STRING)
-//                                        .description("게시글 제목"),
-//                                fieldWithPath("boardContent.body.content").type(
-//                                        JsonFieldType.STRING).description("게시글 내용"),
-//                                fieldWithPath("boardContent.liked").type(JsonFieldType.BOOLEAN)
-//                                        .description("회원이 좋아요를 눌렀었는지 여부"),
-//                                fieldWithPath("comments").type(JsonFieldType.ARRAY)
-//                                        .description("댓글 목록 key 값")
-//                        ))));
-//    }
+    @Test
+    @DisplayName("게시글 등록 컨트롤러 테스트")
+    @WithMockUser
+    public void postBoardTest() throws Exception {
+        // given
+        BoardDto.Post post = Post.builder()
+                .categoryIds(List.of(2L, 4L))
+                .title("제목입니다")
+                .content("내용입니다")
+                .build();
+        String requestBody = gson.toJson(post);
+
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+        Board board = Board.builder().title("제목입니다").content("내용입니다").member(member).build();
+
+        Category category1 = Category.builder().categoryId(2L).categoryName("공연정보/후기").build();
+        Category category2 = Category.builder().categoryId(4L).categoryName("2014 레베카").build();
+
+        List<Long> categoryIds = List.of(2L, 4L);
+        List<BoardCategory> boardCategories = List.of(
+                BoardCategory.builder().board(board).category(category1).build(),
+                BoardCategory.builder().board(board).category(category2).build());
+
+        board.setBoardId(1L);
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+        given(boardMapper.boardPostToBoard(Mockito.any(), Mockito.any())).willReturn(board);
+        given(boardMapper.boardPostToCategoryIds(Mockito.any())).willReturn(categoryIds);
+        given(boardCategoryService.getBoardCategories(Mockito.anyList(), Mockito.any())).willReturn(
+                boardCategories);
+        given(boardService.createBoard(Mockito.any())).willReturn(board);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                post("/boards").accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf()));
+
+        // Rest Docs에서 정규식 표현을 위해 선언
+        ConstraintDescriptions postBoardConstraints = new ConstraintDescriptions(BoardDto.Post.class);
+        List<String> idDescriptions = postBoardConstraints.descriptionsForProperty("id");
+        List<String> titleDescriptions = postBoardConstraints.descriptionsForProperty("title");
+        List<String> contentDescriptions = postBoardConstraints.descriptionsForProperty("content");
+
+        // then
+        actions.andExpect(status().isCreated())
+                .andDo(document("board-post",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        requestFields(List.of(
+                                fieldWithPath("categoryIds").type(JsonFieldType.ARRAY)
+                                        .description("카테고리 식별자 목록").attributes(key("regexp").value(idDescriptions)),
+                                fieldWithPath("title").type(JsonFieldType.STRING)
+                                        .description("게시글 제목").attributes(key("regexp").value(titleDescriptions)),
+                                fieldWithPath("content").type(JsonFieldType.STRING)
+                                        .description("게시물 내용").attributes(key("regexp").value(contentDescriptions))
+                        )),
+                        responseFields(List.of(
+                                fieldWithPath("boardId").type(JsonFieldType.NUMBER).description("생성된 게시글 식별자")
+                        ))));
+    }
 //
 //    @Test
 //    @DisplayName("게시글 수정 컨트롤러 테스트")

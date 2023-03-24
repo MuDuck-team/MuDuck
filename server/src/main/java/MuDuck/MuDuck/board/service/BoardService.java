@@ -65,6 +65,11 @@ public class BoardService {
         }
     }
 
+    public void addView(Board board){
+        board.setViews(board.getViews() + 1);
+        boardRepository.save(board);
+    }
+
     public Board findBoard(long boardId){
         return findVerifiedBoard(boardId);
     }

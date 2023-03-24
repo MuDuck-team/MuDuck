@@ -25,7 +25,9 @@ import MuDuck.MuDuck.response.BoardMultipleResponse;
 import MuDuck.MuDuck.response.CategoryMultipleResponse;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
@@ -67,7 +69,7 @@ public class BoardController {
 
     private final BoardCategoryService boardCategoryService;
 
-    @PostMapping("/writing")
+    @PostMapping
     public ResponseEntity postBoard(@Valid @RequestBody BoardDto.Post requestBody,
             Principal principal) {
         // 로그인 되어 있는 유저 이메일 받아오기.
@@ -84,13 +86,7 @@ public class BoardController {
 
         Board createdBoard = boardService.createBoard(board);
 
-        createdBoard.setBoardCategories(boardCategories);
-        String category = boardService.findCategory(createdBoard);
-
-        return new ResponseEntity<>(new BoardContentMultipleResponse(
-                boardMapper.multiInfoToBoardContentResponse(member, createdBoard, category, false),
-                commentMapper.commentsToCommentResponseDtos(new ArrayList<>())),
-                HttpStatus.CREATED);
+        return new ResponseEntity<>(Map.of("boardId", createdBoard.getBoardId()), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -130,6 +126,8 @@ public class BoardController {
         }
 
         List<Comment> onlyComment = commentService.getCommentWithoutReply(board.getComments());
+
+        boardService.addView(board);
 
         return new ResponseEntity<>(new BoardContentMultipleResponse(
                 boardMapper.multiInfoToBoardContentResponse(boardWriter, board, category, isLiked),
