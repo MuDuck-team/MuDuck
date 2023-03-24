@@ -217,11 +217,7 @@ public class BoardController {
         comment.setBoard(board);
         comment.setParent(parentComment);
 
-        Comment createdComment = commentService.createComment(comment);
-
-        Board updatedBoard = boardService.findBoard(boardId);
-        List<Comment> onlyComment = commentService.getCommentWithoutReply(
-                updatedBoard.getComments());
+        commentService.createComment(comment);
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
