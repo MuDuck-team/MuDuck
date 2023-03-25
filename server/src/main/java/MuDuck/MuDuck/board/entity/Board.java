@@ -4,6 +4,7 @@ import MuDuck.MuDuck.audit.Auditable;
 import MuDuck.MuDuck.boardCategory.entity.BoardCategory;
 import MuDuck.MuDuck.boardLike.entity.BoardLike;
 import MuDuck.MuDuck.comment.entity.Comment;
+import MuDuck.MuDuck.comment.entity.Comment.CommentStatus;
 import MuDuck.MuDuck.member.entity.Member;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +81,16 @@ public class Board extends Auditable {
         BoardStatus(String status) {
             this.status = status;
         }
+    }
+
+    public int getCommentsSize() { // 삭제된 댓글 제외하고 개수 세기
+        List<Comment> withOutDeleteComments = new ArrayList<>();
+        for(Comment comment : comments){
+            if(comment.getCommentStatus() == CommentStatus.COMMENT_POST){
+                withOutDeleteComments.add(comment);
+            }
+        }
+        return withOutDeleteComments.size();
     }
 
 }
