@@ -8,7 +8,6 @@ export async function loader({ request, params }) {
   try {
     const url = new URL(request.url);
     const paramsId = params.id;
-    console.log(paramsId);
     const responce = await customAxios.get(`/boards/${paramsId}`);
     const { pathname } = url;
 
