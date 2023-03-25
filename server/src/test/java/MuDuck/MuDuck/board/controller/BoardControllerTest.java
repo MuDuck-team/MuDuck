@@ -414,7 +414,7 @@ class BoardControllerTest {
         given(boardService.findCategory(Mockito.any())).willReturn(category);
 
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
-        given(boardService.isLiked(Mockito.any())).willReturn(isLiked);
+        given(boardService.isLiked(Mockito.anyLong(), Mockito.anyLong())).willReturn(isLiked);
 
         given(commentService.getCommentWithoutReply(Mockito.anyList())).willReturn(onlyCommentList);
 
@@ -737,9 +737,9 @@ class BoardControllerTest {
     }
 
     @Test
-    @DisplayName("대댓글 삭제 Controller Test")
+    @DisplayName("댓글 삭제 Controller Test")
     @WithMockUser
-    public void deleteReply() throws Exception {
+    public void deleteCommentTest() throws Exception {
         // given
         Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
                 MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
@@ -753,7 +753,26 @@ class BoardControllerTest {
         // then
         actions.andExpect(status().isNoContent())
                 .andDo(document(
-                        "delete-board",
+                        "delete-comment",
                         pathParameters(parameterWithName("board-id").description("게시글 식별자"), parameterWithName("comment-id").description("댓글 식별자"))));
     }
+
+    @Test
+    @DisplayName("게시글 좋아요 기능 Controller Test")
+    @WithMockUser
+    public void postLikeTest() throws Exception {
+        // given
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+
+        // when
+        ResultActions actions = mockMvc.perform(post("/boards/{board-id}/like", 1L).accept(MediaType.APPLICATION_JSON).with(csrf()));
+
+        // then
+        actions.andExpect(status().isOk())
+                .andDo(document("post-like", pathParameters(parameterWithName("board-id").description("게시글 식별자"))));
+    }
+
 }

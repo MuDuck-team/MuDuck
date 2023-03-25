@@ -144,10 +144,25 @@ include::{snippets}/post-reply/http-response.adoc[]
 
 === 댓글 삭제
 .http-request
-include::{snippets}/delete-board/http-request.adoc[]
+include::{snippets}/delete-comment/http-request.adoc[]
 
 .path-parameters
-include::{snippets}/delete-board/path-parameters.adoc[]
+include::{snippets}/delete-comment/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-comment/http-response.adoc[]
+
+=== 게시글 좋아요 등록
+.http-request
+include::{snippets}/post-like/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/post-like/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/post-like/http-response.adoc[]
+
+
 
 == MusicalController
 === 작품 전체 목록 조회
