@@ -377,6 +377,7 @@ class BoardControllerTest {
                         .createdAt("2023.03.21 17:30")
                         .build())
                 .body("대댓글입니다1")
+                .commentStatus("댓글게시")
                 .parentId(1L)
                 .comments(new ArrayList<>())
                 .build();
@@ -389,7 +390,8 @@ class BoardControllerTest {
                         .nickname(member.getNickName())
                         .createdAt("2023.03.21 18:00")
                         .build())
-                .body("대댓글입니다2")
+                .body("삭제된 댓글입니다.")
+                .commentStatus("댓글삭제")
                 .parentId(1L)
                 .comments(new ArrayList<>())
                 .build();
@@ -405,6 +407,7 @@ class BoardControllerTest {
                         .createdAt("2023.03.21 17:00")
                         .build())
                 .body("댓글입니다")
+                .commentStatus("댓글게시")
                 .comments(replyResponseList)
                 .build();
 
@@ -481,6 +484,8 @@ class BoardControllerTest {
                                         JsonFieldType.STRING).description("댓글 작성 날짜"),
                                 fieldWithPath("comments[].body").type(JsonFieldType.STRING)
                                         .description("댓글 내용"),
+                                fieldWithPath("comments[].commentStatus").type(JsonFieldType.STRING)
+                                        .description("댓글 등록 상태"),
                                 fieldWithPath("comments[].parentId").type(JsonFieldType.NULL)
                                         .description("대댓글의 부모 ID 대댓글인 경우만 존재"),
                                 fieldWithPath("comments[].comments").type(JsonFieldType.ARRAY)
@@ -499,6 +504,8 @@ class BoardControllerTest {
                                         JsonFieldType.STRING).description("대댓글 작성 날짜"),
                                 fieldWithPath("comments[].comments[].body").type(
                                         JsonFieldType.STRING).description("대댓글 내용"),
+                                fieldWithPath("comments[].comments[].commentStatus").type(
+                                        JsonFieldType.STRING).description("대댓글 등록 상태"),
                                 fieldWithPath("comments[].comments[].parentId").type(
                                         JsonFieldType.NUMBER).description("대댓글의 부모 ID"),
                                 fieldWithPath("comments[].comments[].comments").type(
@@ -714,7 +721,8 @@ class BoardControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                post("/boards/{board-id}/comments/{comment-id}", 1L, 1L).accept(MediaType.APPLICATION_JSON)
+                post("/boards/{board-id}/comments/{comment-id}", 1L, 1L).accept(
+                                MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf())
         );
 
@@ -728,7 +736,8 @@ class BoardControllerTest {
         actions.andExpect(status().isCreated())
                 .andDo(document("post-reply",
                         getRequestPreProcessor(),
-                        pathParameters(parameterWithName("board-id").description("게시글 식별자"), parameterWithName("comment-id").description("부모 댓글 식별자")),
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자"),
+                                parameterWithName("comment-id").description("부모 댓글 식별자")),
                         requestFields(List.of(
                                 fieldWithPath("body").type(JsonFieldType.STRING)
                                         .description("대댓글 내용")
@@ -748,13 +757,15 @@ class BoardControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                delete("/boards/{board-id}/comments/{comment-id}", 1L, 1L).accept(MediaType.APPLICATION_JSON).with(csrf()));
+                delete("/boards/{board-id}/comments/{comment-id}", 1L, 1L).accept(
+                        MediaType.APPLICATION_JSON).with(csrf()));
 
         // then
         actions.andExpect(status().isNoContent())
                 .andDo(document(
                         "delete-comment",
-                        pathParameters(parameterWithName("board-id").description("게시글 식별자"), parameterWithName("comment-id").description("댓글 식별자"))));
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자"),
+                                parameterWithName("comment-id").description("댓글 식별자"))));
     }
 
     @Test
@@ -768,11 +779,14 @@ class BoardControllerTest {
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
 
         // when
-        ResultActions actions = mockMvc.perform(post("/boards/{board-id}/like", 1L).accept(MediaType.APPLICATION_JSON).with(csrf()));
+        ResultActions actions = mockMvc.perform(
+                post("/boards/{board-id}/like", 1L).accept(MediaType.APPLICATION_JSON)
+                        .with(csrf()));
 
         // then
         actions.andExpect(status().isOk())
-                .andDo(document("post-like", pathParameters(parameterWithName("board-id").description("게시글 식별자"))));
+                .andDo(document("post-like",
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자"))));
     }
 
 }

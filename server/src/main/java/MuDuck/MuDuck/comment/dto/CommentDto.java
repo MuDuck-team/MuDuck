@@ -30,6 +30,7 @@ public class CommentDto {
         private long id;
         private CommentsHead head;
         private String body;
+        private String commentStatus;
         private Long parentId;
         List<Response> comments;
     }

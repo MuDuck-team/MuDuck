@@ -29,6 +29,7 @@ public interface CommentMapper {
                                 .format(DateTimeFormatter.ofPattern("yyyy.MM.dd HH:mm")))
                         .build())
                 .body(comment.getCommentStatus() == CommentStatus.COMMENT_POST ? comment.getBody() : "삭제된 댓글입니다.")
+                .commentStatus(comment.getCommentStatus().getStatus())
                 .parentId(comment.getParent() == null ? null : comment.getParent().getCommentId())
                 .comments(comment.getChildren() == null ? new ArrayList<>()
                         : commentsToCommentResponseDtos(comment.getChildren()))
