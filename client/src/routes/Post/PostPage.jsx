@@ -1,32 +1,73 @@
 import { useState } from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
-import axios from 'axios';
+import {
+  Form,
+  Link,
+  redirect,
+  useLoaderData,
+  useSubmit,
+} from 'react-router-dom';
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { IoMdListBox } from 'react-icons/io';
+import { useRecoilValue } from 'recoil';
+import { userInfo } from '../../recoil/userAtom';
+import customAxios from '../../api/customAxios';
 import WriterInfo from '../../components/WriterInfo';
 import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
 import CommentList from './CommentList';
 
 export async function loader({ params }) {
-  const response = await axios.get(
-    `${process.env.REACT_APP_API_URL}/board/${params.id}`,
-  );
+  const response = await customAxios.get(`/boards/${params.id}`);
   const responseData = response.data;
   return { responseData };
 }
 
+export async function action({ request, params }) {
+  const localToken = localStorage.getItem('localToken');
+  const formData = await request.formData();
+  const body = Object.fromEntries(formData);
+
+  const response = await customAxios.post(
+    `/boards/${params.id}/comments`,
+    body,
+    {
+      headers: {
+        Authorization: localToken,
+      },
+    },
+  );
+  console.log(response);
+
+  return redirect('.');
+}
+
 function PostPage() {
   const { responseData } = useLoaderData();
-
   const { boardContent, comments } = responseData;
   const { head, body, liked } = boardContent;
 
+  const user = useRecoilValue(userInfo);
   const [isLike, setIsLike] = useState(liked);
 
   const toggleLike = () => {
     setIsLike(!isLike);
+  };
+
+  const submit = useSubmit();
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    const { form } = event.currentTarget;
+    const formData = new FormData(form);
+
+    if (formData.get('body') === '') {
+      alert('내용을 최소 1자 이상 입력해주세요');
+      return;
+    }
+
+    submit(form);
+    form.reset();
   };
 
   return (
@@ -47,20 +88,43 @@ function PostPage() {
         <PostCotent>{body.content}</PostCotent>
       </ContentContainer>
       <LinkContainer>
-        <PostLike onClick={toggleLike}>
-          {isLike ? <FillHeartIcon /> : <OutlineHeartIcon />}
-          <ListText>스크랩</ListText>
-        </PostLike>
+        {user && (
+          <PostLike onClick={toggleLike}>
+            {isLike ? <FillHeartIcon /> : <OutlineHeartIcon />}
+            <ListText>스크랩</ListText>
+          </PostLike>
+        )}
         <ListLink to="/posts">
           <ListIcon />
           <ListText>목록으로</ListText>
         </ListLink>
       </LinkContainer>
       <CommentCount>{head.totalComment}개의 댓글</CommentCount>
-      <InputContainer>
-        <StyledInput width="88%" placeholder="댓글을 입력해주세요" />
-        <Button width="10%" height="40px" text="등록" />
-      </InputContainer>
+      {user ? (
+        <CommentForm method="post">
+          <StyledInput
+            name="body"
+            width="88%"
+            placeholder="댓글을 작성해주세요"
+          />
+          <Button
+            type="submit"
+            width="10%"
+            height="40px"
+            text="등록"
+            onClick={handleSubmit}
+          />
+        </CommentForm>
+      ) : (
+        <CommentForm>
+          <StyledInput
+            width="88%"
+            placeholder="로그인 후 이용 가능합니다"
+            disabled
+          />
+          <Button width="10%" height="40px" text="등록" disabled />
+        </CommentForm>
+      )}
       {comments.map(comment => (
         <CommentList key={comment.id} comment={comment} />
       ))}
@@ -148,7 +212,7 @@ const CommentCount = styled.span`
   font-size: var(--font-size-md);
 `;
 
-const InputContainer = styled.div`
+const CommentForm = styled(Form)`
   display: flex;
   justify-content: space-between;
   margin: 1.6rem 0;

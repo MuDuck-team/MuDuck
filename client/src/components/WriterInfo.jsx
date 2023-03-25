@@ -1,11 +1,19 @@
+import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsFillChatFill } from 'react-icons/bs';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { IoMdEye } from 'react-icons/io';
+import { useRecoilValue } from 'recoil';
+import customAxios from '../api/customAxios';
+import { userInfo } from '../recoil/userAtom';
 import ProfileImg from './ProfileImage/ProfileImg';
 import MeatballsMenu from './MeatballsMenu';
+import Modal from './Modal/Modal';
 
 function WriterInfo({
+  commentId,
+  memberId,
   profileUrl,
   nickname,
   createdAt,
@@ -15,6 +23,34 @@ function WriterInfo({
   category,
   type,
 }) {
+  const user = useRecoilValue(userInfo);
+
+  const params = useParams();
+  const navigate = useNavigate();
+  const localToken = localStorage.getItem('localToken');
+
+  const [showModal, setShowModal] = useState(false);
+
+  const handleShowModal = () => {
+    setShowModal(!showModal);
+  };
+
+  const handleCommentDelete = () => {
+    customAxios
+      .delete(`/boards/${params.id}/comments/${commentId}`, {
+        headers: {
+          Authorization: localToken,
+        },
+      })
+      .then(response => {
+        console.log(response);
+        if (response.status === 204) navigate('.');
+      })
+      .catch(error => {
+        console.error('Error submitting comment:', error);
+      });
+  };
+
   return (
     <InformationContainer>
       <InformationDetail>
@@ -45,10 +81,20 @@ function WriterInfo({
           </PostInformation>
         </InformationWrapper>
       </InformationDetail>
-      {type === 'postWriter' ? (
+      {user && type === 'postWriter' && user.id === memberId && (
         <MeatballsMenu />
-      ) : (
-        <DeleteButton>삭제</DeleteButton>
+      )}
+      {user && user.id === memberId && (
+        <>
+          <Modal
+            showModal={showModal}
+            handleCloseModal={handleShowModal}
+            title="게시글 삭제"
+            content="정말 게시글을 삭제하시겠습니까?"
+            yesCallback={handleCommentDelete}
+          />
+          <DeleteButton onClick={handleShowModal}>삭제</DeleteButton>
+        </>
       )}
     </InformationContainer>
   );
