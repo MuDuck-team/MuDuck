@@ -14,8 +14,6 @@ import uploadS3 from '../../components/ProfileImage/ProfileUploader';
 import customAxios from '../../api/customAxios';
 
 function MyPage() {
-  // const initImage = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
-  // const nickname = '뮤지컬찐덕후';
   const [user, setUserInfo] = useRecoilState(userInfo);
   const [uploadSrc, setUploadSrc] = useState(null);
   const [nickname, setNickname] = useState('');
