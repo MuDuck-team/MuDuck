@@ -7,7 +7,7 @@ import { StyledInput } from '../../components/Input';
 import StarRating from '../../components/StarRating';
 import MyMapContainer from './MyMapContainer';
 
-const responce = {
+const response = {
   theater: {
     id: 1,
     placeName: '오둥이극장',
@@ -117,7 +117,7 @@ const responce = {
 
 function getData(id) {
   console.log(id);
-  return responce;
+  return response;
 }
 
 export async function loader({ params }) {

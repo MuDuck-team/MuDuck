@@ -8,10 +8,10 @@ export async function loader({ request, params }) {
   try {
     const url = new URL(request.url);
     const paramsId = params.id;
-    const responce = await customAxios.get(`/boards/${paramsId}`);
+    const response = await customAxios.get(`/boards/${paramsId}`);
     const { pathname } = url;
 
-    return { pathname, responce };
+    return { pathname, response };
   } catch (e) {
     throw new Error(e);
   }
@@ -43,12 +43,12 @@ export async function action({ request, params }) {
 }
 
 function PostEditPage() {
-  const { pathname, responce } = useLoaderData();
+  const { pathname, response } = useLoaderData();
   const user = useRecoilValue(userInfo);
   const userId = user?.id;
-  const publisherId = responce.data.boardContent.head.memberId;
+  const publisherId = response.data.boardContent.head.memberId;
   const { title: defaultTitle, content: defalutContent } =
-    responce.data.boardContent.body;
+    response.data.boardContent.body;
   if (!(userId === publisherId)) {
     redirect(-1);
   }

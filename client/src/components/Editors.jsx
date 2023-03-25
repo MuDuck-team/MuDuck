@@ -90,13 +90,13 @@ function Editors({
     }
   };
 
-  const textOverZero = str => {
-    return str.length > 0;
+  const isEmpty = str => {
+    return str.length === 0;
   };
 
   const handleSubmit = e => {
     e.preventDefault();
-    if (!(textOverZero(title) && textOverZero(content))) {
+    if (isEmpty(title) && isEmpty(content)) {
       alert('글자 수가 한 글자 이상이여야 합니다');
       return;
     }

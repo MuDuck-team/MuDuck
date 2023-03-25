@@ -5,8 +5,8 @@ import Editors from '../../components/Editors';
 export async function loader({ request }) {
   const url = new URL(request.url);
   const { pathname } = url;
-  const responce = await customAxios.get('/boards/category');
-  const { category, mentionedMusical } = responce.data;
+  const response = await customAxios.get('/boards/category');
+  const { category, mentionedMusical } = response.data;
   return { pathname, category, mentionedMusical };
 }
 
@@ -32,7 +32,7 @@ export async function action({ request }) {
     return redirect(`/posts`);
   } catch (err) {
     console.log(err);
-    throw new Error(err.responce);
+    throw new Error(err.response);
   }
 }
 
