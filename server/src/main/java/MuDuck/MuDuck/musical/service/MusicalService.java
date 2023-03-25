@@ -1,20 +1,17 @@
 package MuDuck.MuDuck.musical.service;
 
 import MuDuck.MuDuck.actor.service.ActorService;
-import MuDuck.MuDuck.category.entity.Category;
 import MuDuck.MuDuck.exception.BusinessLogicException;
 import MuDuck.MuDuck.exception.ExceptionCode;
-//import MuDuck.MuDuck.musical.dto.MusicalDto.MusicalBoards;
-import MuDuck.MuDuck.musical.entity.ActorMusical;
+import MuDuck.MuDuck.musical.dto.Category;
+import MuDuck.MuDuck.musical.dto.MusicalBoards;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.musical.repository.MusicalRepository;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -132,10 +129,10 @@ public class MusicalService {
 //        return musicalRepository.findActorByMusicalId(musicalId);
 //    }
 //
-//    public Category findCategoryName(long musicalId){
-//        return musicalRepository.findCategoryByMusicalId(musicalId);
-//    }
-//    public List<MusicalBoards> findMusicalBoards (long musicalId){
-//        return musicalRepository.findBoardByMusicalId(musicalId);
-//    }
+    public Category findCategoryName(long musicalId){
+        return musicalRepository.findCategoryByMusicalId(musicalId);
+    }
+    public List<MusicalBoards> findMusicalBoards (long musicalId){
+        return musicalRepository.findBoardByMusicalId(musicalId);
+    }
 }

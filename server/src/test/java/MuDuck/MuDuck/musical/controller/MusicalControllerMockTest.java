@@ -16,7 +16,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import MuDuck.MuDuck.actor.entity.Actor;
 import MuDuck.MuDuck.musical.dto.ActorMusicalResponseDto;
+import MuDuck.MuDuck.musical.dto.Category;
+import MuDuck.MuDuck.musical.dto.MusicalBoards;
 import MuDuck.MuDuck.musical.dto.MusicalDto;
+import MuDuck.MuDuck.musical.dto.MusicalDto.ResponseMusicalBoards;
 import MuDuck.MuDuck.musical.dto.MusicalDto.ResponseMusicals;
 import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Musical;
@@ -88,6 +91,10 @@ class MusicalControllerMockTest {
     private List<ActorMusicalResponseDto.listing> listing = new ArrayList<>();
     private Theater theater;
     private TheaterDto.ResponseUsedMusical responseTheater;
+    private MusicalBoards musicalBoards;
+    private List<MusicalBoards> musicalBoardsList;
+    private MusicalDto.ResponseMusicalBoards responseMusicalBoards;
+    private MuDuck.MuDuck.musical.dto.Category responseCategory;
 
     @BeforeEach
     void init() {
@@ -175,12 +182,14 @@ class MusicalControllerMockTest {
 
             musical.setMusicalId(1L);
         }
+
+
     }
 
     @Test
     @WithMockUser
     @DisplayName("작품 전체 목록 조회")
-    public void findMusicalsTest() throws Exception {
+    public void getMusicalsTest() throws Exception {
         //given
         MultiValueMap<String, String>
                 pageMultiValueMap = new LinkedMultiValueMap<>();
@@ -253,7 +262,7 @@ class MusicalControllerMockTest {
     @Test
     @WithMockUser
     @DisplayName("조건에 따른 작품 전체 목록 조회")
-    public void findMusicalGenresTest() throws Exception {
+    public void getMusicalGenresTest() throws Exception {
         //given
         MultiValueMap<String, String>
                 pageMultiValueMap = new LinkedMultiValueMap<>();
@@ -327,7 +336,7 @@ class MusicalControllerMockTest {
     @Test
     @WithMockUser
     @DisplayName("작품 필터별 목록 조회")
-    public void findMusicalFiltersTest() throws Exception {
+    public void getMusicalFiltersTest() throws Exception {
         //given
         MultiValueMap<String, String>
                 pageMultiValueMap = new LinkedMultiValueMap<>();
@@ -404,7 +413,7 @@ class MusicalControllerMockTest {
     @Test
     @WithMockUser
     @DisplayName("작품 상태별 목록 조회")
-    public void findMusicalStatesTest() throws Exception {
+    public void getMusicalStatesTest() throws Exception {
         //given
         MultiValueMap<String, String>
                 pageMultiValueMap = new LinkedMultiValueMap<>();
@@ -481,7 +490,7 @@ class MusicalControllerMockTest {
     @Test
     @WithMockUser
     @DisplayName("특정 작품 정보 조회")
-    public void findMusicalTest() throws Exception {
+    public void getMusicalTest() throws Exception {
         //given
         given(musicalService.findMusical(Mockito.anyLong())).willReturn(musical);
         given(theaterService.getTheater(Mockito.anyLong())).willReturn(theater);
@@ -572,6 +581,110 @@ class MusicalControllerMockTest {
                                                 fieldWithPath("theater.theaterName").type(
                                                                 JsonFieldType.STRING)
                                                         .description("극장 이름")
+                                        )
+                                )
+                        )
+                );
+    }
+
+    @Test
+    @WithMockUser
+    @DisplayName("특정 작품의 게시글 조회")
+    public void getBoardsTest() throws Exception {
+        //given
+        //musical.setMusicalId(1L);
+        musicalBoards = new MusicalBoards() {
+            @Override
+            public String getTitle() {
+                return "This Is TEST";
+            }
+
+            @Override
+            public String getNickname() {
+                return "테스형";
+            }
+
+            @Override
+            public String getCreatedAt() {
+                return "2023.03.25 15:15:15";
+            }
+
+            @Override
+            public Integer getViews() {
+                return 153;
+            }
+
+            @Override
+            public Integer getLikes() {
+                return 864;
+            }
+        };
+
+        musicalBoardsList = List.of(musicalBoards);
+
+        responseCategory = new Category() {
+            @Override
+            public String getCategoryName() {
+                return "테스트임당";
+            }
+        };
+
+        responseMusicalBoards = ResponseMusicalBoards.builder()
+                .musicalId(musical.getMusicalId())
+                .boards(musicalBoardsList)
+                .category(responseCategory)
+                .build();
+
+//        given(musicalService.findMusical(Mockito.anyLong())).willReturn(musical);
+//        given(musicalService.findMusicalBoards(Mockito.anyLong())).willReturn(musicalBoardsList);
+//        given(musicalService.findCategoryName(Mockito.anyLong())).willReturn(responseCategory);
+        given(musicalMapper.boardsToMusicalResponseDtos(Mockito.any(),Mockito.anyList(),Mockito.any())).willReturn(responseMusicalBoards);
+
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                        get("/musicals/{musical-id}/board", musical.getMusicalId())
+                                .accept(MediaType.APPLICATION_JSON)
+                );
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.musicalId").value(musical.getMusicalId()))
+
+                .andExpect(jsonPath("$.boards").isArray())
+
+                .andExpect(jsonPath("$.category.categoryName").value(responseCategory.getCategoryName()))
+
+                .andDo(document("get-musical-boards",
+                                getRequestPreProcessor(),
+                                getResponsePreProcessor(),
+                                pathParameters(
+                                        parameterWithName("musical-id").description("조회할 특정 공연 번호")
+                                ),
+                                responseFields(
+                                        List.of(
+                                                fieldWithPath(".musicalId").type(JsonFieldType.NUMBER)
+                                                        .description("뮤지컬 아이디"),
+
+                                                fieldWithPath("boards[].title").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("게시글 제목"),
+                                                fieldWithPath("boards[].nickname").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("작성자 닉네임"),
+                                                fieldWithPath("boards[].createdAt").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("게시글 작성 시간"),
+                                                fieldWithPath("boards[].likes").type(
+                                                                JsonFieldType.NUMBER)
+                                                        .description("게시글 좋아요 수"),
+                                                fieldWithPath("boards[].views").type(
+                                                                JsonFieldType.NUMBER)
+                                                        .description("게시글 조회 수"),
+
+                                                fieldWithPath("category.categoryName").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("카테고리 이름")
                                         )
                                 )
                         )
