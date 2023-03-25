@@ -1,20 +1,14 @@
 package MuDuck.MuDuck.musical.dto;
 
-import MuDuck.MuDuck.board.entity.Board;
-import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Musical;
-import MuDuck.MuDuck.theater.dto.TheaterDto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import java.util.ArrayList;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.domain.Page;
 
@@ -121,26 +115,15 @@ public class MusicalDto {
         @JsonProperty("actors")
         private List<ActorMusicalResponseDto.detail> actorMusicals;
     }
-//
-//    @Getter
-//    @RequiredArgsConstructor
-//    public static class MusicalBoards {
-//        private String title;
-//        private String nickName;
-//        private String createdAt;
-//        private int views;
-//        private int likes;
-//    }
-//
-//    @Builder
-//    @Getter
-//    @AllArgsConstructor
-//    public static class ResponseMusicalBoards {
-//        private Long musicalId;
-//        //private List<MusicalDto.MusicalBoards> boards;
-//        private List<MusicalDto.MusicalBoards> boards;
-//        private String categoryName;
-//    }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    public static class ResponseMusicalBoards {
+        private Long musicalId;
+        private List<MusicalBoards> boards;
+        private Category category;
+    }
 
 
     @AllArgsConstructor

@@ -9,7 +9,7 @@ spring:
     url: "jdbc:h2:mem:test;MODE=MYSQL"
   jpa:
     hibernate:
-      ddl-auto: create-drop  # (1) ??? ?? ??
+      ddl-auto: create  # (1) ??? ?? ??
     show-sql: true      # (2) SQL ?? ??
     defer-datasource-initialization: true
     properties:
