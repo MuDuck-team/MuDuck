@@ -1,16 +1,25 @@
 import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { HiOutlinePencilAlt } from 'react-icons/hi';
 import PostData, { CommentData } from './ContentData';
-import ProfileImg from '../../components/ProfileImage/ProfileImg';
+import { userInfo } from '../../recoil/userAtom';
 import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
 import { MyPageCard } from '../../components/Cards';
 import Paging from '../../components/Pagination/Pagination';
+import ProfileImgSetter from '../../components/ProfileImage/ProfileImgSetter';
+import uploadS3 from '../../components/ProfileImage/ProfileUploader';
+import customAxios from '../../api/customAxios';
 
 function MyPage() {
-  const initImage = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
-  const nickname = '뮤지컬찐덕후';
+  // const initImage = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
+  // const nickname = '뮤지컬찐덕후';
+  const [user, setUserInfo] = useRecoilState(userInfo);
+  const [uploadSrc, setUploadSrc] = useState(null);
+  const navigate = useNavigate();
+  const localToken = localStorage.getItem('localToken');
 
   const pageSize = 5;
   const pageInfo = {
@@ -35,11 +44,53 @@ function MyPage() {
     setIsEdit(!isEdit);
   };
 
+  const handleProfileChange = async event => {
+    event.preventDefault();
+    const resultUrl = await uploadS3(uploadSrc);
+    customAxios({
+      method: 'patch',
+      url: `/members/${user.id}`,
+      headers: {
+        Authorization: localToken,
+      },
+      data: { profileImageUrl: resultUrl },
+    })
+      .then(res => {
+        const result = res.data;
+        console.log(result);
+        setUploadSrc(null);
+        setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...result }));
+      })
+      .then(() => {
+        navigate('.');
+      });
+  };
+
   return (
     <MyPageLayout>
       <Category>마이 페이지</Category>
-      <ProfileContainer>
-        <ProfileImg src={initImage} />
+      <MyInfoContainer>
+        <ProfileContainer>
+          <ProfileImgSetter
+            defualtPhotoUrl={user.profileImageUrl}
+            uploadSrc={uploadSrc}
+            setUploadSrc={setUploadSrc}
+          />
+          {uploadSrc ? (
+            <Button
+              bgColor="transparent"
+              text="변경사항 저장"
+              width="fit-content"
+              padding="1rem"
+              fontSize="1.2rem"
+              fontWeight="400"
+              textColor="var(--button-color)"
+              hover="transparent"
+              active="var(--main-003)"
+              onClick={handleProfileChange}
+            />
+          ) : null}
+        </ProfileContainer>
         {isEdit ? (
           <EditNicknameBox>
             <ValidationCheck>
@@ -60,13 +111,13 @@ function MyPage() {
           </EditNicknameBox>
         ) : (
           <EditNicknameBox>
-            <Nickname>{nickname}님</Nickname>
+            <Nickname>{user.nickname}님</Nickname>
             <EditButton type="button" onClick={onEditHandler}>
               <EditIcon />
             </EditButton>
           </EditNicknameBox>
         )}
-      </ProfileContainer>
+      </MyInfoContainer>
       <ContentContainer>
         <PostContainer>
           <Title>내가 작성한 글</Title>
@@ -128,9 +179,16 @@ const Category = styled.h2`
   margin-bottom: 2.4rem;
 `;
 
-const ProfileContainer = styled.div`
+const MyInfoContainer = styled.div`
   display: flex;
   margin-bottom: 1.6rem;
+`;
+
+const ProfileContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const EditNicknameBox = styled.div`

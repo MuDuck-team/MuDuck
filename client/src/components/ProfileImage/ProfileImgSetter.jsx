@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 //  ProfileSubmitSrc
 
@@ -72,13 +72,7 @@ const Avatar = styled.img`
   border-radius: 50%;
   filter: brightness(0.8);
   background-color: transparent;
-
-  ${props =>
-    !props.uploadSrc &&
-    css`
-      filter: brightness(0.2);
-      transition: ease-in 0.08s;
-    `}
+  object-fit: cover;
 `;
 
 const FileInput = styled.input`
