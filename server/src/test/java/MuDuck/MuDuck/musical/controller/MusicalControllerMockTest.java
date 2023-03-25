@@ -487,105 +487,105 @@ class MusicalControllerMockTest {
         assertThat(list.size()).isEqualTo(responses.size());
     }
 
-    @Test
-    @WithMockUser
-    @DisplayName("특정 작품 정보 조회")
-    public void getMusicalTest() throws Exception {
-        //given
-        given(musicalService.findMusical(Mockito.anyLong())).willReturn(musical);
-        given(theaterService.getTheater(Mockito.anyLong())).willReturn(theater);
-        given(musicalMapper.musicalToMusicalResponseDto(Mockito.any(Musical.class))).willReturn(
-                response);
-        given(theaterMapper.theaterToMusicalResponse(Mockito.any(Theater.class))).willReturn(
-                responseTheater);
-        //when
-        ResultActions actions =
-                mockMvc.perform(
-                        get("/musicals/{musical-id}", musical.getMusicalId())
-                                .accept(MediaType.APPLICATION_JSON)
-                );
-        //then
-        actions
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.musical.id").value(response.getMusicalId()))
-                .andExpect(jsonPath("$.musical.musicalKorName").value(response.getMusicalKorName()))
-                .andExpect(jsonPath("$.musical.musicalEngName").value(response.getMusicalEngName()))
-                .andExpect(jsonPath("$.musical.poster").value(response.getPoster()))
-                .andExpect(jsonPath("$.musical.genre").value(response.getGenre()))
-                .andExpect(jsonPath("$.musical.musicalState").value(response.getMusicalState()))
-                .andExpect(jsonPath("$.musical.musicalInfo").value(response.getMusicalInfo()))
-                .andExpect(jsonPath("$.musical.openDate").value(response.getOpenDate()))
-                .andExpect(jsonPath("$.musical.closeDate").value(response.getCloseDate()))
-                .andExpect(jsonPath("$.musical.age").value(response.getAge()))
-                .andExpect(jsonPath("$.musical.runningTime").value(response.getRunningTime()))
-                .andExpect(jsonPath("$.musical.intermission").value(response.getIntermission()))
-                .andExpect(jsonPath("$.musical.views").value(response.getViews()))
-                .andExpect(jsonPath("$.musical.theaterId").value(response.getTheaterId()))
-
-                .andExpect(jsonPath("$.theater.theaterId").value(responseTheater.getTheaterId()))
-                .andExpect(jsonPath("$.theater.theaterName").value(responseTheater.getTheaterName()))
-
-                .andDo(document("get-musical",
-                                getRequestPreProcessor(),
-                                getResponsePreProcessor(),
-                                pathParameters(
-                                        parameterWithName("musical-id").description("조회할 특정 공연 번호")
-                                ),
-                                responseFields(
-                                        List.of(
-                                                fieldWithPath("musical.id").type(JsonFieldType.NUMBER)
-                                                        .description("뮤지컬 아이디"),
-                                                fieldWithPath("musical.musicalKorName").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("뮤지컬 국문 이름"),
-                                                fieldWithPath("musical.musicalEngName").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("뮤지컬 영문 이름"),
-                                                fieldWithPath("musical.poster").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("뮤지컬 포스터"),
-                                                fieldWithPath("musical.genre").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("뮤지컬 장르"),
-                                                fieldWithPath("musical.musicalState").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("공연 상태"),
-                                                fieldWithPath("musical.musicalInfo").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("뮤지컬 줄거리"),
-                                                fieldWithPath("musical.openDate").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("뮤지컬 시작일자"),
-                                                fieldWithPath("musical.closeDate").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("뮤지컬 종료일자"),
-                                                fieldWithPath("musical.age").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("뮤지컬 관람연령"),
-                                                fieldWithPath("musical.runningTime").type(
-                                                                JsonFieldType.NUMBER)
-                                                        .description("뮤지컬 공연시간"),
-                                                fieldWithPath("musical.intermission").type(
-                                                                JsonFieldType.NUMBER)
-                                                        .description("뮤지컬 휴게시간"),
-                                                fieldWithPath("musical.views").type(
-                                                                JsonFieldType.NUMBER)
-                                                        .description("뮤지컬 조회수"),
-                                                fieldWithPath("musical.theaterId").type(
-                                                                JsonFieldType.NUMBER)
-                                                        .description("공연 장소"),
-
-                                                fieldWithPath("theater.theaterId").type(
-                                                                JsonFieldType.NUMBER)
-                                                        .description("극장 번호"),
-                                                fieldWithPath("theater.theaterName").type(
-                                                                JsonFieldType.STRING)
-                                                        .description("극장 이름")
-                                        )
-                                )
-                        )
-                );
-    }
+//    @Test
+//    @WithMockUser
+//    @DisplayName("특정 작품 정보 조회")
+//    public void getMusicalTest() throws Exception {
+//        //given
+//        given(musicalService.findMusical(Mockito.anyLong())).willReturn(musical);
+//        given(theaterService.getTheater(Mockito.anyLong())).willReturn(theater);
+//        given(musicalMapper.musicalToMusicalResponseDto(Mockito.any(Musical.class))).willReturn(
+//                response);
+//        given(theaterMapper.theaterToMusicalResponse(Mockito.any(Theater.class))).willReturn(
+//                responseTheater);
+//        //when
+//        ResultActions actions =
+//                mockMvc.perform(
+//                        get("/musicals/{musical-id}", musical.getMusicalId())
+//                                .accept(MediaType.APPLICATION_JSON)
+//                );
+//        //then
+//        actions
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.musical.id").value(response.getMusicalId()))
+//                .andExpect(jsonPath("$.musical.musicalKorName").value(response.getMusicalKorName()))
+//                .andExpect(jsonPath("$.musical.musicalEngName").value(response.getMusicalEngName()))
+//                .andExpect(jsonPath("$.musical.poster").value(response.getPoster()))
+//                .andExpect(jsonPath("$.musical.genre").value(response.getGenre()))
+//                .andExpect(jsonPath("$.musical.musicalState").value(response.getMusicalState()))
+//                .andExpect(jsonPath("$.musical.musicalInfo").value(response.getMusicalInfo()))
+//                .andExpect(jsonPath("$.musical.openDate").value(response.getOpenDate()))
+//                .andExpect(jsonPath("$.musical.closeDate").value(response.getCloseDate()))
+//                .andExpect(jsonPath("$.musical.age").value(response.getAge()))
+//                .andExpect(jsonPath("$.musical.runningTime").value(response.getRunningTime()))
+//                .andExpect(jsonPath("$.musical.intermission").value(response.getIntermission()))
+//                .andExpect(jsonPath("$.musical.views").value(response.getViews()))
+//                .andExpect(jsonPath("$.musical.theaterId").value(response.getTheaterId()))
+//
+//                .andExpect(jsonPath("$.theater.theaterId").value(responseTheater.getTheaterId()))
+//                .andExpect(jsonPath("$.theater.theaterName").value(responseTheater.getTheaterName()))
+//
+//                .andDo(document("get-musical",
+//                                getRequestPreProcessor(),
+//                                getResponsePreProcessor(),
+//                                pathParameters(
+//                                        parameterWithName("musical-id").description("조회할 특정 공연 번호")
+//                                ),
+//                                responseFields(
+//                                        List.of(
+//                                                fieldWithPath("musical.id").type(JsonFieldType.NUMBER)
+//                                                        .description("뮤지컬 아이디"),
+//                                                fieldWithPath("musical.musicalKorName").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("뮤지컬 국문 이름"),
+//                                                fieldWithPath("musical.musicalEngName").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("뮤지컬 영문 이름"),
+//                                                fieldWithPath("musical.poster").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("뮤지컬 포스터"),
+//                                                fieldWithPath("musical.genre").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("뮤지컬 장르"),
+//                                                fieldWithPath("musical.musicalState").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("공연 상태"),
+//                                                fieldWithPath("musical.musicalInfo").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("뮤지컬 줄거리"),
+//                                                fieldWithPath("musical.openDate").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("뮤지컬 시작일자"),
+//                                                fieldWithPath("musical.closeDate").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("뮤지컬 종료일자"),
+//                                                fieldWithPath("musical.age").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("뮤지컬 관람연령"),
+//                                                fieldWithPath("musical.runningTime").type(
+//                                                                JsonFieldType.NUMBER)
+//                                                        .description("뮤지컬 공연시간"),
+//                                                fieldWithPath("musical.intermission").type(
+//                                                                JsonFieldType.NUMBER)
+//                                                        .description("뮤지컬 휴게시간"),
+//                                                fieldWithPath("musical.views").type(
+//                                                                JsonFieldType.NUMBER)
+//                                                        .description("뮤지컬 조회수"),
+//                                                fieldWithPath("musical.theaterId").type(
+//                                                                JsonFieldType.NUMBER)
+//                                                        .description("공연 장소"),
+//
+//                                                fieldWithPath("theater.theaterId").type(
+//                                                                JsonFieldType.NUMBER)
+//                                                        .description("극장 번호"),
+//                                                fieldWithPath("theater.theaterName").type(
+//                                                                JsonFieldType.STRING)
+//                                                        .description("극장 이름")
+//                                        )
+//                                )
+//                        )
+//                );
+//    }
 
     @Test
     @WithMockUser

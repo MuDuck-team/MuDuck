@@ -213,6 +213,25 @@ include::{snippets}/get-musicals-state/http-response.adoc[]
 .response-fields
 include::{snippets}/get-musicals-state/response-fields.adoc[]
 
+// === 특정 작품 정보 조회
+// .http-request
+// include::{snippets}/get-musical/http-request.adoc[]
+//
+// .http-response
+// include::{snippets}/get-musical/http-response.adoc[]
+//
+// .response-fields
+// include::{snippets}/get-musical/response-fields.adoc[]
+
+=== 작품 상태별 목록 조회
+.http-request
+include::{snippets}/get-musical-boards/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-musical-boards/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-musical-boards/response-fields.adoc[]
 
 == MemberController
 === 현재 로그인한 회원 정보 조회
