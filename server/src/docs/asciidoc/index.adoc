@@ -170,3 +170,14 @@ include::{snippets}/update-member/http-response.adoc[]
 
 .response-fields
 include::{snippets}/update-member/response-fields.adoc[]
+
+== MapController
+=== 평균 평점 및 총 리뷰수가 있는 지도 정보 조회
+.http-request
+include::{snippets}/get-map-include-avg-score-total-reviews/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-map-include-avg-score-total-reviews/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-map-include-avg-score-total-reviews/response-fields.adoc[]
