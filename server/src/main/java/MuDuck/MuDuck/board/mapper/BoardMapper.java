@@ -36,7 +36,7 @@ public interface BoardMapper {
     // id 리스트에 다 null로 담겨 오는 경우 때문에 체크해서 Exception 날려주는 상황이 필요하다.
     default List<Long> boardPostToCategoryIds(BoardDto.Post requestBody){
         List<Long> categoryIds = new ArrayList<>();
-        for(Long id : requestBody.getId()){
+        for(Long id : requestBody.getCategoryIds()){
             if(id != null){
                 categoryIds.add(id);
             }

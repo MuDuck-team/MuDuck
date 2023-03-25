@@ -65,6 +65,11 @@ public class BoardService {
         }
     }
 
+    public void addView(Board board){
+        board.setViews(board.getViews() + 1);
+        boardRepository.save(board);
+    }
+
     public Board findBoard(long boardId){
         return findVerifiedBoard(boardId);
     }
@@ -81,8 +86,9 @@ public class BoardService {
         return ""; // 카테고리가 없는 경우 해당 경우가 발생하면 오류가 발생한 것임
     }
 
-    public boolean isLiked(Member member){
-        Optional<BoardLike> optionalBoardLike = boardLikeRepository.findByMemberMemberId(member.getMemberId());
+    public boolean isLiked(long boardId, long memberId){
+        Optional<BoardLike> optionalBoardLike = boardLikeRepository.isMemberClickLike(boardId, memberId);
+
         if(optionalBoardLike.isEmpty()){
             return false;
         }else{
@@ -99,6 +105,8 @@ public class BoardService {
             if(originalBoard.getBoardStatus() == BoardStatus.BOARD_DELETE){ // 이미 삭제 된 게시물에 업데이트 요청하는거라면
                 throw new BusinessLogicException(ExceptionCode.BOARD_REMOVED);
             }else {
+                board.setViews(originalBoard.getViews());
+                board.setLikes(originalBoard.getLikes());
                 updatedBoard = beanUtils.copyNonNullProperties(board, originalBoard);
             }
         }
@@ -118,6 +126,21 @@ public class BoardService {
             }
         }
         boardRepository.save(board);
+    }
+
+    public void addLike(long boardId, Member member) {
+        Board board = findVerifiedBoard(boardId);
+
+        Optional<BoardLike> optionalBoardLike = boardLikeRepository.isMemberClickLike(boardId, member.getMemberId());
+
+        if(optionalBoardLike.isEmpty()){ // 해당 게시글에 좋아요를 이전에 안눌렀다면
+            BoardLike boardLike = new BoardLike(board, member);
+            board.getBoardLikes().add(boardLike);
+            board.setLikes(board.getLikes() + 1);
+            boardRepository.save(board);
+        } else{ // 해당 게시글에 좋아요를 눌렀었다면
+            throw new BusinessLogicException(ExceptionCode.BOARD_LIKE_EXISTS);
+        }
     }
 
     @Transactional(readOnly=true)

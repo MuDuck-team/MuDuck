@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface BoardLikeRepository extends JpaRepository<BoardLike, Long> {
-    Optional<BoardLike> findByMemberMemberId(Long memberId);
+    @Query(value = "SELECT * FROM BOARD_LIKE AS BL WHERE BL.BOARD_ID = :boardId AND BL.MEMBER_ID = :memberId", nativeQuery = true)
+    Optional<BoardLike> isMemberClickLike(long boardId, long memberId);
 }

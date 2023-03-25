@@ -3,9 +3,9 @@ package MuDuck.MuDuck.map.groupcode;
 import lombok.Getter;
 
 public enum GroupCode {
-    PK6("주자장", "PK6"),
-    FD6("음식점", "FD6"),
-    CE7("카페", "CE7");
+    FD6("restaurants", "FD6"),
+    CE7("cafes", "CE7"),
+    PK6("parkings", "PK6");
     @Getter
     private final String name;
     @Getter

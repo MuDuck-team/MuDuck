@@ -91,17 +91,17 @@ include::{snippets}/board-post/response-fields.adoc[]
 .http-request
 include::{snippets}/patch-board/http-request.adoc[]
 
-.request-body
-include::{snippets}/patch-board/request-body.adoc[]
-
 .path-parameters
 include::{snippets}/patch-board/path-parameters.adoc[]
 
-.response-body
-include::{snippets}/patch-board/response-body.adoc[]
+.request-body
+include::{snippets}/patch-board/request-body.adoc[]
 
-.response-fields
-include::{snippets}/patch-board/response-fields.adoc[]
+.request-fields
+include::{snippets}/patch-board/request-fields.adoc[]
+
+.http-response
+include::{snippets}/patch-board/http-response.adoc[]
 
 === 게시글 삭제
 .http-request
@@ -109,6 +109,59 @@ include::{snippets}/delete-board/http-request.adoc[]
 
 .path-parameters
 include::{snippets}/delete-board/path-parameters.adoc[]
+
+=== 댓글 등록
+.http-request
+include::{snippets}/post-comment/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/post-comment/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/post-comment/request-body.adoc[]
+
+.request-fields
+include::{snippets}/post-comment/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-comment/http-response.adoc[]
+
+=== 대댓글 등록
+.http-request
+include::{snippets}/post-reply/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/post-reply/path-parameters.adoc[]
+
+.request-body
+include::{snippets}/post-reply/request-body.adoc[]
+
+.request-fields
+include::{snippets}/post-reply/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-reply/http-response.adoc[]
+
+=== 댓글 삭제
+.http-request
+include::{snippets}/delete-comment/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/delete-comment/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/delete-comment/http-response.adoc[]
+
+=== 게시글 좋아요 등록
+.http-request
+include::{snippets}/post-like/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/post-like/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/post-like/http-response.adoc[]
+
 
 
 == MusicalController
@@ -186,3 +239,14 @@ include::{snippets}/update-member/http-response.adoc[]
 
 .response-fields
 include::{snippets}/update-member/response-fields.adoc[]
+
+== MapController
+=== 평균 평점 및 총 리뷰수가 있는 지도 정보 조회
+.http-request
+include::{snippets}/get-map-include-avg-score-total-reviews/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-map-include-avg-score-total-reviews/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-map-include-avg-score-total-reviews/response-fields.adoc[]
