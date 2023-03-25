@@ -242,4 +242,15 @@ public class BoardController {
 
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @DeleteMapping("/{board-id}/like") // 좋아요 개수 줄이는 로직 까먹지 말 것!!
+    public ResponseEntity deleteLike(@Positive @PathVariable("board-id") long boardId, Principal principal){
+        // 요청자의 신분을 확인
+        String email = principal.getName();
+        Member member = memberService.findByEmail(email);
+
+        boardService.deleteLike(boardId, member);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
