@@ -64,21 +64,13 @@ public class MusicalController {
         return new ResponseEntity<>(new MultiResponseDto<>(musicalMapper.musicalsToMusicalResponseDtos(musicals), pageMusicals), HttpStatus.OK);
     }
 
-//    @GetMapping("/{musical-id}/actors")
-//    public ResponseEntity getActors(@PathVariable("musical-id") @Positive Long musicalId){
-////        List<ActorMusical> actorMusicalList = musicalService.findMusicalActors(musicalId);
-////        return new ResponseEntity<>(musicalService.find(musicalId),HttpStatus.OK);
-//        Musical response = musicalService.findMusicalActors(musicalId);
-//        //List<Musical>actorMusicalList = new ArrayList<>();
-//        return new ResponseEntity<>(musicalMapper.actorMusicalToMusicalResponseDto(response),HttpStatus.OK);
-//    }
-//
+
     @GetMapping("/{musical-id}/board")
     public ResponseEntity getBoards(@PathVariable("musical-id") @Positive Long musicalId){
-        Musical muscial = musicalService.findMusical(musicalId);
+        Musical musical = musicalService.findMusical(musicalId);
         List<MusicalBoards> responseBoards = musicalService.findMusicalBoards(musicalId);
         Category responseCategory = musicalService.findCategoryName(musicalId);
-        return new ResponseEntity<>(musicalMapper.boardsToMusicalResponseDtos(muscial, responseBoards, responseCategory), HttpStatus.OK);
+        return new ResponseEntity<>(musicalMapper.boardsToMusicalResponseDtos(musical, responseBoards, responseCategory), HttpStatus.OK);
     }
 
 }

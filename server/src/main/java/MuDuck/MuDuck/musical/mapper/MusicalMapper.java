@@ -12,7 +12,7 @@ import org.mapstruct.Mapper;
 public interface MusicalMapper {
     MusicalDto.ResponseMusical musicalToMusicalResponseDto(Musical musical);
     List<MusicalDto.ResponseMusicals> musicalsToMusicalResponseDtos(List<Musical> musicals);
-//    ActorMusicalResponseDto actorMusicalToMusicalResponseDto(Musical musical);
+
 
     default MusicalDto.ResponseMusicalBoards boardsToMusicalResponseDtos(Musical musical, List<MusicalBoards> responseBoards, Category category){
         MusicalDto.ResponseMusicalBoards response = ResponseMusicalBoards.builder()

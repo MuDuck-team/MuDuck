@@ -93,8 +93,6 @@ public class Musical extends Auditable {
         this.runningTime = runningTime;
         this.intermission = intermission;
         this.views = views;
-//        this.actorMusicals = actorMusicals;
-//        this.theater = theater;
     }
 
     public Musical(String musicalKorName, String musicalEngName, String poster,

@@ -123,12 +123,6 @@ public class MusicalService {
         return musicalRepository.save(musical);
     }
 
-//    public Musical findMusicalActors (long musicalId) {
-//        //List<ActorMusical> actorMusicalList = musicalRepository.findActorMusicalByMusicalId(musicalId);
-//        //return musicalRepository.findActorMusicalByMusicalId(musicalId);
-//        return musicalRepository.findActorByMusicalId(musicalId);
-//    }
-//
     public Category findCategoryName(long musicalId){
         return musicalRepository.findCategoryByMusicalId(musicalId);
     }
