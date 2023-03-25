@@ -22,9 +22,11 @@ import PostPage, {
 } from './routes/Post/PostPage';
 import PostAddPage, {
   loader as postAddPageLoader,
+  action as postAddPageAction,
 } from './routes/PostAdd/PostAddPage';
 import PostEditPage, {
   loader as postEditPageLoader,
+  action as postEditPageAction,
 } from './routes/PostEdit/PostEditPage';
 import NoticesPage, {
   loader as noticesPageLoader,
@@ -72,11 +74,13 @@ const router = createBrowserRouter([
             path: '/post/add',
             element: <PostAddPage />,
             loader: postAddPageLoader,
+            action: postAddPageAction,
           },
           {
             path: '/post/edit/:id',
             element: <PostEditPage />,
             loader: postEditPageLoader,
+            action: postEditPageAction,
           },
           {
             path: '/notices',
