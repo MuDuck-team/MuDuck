@@ -122,7 +122,7 @@ public class BoardController {
         } else { // 회원인 경우
             String email = principal.getName();
             Member member = memberService.findByEmail(email);
-            isLiked = boardService.isLiked(member);
+            isLiked = boardService.isLiked(boardId, member.getMemberId());
         }
 
         List<Comment> onlyComment = commentService.getCommentWithoutReply(board.getComments());
@@ -230,5 +230,16 @@ public class BoardController {
         commentService.deleteComment(commentId, member);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @PostMapping("/{board-id}/like")
+    public ResponseEntity postLike(@Positive @PathVariable("board-id") long boardId, Principal principal){
+        // 요청자의 신분을 확인
+        String email = principal.getName();
+        Member member = memberService.findByEmail(email);
+
+        boardService.addLike(boardId, member);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

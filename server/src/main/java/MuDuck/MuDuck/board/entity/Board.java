@@ -54,11 +54,11 @@ public class Board extends Auditable {
     @Builder.Default
     private BoardStatus boardStatus = BoardStatus.BOARD_POST;
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @Builder.Default
     private List<BoardLike> boardLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board")
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
@@ -66,7 +66,7 @@ public class Board extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     @Builder.Default
     private List<BoardCategory> boardCategories = new ArrayList<>();
 
