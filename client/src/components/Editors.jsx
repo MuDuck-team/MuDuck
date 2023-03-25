@@ -1,36 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Form } from 'react-router-dom';
+import { useState } from 'react';
+import { Form, useSubmit } from 'react-router-dom';
 import styled from 'styled-components';
 import Select from 'react-select';
 import Button from './Button';
 import Dropdown from './DropDown';
 import { StyledInput, StyledTextArea } from './Input';
-
-// 더미데이터
-const objArr = [
-  { id: 1, categoryName: '최신순' },
-  { id: 2, categoryName: '조회순' },
-  { id: 3, categoryName: '이름순' },
-];
-
-// 더미데이터
-const options = [
-  {
-    id: 4,
-    label: '2014 레베카',
-    value: 1,
-  },
-  {
-    id: 5,
-    label: '2017 레베카',
-    value: 2,
-  },
-  {
-    id: 6,
-    label: '2019 헤드윅',
-    value: 3,
-  },
-];
 
 // DropDownSearch 스타일
 const customStyles = {
@@ -64,16 +38,21 @@ const customStyles = {
   }),
 };
 
-function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
+function Editors({
+  pathname,
+  defaultTitle = '',
+  defalutContent = '',
+  category = [],
+  mentionedMusical = [],
+}) {
   const [categoryIds, setIds] = useState([1]);
+  const submit = useSubmit();
   const [title, setTitle] = useState(defaultTitle);
   const [content, setContent] = useState(defalutContent);
   const [selectedOptions, setSelectedOptions] = useState([]);
   const isPost = pathname.includes('post');
-
-  useEffect(() => {
-    console.log(categoryIds);
-  }, [categoryIds]);
+  const isAdd = pathname.includes('add');
+  const openCategory = isPost && isAdd;
 
   // DropdownSearch 전용 함수
   const handleChange = selected => {
@@ -95,9 +74,9 @@ function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
   };
 
   // Dropdown 전용 함수
-  const handleDropDown = dropDownid => {
+  const handleDropDown = dropDownObj => {
     const idsArray = categoryIds.map((id, idx) =>
-      idx === 0 ? dropDownid : id,
+      idx === 0 ? dropDownObj.id : id,
     );
     setIds(idsArray);
   };
@@ -111,33 +90,58 @@ function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
     }
   };
 
+  const textOverZero = str => {
+    return str.length > 0;
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    if (!(textOverZero(title) && textOverZero(content))) {
+      alert('글자 수가 한 글자 이상이여야 합니다');
+      return;
+    }
+
+    submit(e.currentTarget.form);
+  };
+
+  const changeKey = obj => {
+    const { categoryName: label, id: value } = obj;
+    return { label, value };
+  };
+
+  const changeSearchInputObj = arr => {
+    const searchInputArr = arr.map(changeKey);
+    return searchInputArr;
+  };
+
   return (
     <EditorWrapper>
-      {pathname.includes('add') ? (
-        <StyledH2 isPost={isPost}>
+      {isAdd ? (
+        <StyledH2 openCategory={openCategory}>
           {isPost ? '게시글' : '공지사항'} 작성하기
         </StyledH2>
       ) : (
-        <StyledH2 isPost={isPost}>
+        <StyledH2 openCategory={openCategory}>
           {isPost ? '게시글' : '공지사항'} 수정하기
         </StyledH2>
       )}
-      {isPost && (
+      {openCategory && (
         <CategoryWrapper>
           <CategoryContent>
             <p>카테고리</p>{' '}
             <Dropdown
               width="315px"
               height="42px"
-              options={objArr}
+              options={category}
               onClick={handleDropDown}
-              defaultValue={objArr[1]}
+              defaultValue={category[0]}
+              selectedValue={category[0]}
             />
           </CategoryContent>
           <CategoryContent>
             <p>뮤지컬</p>{' '}
             <Select
-              options={options}
+              options={changeSearchInputObj(mentionedMusical)}
               value={selectedOptions}
               onChange={handleChange}
               styles={customStyles}
@@ -147,8 +151,8 @@ function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
           </CategoryContent>
         </CategoryWrapper>
       )}
-      <Form>
-        <input type="hidden" name="id" value={categoryIds} />
+      <Form method="post">
+        <input type="hidden" name="categoryIds" value={categoryIds} />
         <InputWrapper>
           <StyledLable htmlFor="title">제목</StyledLable>
           <StyledInput
@@ -182,7 +186,7 @@ function Editors({ pathname, defaultTitle = '', defalutContent = '' }) {
             hover="#0a0a0a"
             active="#0a0a0a"
           />
-          <Button type="submit" text="등록하기" />
+          <Button type="submit" text="등록하기" onClick={handleSubmit} />
         </ButtonWrapper>
       </Form>
     </EditorWrapper>
@@ -194,7 +198,7 @@ const EditorWrapper = styled.article``;
 const StyledH2 = styled.h2`
   margin-top: 40px;
   font-size: var(--font-size-xxl);
-  margin-bottom: ${props => (props.isPost ? '8px' : '30px')};
+  margin-bottom: ${props => (props.openCategory ? '8px' : '30px')};
   font-weight: bold;
 `;
 
