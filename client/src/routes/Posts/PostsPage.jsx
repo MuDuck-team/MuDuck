@@ -18,7 +18,7 @@ export async function loader({ request }) {
     );
     const { data } = obj;
 
-    return { data };
+    return { data, sortBy, categoryName };
   } catch (e) {
     console.log(e);
     return undefined;
@@ -32,7 +32,7 @@ const sortArr = [
 ];
 
 function PostsPage() {
-  const { data } = useLoaderData();
+  const { data, sortBy, categoryName } = useLoaderData();
   const navigate = useNavigate();
 
   const { noticeBoards, boards, pageInfo, categoryList } = data;
@@ -82,7 +82,9 @@ function PostsPage() {
             defaultValue={currentCategoryName}
             onClick={onClickCategoryName}
             height="37px"
-            selectedValue={currentCategoryName}
+            selectedValue={
+              categoryList.filter(obj => obj.categoryName === categoryName)[0]
+            }
           />
           <p>정렬</p>
           <Dropdown
@@ -90,7 +92,7 @@ function PostsPage() {
             defaultValue={currentSortBy}
             onClick={onClickSortBy}
             height="37px"
-            selectedValue={currentSortBy}
+            selectedValue={sortArr.filter(obj => obj.value === sortBy)[0]}
           />
         </FilterContainer>
       </FilterButtonContainer>
