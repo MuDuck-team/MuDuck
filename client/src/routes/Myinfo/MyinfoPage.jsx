@@ -122,6 +122,7 @@ function MyinfoPage() {
             <ProfileImgSetter
               id="profileAvatar"
               uploadSrc={uploadSrc}
+              defualtPhotoUrl="https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png"
               setUploadSrc={setUploadSrc}
             />
             이미지 업로드

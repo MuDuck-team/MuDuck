@@ -3,11 +3,11 @@ import styled, { css } from 'styled-components';
 
 //  ProfileSubmitSrc
 
-function ProfileImgSetter({ uploadSrc, setUploadSrc }) {
-  const defualtPhotoUrl =
-    'https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png';
+function ProfileImgSetter({ uploadSrc, setUploadSrc, defualtPhotoUrl }) {
+  // const defualtPhotoUrl =
+  //   'https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png';
   //  프리뷰용 state
-  const [image, setImage] = useState(defualtPhotoUrl);
+  const [image, setImage] = useState(`${defualtPhotoUrl}`);
   const imageRef = useRef(null);
 
   const onChange = event => {
