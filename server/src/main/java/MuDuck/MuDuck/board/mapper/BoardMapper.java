@@ -75,7 +75,7 @@ public interface BoardMapper {
                         .createdAt(board.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                         .view(board.getViews())
                         .like(board.getLikes())
-                        .totalComment(board.getComments().size())
+                        .totalComment(board.getCommentsSize()) // 삭제된 댓글 제외하고 개수 세기
                         .category(category)
                         .build())
                 .body(BoardContentBody.builder()

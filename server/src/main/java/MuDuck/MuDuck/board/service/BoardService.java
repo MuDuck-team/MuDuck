@@ -143,6 +143,27 @@ public class BoardService {
         }
     }
 
+    public void deleteLike(long boardId, Member member) {
+        Board board = findVerifiedBoard(boardId);
+
+        Optional<BoardLike> optionalBoardLike = boardLikeRepository.isMemberClickLike(boardId, member.getMemberId());
+
+        if(optionalBoardLike.isEmpty()) { // 해당 게시글에 좋아요를 이전에 안눌렀다면
+            throw  new BusinessLogicException(ExceptionCode.BOARD_LIKE_NOT_FOUND);
+        }else { // 해당 게시글에 좋아요를 눌렀었다면
+            BoardLike boardLike = optionalBoardLike.get();
+            if(boardLike.getMember().getMemberId() == member.getMemberId()) { // 좋아요를 누른 회원과 로그인되어있는 회원이 같은 회원인지 검증
+                long boardLikeId = boardLikeRepository.findBoardLikeId(boardId, member.getMemberId());
+                boardLikeRepository.deleteById(boardLikeId);
+
+                board.setLikes(board.getLikes() - 1);
+                boardRepository.save(board);
+            }else { // 좋아요를 누른 회원과 로그인되어있는 회원이 다른 회원인지 검증
+                throw new BusinessLogicException(ExceptionCode.INVALID_MEMBER_STATUS);
+            }
+        }
+    }
+
     @Transactional(readOnly=true)
     private Board findVerifiedBoard(long boardId){
         Optional<Board> optionalBoard = boardRepository.findById(boardId);

@@ -27,6 +27,7 @@ public enum ExceptionCode {
     INVALID_COMMENT(400, "Can't post reply to reply"),
     INVALID_ACTOR_STATE(400, "Invalid musical state"),
     BOARD_LIKE_EXISTS(409, "Already Clicked Like Button"),
+    BOARD_LIKE_NOT_FOUND(404, "BoardLike not found"),
     NOT_FOUND_COOKIE(404, "Cookie Not Found");
 
 
