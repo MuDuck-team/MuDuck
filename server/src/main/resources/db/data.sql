@@ -140,21 +140,6 @@ VALUES (1, 1624572111,'http://place.map.kakao.com/1624572111', '오둥이주차�
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
 VALUES (1, 1624572111,'http://place.map.kakao.com/1624572111', '오둥이주차장7', 126.97607241059578, 37.57286713479182, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
 
--- Category 테이블 생성 코드
-INSERT INTO Category (category_name, parent_id) VALUES ('자유주제', NULL);
-INSERT INTO Category (category_name, parent_id) VALUES ('공연정보/후기', NULL);
-INSERT INTO Category (category_name, parent_id) VALUES ('시설정보', NULL);
-
-INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2014 레베카', 2, 28);
-INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2017 레베카', 2, 29);
-INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2019 헤드윅', 2, 30);
-
--- BOARD_CATEGORY 테이블 생성 코드
-INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (1, 1);
-INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (2, 2);
-INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (2, 4);
-INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (3, 3);
-
 -- Comment 테이블 생성 코드
 INSERT INTO COMMENT (created_at, body, comment_status, member_id, board_id, parent_id)
 VALUES (CURRENT_TIMESTAMP - INTERVAL '1' HOUR,'댓글입니다1', 'COMMENT_POST', 2, 1, null);
@@ -333,3 +318,18 @@ INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES 
 INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (2, 2, 1,'안나');
 INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (3, 3, 1,'안나');
 INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (4, 4, 2,'브라운');
+
+-- Category 테이블 생성 코드
+INSERT INTO Category (category_name, parent_id) VALUES ('자유주제', NULL);
+INSERT INTO Category (category_name, parent_id) VALUES ('공연정보/후기', NULL);
+INSERT INTO Category (category_name, parent_id) VALUES ('시설정보', NULL);
+
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2014 레베카', 2, 28);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2017 레베카', 2, 29);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2019 헤드윅', 2, 30);
+
+-- BOARD_CATEGORY 테이블 생성 코드
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (1, 1);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (2, 2);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (2, 4);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (3, 3);

@@ -8,6 +8,7 @@ import MuDuck.MuDuck.member.service.MemberService;
 import MuDuck.MuDuck.musical.dto.ActorMusicalResponseDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto.MultiResponseDto;
+//import MuDuck.MuDuck.musical.dto.MusicalDto.MusicalBoards;
 import MuDuck.MuDuck.musical.dto.MusicalDto.SingleResponseDto;
 import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Musical;
@@ -73,19 +74,20 @@ public class MusicalController {
         return new ResponseEntity<>(new MultiResponseDto<>(musicalMapper.musicalsToMusicalResponseDtos(musicals), pageMusicals), HttpStatus.OK);
     }
 
-    @GetMapping("/{musical-id}/actors")
-    public ResponseEntity getActors(@PathVariable("musical-id") @Positive Long musicalId){
-//        List<ActorMusical> actorMusicalList = musicalService.findMusicalActors(musicalId);
-//        return new ResponseEntity<>(musicalService.find(musicalId),HttpStatus.OK);
-        Musical response = musicalService.findMusicalActors(musicalId);
-        //List<Musical>actorMusicalList = new ArrayList<>();
-        return new ResponseEntity<>(musicalMapper.actorMusicalToMusicalResponseDto(response),HttpStatus.OK);
-    }
-
+//    @GetMapping("/{musical-id}/actors")
+//    public ResponseEntity getActors(@PathVariable("musical-id") @Positive Long musicalId){
+////        List<ActorMusical> actorMusicalList = musicalService.findMusicalActors(musicalId);
+////        return new ResponseEntity<>(musicalService.find(musicalId),HttpStatus.OK);
+//        Musical response = musicalService.findMusicalActors(musicalId);
+//        //List<Musical>actorMusicalList = new ArrayList<>();
+//        return new ResponseEntity<>(musicalMapper.actorMusicalToMusicalResponseDto(response),HttpStatus.OK);
+//    }
+//
 //    @GetMapping("/{musical-id}/board")
 //    public ResponseEntity getBoards(@PathVariable("musical-id") @Positive Long musicalId){
-//
-//        return new ResponseEntity<>(musicalMapper.boardsToMusicalResponseDto())
+//        List<MusicalBoards> responseBoards = musicalService.findMusicalBoards(musicalId);
+//        Category responseCategory = musicalService.findCategoryName(musicalId);
+//        return new ResponseEntity<>(musicalMapper.boardsToMusicalResponseDtos(musicalId, responseBoards, responseCategory), HttpStatus.OK);
 //    }
 
 }

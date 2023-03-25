@@ -5,7 +5,8 @@ import MuDuck.MuDuck.category.entity.Category;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.musical.dto.ActorMusicalResponseDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto;
-import MuDuck.MuDuck.musical.dto.MusicalDto.MusicalBoards;
+//import MuDuck.MuDuck.musical.dto.MusicalDto.MusicalBoards;
+//import MuDuck.MuDuck.musical.dto.MusicalDto.ResponseMusicalBoards;
 import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.theater.dto.TheaterDto;
@@ -19,7 +20,14 @@ import org.mapstruct.Mapper;
 public interface MusicalMapper {
     MusicalDto.ResponseMusical musicalToMusicalResponseDto(Musical musical);
     List<MusicalDto.ResponseMusicals> musicalsToMusicalResponseDtos(List<Musical> musicals);
-    ActorMusicalResponseDto actorMusicalToMusicalResponseDto(Musical musical);
-
-
+//    ActorMusicalResponseDto actorMusicalToMusicalResponseDto(Musical musical);
+//
+//    default MusicalDto.ResponseMusicalBoards boardsToMusicalResponseDtos(long musicalId, List<MusicalBoards> responseBoards, Category responseCategory){
+//        MusicalDto.ResponseMusicalBoards response = ResponseMusicalBoards.builder()
+//                .musicalId(musicalId)
+//                .boards(responseBoards)
+//                .categoryName(responseCategory.getCategoryName())
+//                .build();
+//        return response;
+//    }
 }

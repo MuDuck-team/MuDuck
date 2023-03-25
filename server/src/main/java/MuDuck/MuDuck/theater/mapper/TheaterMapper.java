@@ -13,4 +13,7 @@ public interface TheaterMapper {
     TheaterDto.Response theaterToTheaterResponse(Theater theater);
 
     List<TheaterDto.Response> theaterListToTheaterResponseList(List<Theater> theaterList);
+
+    @Mapping(target = "theaterName", source = "theater.placeName")
+    TheaterDto.ResponseUsedMusical theaterToMusicalResponse(Theater theater);
 }
