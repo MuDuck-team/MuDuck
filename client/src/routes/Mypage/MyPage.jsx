@@ -18,6 +18,7 @@ function MyPage() {
   // const nickname = '뮤지컬찐덕후';
   const [user, setUserInfo] = useRecoilState(userInfo);
   const [uploadSrc, setUploadSrc] = useState(null);
+  const [nickname, setNickname] = useState('');
   const navigate = useNavigate();
   const localToken = localStorage.getItem('localToken');
 
@@ -57,9 +58,41 @@ function MyPage() {
     })
       .then(res => {
         const result = res.data;
-        console.log(result);
         setUploadSrc(null);
         setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...result }));
+      })
+      .then(() => {
+        navigate('.');
+      });
+  };
+
+  const handleChangeNickname = event => {
+    setNickname(event.target.value);
+  };
+
+  const handleValidateNickname = () => {
+    const nickRegEx = /^[가-힣a-z0-9_-]{2,20}$/;
+    if (!nickRegEx.test(nickname)) {
+      alert(
+        '닉네임은 2자이상 20자이하, 한글,영문 대소문자, 숫자만 사용할 수 있습니다.',
+      );
+    }
+  };
+
+  const handleNicknameChange = async event => {
+    event.preventDefault();
+    customAxios({
+      method: 'patch',
+      url: `/members/${user.id}`,
+      headers: {
+        Authorization: localToken,
+      },
+      data: { nickname },
+    })
+      .then(res => {
+        const result = res.data;
+        setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...result }));
+        setIsEdit(false);
       })
       .then(() => {
         navigate('.');
@@ -95,8 +128,14 @@ function MyPage() {
           <EditNicknameBox>
             <ValidationCheck>
               <EditNickname>닉네임 변경</EditNickname>
-              <StyledInput width="260px" height="30px" />
-              <ValidationText>이미 있는 닉네임입니다.</ValidationText>
+              <StyledInput
+                width="260px"
+                height="30px"
+                nickname={nickname}
+                onChange={handleChangeNickname}
+                onBlur={handleValidateNickname}
+              />
+              {/* <ValidationText>이미 있는 닉네임입니다.</ValidationText> */}
             </ValidationCheck>
             <ButtonContainer>
               <Button
@@ -106,7 +145,7 @@ function MyPage() {
                 active="var(--main-002)"
                 onClick={onEditHandler}
               />
-              <Button text="저장" />
+              <Button text="저장" onClick={handleNicknameChange} />
             </ButtonContainer>
           </EditNicknameBox>
         ) : (
@@ -209,11 +248,11 @@ const EditNickname = styled.div`
   font-size: var(--font-size-md);
 `;
 
-const ValidationText = styled.p`
-  margin-top: 8px;
-  color: #ea6d1c;
-  font-size: var(--font-size-xs);
-`;
+// const ValidationText = styled.p`
+//   margin-top: 8px;
+//   color: #ea6d1c;
+//   font-size: var(--font-size-xs);
+// `;
 
 const ButtonContainer = styled.div`
   display: flex;
