@@ -53,10 +53,14 @@ function AboutMusical({ musical, actors, theater }) {
         <DescriptionText>{musical.age}</DescriptionText>
       </SubTitle>
       <PlotBox>
-        <SubTitle letterSpacing="0.65rem" marginRight="0.65rem">
+        <SubTitle
+          letterSpacing="0.65rem"
+          marginRight="0.65rem"
+          marginBottom="0"
+        >
           줄거리
         </SubTitle>
-        <DescriptionText marginLeft="0" lineHeight="2rem">
+        <DescriptionText marginLeft="0" lineHeight="1.6rem">
           {musical.musicalInfo}
         </DescriptionText>
       </PlotBox>
@@ -167,7 +171,7 @@ const SubTitle = styled.h3`
   font-weight: ${({ fontWeight }) => fontWeight || '400'};
   color: var(--font-color);
   margin-right: ${({ marginRight }) => marginRight || '2rem'};
-  margin-bottom: 0.8rem;
+  margin-bottom: ${({ marginBottom }) => marginBottom || '0.8rem'};
   margin-top: ${({ marginTop }) => marginTop || '0'};
   white-space: nowrap;
   letter-spacing: ${({ letterSpacing }) => letterSpacing || '0'};
@@ -176,6 +180,7 @@ const SubTitle = styled.h3`
 const PlotBox = styled.div`
   width: 100%;
   display: flex;
+  align-items: flex-start;
 `;
 
 const ActorsBox = styled(DetailsBox)`
