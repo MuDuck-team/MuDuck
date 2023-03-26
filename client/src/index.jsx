@@ -41,7 +41,7 @@ import NoticeEditPage, {
 import MyPage from './routes/Mypage/MyPage';
 import AdminLoginPage from './routes/AdminLogin/AdminLoginPage';
 import OauthRedirectPage from './routes/OauthRedirect/OauthRedirectPage';
-import PlayNotFound from './routes/Play/PlayNotFound';
+import PlayNotFoundPage from './routes/Play/PlayNotFoundPage';
 
 const router = createBrowserRouter([
   {
@@ -62,7 +62,7 @@ const router = createBrowserRouter([
             path: '/play/:id',
             element: <PlayPage />,
             loader: playPageLoader,
-            errorElement: <PlayNotFound />,
+            errorElement: <PlayNotFoundPage />,
           },
           {
             path: '/nearby/:id',

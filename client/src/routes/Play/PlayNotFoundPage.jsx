@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { FaRegSadTear } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
-function PlayNotFound() {
+function PlayNotFoundPage() {
   return (
     <Container>
       <FaRegSadTear size="100" />
@@ -33,4 +33,4 @@ const Container = styled.div`
   }
 `;
 
-export default PlayNotFound;
+export default PlayNotFoundPage;
