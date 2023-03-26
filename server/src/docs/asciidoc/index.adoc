@@ -277,3 +277,24 @@ include::{snippets}/get-map-include-avg-score-total-reviews/http-response.adoc[]
 
 .response-fields
 include::{snippets}/get-map-include-avg-score-total-reviews/response-fields.adoc[]
+
+== MainPageController
+=== 데일리 인기글
+.http-request
+include::{snippets}/get-dailyPopularPosts/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-dailyPopularPosts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-dailyPopularPosts/response-fields.adoc[]
+
+=== 위클리 인기글
+.http-request
+include::{snippets}/get-weeklyPopularPosts/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-weeklyPopularPosts/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-weeklyPopularPosts/response-fields.adoc[]

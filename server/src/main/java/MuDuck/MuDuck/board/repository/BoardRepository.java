@@ -14,4 +14,10 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     @Query(value = "SELECT * FROM BOARD as b WHERE b.BOARD_ID IN (:ids)", nativeQuery = true)
     Page<Board> findByBoardId(List<Long> ids, PageRequest pageRequest);
+
+    @Query(value = "SELECT * FROM BOARD WHERE CREATED_AT BETWEEN CURRENT_TIMESTAMP - INTERVAL '1' DAY AND NOW() ORDER BY LIKES DESC LIMIT 5", nativeQuery = true)
+    List<Board> getDailyPopularPosts();
+
+    @Query(value = "SELECT * FROM BOARD WHERE CREATED_AT BETWEEN CURRENT_TIMESTAMP - INTERVAL '7' DAY AND NOW() ORDER BY LIKES DESC LIMIT 5", nativeQuery = true)
+    List<Board> getWeeklyPopularPosts();
 }
