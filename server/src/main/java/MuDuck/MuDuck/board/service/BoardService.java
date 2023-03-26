@@ -13,6 +13,7 @@ import MuDuck.MuDuck.exception.BusinessLogicException;
 import MuDuck.MuDuck.exception.ExceptionCode;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.utils.CustomBeanUtils;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -65,6 +66,11 @@ public class BoardService {
         }
     }
 
+    public void addView(Board board){
+        board.setViews(board.getViews() + 1);
+        boardRepository.save(board);
+    }
+
     public Board findBoard(long boardId){
         return findVerifiedBoard(boardId);
     }
@@ -81,8 +87,9 @@ public class BoardService {
         return ""; // 카테고리가 없는 경우 해당 경우가 발생하면 오류가 발생한 것임
     }
 
-    public boolean isLiked(Member member){
-        Optional<BoardLike> optionalBoardLike = boardLikeRepository.findByMemberMemberId(member.getMemberId());
+    public boolean isLiked(long boardId, long memberId){
+        Optional<BoardLike> optionalBoardLike = boardLikeRepository.isMemberClickLike(boardId, memberId);
+
         if(optionalBoardLike.isEmpty()){
             return false;
         }else{
@@ -99,6 +106,8 @@ public class BoardService {
             if(originalBoard.getBoardStatus() == BoardStatus.BOARD_DELETE){ // 이미 삭제 된 게시물에 업데이트 요청하는거라면
                 throw new BusinessLogicException(ExceptionCode.BOARD_REMOVED);
             }else {
+                board.setViews(originalBoard.getViews());
+                board.setLikes(originalBoard.getLikes());
                 updatedBoard = beanUtils.copyNonNullProperties(board, originalBoard);
             }
         }
@@ -120,9 +129,74 @@ public class BoardService {
         boardRepository.save(board);
     }
 
+    public void addLike(long boardId, Member member) {
+        Board board = findVerifiedBoard(boardId);
+
+        Optional<BoardLike> optionalBoardLike = boardLikeRepository.isMemberClickLike(boardId, member.getMemberId());
+
+        if(optionalBoardLike.isEmpty()){ // 해당 게시글에 좋아요를 이전에 안눌렀다면
+            BoardLike boardLike = new BoardLike(board, member);
+            board.getBoardLikes().add(boardLike);
+            board.setLikes(board.getLikes() + 1);
+            boardRepository.save(board);
+        } else{ // 해당 게시글에 좋아요를 눌렀었다면
+            throw new BusinessLogicException(ExceptionCode.BOARD_LIKE_EXISTS);
+        }
+    }
+
+    public void deleteLike(long boardId, Member member) {
+        Board board = findVerifiedBoard(boardId);
+
+        Optional<BoardLike> optionalBoardLike = boardLikeRepository.isMemberClickLike(boardId, member.getMemberId());
+
+        if(optionalBoardLike.isEmpty()) { // 해당 게시글에 좋아요를 이전에 안눌렀다면
+            throw  new BusinessLogicException(ExceptionCode.BOARD_LIKE_NOT_FOUND);
+        }else { // 해당 게시글에 좋아요를 눌렀었다면
+            BoardLike boardLike = optionalBoardLike.get();
+            if(boardLike.getMember().getMemberId() == member.getMemberId()) { // 좋아요를 누른 회원과 로그인되어있는 회원이 같은 회원인지 검증
+                long boardLikeId = boardLikeRepository.findBoardLikeId(boardId, member.getMemberId());
+                boardLikeRepository.deleteById(boardLikeId);
+
+                board.setLikes(board.getLikes() - 1);
+                boardRepository.save(board);
+            }else { // 좋아요를 누른 회원과 로그인되어있는 회원이 다른 회원인지 검증
+                throw new BusinessLogicException(ExceptionCode.INVALID_MEMBER_STATUS);
+            }
+        }
+    }
+
+    public List<Board> getDailyPopularPosts(){
+        return boardRepository.getDailyPopularPosts();
+    }
+
+    public List<Board> getWeeklyPopularPosts() {
+        return boardRepository.getWeeklyPopularPosts();
+    }
+
+    public List<Board> getMyBoards(Member member){
+        List<Board> boards = boardRepository.findByMemberId(member.getMemberId());
+        return boards;
+    }
+
+    public List<Board> getMyLikedBoards(Member member){
+        List<BoardLike> boardLikes = boardLikeRepository.findBoardLikeByMemberId(member.getMemberId());
+        List<Board> boards = boardLikesToBoards(boardLikes);
+        return boards;
+    }
+
     @Transactional(readOnly=true)
     private Board findVerifiedBoard(long boardId){
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
         return optionalBoard.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+    }
+
+    private List<Board> boardLikesToBoards(List<BoardLike> boardLikes){
+        List<Board> boards = new ArrayList<>();
+        for(BoardLike boardLike : boardLikes){
+            if(boardLike.getBoard().getBoardStatus() != BoardStatus.BOARD_DELETE){
+                boards.add(boardLike.getBoard());
+            }
+        }
+        return boards;
     }
 }

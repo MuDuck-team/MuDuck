@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Service;
 
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Getter
 @Setter
 @Entity
@@ -38,7 +40,8 @@ public class Comment extends Auditable {
 
     @Enumerated(value = EnumType.STRING)
     @Column(nullable = false, length = 30)
-    private CommentStatus commentStatus;
+    @Builder.Default
+    private CommentStatus commentStatus = CommentStatus.COMMENT_POST;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MEMBER_ID")

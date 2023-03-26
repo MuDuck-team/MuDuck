@@ -34,7 +34,6 @@ public class ActorDto {
     @Getter
     @AllArgsConstructor
     public static class Response {
-
         private Long actorId;
         private String actorName;
         private String picture;

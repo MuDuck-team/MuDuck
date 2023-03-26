@@ -25,7 +25,7 @@ public class BoardDto {
     @Builder
     public static class Post{
         @NotEmpty(message = "카테고리 아이디 값이 적어도 1개 있어야 합니다.")
-        private List<Long> id; // 카테고리 식별자가 들어있다.
+        private List<Long> categoryIds; // 카테고리 식별자가 들어있다.
         @NotBlank(message = "게시글의 제목 값이 없습니다.")
         private String title;
         @NotBlank(message = "게시글 본문 값이 없습니다.")
@@ -71,6 +71,7 @@ public class BoardDto {
     @Getter
     @Builder
     public static class BoardContentHead{
+        private long memberId;
         private String userProfile;
         private String nickname;
         private String createdAt;

@@ -1,7 +1,11 @@
 package MuDuck.MuDuck.musical.dto;
 
+import MuDuck.MuDuck.musical.entity.ActorMusical;
+import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
-import MuDuck.MuDuck.theater.dto.TheaterDto;
+import MuDuck.MuDuck.musical.entity.MusicalBoards;
+import MuDuck.MuDuck.theater.dto.TheaterDto.ResponseUsedMusical;
+import MuDuck.MuDuck.theater.entitiy.Theater;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
@@ -18,6 +22,7 @@ public class MusicalDto {
     @Getter
     @AllArgsConstructor
     public static class Post {
+
         @Positive
         @Setter
         private Long musicalId;
@@ -41,6 +46,8 @@ public class MusicalDto {
         private Integer runningTime;
         @NotNull
         private Integer intermission;
+        @NotNull
+        private Long theaterId;
     }
 
     @Getter
@@ -58,14 +65,16 @@ public class MusicalDto {
         private Integer age;
         private Integer runningTime;
         private Integer intermission;
+        private Long theaterId;
     }
 
     @AllArgsConstructor
     @Getter
     @Builder
-    @JsonPropertyOrder({"id", "musicalKorName", "musicalEngName", "poster", "genre", "musicalInfo", "musicalState", "openDate",
-            "closeDate", "age", "runningTime", "intermission", "views", "theaters" })
-    public static class ResponseMusical{
+    @JsonPropertyOrder({"id", "musicalKorName", "musicalEngName", "poster", "genre", "musicalInfo",
+            "musicalState", "openDate",
+            "closeDate", "age", "runningTime", "intermission", "views", "theaterId"})
+    public static class ResponseMusical {
         @JsonProperty("id")
         private Long musicalId;
         private String musicalKorName;
@@ -79,12 +88,10 @@ public class MusicalDto {
         private Musical.Age age;
         private Integer runningTime;
         private Integer intermission;
-        @JsonProperty("actors")
-        private List<ActorMusicalResponseDto.detail> actorMusicals;
         private Integer views;
-        private List<TheaterDto.Response> theaters;
+        private Long theaterId;
 
-        public String getGenre(){
+        public String getGenre() {
             return genre.getDescription();
         }
 
@@ -92,29 +99,50 @@ public class MusicalDto {
             return musicalState.getStepDescription();
         }
 
-        public String getAge(){
+        public String getAge() {
             return age.getStepDescription();
         }
-
     }
 
     @AllArgsConstructor
     @Getter
     @Builder
     @JsonPropertyOrder({"id", "musicalKorName", "poster"})
-    public static class ResponseMusicals{
+    public static class ResponseMusicals {
+
         @JsonProperty("id")
         private Long musicalId;
         private String musicalKorName;
         private String poster;
         @JsonProperty("actors")
         private List<ActorMusicalResponseDto.listing> actorMusicals;
-
     }
+
+    @Builder
+    @Getter
+    public static class ResponseActors {
+
+        @JsonProperty("id")
+        private long musicalId;
+        @JsonProperty("actors")
+        private ActorMusical actorMusicals;
+    }
+
+    @Builder
+    @Getter
+    @AllArgsConstructor
+    public static class ResponseMusicalBoards {
+
+        private Long musicalId;
+        private List<MusicalBoards> boards;
+        private Category category;
+    }
+
 
     @AllArgsConstructor
     @Getter
     public static class SingleResponseDto<T> {
+
         private T data;
     }
 
@@ -139,5 +167,29 @@ public class MusicalDto {
         private int size;
         private long totalElements;
         private int totalPages;
+    }
+
+    @Getter
+    public static class MappingResponseDto<T> {
+
+        private ResponseMusical musical;
+        private ResponseUsedMusical theater;
+
+        public MappingResponseDto(ResponseMusical musical, ResponseUsedMusical theater) {
+            this.musical = musical;
+            this.theater = theater;
+        }
+    }
+
+    @Getter
+    public static class MappingActorResponseDto<T> {
+
+        private ResponseMusical musical;
+        private ActorMusicalResponseDto.detail actor;
+
+        public MappingActorResponseDto(ResponseMusical musical, ActorMusicalResponseDto.detail actor) {
+            this.musical = musical;
+            this.actor = actor;
+        }
     }
 }

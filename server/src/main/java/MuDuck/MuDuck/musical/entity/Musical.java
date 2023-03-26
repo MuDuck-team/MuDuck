@@ -7,9 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -18,13 +22,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.validation.constraints.NotBlank;
-import org.springframework.context.annotation.Lazy;
 
 @Getter
 @Setter
@@ -73,10 +70,13 @@ public class Musical extends Auditable {
     @JoinColumn(name = "THEATER_ID")
     private Theater theater;
 
+    @OneToMany(mappedBy = "musical", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    private List<Category> categories = new ArrayList<>();
+
     public Musical(Long musicalId, String musicalKorName, String musicalEngName, String poster,
             Genre genre, String musicalInfo, MusicalState musicalState, String openDate,
-            String closeDate, Age age, Integer runningTime, Integer intermission, Integer views
-            ) {
+            String closeDate, Age age, Integer runningTime, Integer intermission, Integer views, Theater theater
+    ) {
         this.musicalId = musicalId;
         this.musicalKorName = musicalKorName;
         this.musicalEngName = musicalEngName;
@@ -90,8 +90,7 @@ public class Musical extends Auditable {
         this.runningTime = runningTime;
         this.intermission = intermission;
         this.views = views;
-//        this.actorMusicals = actorMusicals;
-//        this.theater = theater;
+        this.theater = theater;
     }
 
     public Musical(String musicalKorName, String musicalEngName, String poster,

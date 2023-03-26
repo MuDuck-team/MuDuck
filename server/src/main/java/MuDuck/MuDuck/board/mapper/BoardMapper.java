@@ -36,7 +36,7 @@ public interface BoardMapper {
     // id 리스트에 다 null로 담겨 오는 경우 때문에 체크해서 Exception 날려주는 상황이 필요하다.
     default List<Long> boardPostToCategoryIds(BoardDto.Post requestBody){
         List<Long> categoryIds = new ArrayList<>();
-        for(Long id : requestBody.getId()){
+        for(Long id : requestBody.getCategoryIds()){
             if(id != null){
                 categoryIds.add(id);
             }
@@ -69,12 +69,13 @@ public interface BoardMapper {
         BoardDto.BoardContentResponse response = BoardContentResponse.builder()
                 .id(board.getBoardId())
                 .head(BoardContentHead.builder()
+                        .memberId(member.getMemberId())
                         .userProfile(member.getPicture())
                         .nickname(member.getNickName())
                         .createdAt(board.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
                         .view(board.getViews())
                         .like(board.getLikes())
-                        .totalComment(board.getComments().size())
+                        .totalComment(board.getCommentsSize()) // 삭제된 댓글 제외하고 개수 세기
                         .category(category)
                         .build())
                 .body(BoardContentBody.builder()

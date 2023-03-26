@@ -6,8 +6,8 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -60,7 +60,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -180,7 +179,7 @@ class BoardControllerTest {
         queryParams.add("categoryName", categoryName);
 
         ResultActions actions = mockMvc.perform(
-                get("/board").params(queryParams).accept(MediaType.APPLICATION_JSON));
+                get("/boards").params(queryParams).accept(MediaType.APPLICATION_JSON));
 
         // then
         actions.andExpect(status().isOk())
@@ -291,7 +290,7 @@ class BoardControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                get("/board/writing").accept(MediaType.APPLICATION_JSON));
+                get("/boards/category").accept(MediaType.APPLICATION_JSON));
 
         // then
         actions.andExpect(status().isOk())
@@ -353,6 +352,7 @@ class BoardControllerTest {
         BoardDto.BoardContentResponse boardContentResponse = BoardContentResponse.builder()
                 .id(board.getBoardId())
                 .head(BoardContentHead.builder()
+                        .memberId(member.getMemberId())
                         .userProfile(member.getPicture())
                         .nickname(member.getNickName())
                         .createdAt("2022.12.21")
@@ -371,11 +371,13 @@ class BoardControllerTest {
         CommentDto.Response replyResponse1 = CommentDto.Response.builder()
                 .id(2L)
                 .head(CommentsHead.builder()
+                        .memberId(member.getMemberId())
                         .userProfile(member.getPicture())
                         .nickname(member.getNickName())
                         .createdAt("2023.03.21 17:30")
                         .build())
                 .body("대댓글입니다1")
+                .commentStatus("댓글게시")
                 .parentId(1L)
                 .comments(new ArrayList<>())
                 .build();
@@ -383,11 +385,13 @@ class BoardControllerTest {
         CommentDto.Response replyResponse2 = CommentDto.Response.builder()
                 .id(3L)
                 .head(CommentsHead.builder()
+                        .memberId(member.getMemberId())
                         .userProfile(member.getPicture())
                         .nickname(member.getNickName())
                         .createdAt("2023.03.21 18:00")
                         .build())
-                .body("대댓글입니다2")
+                .body("삭제된 댓글입니다.")
+                .commentStatus("댓글삭제")
                 .parentId(1L)
                 .comments(new ArrayList<>())
                 .build();
@@ -397,11 +401,13 @@ class BoardControllerTest {
         CommentDto.Response commentResponse = CommentDto.Response.builder()
                 .id(1L)
                 .head(CommentsHead.builder()
+                        .memberId(member.getMemberId())
                         .userProfile(member.getPicture())
                         .nickname(member.getNickName())
                         .createdAt("2023.03.21 17:00")
                         .build())
                 .body("댓글입니다")
+                .commentStatus("댓글게시")
                 .comments(replyResponseList)
                 .build();
 
@@ -411,7 +417,7 @@ class BoardControllerTest {
         given(boardService.findCategory(Mockito.any())).willReturn(category);
 
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
-        given(boardService.isLiked(Mockito.any())).willReturn(isLiked);
+        given(boardService.isLiked(Mockito.anyLong(), Mockito.anyLong())).willReturn(isLiked);
 
         given(commentService.getCommentWithoutReply(Mockito.anyList())).willReturn(onlyCommentList);
 
@@ -422,7 +428,7 @@ class BoardControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                get("/board/{board-id}", board.getBoardId()).accept(MediaType.APPLICATION_JSON));
+                get("/boards/{board-id}", board.getBoardId()).accept(MediaType.APPLICATION_JSON));
 
         // then
         actions.andExpect(status().isOk())
@@ -438,6 +444,8 @@ class BoardControllerTest {
                                         .description("게시글 식별자"),
                                 fieldWithPath("boardContent.head").type(JsonFieldType.OBJECT)
                                         .description("게시글 Header key 값"),
+                                fieldWithPath("boardContent.head.memberId").type(
+                                        JsonFieldType.NUMBER).description("게시글 작성자 멤버 식별자"),
                                 fieldWithPath("boardContent.head.userProfile").type(
                                         JsonFieldType.STRING).description("게시글 작성자 프로필 사진 주소"),
                                 fieldWithPath("boardContent.head.nickname").type(
@@ -466,6 +474,8 @@ class BoardControllerTest {
                                         .description("댓글 식별자"),
                                 fieldWithPath("comments[].head").type(JsonFieldType.OBJECT)
                                         .description("댓글 Header key 값"),
+                                fieldWithPath("comments[].head.memberId").type(
+                                        JsonFieldType.NUMBER).description("댓글 작성자 멤버 식별자"),
                                 fieldWithPath("comments[].head.userProfile").type(
                                         JsonFieldType.STRING).description("댓글 작성자 프로필 사진 주소"),
                                 fieldWithPath("comments[].head.nickname").type(JsonFieldType.STRING)
@@ -474,6 +484,8 @@ class BoardControllerTest {
                                         JsonFieldType.STRING).description("댓글 작성 날짜"),
                                 fieldWithPath("comments[].body").type(JsonFieldType.STRING)
                                         .description("댓글 내용"),
+                                fieldWithPath("comments[].commentStatus").type(JsonFieldType.STRING)
+                                        .description("댓글 등록 상태"),
                                 fieldWithPath("comments[].parentId").type(JsonFieldType.NULL)
                                         .description("대댓글의 부모 ID 대댓글인 경우만 존재"),
                                 fieldWithPath("comments[].comments").type(JsonFieldType.ARRAY)
@@ -482,6 +494,8 @@ class BoardControllerTest {
                                         .description("대댓글 식별자"),
                                 fieldWithPath("comments[].comments[].head").type(
                                         JsonFieldType.OBJECT).description("대댓글 Header key 값"),
+                                fieldWithPath("comments[].comments[].head.memberId").type(
+                                        JsonFieldType.NUMBER).description("대댓글 작성자 멤버 식별자"),
                                 fieldWithPath("comments[].comments[].head.userProfile").type(
                                         JsonFieldType.STRING).description("대댓글 작성자 프로필 사진 주소"),
                                 fieldWithPath("comments[].comments[].head.nickname").type(
@@ -490,6 +504,8 @@ class BoardControllerTest {
                                         JsonFieldType.STRING).description("대댓글 작성 날짜"),
                                 fieldWithPath("comments[].comments[].body").type(
                                         JsonFieldType.STRING).description("대댓글 내용"),
+                                fieldWithPath("comments[].comments[].commentStatus").type(
+                                        JsonFieldType.STRING).description("대댓글 등록 상태"),
                                 fieldWithPath("comments[].comments[].parentId").type(
                                         JsonFieldType.NUMBER).description("대댓글의 부모 ID"),
                                 fieldWithPath("comments[].comments[].comments").type(
@@ -504,7 +520,7 @@ class BoardControllerTest {
     public void postBoardTest() throws Exception {
         // given
         BoardDto.Post post = Post.builder()
-                .id(List.of(2L, 4L))
+                .categoryIds(List.of(2L, 4L))
                 .title("제목입니다")
                 .content("내용입니다")
                 .build();
@@ -522,100 +538,46 @@ class BoardControllerTest {
                 BoardCategory.builder().board(board).category(category1).build(),
                 BoardCategory.builder().board(board).category(category2).build());
 
-        Board createdBoard = board;
-        createdBoard.setBoardCategories(boardCategories);
-
-        String category = "공연정보/후기";
-
-        BoardDto.BoardContentResponse boardContentResponse = BoardContentResponse.builder()
-                .id(board.getBoardId())
-                .head(BoardContentHead.builder()
-                        .userProfile(member.getPicture())
-                        .nickname(member.getNickName())
-                        .createdAt("2022.12.21")
-                        .view(board.getViews())
-                        .like(board.getLikes())
-                        .totalComment(board.getComments().size())
-                        .category(category)
-                        .build())
-                .body(BoardContentBody.builder()
-                        .title(board.getTitle())
-                        .content(board.getContent())
-                        .build())
-                .liked(false)
-                .build();
-
-        List<CommentDto.Response> commentResponseList = new ArrayList<>();
+        board.setBoardId(1L);
 
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
         given(boardMapper.boardPostToBoard(Mockito.any(), Mockito.any())).willReturn(board);
         given(boardMapper.boardPostToCategoryIds(Mockito.any())).willReturn(categoryIds);
         given(boardCategoryService.getBoardCategories(Mockito.anyList(), Mockito.any())).willReturn(
                 boardCategories);
-        given(boardService.createBoard(Mockito.any())).willReturn(createdBoard);
-        given(boardService.findCategory(Mockito.any())).willReturn(category);
-        given(boardMapper.multiInfoToBoardContentResponse(Mockito.any(), Mockito.any(),
-                Mockito.anyString(), Mockito.anyBoolean())).willReturn(boardContentResponse);
-        given(commentMapper.commentsToCommentResponseDtos(Mockito.anyList())).willReturn(
-                commentResponseList);
+        given(boardService.createBoard(Mockito.any())).willReturn(board);
 
         // when
         ResultActions actions = mockMvc.perform(
-                post("/board/writing").accept(MediaType.APPLICATION_JSON)
+                post("/boards").accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf()));
 
         // Rest Docs에서 정규식 표현을 위해 선언
-        ConstraintDescriptions postBoardConstraints = new ConstraintDescriptions(BoardDto.Post.class);
+        ConstraintDescriptions postBoardConstraints = new ConstraintDescriptions(
+                BoardDto.Post.class);
         List<String> idDescriptions = postBoardConstraints.descriptionsForProperty("id");
         List<String> titleDescriptions = postBoardConstraints.descriptionsForProperty("title");
         List<String> contentDescriptions = postBoardConstraints.descriptionsForProperty("content");
 
         // then
         actions.andExpect(status().isCreated())
-                .andExpect(jsonPath("$.boardContent").isMap())
-                .andExpect(jsonPath("$.comments").isArray())
                 .andDo(document("board-post",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestFields(List.of(
-                                fieldWithPath("id").type(JsonFieldType.ARRAY)
-                                        .description("카테고리 식별자 목록").attributes(key("regexp").value(idDescriptions)),
+                                fieldWithPath("categoryIds").type(JsonFieldType.ARRAY)
+                                        .description("카테고리 식별자 목록")
+                                        .attributes(key("regexp").value(idDescriptions)),
                                 fieldWithPath("title").type(JsonFieldType.STRING)
-                                        .description("게시글 제목").attributes(key("regexp").value(titleDescriptions)),
+                                        .description("게시글 제목")
+                                        .attributes(key("regexp").value(titleDescriptions)),
                                 fieldWithPath("content").type(JsonFieldType.STRING)
-                                        .description("게시물 내용").attributes(key("regexp").value(contentDescriptions))
+                                        .description("게시물 내용")
+                                        .attributes(key("regexp").value(contentDescriptions))
                         )),
                         responseFields(List.of(
-                                fieldWithPath("boardContent").type(JsonFieldType.OBJECT)
-                                        .description("게시글 key 값"),
-                                fieldWithPath("boardContent.id").type(JsonFieldType.NUMBER)
-                                        .description("게시글 식별자"),
-                                fieldWithPath("boardContent.head").type(JsonFieldType.OBJECT)
-                                        .description("게시글 Header key 값"),
-                                fieldWithPath("boardContent.head.userProfile").type(
-                                        JsonFieldType.STRING).description("게시글 작성자 프로필 사진 주소"),
-                                fieldWithPath("boardContent.head.nickname").type(
-                                        JsonFieldType.STRING).description("게시글 작성자 닉네임"),
-                                fieldWithPath("boardContent.head.createdAt").type(
-                                        JsonFieldType.STRING).description("게시글 작성 날짜"),
-                                fieldWithPath("boardContent.head.view").type(JsonFieldType.NUMBER)
-                                        .description("게시글 조회수"),
-                                fieldWithPath("boardContent.head.like").type(JsonFieldType.NUMBER)
-                                        .description("게시글 좋아요 수"),
-                                fieldWithPath("boardContent.head.totalComment").type(
-                                        JsonFieldType.NUMBER).description("게시글 총 댓글 수"),
-                                fieldWithPath("boardContent.head.category").type(
-                                        JsonFieldType.STRING).description("게시글이 속한 카테고리 이름"),
-                                fieldWithPath("boardContent.body").type(JsonFieldType.OBJECT)
-                                        .description("게시글 Body key 값"),
-                                fieldWithPath("boardContent.body.title").type(JsonFieldType.STRING)
-                                        .description("게시글 제목"),
-                                fieldWithPath("boardContent.body.content").type(
-                                        JsonFieldType.STRING).description("게시글 내용"),
-                                fieldWithPath("boardContent.liked").type(JsonFieldType.BOOLEAN)
-                                        .description("회원이 좋아요를 눌렀었는지 여부"),
-                                fieldWithPath("comments").type(JsonFieldType.ARRAY)
-                                        .description("댓글 목록 key 값")
+                                fieldWithPath("boardId").type(JsonFieldType.NUMBER)
+                                        .description("생성된 게시글 식별자")
                         ))));
     }
 
@@ -635,181 +597,35 @@ class BoardControllerTest {
         Board board = new Board(1L, "제목입니다", "내용입니다", 30, 30, BoardStatus.BOARD_POST, null,
                 new ArrayList<>(), member, null);
 
-        Board updatedBoard = new Board(1L, "수정된 제목입니다", "수정된 내용입니다.", 982, 60,
-                BoardStatus.BOARD_POST, null, null,
-                member, null);
-
-        Comment comment1 = new Comment(1L, "댓글입니다", CommentStatus.COMMENT_POST, member, updatedBoard, null,
-                null);
-        Comment comment2 = new Comment(2L, "대댓글입니다", CommentStatus.COMMENT_POST, member, updatedBoard,
-                comment1, null);
-        Comment comment3 = new Comment(3L, "대댓글입니다2", CommentStatus.COMMENT_POST, member, updatedBoard,
-                comment1, null);
-
-        List<Comment> comments = List.of(comment1, comment2, comment3);
-        member.setComments(comments);
-        updatedBoard.setComments(comments);
-
-        List<Comment> onlyCommentList = List.of(comment1);
-
-        List<Comment> replyList = List.of(comment2, comment3);
-        comment1.setChildren(replyList);
-
-        updatedBoard.setComments(comments);
-
-        BoardDto.BoardContentResponse boardContentResponse = BoardContentResponse.builder()
-                .id(board.getBoardId())
-                .head(BoardContentHead.builder()
-                        .userProfile(member.getPicture())
-                        .nickname(member.getNickName())
-                        .createdAt("2022.12.21")
-                        .view(board.getViews())
-                        .like(board.getLikes())
-                        .totalComment(board.getComments().size())
-                        .category("자유주제")
-                        .build())
-                .body(BoardContentBody.builder()
-                        .title(board.getTitle())
-                        .content(board.getContent())
-                        .build())
-                .liked(false)
-                .build();
-
-        CommentDto.Response replyResponse1 = CommentDto.Response.builder()
-                .id(2L)
-                .head(CommentsHead.builder()
-                        .userProfile(member.getPicture())
-                        .nickname(member.getNickName())
-                        .createdAt("2023.03.21 17:30")
-                        .build())
-                .body("대댓글입니다1")
-                .parentId(1L)
-                .comments(new ArrayList<>())
-                .build();
-
-        CommentDto.Response replyResponse2 = CommentDto.Response.builder()
-                .id(3L)
-                .head(CommentsHead.builder()
-                        .userProfile(member.getPicture())
-                        .nickname(member.getNickName())
-                        .createdAt("2023.03.21 18:00")
-                        .build())
-                .body("대댓글입니다2")
-                .parentId(1L)
-                .comments(new ArrayList<>())
-                .build();
-
-        List<CommentDto.Response> replyResponseList = List.of(replyResponse1, replyResponse2);
-
-        CommentDto.Response commentResponse = CommentDto.Response.builder()
-                .id(1L)
-                .head(CommentsHead.builder()
-                        .userProfile(member.getPicture())
-                        .nickname(member.getNickName())
-                        .createdAt("2023.03.21 17:00")
-                        .build())
-                .body("댓글입니다")
-                .comments(replyResponseList)
-                .build();
-
-        List<CommentDto.Response> commentResponseList = List.of(commentResponse);
-
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
         given(boardMapper.boardPatchToBoard(Mockito.any(), Mockito.anyLong())).willReturn(board);
-        given(boardService.updateBoard(Mockito.any(), Mockito.anyLong())).willReturn(updatedBoard);
-        given(commentService.getCommentWithoutReply(Mockito.anyList())).willReturn(onlyCommentList);
-        given(boardService.findCategory(Mockito.any())).willReturn("자유주제");
-        given(boardService.isLiked(Mockito.any())).willReturn(false);
-        given(boardMapper.multiInfoToBoardContentResponse(Mockito.any(), Mockito.any(), Mockito.anyString(), Mockito.anyBoolean())).willReturn(boardContentResponse);
-        given(commentMapper.commentsToCommentResponseDtos(Mockito.anyList())).willReturn(commentResponseList);
 
         String requestBodyJson = gson.toJson(requestBody);
 
         // when
         ResultActions actions = mockMvc.perform(
-                patch("/board/{board-id}", 1L).accept(MediaType.APPLICATION_JSON)
-                        .contentType(MediaType.APPLICATION_JSON).content(requestBodyJson).with(csrf()));
+                patch("/boards/{board-id}", 1L).accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON).content(requestBodyJson)
+                        .with(csrf()));
 
         // Rest Docs에서 정규식 표현을 위해 선언
-        ConstraintDescriptions patchBoardConstraints = new ConstraintDescriptions(BoardDto.Patch.class);
+        ConstraintDescriptions patchBoardConstraints = new ConstraintDescriptions(
+                BoardDto.Patch.class);
         List<String> titleDescriptions = patchBoardConstraints.descriptionsForProperty("title");
         List<String> contentDescriptions = patchBoardConstraints.descriptionsForProperty("content");
 
         // then
         actions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.boardContent").isMap())
-                .andExpect(jsonPath("$.comments").isArray())
                 .andDo(document("patch-board",
-                        getResponsePreProcessor(),
+                        getRequestPreProcessor(),
                         pathParameters(parameterWithName("board-id").description("게시글 식별자")),
                         requestFields(List.of(
-                                fieldWithPath("title").type(JsonFieldType.STRING).optional().description("게시글 제목").optional().attributes(key("regexp").value(titleDescriptions)),
-                                fieldWithPath("content").type(JsonFieldType.STRING).optional().description("게시글 내용").optional().attributes(key("regexp").value(contentDescriptions))
-                        )),
-                        responseFields(List.of(
-                                fieldWithPath("boardContent").type(JsonFieldType.OBJECT)
-                                        .description("게시글 key 값"),
-                                fieldWithPath("boardContent.id").type(JsonFieldType.NUMBER)
-                                        .description("게시글 식별자"),
-                                fieldWithPath("boardContent.head").type(JsonFieldType.OBJECT)
-                                        .description("게시글 Header key 값"),
-                                fieldWithPath("boardContent.head.userProfile").type(
-                                        JsonFieldType.STRING).description("게시글 작성자 프로필 사진 주소"),
-                                fieldWithPath("boardContent.head.nickname").type(
-                                        JsonFieldType.STRING).description("게시글 작성자 닉네임"),
-                                fieldWithPath("boardContent.head.createdAt").type(
-                                        JsonFieldType.STRING).description("게시글 작성 날짜"),
-                                fieldWithPath("boardContent.head.view").type(JsonFieldType.NUMBER)
-                                        .description("게시글 조회수"),
-                                fieldWithPath("boardContent.head.like").type(JsonFieldType.NUMBER)
-                                        .description("게시글 좋아요 수"),
-                                fieldWithPath("boardContent.head.totalComment").type(
-                                        JsonFieldType.NUMBER).description("게시글 총 댓글 수"),
-                                fieldWithPath("boardContent.head.category").type(
-                                        JsonFieldType.STRING).description("게시글이 속한 카테고리 이름"),
-                                fieldWithPath("boardContent.body").type(JsonFieldType.OBJECT)
-                                        .description("게시글 Body key 값"),
-                                fieldWithPath("boardContent.body.title").type(JsonFieldType.STRING)
-                                        .description("게시글 제목"),
-                                fieldWithPath("boardContent.body.content").type(
-                                        JsonFieldType.STRING).description("게시글 내용"),
-                                fieldWithPath("boardContent.liked").type(JsonFieldType.BOOLEAN)
-                                        .description("회원이 좋아요를 눌렀었는지 여부"),
-                                fieldWithPath("comments").type(JsonFieldType.ARRAY)
-                                        .description("댓글 목록 key 값"),
-                                fieldWithPath("comments[].id").type(JsonFieldType.NUMBER)
-                                        .description("댓글 식별자"),
-                                fieldWithPath("comments[].head").type(JsonFieldType.OBJECT)
-                                        .description("댓글 Header key 값"),
-                                fieldWithPath("comments[].head.userProfile").type(
-                                        JsonFieldType.STRING).description("댓글 작성자 프로필 사진 주소"),
-                                fieldWithPath("comments[].head.nickname").type(JsonFieldType.STRING)
-                                        .description("댓글 작성자 닉네임"),
-                                fieldWithPath("comments[].head.createdAt").type(
-                                        JsonFieldType.STRING).description("댓글 작성 날짜"),
-                                fieldWithPath("comments[].body").type(JsonFieldType.STRING)
-                                        .description("댓글 내용"),
-                                fieldWithPath("comments[].parentId").type(JsonFieldType.NULL)
-                                        .description("대댓글의 부모 ID 대댓글인 경우만 존재"),
-                                fieldWithPath("comments[].comments").type(JsonFieldType.ARRAY)
-                                        .description("댓글의 대댓글 목록 key 값"),
-                                fieldWithPath("comments[].comments[].id").type(JsonFieldType.NUMBER)
-                                        .description("대댓글 식별자"),
-                                fieldWithPath("comments[].comments[].head").type(
-                                        JsonFieldType.OBJECT).description("대댓글 Header key 값"),
-                                fieldWithPath("comments[].comments[].head.userProfile").type(
-                                        JsonFieldType.STRING).description("대댓글 작성자 프로필 사진 주소"),
-                                fieldWithPath("comments[].comments[].head.nickname").type(
-                                        JsonFieldType.STRING).description("대댓글 작성자 닉네임"),
-                                fieldWithPath("comments[].comments[].head.createdAt").type(
-                                        JsonFieldType.STRING).description("대댓글 작성 날짜"),
-                                fieldWithPath("comments[].comments[].body").type(
-                                        JsonFieldType.STRING).description("대댓글 내용"),
-                                fieldWithPath("comments[].comments[].parentId").type(
-                                        JsonFieldType.NUMBER).description("대댓글의 부모 ID"),
-                                fieldWithPath("comments[].comments[].comments").type(
-                                                JsonFieldType.ARRAY)
-                                        .description("대댓글은 comments 리스트가 비어있어야한다")
+                                fieldWithPath("title").type(JsonFieldType.STRING).optional()
+                                        .description("게시글 제목")
+                                        .attributes(key("regexp").value(titleDescriptions)),
+                                fieldWithPath("content").type(JsonFieldType.STRING).optional()
+                                        .description("게시글 내용")
+                                        .attributes(key("regexp").value(contentDescriptions))
                         ))));
 
     }
@@ -826,7 +642,7 @@ class BoardControllerTest {
 
         // when
         ResultActions actions = mockMvc.perform(
-                delete("/board/{board-id}", 1L).accept(MediaType.APPLICATION_JSON).with(csrf()));
+                delete("/boards/{board-id}", 1L).accept(MediaType.APPLICATION_JSON).with(csrf()));
 
         // then
         actions.andExpect(status().isNoContent())
@@ -834,4 +650,164 @@ class BoardControllerTest {
                         "delete-board",
                         pathParameters(parameterWithName("board-id").description("게시글 식별자"))));
     }
+
+    @Test
+    @DisplayName("댓글 작성하기 컨트롤러 테스트")
+    @WithMockUser
+    public void postComment() throws Exception {
+        // given
+        CommentDto.Post post = CommentDto.Post.builder().body("댓글입니다.").build();
+
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+
+        Board board = new Board(1L, "제목입니다", "내용입니다", 30, 30, BoardStatus.BOARD_POST, null,
+                new ArrayList<>(), member, null);
+
+        Comment comment = Comment.builder().body("댓글입니다.").member(member).board(board).build();
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+        given(boardService.findBoard(Mockito.anyLong())).willReturn(board);
+        given(commentMapper.commentPostDtoToComment(Mockito.any())).willReturn(comment);
+
+        String requestBody = gson.toJson(post);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                post("/boards/{board-id}/comments", 1L).accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf())
+        );
+
+        // Rest Docs에서 정규식 표현을 위해 선언
+        ConstraintDescriptions patchBoardConstraints = new ConstraintDescriptions(
+                CommentDto.Post.class);
+        List<String> bodyDescriptions = patchBoardConstraints.descriptionsForProperty("body");
+
+        // then
+        actions.andExpect(status().isCreated())
+                .andDo(document("post-comment",
+                        getRequestPreProcessor(),
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자")),
+                        requestFields(List.of(
+                                fieldWithPath("body").type(JsonFieldType.STRING)
+                                        .description("댓글 내용")
+                                        .attributes(key("regexp").value(bodyDescriptions)
+                                        )))));
+    }
+
+    @Test
+    @DisplayName("대댓글 작성하기 컨트롤러 테스트")
+    @WithMockUser
+    public void postReply() throws Exception {
+        // given
+        CommentDto.Post post = CommentDto.Post.builder().body("대댓글입니다.").build();
+
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+
+        Board board = new Board(1L, "제목입니다", "내용입니다", 30, 30, BoardStatus.BOARD_POST, null,
+                new ArrayList<>(), member, null);
+
+        Comment comment = Comment.builder().body("댓글입니다.").member(member).board(board).build();
+
+        Comment reply = Comment.builder().body("대댓글입니다.").member(member).board(board).build();
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+        given(boardService.findBoard(Mockito.anyLong())).willReturn(board);
+        given(commentService.findComment(Mockito.anyLong())).willReturn(comment);
+        given(commentMapper.commentPostDtoToComment(Mockito.any())).willReturn(reply);
+
+        String requestBody = gson.toJson(post);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                post("/boards/{board-id}/comments/{comment-id}", 1L, 1L).accept(
+                                MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON).content(requestBody).with(csrf())
+        );
+
+        // then
+        // Rest Docs에서 정규식 표현을 위해 선언
+        ConstraintDescriptions patchBoardConstraints = new ConstraintDescriptions(
+                CommentDto.Post.class);
+        List<String> bodyDescriptions = patchBoardConstraints.descriptionsForProperty("body");
+
+        // then
+        actions.andExpect(status().isCreated())
+                .andDo(document("post-reply",
+                        getRequestPreProcessor(),
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자"),
+                                parameterWithName("comment-id").description("부모 댓글 식별자")),
+                        requestFields(List.of(
+                                fieldWithPath("body").type(JsonFieldType.STRING)
+                                        .description("대댓글 내용")
+                                        .attributes(key("regexp").value(bodyDescriptions)
+                                        )))));
+    }
+
+    @Test
+    @DisplayName("댓글 삭제 Controller Test")
+    @WithMockUser
+    public void deleteCommentTest() throws Exception {
+        // given
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                delete("/boards/{board-id}/comments/{comment-id}", 1L, 1L).accept(
+                        MediaType.APPLICATION_JSON).with(csrf()));
+
+        // then
+        actions.andExpect(status().isNoContent())
+                .andDo(document(
+                        "delete-comment",
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자"),
+                                parameterWithName("comment-id").description("댓글 식별자"))));
+    }
+
+    @Test
+    @DisplayName("게시글 좋아요 기능 Controller Test")
+    @WithMockUser
+    public void postLikeTest() throws Exception {
+        // given
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                post("/boards/{board-id}/like", 1L).accept(MediaType.APPLICATION_JSON)
+                        .with(csrf()));
+
+        // then
+        actions.andExpect(status().isOk())
+                .andDo(document("post-like",
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자"))));
+    }
+
+    @Test
+    @DisplayName("게시글 삭제 기능 Controller Test")
+    @WithMockUser
+    public void deleteLikeTest() throws Exception {
+        // given
+        Member member = new Member(1, "wth0086@naver.com", "프로필이미지저장주소", "VIP석은전동석",
+                MemberRole.USER, MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
+
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                delete("/boards/{board-id}/like", 1L).accept(MediaType.APPLICATION_JSON)
+                        .with(csrf()));
+
+        // then
+        actions.andExpect(status().isNoContent())
+                .andDo(document("delete-like",
+                        pathParameters(parameterWithName("board-id").description("게시글 식별자"))));
+    }
+
 }

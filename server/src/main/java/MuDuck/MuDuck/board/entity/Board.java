@@ -4,6 +4,7 @@ import MuDuck.MuDuck.audit.Auditable;
 import MuDuck.MuDuck.boardCategory.entity.BoardCategory;
 import MuDuck.MuDuck.boardLike.entity.BoardLike;
 import MuDuck.MuDuck.comment.entity.Comment;
+import MuDuck.MuDuck.comment.entity.Comment.CommentStatus;
 import MuDuck.MuDuck.member.entity.Member;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,11 +55,11 @@ public class Board extends Auditable {
     @Builder.Default
     private BoardStatus boardStatus = BoardStatus.BOARD_POST;
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @Builder.Default
     private List<BoardLike> boardLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "board")
     @Builder.Default
     private List<Comment> comments = new ArrayList<>();
 
@@ -66,7 +67,7 @@ public class Board extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
     @Builder.Default
     private List<BoardCategory> boardCategories = new ArrayList<>();
 
@@ -80,6 +81,16 @@ public class Board extends Auditable {
         BoardStatus(String status) {
             this.status = status;
         }
+    }
+
+    public int getCommentsSize() { // 삭제된 댓글 제외하고 개수 세기
+        List<Comment> withOutDeleteComments = new ArrayList<>();
+        for(Comment comment : comments){
+            if(comment.getCommentStatus() == CommentStatus.COMMENT_POST){
+                withOutDeleteComments.add(comment);
+            }
+        }
+        return withOutDeleteComments.size();
     }
 
 }
