@@ -164,6 +164,14 @@ public class BoardService {
         }
     }
 
+    public List<Board> getDailyPopularPosts(){
+        return boardRepository.getDailyPopularPosts();
+    }
+
+    public List<Board> getWeeklyPopularPosts() {
+        return boardRepository.getWeeklyPopularPosts();
+    }
+
     @Transactional(readOnly=true)
     private Board findVerifiedBoard(long boardId){
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
