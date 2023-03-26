@@ -35,7 +35,7 @@ public class TheaterService {
 
     public List<Theater> getTheaters(){
 
-        return theaterRepository.findAll(Sort.by("theaterId").descending());
+        return theaterRepository.findAll();
 
     }
 
