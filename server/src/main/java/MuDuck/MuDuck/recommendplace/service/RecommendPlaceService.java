@@ -2,7 +2,6 @@ package MuDuck.MuDuck.recommendplace.service;
 
 import MuDuck.MuDuck.exception.BusinessLogicException;
 import MuDuck.MuDuck.exception.ExceptionCode;
-import MuDuck.MuDuck.map.service.MapService;
 import MuDuck.MuDuck.member.service.MemberService;
 import MuDuck.MuDuck.recommendplace.entity.RecommendPlace;
 import MuDuck.MuDuck.recommendplace.repository.RecommendPlaceRepository;
@@ -26,6 +25,17 @@ public class RecommendPlaceService {
         return recommendPlaceRepository.save(place);
     }
 
+    public RecommendPlace findRecommendPlaceToId(long id){
+
+        return findVerifiedRecommendPlace(id);
+
+    }
+
+    public RecommendPlace findRecommendPlaceToMapIdAndMemberId(long memberId, long mapId){
+
+        return findVerifiedRecommendPlace(memberId, mapId);
+    }
+
     public RecommendPlace findVerifiedRecommendPlace(long id){
         Optional<RecommendPlace> optionalRecommendPlace = recommendPlaceRepository.findById(id);
 
@@ -36,7 +46,7 @@ public class RecommendPlaceService {
     }
 
     public RecommendPlace findVerifiedRecommendPlace(long memberId, long mapId){
-        Optional<RecommendPlace> optionalRecommendPlace = recommendPlaceRepository.findByMember_MemberIdAndMap_MapId(memberId, mapId);
+        Optional<RecommendPlace> optionalRecommendPlace = recommendPlaceRepository.findByMemberIdAndMapId(memberId, mapId);
 
         RecommendPlace recommendPlace = optionalRecommendPlace.orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.RECOMMEND_PLACE_NOT_FOUND));
@@ -45,7 +55,7 @@ public class RecommendPlaceService {
     }
 
     private void verifiedRecommendPlace(long memberId, long mapId){
-        Optional<RecommendPlace> optionalRp = recommendPlaceRepository.findByMember_MemberIdAndMap_MapId(
+        Optional<RecommendPlace> optionalRp = recommendPlaceRepository.findByMemberIdAndMapId(
                 memberId, mapId);
         if(optionalRp.isPresent()){
             throw new BusinessLogicException(ExceptionCode.RECOMMEND_PLACE_EXISTS);

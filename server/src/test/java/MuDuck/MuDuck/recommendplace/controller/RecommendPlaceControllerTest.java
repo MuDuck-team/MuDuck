@@ -10,6 +10,8 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -27,9 +29,11 @@ import MuDuck.MuDuck.recommendplace.dto.RecommendPlaceDto;
 import MuDuck.MuDuck.recommendplace.dto.RecommendPlaceDto.Response;
 import MuDuck.MuDuck.recommendplace.entity.RecommendPlace;
 import MuDuck.MuDuck.recommendplace.mapper.RecommendPlaceMapper;
+import MuDuck.MuDuck.recommendplace.service.RecommendPlaceService;
 import MuDuck.MuDuck.response.RecommendPlaceMultipleResponse;
 import com.google.gson.Gson;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -57,13 +61,27 @@ class RecommendPlaceControllerTest {
     private RecommendPlaceMapper recommendPlaceMapper;
     @MockBean
     private MapService mapService;
-
     @MockBean
     private MemberService memberService;
     @Autowired
     private Gson gson;
     private final String TEST_USER_EMAIL = "test@test.com";
-    private final String TEST_USER_ROLE = "USER";
+    private Member member;
+    private RecommendPlaceDto.Response rpResponse;
+    @MockBean
+    private RecommendPlaceService recommendPlaceService;
+
+    @BeforeEach
+    void init(){
+        member = Member
+                .builder()
+                .memberId(1L)
+                .email(TEST_USER_EMAIL)
+                .memberRole(MemberRole.USER)
+                .build();
+
+        rpResponse = new Response(1L,1L, 1L, 4.5,"한줄평입니다.");
+    }
 
     @Test
     @DisplayName("한줄평 및 별점 등록 테스트")
@@ -89,13 +107,6 @@ class RecommendPlaceControllerTest {
                 .oneLine("한줄평입네다")
                 .build();
 
-        Member member = Member
-                .builder()
-                .memberId(1L)
-                .email(TEST_USER_EMAIL)
-                .memberRole(MemberRole.USER)
-                .build();
-
         RecommendPlace recommendPlace = RecommendPlace.builder()
                 .member(member)
                 .build();
@@ -104,7 +115,6 @@ class RecommendPlaceControllerTest {
 
         String content = gson.toJson(multipleResponse);
 
-        RecommendPlaceDto.Response rpResponse = new Response(1L,1L, 1L, 4.5,"한줄평입니다.");
 
         // given
         given(mapMapper.postMapToMap(Mockito.any())).willReturn(Map.builder().build());
@@ -136,8 +146,6 @@ class RecommendPlaceControllerTest {
         List<String> latitudeDescriptions = mapDtoPostConstraints.descriptionsForProperty("latitude");
         List<String> categoryGroupCodeDescriptions = mapDtoPostConstraints.descriptionsForProperty("categoryGroupCode");
         List<String> phoneDescriptions = mapDtoPostConstraints.descriptionsForProperty("phone");
-//        List<String> addressDescriptions = mapDtoPostConstraints.descriptionsForProperty("address");
-//        List<String> roadAddressDescriptions = mapDtoPostConstraints.descriptionsForProperty("roadAddress");
         
         // RecommendPlace.Post 정규식
         ConstraintDescriptions rpDtoPostConstraints = new ConstraintDescriptions(RecommendPlaceDto.Post.class);
@@ -181,6 +189,51 @@ class RecommendPlaceControllerTest {
                                         fieldWithPath("mapId").type(JsonFieldType.NUMBER).description("해당 지도 아이디"),
                                         fieldWithPath("score").type(JsonFieldType.NUMBER).description("내가 설정한 별점"),
                                         fieldWithPath("oneLine").type(JsonFieldType.STRING).description("내가 작성한 한줄평")
+                                )
+                            )
+                        )
+                );
+    }
+
+    @Test
+    @DisplayName("mapId와 memberId로 한줄평 조회")
+    @WithMockUser(username = TEST_USER_EMAIL)
+    void getRecommendPlaceTest() throws Exception {
+        long mapId = 1L;
+        // given
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+        given(mapService.findVerifiedMapToMapId(Mockito.anyLong())).willReturn(Map.builder().build());
+        given(recommendPlaceService.findRecommendPlaceToMapIdAndMemberId(Mockito.anyLong(), Mockito.anyLong()))
+                .willReturn(RecommendPlace.builder().build());
+        given(recommendPlaceMapper.recommendPlaceToResponse(Mockito.any())).willReturn(rpResponse);
+
+        // when
+        ResultActions getActions =
+                mockMvc.perform(
+                        get("/recommend-place/maps/{map-id}/member/{member-id}", mapId, member.getMemberId())
+                                .accept(MediaType.APPLICATION_JSON)
+                );
+
+        // then
+        getActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(rpResponse.getId()))
+                .andExpect(jsonPath("$.memberId").value(rpResponse.getMemberId()))
+                .andExpect(jsonPath("$.mapId").value(rpResponse.getMapId()))
+                .andExpect(jsonPath("$.score").value(rpResponse.getScore()))
+                .andExpect(jsonPath("$.oneLine").value(rpResponse.getOneLine()))
+                .andDo(document("get-recommend-place",
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("map-id").description("지도 아이디"),
+                                parameterWithName("member-id").description("회원 아이디")
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("한줄평 아이디"),
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 아이디"),
+                                        fieldWithPath("mapId").type(JsonFieldType.NUMBER).description("지도 아이디"),
+                                        fieldWithPath("score").type(JsonFieldType.NUMBER).description("별점(평점)"),
+                                        fieldWithPath("oneLine").type(JsonFieldType.STRING).description("한줄평")
                                 )
                             )
                         )

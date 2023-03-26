@@ -7,6 +7,8 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -97,6 +99,9 @@ class MapControllerTest {
                 .andDo(document(
                         "get-map-include-avg-score-total-reviews",
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("theater-id").description("극장 아이디")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("cafes").type(JsonFieldType.ARRAY).description("별점 기준 상위 5개 카페 정보 배열"),
