@@ -226,6 +226,9 @@ VALUES (CURRENT_TIMESTAMP,'대댓글입니다2', 'COMMENT_POST', 3, 1, 1);
 
 -- BOARD_LIKE 테이블 생성 코드
 INSERT INTO BOARD_LIKE (BOARD_ID, MEMBER_ID) VALUES (1, 1);
+INSERT INTO BOARD_LIKE (BOARD_ID, MEMBER_ID) VALUES (4, 1);
+INSERT INTO BOARD_LIKE (BOARD_ID, MEMBER_ID) VALUES (6, 1);
+INSERT INTO BOARD_LIKE (BOARD_ID, MEMBER_ID) VALUES (7, 1);
 
 -- RecommendPlace 테이블 더미데이터 생성 코드
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
@@ -570,3 +573,19 @@ INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (1, 1);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (2, 2);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (2, 4);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (3, 3);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (4, 1);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (5, 1);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (6, 2);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (6, 5);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (7, 3);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (8, 1);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (9, 1);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (10, 2);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (10, 4);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (11, 3);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (12, 1);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (13, 1);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (14, 2);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (14, 5);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (15, 3);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (16, 1);

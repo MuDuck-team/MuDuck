@@ -13,6 +13,7 @@ import MuDuck.MuDuck.exception.BusinessLogicException;
 import MuDuck.MuDuck.exception.ExceptionCode;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.utils.CustomBeanUtils;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -172,9 +173,30 @@ public class BoardService {
         return boardRepository.getWeeklyPopularPosts();
     }
 
+    public List<Board> getMyBoards(Member member){
+        List<Board> boards = boardRepository.findByMemberId(member.getMemberId());
+        return boards;
+    }
+
+    public List<Board> getMyLikedBoards(Member member){
+        List<BoardLike> boardLikes = boardLikeRepository.findBoardLikeByMemberId(member.getMemberId());
+        List<Board> boards = boardLikesToBoards(boardLikes);
+        return boards;
+    }
+
     @Transactional(readOnly=true)
     private Board findVerifiedBoard(long boardId){
         Optional<Board> optionalBoard = boardRepository.findById(boardId);
         return optionalBoard.orElseThrow(() -> new BusinessLogicException(ExceptionCode.BOARD_NOT_FOUND));
+    }
+
+    private List<Board> boardLikesToBoards(List<BoardLike> boardLikes){
+        List<Board> boards = new ArrayList<>();
+        for(BoardLike boardLike : boardLikes){
+            if(boardLike.getBoard().getBoardStatus() != BoardStatus.BOARD_DELETE){
+                boards.add(boardLike.getBoard());
+            }
+        }
+        return boards;
     }
 }
