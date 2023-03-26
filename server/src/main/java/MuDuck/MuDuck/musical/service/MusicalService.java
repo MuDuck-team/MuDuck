@@ -4,6 +4,8 @@ import MuDuck.MuDuck.actor.service.ActorService;
 import MuDuck.MuDuck.exception.BusinessLogicException;
 import MuDuck.MuDuck.exception.ExceptionCode;
 import MuDuck.MuDuck.actorMusical.entity.ActorsEntity;
+import MuDuck.MuDuck.musical.dto.ActorMusicalDto.MappingActorResponseDto;
+import MuDuck.MuDuck.musical.dto.MusicalDto.ResponseActors;
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.musical.entity.MusicalBoards;
@@ -123,10 +125,6 @@ public class MusicalService {
 
     private Musical saveMusical(Musical musical) {
         return musicalRepository.save(musical);
-    }
-
-    public List<ActorsEntity> findMusicalActors(long musicalId) {
-        return musicalRepository.findActorsByMusicalId(musicalId);
     }
 
     public Category findCategoryName(long musicalId) {

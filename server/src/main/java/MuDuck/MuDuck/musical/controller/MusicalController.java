@@ -1,23 +1,20 @@
 package MuDuck.MuDuck.musical.controller;
 
-import MuDuck.MuDuck.actor.dto.ActorDto;
-import MuDuck.MuDuck.actor.entity.Actor;
-import MuDuck.MuDuck.musical.entity.ActorMusical;
-import MuDuck.MuDuck.actorMusical.repository.ActorMusicalRepository;
+import MuDuck.MuDuck.actorMusical.mapper.ActorMusicalMapper;
+import MuDuck.MuDuck.actorMusical.service.ActorMusicalService;
+import MuDuck.MuDuck.musical.dto.ActorMusicalDto.MappingActorResponseDto;
+import MuDuck.MuDuck.musical.entity.Response;
 import MuDuck.MuDuck.musical.dto.MusicalDto.MappingResponseDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto.MultiResponseDto;
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.musical.entity.MusicalBoards;
 import MuDuck.MuDuck.musical.mapper.MusicalMapper;
-import MuDuck.MuDuck.musical.repository.MusicalRepository;
 import MuDuck.MuDuck.musical.service.MusicalService;
 import MuDuck.MuDuck.theater.entitiy.Theater;
 import MuDuck.MuDuck.theater.mapper.TheaterMapper;
 import MuDuck.MuDuck.theater.service.TheaterService;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.validation.constraints.Positive;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,10 +37,9 @@ public class MusicalController {
     private final static String MUSICAL_DEFAULT_URL = "/musicals";
     private final MusicalService musicalService;
     private final MusicalMapper musicalMapper;
-    private final MusicalRepository musicalRepository;
     private final TheaterService theaterService;
     private final TheaterMapper theaterMapper;
-    private final ActorMusicalRepository actorMusicalRepository;
+    private final ActorMusicalService actorMusicalService;
 
     @GetMapping
     public ResponseEntity getMusicals(@Positive @RequestParam int page, @Positive @RequestParam int size){
@@ -84,29 +80,11 @@ public class MusicalController {
         return new ResponseEntity<>(new MappingResponseDto<>(musicalMapper.musicalToMusicalResponseDto(response),theaterMapper.theaterToMusicalResponse(responseTheater)),HttpStatus.OK);
     }
 
-    @GetMapping("/{musicalId}/actors")
-    public ResponseEntity<?> getActorsByMusicalIdAndRole(@PathVariable Long musicalId,
-            @RequestParam(required = false) String role) {
-        Optional<Musical> musical = musicalRepository.findById(musicalId);
-        if (!musical.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        List<ActorMusical> actorMusicals;
-        if (role == null) {
-            actorMusicals = actorMusicalRepository.findByMusical(musical.get());
-        } else {
-            actorMusicals = actorMusicalRepository.findByMusicalAndRole(musical.get(), role);
-        }
-
-        List<ActorDto.Response> actors = actorMusicals.stream()
-                .map(actorMusical -> {
-                    Actor actor = actorMusical.getActor();
-                    return new ActorDto.Response(actor.getActorId(), actor.getActorName(), actor.getPicture());
-                })
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(actors);
+    @GetMapping("/{musical-id}/actors")
+    public ResponseEntity getActors(@PathVariable("musical-id") @Positive Long musicalId){
+        Musical musical = musicalService.findMusical(musicalId);
+        List<Response> actorMusicals = actorMusicalService.getMusicalActors(musicalId);
+        return new ResponseEntity<>(new MappingActorResponseDto(musicalMapper.musicalToActorMusicalResponseDto(musical),actorMusicals),HttpStatus.OK);
     }
 
     @GetMapping("/{musical-id}/board")

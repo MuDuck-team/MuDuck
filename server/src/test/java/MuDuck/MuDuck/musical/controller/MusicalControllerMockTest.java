@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import MuDuck.MuDuck.actor.entity.Actor;
+import MuDuck.MuDuck.actorMusical.service.ActorMusicalService;
 import MuDuck.MuDuck.musical.dto.ActorMusicalResponseDto;
 import MuDuck.MuDuck.actorMusical.repository.ActorMusicalRepository;
 import MuDuck.MuDuck.musical.entity.Category;
@@ -38,6 +39,7 @@ import com.google.gson.Gson;
 import com.jayway.jsonpath.JsonPath;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder.In;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -82,6 +84,9 @@ class MusicalControllerMockTest {
 
     @MockBean
     private TheaterMapper theaterMapper;
+
+    @MockBean
+    private ActorMusicalService actorMusicalService;
 
     @MockBean
     private ActorMusicalRepository actorMusicalRepository;
@@ -269,7 +274,7 @@ class MusicalControllerMockTest {
 
     @Test
     @WithMockUser
-    @DisplayName("조건에 따른 작품 전체 목록 조회")
+    @DisplayName("장르에 따른 작품 전체 목록 조회")
     public void getMusicalGenresTest() throws Exception {
         //given
         MultiValueMap<String, String>
@@ -343,7 +348,7 @@ class MusicalControllerMockTest {
 
     @Test
     @WithMockUser
-    @DisplayName("작품 필터별 목록 조회")
+    @DisplayName("필터별 작품 전체 목록 조회")
     public void getMusicalFiltersTest() throws Exception {
         //given
         MultiValueMap<String, String>
@@ -420,7 +425,7 @@ class MusicalControllerMockTest {
 
     @Test
     @WithMockUser
-    @DisplayName("작품 상태별 목록 조회")
+    @DisplayName("공연 상태별 작품전체 목록 조회")
     public void getMusicalStatesTest() throws Exception {
         //given
         MultiValueMap<String, String>
@@ -603,6 +608,11 @@ class MusicalControllerMockTest {
         //musical.setMusicalId(1L);
         musicalBoards = new MusicalBoards() {
             @Override
+            public Long getBoardId(){
+                return 1L;
+            }
+
+            @Override
             public String getTitle() {
                 return "This Is TEST";
             }
@@ -610,6 +620,11 @@ class MusicalControllerMockTest {
             @Override
             public String getNickname() {
                 return "테스형";
+            }
+
+            @Override
+            public String getPicture(){
+                return "profile";
             }
 
             @Override
@@ -625,6 +640,10 @@ class MusicalControllerMockTest {
             @Override
             public Integer getLikes() {
                 return 864;
+            }
+            @Override
+            public Integer getCommentCount(){
+                return 2;
             }
         };
 
@@ -668,15 +687,22 @@ class MusicalControllerMockTest {
                                 ),
                                 responseFields(
                                         List.of(
-                                                fieldWithPath(".musicalId").type(JsonFieldType.NUMBER)
+                                                fieldWithPath(".musicalId").type(
+                                                                JsonFieldType.NUMBER)
                                                         .description("뮤지컬 아이디"),
 
+                                                fieldWithPath("boards[].boardId").type(
+                                                                JsonFieldType.NUMBER)
+                                                        .description("뮤지컬 아이디"),
                                                 fieldWithPath("boards[].title").type(
                                                                 JsonFieldType.STRING)
                                                         .description("게시글 제목"),
                                                 fieldWithPath("boards[].nickname").type(
                                                                 JsonFieldType.STRING)
                                                         .description("작성자 닉네임"),
+                                                fieldWithPath("boards[].picture").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("작성자 프로필"),
                                                 fieldWithPath("boards[].createdAt").type(
                                                                 JsonFieldType.STRING)
                                                         .description("게시글 작성 시간"),
@@ -686,6 +712,9 @@ class MusicalControllerMockTest {
                                                 fieldWithPath("boards[].views").type(
                                                                 JsonFieldType.NUMBER)
                                                         .description("게시글 조회 수"),
+                                                fieldWithPath("boards[].commentCount").type(
+                                                                JsonFieldType.NUMBER)
+                                                        .description("댓글갯수"),
 
                                                 fieldWithPath("category.categoryName").type(
                                                                 JsonFieldType.STRING)

@@ -1,9 +1,11 @@
 package MuDuck.MuDuck.musical.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
+import MuDuck.MuDuck.musical.entity.Response;
+import java.util.List;
 import javax.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 public class ActorMusicalDto {
 
@@ -15,13 +17,25 @@ public class ActorMusicalDto {
         @Positive
         private String role;
     }
+    @Builder
+    @Getter
+    public static class Response{
+        private Long actorId = getActorId();
+        private String actorName = getActorName();
+        private String picture = getPicture();
+        private String role;
+    }
 
     @Getter
-    @AllArgsConstructor
-    public static class Response {
+    public static class MappingActorResponseDto {
 
-        private Long musicalId;
-        private String actorName;
-        private String picture;
+        private MusicalDto.ResponseActors musical;
+        private List<MuDuck.MuDuck.musical.entity.Response> actors;
+
+        public MappingActorResponseDto(MusicalDto.ResponseActors musical, List<MuDuck.MuDuck.musical.entity.Response> actors) {
+            this.musical = musical;
+            this.actors = actors;
+        }
     }
+
 }
