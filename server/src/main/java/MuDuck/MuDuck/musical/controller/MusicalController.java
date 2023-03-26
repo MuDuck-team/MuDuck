@@ -2,6 +2,11 @@ package MuDuck.MuDuck.musical.controller;
 
 import MuDuck.MuDuck.actor.dto.ActorDto;
 import MuDuck.MuDuck.actor.entity.Actor;
+import MuDuck.MuDuck.actor.mapper.ActorMapper;
+import MuDuck.MuDuck.actor.service.ActorService;
+import MuDuck.MuDuck.actorMusical.mapper.ActorMusicalMapper;
+import MuDuck.MuDuck.actorMusical.service.ActorMusicalService;
+import MuDuck.MuDuck.musical.dto.ActorMusicalDto.MappingActorResponseDto;
 import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.actorMusical.repository.ActorMusicalRepository;
 import MuDuck.MuDuck.musical.dto.MusicalDto.MappingResponseDto;
@@ -43,7 +48,10 @@ public class MusicalController {
     private final MusicalRepository musicalRepository;
     private final TheaterService theaterService;
     private final TheaterMapper theaterMapper;
-    private final ActorMusicalRepository actorMusicalRepository;
+    private final ActorMusicalService actorMusicalService;
+    private final ActorMusicalMapper actorMusicalMapper;
+    private final ActorService actorService;
+    private final ActorMapper actorMapper;
 
     @GetMapping
     public ResponseEntity getMusicals(@Positive @RequestParam int page, @Positive @RequestParam int size){
@@ -84,29 +92,15 @@ public class MusicalController {
         return new ResponseEntity<>(new MappingResponseDto<>(musicalMapper.musicalToMusicalResponseDto(response),theaterMapper.theaterToMusicalResponse(responseTheater)),HttpStatus.OK);
     }
 
-    @GetMapping("/{musicalId}/actors")
-    public ResponseEntity<?> getActorsByMusicalIdAndRole(@PathVariable Long musicalId,
-            @RequestParam(required = false) String role) {
-        Optional<Musical> musical = musicalRepository.findById(musicalId);
-        if (!musical.isPresent()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        List<ActorMusical> actorMusicals;
-        if (role == null) {
-            actorMusicals = actorMusicalRepository.findByMusical(musical.get());
-        } else {
-            actorMusicals = actorMusicalRepository.findByMusicalAndRole(musical.get(), role);
-        }
-
-        List<ActorDto.Response> actors = actorMusicals.stream()
-                .map(actorMusical -> {
-                    Actor actor = actorMusical.getActor();
-                    return new ActorDto.Response(actor.getActorId(), actor.getActorName(), actor.getPicture());
-                })
-                .collect(Collectors.toList());
-
-        return ResponseEntity.ok(actors);
+    @GetMapping("/{musical-id}/actors")
+    public ResponseEntity getActors(@PathVariable("musical-id") @Positive Long musicalId){
+//        Musical musical = musicalService.findMusical(musicalId);
+//        List<MappingActorResponseDto> responseActors = musicalService.findMusialActors(musicalId);
+//        return new ResponseEntity<>(actorMusicalMapper.actorsToMusicalResponseDtos(musical, responseActors), HttpStatus.OK);
+        //actormusical에 정보 들어가는지 확인
+        ActorMusical actorMusical = actorMusicalService.findActorMusical(musicalId);
+        Actor actor = actorService.findActor(actorMusical.getActor().getActorId());
+        return new ResponseEntity<>(new MappingActorResponseDto<>(actorMusicalMapper.actorsToMusicalDto(actorMusical),actorMapper.actorToActorMusicalResponse(actor)),HttpStatus.OK);
     }
 
     @GetMapping("/{musical-id}/board")

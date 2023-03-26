@@ -1,5 +1,7 @@
 package MuDuck.MuDuck.musical.dto;
 
+import MuDuck.MuDuck.actorMusical.entity.ActorsEntity;
+import MuDuck.MuDuck.musical.dto.ActorMusicalDto.MappingActorResponseDto;
 import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
@@ -123,9 +125,9 @@ public class MusicalDto {
     public static class ResponseActors {
 
         @JsonProperty("id")
-        private long musicalId;
+        private Long musicalId;
         @JsonProperty("actors")
-        private ActorMusical actorMusicals;
+        private List<MappingActorResponseDto> actorMusicals;
     }
 
     @Builder
@@ -178,18 +180,6 @@ public class MusicalDto {
         public MappingResponseDto(ResponseMusical musical, ResponseUsedMusical theater) {
             this.musical = musical;
             this.theater = theater;
-        }
-    }
-
-    @Getter
-    public static class MappingActorResponseDto<T> {
-
-        private ResponseMusical musical;
-        private ActorMusicalResponseDto.detail actor;
-
-        public MappingActorResponseDto(ResponseMusical musical, ActorMusicalResponseDto.detail actor) {
-            this.musical = musical;
-            this.actor = actor;
         }
     }
 }

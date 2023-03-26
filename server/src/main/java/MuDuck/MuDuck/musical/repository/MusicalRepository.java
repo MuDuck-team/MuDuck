@@ -1,6 +1,7 @@
 package MuDuck.MuDuck.musical.repository;
 
 import MuDuck.MuDuck.actorMusical.entity.ActorsEntity;
+import MuDuck.MuDuck.musical.dto.ActorMusicalDto.MappingActorResponseDto;
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.musical.entity.MusicalBoards;
@@ -31,5 +32,5 @@ public interface MusicalRepository extends JpaRepository<Musical, Long> {
     Category findCategoryByMusicalId(@Param("musicalId") Long musicalId);
 
     @Query(value = "select am.actor_id as id, a.actor_name, a.picture, am.role from actormusicals am Join actors a on am.actor_id = a.actor_id where am.musical_id = :musicalId", nativeQuery = true)
-    List<ActorsEntity> findActorsByMusicalId(@Param("musicalId") Long musicalId);
+    List<MappingActorResponseDto> findActorsByMusicalId(@Param("musicalId") Long musicalId);
 }
