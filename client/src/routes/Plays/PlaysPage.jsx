@@ -52,21 +52,21 @@ function PlaysPage() {
   const { musicals, pageInfo } = responseData;
 
   const orderSort = [
-    { id: 1, categoryName: '최신순', queryName: 'openDate' },
-    { id: 2, categoryName: '조회순', queryName: 'views' },
-    { id: 3, categoryName: '이름순', queryName: 'musicalKorName' },
+    { id: 1, categoryName: '최신순', queryValue: 'openDate' },
+    { id: 2, categoryName: '조회순', queryValue: 'views' },
+    { id: 3, categoryName: '이름순', queryValue: 'musicalKorName' },
   ];
 
   const orderState = [
-    { id: 1, categoryName: '공연중', queryName: 'MUSICAL_ONAIR' },
-    { id: 2, categoryName: '개막 예정', queryName: 'MUSICAL_YET' },
-    { id: 3, categoryName: '공연 종료', queryName: 'MUSICAL_FINISH' },
+    { id: 1, categoryName: '공연중', queryValue: 'MUSICAL_ONAIR' },
+    { id: 2, categoryName: '개막 예정', queryValue: 'MUSICAL_YET' },
+    { id: 3, categoryName: '공연 종료', queryValue: 'MUSICAL_FINISH' },
   ];
 
   const orderGenre = [
-    { id: 1, categoryName: '창작', queryName: 'GENRE_CREATED' },
-    { id: 2, categoryName: '라이센스', queryName: 'GENRE_LICENSED' },
-    { id: 3, categoryName: '오리지널', queryName: 'GENRE_ORIGINAL' },
+    { id: 1, categoryName: '창작', queryValue: 'GENRE_CREATED' },
+    { id: 2, categoryName: '라이센스', queryValue: 'GENRE_LICENSED' },
+    { id: 3, categoryName: '오리지널', queryValue: 'GENRE_ORIGINAL' },
   ];
 
   const defaultFilter = { categoryName: '카테고리 선택' };
@@ -87,33 +87,33 @@ function PlaysPage() {
     setSortFilter(sort);
     setStateFilter(defaultFilter);
     setGenreFilter(defaultFilter);
-    navigate(`?page=1&size=20&sort=${sort.queryName}`);
+    navigate(`?page=1&size=20&sort=${sort.queryValue}`);
   };
 
   const handleStateFilter = state => {
     setSortFilter(orderSort[0]);
     setStateFilter(state);
     setGenreFilter(defaultFilter);
-    navigate(`?page=1&size=20&state=${state.queryName}`);
+    navigate(`?page=1&size=20&state=${state.queryValue}`);
   };
 
   const handleGenreFilter = genre => {
     setSortFilter(orderSort[0]);
     setStateFilter(defaultFilter);
     setGenreFilter(genre);
-    navigate(`?page=1&size=20&genre=${genre.queryName}`);
+    navigate(`?page=1&size=20&genre=${genre.queryValue}`);
   };
 
   const handlePagination = page => {
     switch (filter) {
       case 'sort':
-        navigate(`?page=${page}&size=20&sort=${sortFilter.queryName}`);
+        navigate(`?page=${page}&size=20&sort=${sortFilter.queryValue}`);
         break;
       case 'state':
-        navigate(`?page=${page}&size=20&state=${stateFilter.queryName}`);
+        navigate(`?page=${page}&size=20&state=${stateFilter.queryValue}`);
         break;
       case 'genre':
-        navigate(`?page=${page}&size=20&genre=${genreFilter.queryName}`);
+        navigate(`?page=${page}&size=20&genre=${genreFilter.queryValue}`);
         break;
       default:
         navigate(`?page=${page}&size=20`);
