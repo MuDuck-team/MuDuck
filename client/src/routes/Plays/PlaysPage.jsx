@@ -50,7 +50,6 @@ function PlaysPage() {
   const navigate = useNavigate();
   const { responseData, filter } = useLoaderData();
   const { musicals, pageInfo } = responseData;
-  console.log(filter);
 
   const orderSort = [
     { id: 1, categoryName: '최신순', queryName: 'openDate' },
@@ -153,26 +152,34 @@ function PlaysPage() {
           selectedValue={genreFilter}
         />
       </FilterContainer>
-      <CardContainer>
-        {musicals.map(musical => (
-          <ImageCard
-            key={musical.id}
-            id={musical.id}
-            size="medium"
-            src={musical.poster}
-            alt={musical.musicalKorName}
-            title={musical.musicalKorName}
-            actors={musical.actors}
+      {musicals.length === 0 ? (
+        <InformationText>
+          Sorry, there is no content in the category.
+        </InformationText>
+      ) : (
+        <>
+          <CardContainer>
+            {musicals.map(musical => (
+              <ImageCard
+                key={musical.id}
+                id={musical.id}
+                size="medium"
+                src={musical.poster}
+                alt={musical.musicalKorName}
+                title={musical.musicalKorName}
+                actors={musical.actors}
+              />
+            ))}
+          </CardContainer>
+          <Paging
+            activePage={pageInfo.page}
+            itemsCount={pageInfo.size}
+            totalItemCount={pageInfo.totalElements}
+            pageRange={pageInfo.totalPages}
+            setPage={handlePagination}
           />
-        ))}
-      </CardContainer>
-      <Paging
-        activePage={pageInfo.page}
-        itemsCount={pageInfo.size}
-        totalItemCount={pageInfo.totalElements}
-        pageRange={pageInfo.totalPages}
-        setPage={handlePagination}
-      />
+        </>
+      )}
     </PlayPageLayout>
   );
 }
@@ -204,6 +211,15 @@ const FilterContainer = styled.div`
 
 const FilterName = styled.span`
   font-size: var(--font-size-sm);
+`;
+
+const InformationText = styled.p`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 400px;
+  font-size: var(--font-size-xl);
 `;
 
 const CardContainer = styled.div`
