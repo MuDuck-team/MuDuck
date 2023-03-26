@@ -15,4 +15,13 @@ public class MyPageDto {
         private String title;
         private String createdAt;
     }
+
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @Builder
+    @Getter
+    public static class commentsResponse {
+        private long boardId;
+        private String body;
+        private String createdAt;
+    }
 }
