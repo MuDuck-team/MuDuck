@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 
@@ -21,9 +22,6 @@ public class RecommendPlaceDto {
         @NotNull
         @Positive
         private long memberId;
-        @NotNull
-        @Positive
-        private long mapId;
         @DecimalMin(value = "0.0", message = "최소 0.0 이상으로 입력해주세요")
         @DecimalMax(value = "5.0", message = "최대 5.0 이하로 입력해주세요")
         private double score;
@@ -31,7 +29,8 @@ public class RecommendPlaceDto {
         @Length(min = 3, max = 50)
         private String oneLine;
     }
-
+    @Getter
+    @AllArgsConstructor
     public static class Patch{
         @Positive
         private long memberId;
@@ -43,7 +42,8 @@ public class RecommendPlaceDto {
         @Length(min = 3, max = 50)
         private String oneLine;
     }
-
+    @Getter
+    @AllArgsConstructor
     public static class Response{
         private long id;
         private long memberId;

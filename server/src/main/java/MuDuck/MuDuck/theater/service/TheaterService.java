@@ -35,18 +35,18 @@ public class TheaterService {
 
     public List<Theater> getTheaters(){
 
-        return theaterRepository.findAll(Sort.by("theaterId").descending());
+        return theaterRepository.findAll();
 
     }
 
-    public Theater getTheater(Long id){
+    public Theater getTheater(long id){
 
         Theater findTheater = findVerifiedTheater(id);
 
         return findTheater;
     }
 
-    public void deleteTheater(Long id){
+    public void deleteTheater(long id){
         verifiedExistsTheater(id);
 
         Theater theater = findVerifiedTheater(id);
@@ -55,7 +55,7 @@ public class TheaterService {
     }
     
     // 해당 극장이 있는지 검증
-    public void verifiedExistsTheater(Long id){
+    public void verifiedExistsTheater(long id){
 
         Optional<Theater> optionalTheater = theaterRepository.findById(id);
 
@@ -66,7 +66,7 @@ public class TheaterService {
     }
 
     // 극장 검증 및 반환
-    public Theater findVerifiedTheater(Long id){
+    public Theater findVerifiedTheater(long id){
 
         Optional<Theater> optionalTheater = theaterRepository.findById(id);
 

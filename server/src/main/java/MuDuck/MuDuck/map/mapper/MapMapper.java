@@ -1,6 +1,7 @@
 package MuDuck.MuDuck.map.mapper;
 
 import MuDuck.MuDuck.map.dto.AvgDto;
+import MuDuck.MuDuck.map.dto.MapDto;
 import MuDuck.MuDuck.map.entity.AvgEntity;
 import MuDuck.MuDuck.map.groupcode.GroupCode;
 import java.util.Iterator;
@@ -37,5 +38,7 @@ public interface MapMapper {
             return map;
         }
     };
+    @Mapping(target="theater.theaterId", source = "theaterId")
+    MuDuck.MuDuck.map.entity.Map postMapToMap(MapDto.Post post);
 
 }
