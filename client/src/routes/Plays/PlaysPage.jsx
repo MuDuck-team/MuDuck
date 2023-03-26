@@ -154,7 +154,7 @@ function PlaysPage() {
       </FilterContainer>
       {musicals.length === 0 ? (
         <InformationText>
-          Sorry, there is no content in the category.
+          조건에 해당하는 뮤지컬이 존재하지 않습니다
         </InformationText>
       ) : (
         <>
