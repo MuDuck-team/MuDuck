@@ -42,14 +42,11 @@ public class MemberService {
 
     public Member getMember(long memberId){
 
-        log.info("getMember 에 들어온 값 : {}", memberId);
-
         return findVerifiedMember(memberId);
 
     }
 
     private Member findVerifiedMember(long memberId) {
-        log.info("Service 에 들어온 아이디 값 : {}", memberId);
 
         Optional<Member> optionalMember = memberRepository.findById(memberId);
 

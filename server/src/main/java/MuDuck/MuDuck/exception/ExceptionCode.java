@@ -27,9 +27,14 @@ public enum ExceptionCode {
     COMMENT_REMOVED(404, "Comment Already Removed"),
     INVALID_COMMENT(400, "Can't post reply to reply"),
     INVALID_ACTOR_STATE(400, "Invalid musical state"),
+    MAP_NOT_FOUND(404,"Map not found"),
+    MAP_EXISTS(409, "Map exists"),
+    RECOMMEND_PLACE_NOT_FOUND(404, "Recommend place not found"),
+    RECOMMEND_PLACE_EXISTS(409, "Recommend place exists"),
     BOARD_LIKE_EXISTS(409, "Already Clicked Like Button"),
     BOARD_LIKE_NOT_FOUND(404, "BoardLike not found"),
     NOT_FOUND_COOKIE(404, "Cookie Not Found");
+
 
 
     @Getter

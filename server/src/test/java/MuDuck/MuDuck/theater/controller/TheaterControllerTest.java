@@ -3,12 +3,10 @@ package MuDuck.MuDuck.theater.controller;
 import static MuDuck.MuDuck.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static MuDuck.MuDuck.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
@@ -21,7 +19,6 @@ import MuDuck.MuDuck.theater.entitiy.Theater;
 import MuDuck.MuDuck.theater.mapper.TheaterMapper;
 import MuDuck.MuDuck.theater.service.TheaterService;
 import com.google.gson.Gson;
-import com.google.gson.JsonParser;
 import com.jayway.jsonpath.JsonPath;
 import java.util.ArrayList;
 import java.util.List;
@@ -88,7 +85,7 @@ class TheaterControllerTest {
                 .roadAddress("서울시 어쩌구 저쩌구")
                 .build();
 
-        for(int i = 2; i <= 4; i++){
+        for(int i = 1; i <= 4; i++){
 
             theater.setTheaterId((long)i);
             theater.setPlaceName("오둥이극장"+i);
@@ -114,7 +111,7 @@ class TheaterControllerTest {
     @WithMockUser
     void getTheaters() throws Exception {
         // given
-        given(theaterService.getTheaters()).willReturn(theaterList);
+        given(theaterService.getTheaters()).willReturn(new ArrayList<>());
         given(theaterMapper.theaterListToTheaterResponseList(Mockito.anyList()))
                 .willReturn(responses);
         // when
