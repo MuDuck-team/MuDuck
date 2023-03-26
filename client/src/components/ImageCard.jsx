@@ -8,9 +8,7 @@ function ImageCard({ id, size, src, alt, title, actors, ...props }) {
     navigate(`/play/${id}`);
   };
 
-  const actorsList = [];
-  actors.map(actor => actorsList.push(actor.actorName));
-  const actorList = actorsList.join(', ');
+  const actorList = actors.map(actor => actor.actorName).join(', ');
 
   return (
     <CardContainer size={size} onClick={onClick} {...props}>
