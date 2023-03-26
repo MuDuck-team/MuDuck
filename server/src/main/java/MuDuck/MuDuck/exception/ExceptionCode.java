@@ -22,7 +22,11 @@ public enum ExceptionCode {
     ACTOR_NOT_FOUND(404,"Musical not found"),
     ACTOR_EXISTS(409, "Musical exists"),
     INVALID_ACTOR_STATE(400, "Invalid musical state"),
-    NOT_FOUND_COOKIE(404, "Cookie Not Found");
+    NOT_FOUND_COOKIE(404, "Cookie Not Found"),
+    MAP_NOT_FOUND(404,"Map not found"),
+    MAP_EXISTS(409, "Map exists"),
+    RECOMMEND_PLACE_NOT_FOUND(404, "Recommend place not found"),
+    RECOMMEND_PLACE_EXISTS(409, "Recommend place exists");
 
 
     @Getter

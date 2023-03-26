@@ -1,5 +1,6 @@
 package MuDuck.MuDuck.member.controller;
 
+import static MuDuck.MuDuck.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static MuDuck.MuDuck.utils.ApiDocumentUtils.getResponsePreProcessor;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -242,6 +243,7 @@ class MemberControllerTest {
                 .andExpect(jsonPath("$.profileImageUrl").value(response.getProfileImageUrl()))
                 .andExpect(jsonPath("$.role").value(response.getRole()))
                 .andDo(document("update-member",
+                        getRequestPreProcessor(),
                         getResponsePreProcessor(),
                         requestFields(
                                 List.of(

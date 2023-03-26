@@ -172,7 +172,7 @@ include::{snippets}/update-member/http-response.adoc[]
 include::{snippets}/update-member/response-fields.adoc[]
 
 == MapController
-=== 평균 평점 및 총 리뷰수가 있는 지도 정보 조회
+=== 평균 평점 및 총 한줄평 수가 있는 지도 정보 조회
 .http-request
 include::{snippets}/get-map-include-avg-score-total-reviews/http-request.adoc[]
 
@@ -181,3 +181,17 @@ include::{snippets}/get-map-include-avg-score-total-reviews/http-response.adoc[]
 
 .response-fields
 include::{snippets}/get-map-include-avg-score-total-reviews/response-fields.adoc[]
+
+== RecommendPlaceController
+=== 지도정보와 평점과 한줄평 등록 하기
+.http-request
+include::{snippets}/post-recommendPlace/http-request.adoc[]
+
+.request-fields
+include::{snippets}/post-recommendPlace/request-fields.adoc[]
+
+.http-response
+include::{snippets}/post-recommendPlace/http-response.adoc[]
+
+.response-fields
+include::{snippets}/post-recommendPlace/response-fields.adoc[]

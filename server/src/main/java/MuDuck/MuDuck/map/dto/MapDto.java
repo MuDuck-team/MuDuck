@@ -25,7 +25,7 @@ public class MapDto {
         @URL
         @NotNull
         private String placeUrl;
-        @Length(min = 1, max = 30)
+        @Length(min = 2, max = 30)
         private String placeName;
         @DecimalMin(value = "124.0", message = "경도를 최소 124.0 이상으로 입력해주세요")
         @DecimalMax(value = "133.0", message = "경도를 최대 133.0 이하로 입력해주세요")
@@ -37,7 +37,9 @@ public class MapDto {
         private String categoryGroupCode;
         @Pattern(regexp = "^\\d{2,3}-?\\d{3,4}-?\\d{4}$", message = "올바른 전화번호를 입력해주세요")
         private String phone;
+
         private String address;
+
         private String roadAddress;
     }
 }
