@@ -1,5 +1,6 @@
 package MuDuck.MuDuck.musical.mapper;
 
+import MuDuck.MuDuck.musical.dto.MusicalBoardsDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto.ResponseMusicalBoards;
 import MuDuck.MuDuck.musical.entity.Category;
@@ -15,6 +16,9 @@ public interface MusicalMapper {
 
     List<MusicalDto.ResponseMusicals> musicalsToMusicalResponseDtos(List<Musical> musicals);
 
+    default MusicalBoardsDto.Response musicalBoardEntityToResponse(MusicalBoards musicalBoards){
+        return null;
+    }
 
     default MusicalDto.ResponseMusicalBoards boardsToMusicalResponseDtos(Musical musical,
             List<MusicalBoards> responseBoards, Category category) {

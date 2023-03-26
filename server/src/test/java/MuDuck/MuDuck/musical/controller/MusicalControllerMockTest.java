@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import MuDuck.MuDuck.actor.entity.Actor;
+import MuDuck.MuDuck.actorMusical.service.ActorMusicalService;
 import MuDuck.MuDuck.musical.dto.ActorMusicalResponseDto;
 import MuDuck.MuDuck.actorMusical.repository.ActorMusicalRepository;
 import MuDuck.MuDuck.musical.entity.Category;
@@ -82,6 +83,9 @@ class MusicalControllerMockTest {
 
     @MockBean
     private TheaterMapper theaterMapper;
+
+    @MockBean
+    private ActorMusicalService actorMusicalService;
 
     @MockBean
     private ActorMusicalRepository actorMusicalRepository;
@@ -269,7 +273,7 @@ class MusicalControllerMockTest {
 
     @Test
     @WithMockUser
-    @DisplayName("조건에 따른 작품 전체 목록 조회")
+    @DisplayName("장르에 따른 작품 전체 목록 조회")
     public void getMusicalGenresTest() throws Exception {
         //given
         MultiValueMap<String, String>
@@ -343,7 +347,7 @@ class MusicalControllerMockTest {
 
     @Test
     @WithMockUser
-    @DisplayName("작품 필터별 목록 조회")
+    @DisplayName("필터별 작품 전체 목록 조회")
     public void getMusicalFiltersTest() throws Exception {
         //given
         MultiValueMap<String, String>
@@ -420,7 +424,7 @@ class MusicalControllerMockTest {
 
     @Test
     @WithMockUser
-    @DisplayName("작품 상태별 목록 조회")
+    @DisplayName("공연 상태별 작품전체 목록 조회")
     public void getMusicalStatesTest() throws Exception {
         //given
         MultiValueMap<String, String>

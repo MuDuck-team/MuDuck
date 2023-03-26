@@ -40,7 +40,6 @@ public class MusicalController {
     private final TheaterService theaterService;
     private final TheaterMapper theaterMapper;
     private final ActorMusicalService actorMusicalService;
-    private final ActorMusicalMapper actorMusicalMapper;
 
     @GetMapping
     public ResponseEntity getMusicals(@Positive @RequestParam int page, @Positive @RequestParam int size){

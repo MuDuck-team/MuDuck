@@ -25,9 +25,9 @@ public interface MusicalRepository extends JpaRepository<Musical, Long> {
     @Query(value = "SELECT * FROM MUSICALS as m WHERE m.MUSICAL_STATE = :state", nativeQuery = true)
     Page<Musical> findByMusicalState(String state, Pageable pageable);
 
-    @Query(value = "select a.title, a.created_at as createdAt , a.views, a.likes, b.nick_name as nickname from board a join member b ON a.member_id = b.member_id where board_id IN (select board_id  from board_category where category_id IN (SELECT category_id from category where musical_id = :musicalId))", nativeQuery = true)
+    @Query(value = "SELECT b.title, b.created_at AS createdAt , b.views, b.likes, m.nick_name AS nickname FROM board b JOIN member m ON b.member_id = m.member_id WHERE board_id IN (SELECT board_id  FROM board_category WHERE category_id IN (SELECT category_id FROM category WHERE musical_id = :musicalId))", nativeQuery = true)
     List<MusicalBoards> findBoardByMusicalId(@Param("musicalId") Long musicalId);
 
-    @Query(value = "SELECT category_name as categoryName from category where musical_id = :musicalId", nativeQuery = true)
+    @Query(value = "SELECT category_name AS categoryName FROM category WHERE musical_id = :musicalId", nativeQuery = true)
     Category findCategoryByMusicalId(@Param("musicalId") Long musicalId);
 }

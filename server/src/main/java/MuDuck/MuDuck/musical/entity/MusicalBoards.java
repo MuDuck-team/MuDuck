@@ -10,4 +10,5 @@ public interface MusicalBoards {
     String getCreatedAt();
     Integer getViews();
     Integer getLikes();
+
 }
