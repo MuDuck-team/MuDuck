@@ -5,11 +5,11 @@ import { IoIosClose } from 'react-icons/io';
 import ProfileImg from '../../components/ProfileImage/ProfileImg';
 import Button from '../../components/Button';
 
-function AboutMusical({ musicalData, actorsData }) {
+function AboutMusical({ musical, actors, theater }) {
   const [showModal, setShowModal] = useState(false);
 
   const arr = [];
-  actorsData.actors.forEach(casting => {
+  actors.forEach(casting => {
     arr.push(casting.role);
   });
   const playNameArr = [...new Set(arr)];
@@ -21,42 +21,45 @@ function AboutMusical({ musicalData, actorsData }) {
   return (
     <DetailsBox>
       <Title>
-        {musicalData.musicals.musicalKorName}
-        <DescriptionText textColor="var(--main-003)">
-          {musicalData.musicals.musicalEngName}
+        {musical.musicalKorName}
+        <DescriptionText textColor="#999999" fontWeight="600">
+          {musical.musicalEngName}
         </DescriptionText>
       </Title>
       <SubTitle>
         세부장르
-        <DescriptionText>{musicalData.musicals.genre}</DescriptionText>
+        <DescriptionText>{musical.genre}</DescriptionText>
       </SubTitle>
       <SubTitle>
         공연장소
-        <PlaceLink to={`/nearby${musicalData.theaters.id}`}>
-          {musicalData.theaters.theaterName}
+        <PlaceLink to={`/nearby/${theater.theaterId}`}>
+          {theater.theaterName}
         </PlaceLink>
       </SubTitle>
       <SubTitle>
         공연기간
         <DescriptionText>
-          `{musicalData.musicals.openDate}~{musicalData.musicals.closeDate}`
+          {musical.openDate}~{musical.closeDate}
         </DescriptionText>
       </SubTitle>
       <SubTitle>
         공연시간
         <DescriptionText>
-          {musicalData.musicals.runningTime}
-          `(${musicalData.musicals.intermission}분)`
+          {musical.runningTime} (인터미션 : {musical.intermission}분)
         </DescriptionText>
       </SubTitle>
       <SubTitle>
         관람연령
-        <DescriptionText>{musicalData.age}</DescriptionText>
+        <DescriptionText>{musical.age}</DescriptionText>
       </SubTitle>
-      <SubTitle>
-        줄거리
-        <DescriptionText>{musicalData.musicalInfo}</DescriptionText>
-      </SubTitle>
+      <PlotBox>
+        <SubTitle letterSpacing="0.65rem" marginRight="0.65rem">
+          줄거리
+        </SubTitle>
+        <DescriptionText marginLeft="0" lineHeight="2rem">
+          {musical.musicalInfo}
+        </DescriptionText>
+      </PlotBox>
       <ActorsBox>
         <HeadingBox>
           <DescriptionText
@@ -93,7 +96,7 @@ function AboutMusical({ musicalData, actorsData }) {
                       {playName} 역
                     </SubTitle>
                     <ModalActorProfileBox>
-                      {actorsData.actors.map(actor => {
+                      {actors.map(actor => {
                         return actor.role === playName ? (
                           <Profilelist key={actor.actorName}>
                             <ProfileImg
@@ -113,7 +116,7 @@ function AboutMusical({ musicalData, actorsData }) {
         ) : null}
 
         <ActorProfileBox>
-          {actorsData.actors.slice(0, 5).map((actor, idx) => {
+          {actors.slice(0, 5).map((actor, idx) => {
             return (
               <Profilelist key={idx}>
                 <ProfileImg
@@ -150,7 +153,9 @@ const DescriptionText = styled.span`
   font-weight: ${({ fontWeight }) => fontWeight || 200};
   color: ${({ textColor }) => textColor || 'var(--font-color)'};
   margin-left: ${({ marginLeft }) => marginLeft || '1.2rem'};
+  line-height: ${({ lineHeight }) => lineHeight || 'inherit'};
 `;
+
 const PlaceLink = styled(Link)`
   margin-left: 1rem;
   font-weight: 600;
@@ -161,19 +166,29 @@ const SubTitle = styled.h3`
   font-size: ${({ fontSize }) => fontSize || 'var(--font-size-sm)'};
   font-weight: ${({ fontWeight }) => fontWeight || '400'};
   color: var(--font-color);
-  margin-right: 2rem;
+  margin-right: ${({ marginRight }) => marginRight || '2rem'};
   margin-bottom: 0.8rem;
   margin-top: ${({ marginTop }) => marginTop || '0'};
+  white-space: nowrap;
+  letter-spacing: ${({ letterSpacing }) => letterSpacing || '0'};
+`;
+
+const PlotBox = styled.div`
+  width: 100%;
+  display: flex;
 `;
 
 const ActorsBox = styled(DetailsBox)`
   width: 100%;
-  margin-top: 3rem;
+  /* margin-top: 3rem; */
+  padding: 0;
+  margin: 3rem 0 0 0;
 `;
 
 const HeadingBox = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-bottom: 1.2rem;
 `;
 
 const ActorProfileBox = styled.ul`
@@ -181,7 +196,7 @@ const ActorProfileBox = styled.ul`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  padding: 1rem;
+  /* padding: 1rem; */
 
   @media screen and (max-width: 768px) {
     width: 100%;
