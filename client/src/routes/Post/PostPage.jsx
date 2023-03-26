@@ -4,6 +4,7 @@ import {
   Link,
   redirect,
   useLoaderData,
+  useNavigate,
   useSubmit,
 } from 'react-router-dom';
 import styled from 'styled-components';
@@ -18,16 +19,22 @@ import Button from '../../components/Button';
 import CommentList from './CommentList';
 
 export async function loader({ params }) {
-  const response = await customAxios.get(`/boards/${params.id}`);
+  const localToken = localStorage.getItem('localToken');
+  const response = await customAxios({
+    method: 'get',
+    url: `/boards/${params.id}`,
+    headers: {
+      Authorization: localToken,
+    },
+  });
   const responseData = response.data;
-  return { responseData };
+  return { params, localToken, responseData };
 }
 
 export async function action({ request, params }) {
   const localToken = localStorage.getItem('localToken');
   const formData = await request.formData();
   const body = Object.fromEntries(formData);
-
   const response = await customAxios.post(
     `/boards/${params.id}/comments`,
     body,
@@ -38,20 +45,44 @@ export async function action({ request, params }) {
     },
   );
   console.log(response);
-
   return redirect('.');
 }
 
 function PostPage() {
-  const { responseData } = useLoaderData();
+  const { params, localToken, responseData } = useLoaderData();
   const { boardContent, comments } = responseData;
   const { head, body, liked } = boardContent;
 
+  const navigate = useNavigate();
   const user = useRecoilValue(userInfo);
   const [isLike, setIsLike] = useState(liked);
 
-  const toggleLike = () => {
-    setIsLike(!isLike);
+  const clickLike = () => {
+    customAxios({
+      method: 'post',
+      url: `/boards/${params.id}/like`,
+      headers: {
+        Authorization: localToken,
+      },
+    }).then(response => {
+      setIsLike(true);
+      console.log(response);
+      if (response.status === 200) navigate('.');
+    });
+  };
+
+  const cancelLike = () => {
+    customAxios({
+      method: 'delete',
+      url: `/boards/${params.id}/like`,
+      headers: {
+        Authorization: localToken,
+      },
+    }).then(response => {
+      setIsLike(false);
+      console.log(response);
+      if (response.status === 204) navigate('.');
+    });
   };
 
   const submit = useSubmit();
@@ -75,6 +106,7 @@ function PostPage() {
       <Category>커뮤니티</Category>
       <ContentContainer>
         <WriterInfo
+          memberId={head.memberId}
           profileUrl={head.userProfile}
           nickname={head.nickname}
           createdAt={head.createdAt}
@@ -89,9 +121,9 @@ function PostPage() {
       </ContentContainer>
       <LinkContainer>
         {user && (
-          <PostLike onClick={toggleLike}>
+          <PostLike onClick={isLike ? cancelLike : clickLike}>
             {isLike ? <FillHeartIcon /> : <OutlineHeartIcon />}
-            <ListText>스크랩</ListText>
+            <ListText>좋아요</ListText>
           </PostLike>
         )}
         <ListLink to="/posts">
@@ -164,6 +196,7 @@ const PostCotent = styled.p`
   min-height: 400px;
   font-size: var(--font-size-md);
   line-height: 2em;
+  white-space: pre-wrap;
 `;
 
 const LinkContainer = styled.div`
