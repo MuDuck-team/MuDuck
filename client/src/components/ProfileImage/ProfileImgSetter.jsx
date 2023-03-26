@@ -1,13 +1,13 @@
 import { useState, useRef } from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 
 //  ProfileSubmitSrc
 
-function ProfileImgSetter({ uploadSrc, setUploadSrc }) {
-  const defualtPhotoUrl =
-    'https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png';
+function ProfileImgSetter({ uploadSrc, setUploadSrc, defualtPhotoUrl }) {
+  // const defualtPhotoUrl =
+  //   'https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png';
   //  프리뷰용 state
-  const [image, setImage] = useState(defualtPhotoUrl);
+  const [image, setImage] = useState(`${defualtPhotoUrl}`);
   const imageRef = useRef(null);
 
   const onChange = event => {
@@ -72,13 +72,7 @@ const Avatar = styled.img`
   border-radius: 50%;
   filter: brightness(0.8);
   background-color: transparent;
-
-  ${props =>
-    !props.uploadSrc &&
-    css`
-      filter: brightness(0.2);
-      transition: ease-in 0.08s;
-    `}
+  object-fit: cover;
 `;
 
 const FileInput = styled.input`

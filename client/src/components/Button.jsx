@@ -63,6 +63,11 @@ const GlobalButton = styled.button`
   :active {
     background-color: ${({ active }) => active || '#EA6D1C'};
   }
+  :disabled {
+    cursor: default;
+    opacity: 0.5;
+    background: var(--button-color);
+  }
 `;
 
 export default Button;

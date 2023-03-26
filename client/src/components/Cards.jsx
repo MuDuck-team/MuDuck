@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import StarRating from './StarRating';
 
 export function ArticleCard({
-  url,
+  userProfile,
   nickname,
   title,
   view,
@@ -22,11 +22,12 @@ export function ArticleCard({
   marginRight,
   titlefontSize,
   titleMarginBottom,
+  type,
 }) {
   const navigate = useNavigate();
 
   const onClick = () => {
-    if (commentCount) {
+    if (type === 'post') {
       navigate(`/post/${id}`);
     } else {
       navigate(`/notice/${id}`);
@@ -46,12 +47,12 @@ export function ArticleCard({
     >
       <ContentWrapper>
         <TopWrapper titleMarginBottom={titleMarginBottom}>
-          <img alt="profile" src={url} />
+          <img alt="profile" src={userProfile} />
           {nickname} {lastCreatedAt}
         </TopWrapper>
         <BottomWrapper>
           <TitleWrapper titlefontSize={titlefontSize}>{title}</TitleWrapper>
-          {commentCount && (
+          {type === 'post' && (
             <IconsWrapper>
               <Icon>
                 <AiOutlineEye /> {view}
