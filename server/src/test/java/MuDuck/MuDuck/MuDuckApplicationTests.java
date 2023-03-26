@@ -7,7 +7,7 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBootTest
 class MuDuckApplicationTests {
 
-	//@Test
+	@Test
 	void contextLoads() {
 	}
 
