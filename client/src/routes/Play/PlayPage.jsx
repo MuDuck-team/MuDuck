@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useNavigate, useLoaderData, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import AboutMusical from './AboutMusical';
@@ -8,6 +9,7 @@ import {
   getActorsDetail,
   getRelatedBoard,
 } from '../../api/muduckApi';
+import customAxios from '../../api/customAxios';
 
 export async function loader({ params }) {
   const [musicalData, actorsData, postsData] = await Promise.all([
@@ -20,14 +22,29 @@ export async function loader({ params }) {
 
 function PlayPage() {
   const navigate = useNavigate();
+  const [nearbyData, setNearbyData] = useState({});
   const { musicalData, actorsData, postsData } = useLoaderData();
   const { musical, theater } = musicalData.data;
   const { actors } = actorsData.data;
   const { boards } = postsData.data;
-
   console.log(musicalData);
   console.log(actorsData);
   console.log(postsData);
+
+  useEffect(() => {
+    async function getNearbyTheaterData(theaterId) {
+      await customAxios({
+        method: 'get',
+        url: `/maps/theater/${theaterId}`,
+      }).then(res => {
+        return setNearbyData(res);
+      });
+    }
+    getNearbyTheaterData(theater.theaterId);
+  }, []);
+
+  console.log(`근짱이 요청한 지도데이터👇`);
+  console.log(nearbyData);
 
   return (
     <Container>
