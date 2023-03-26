@@ -86,4 +86,20 @@ public interface BoardMapper {
                 .build();
         return response;
     }
+
+    default BoardDto.BoardContentHead boardToBoardContentHead(Board board){
+        Member member = board.getMember();
+        BoardDto.BoardContentHead response = BoardContentHead.builder()
+                .memberId(member.getMemberId())
+                .userProfile(member.getPicture())
+                .nickname(member.getNickName())
+                .createdAt(board.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
+                .view(board.getViews())
+                .like(board.getLikes())
+                .totalComment(board.getCommentsSize())
+                .build();
+        return response;
+    }
+
+    List<BoardDto.BoardContentHead> boardsToBoardContentHead(List<Board> boards);
 }

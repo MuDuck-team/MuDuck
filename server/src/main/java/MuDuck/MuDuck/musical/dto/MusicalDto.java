@@ -1,8 +1,8 @@
 package MuDuck.MuDuck.musical.dto;
 
+import MuDuck.MuDuck.board.dto.BoardDto;
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
-import MuDuck.MuDuck.musical.entity.MusicalBoards;
 import MuDuck.MuDuck.theater.dto.TheaterDto.ResponseUsedMusical;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
@@ -130,8 +130,10 @@ public class MusicalDto {
     public static class ResponseMusicalBoards {
 
         private Long musicalId;
-        private List<MusicalBoards> boards;
+        private List<BoardDto.BoardContentHead> boards;
         private Category category;
+
+
     }
 
 

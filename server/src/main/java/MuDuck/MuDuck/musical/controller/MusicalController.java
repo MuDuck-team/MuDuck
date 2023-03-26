@@ -1,14 +1,14 @@
 package MuDuck.MuDuck.musical.controller;
 
-import MuDuck.MuDuck.actorMusical.mapper.ActorMusicalMapper;
 import MuDuck.MuDuck.actorMusical.service.ActorMusicalService;
+import MuDuck.MuDuck.board.entity.Board;
+import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.musical.dto.ActorMusicalDto.MappingActorResponseDto;
-import MuDuck.MuDuck.musical.entity.Response;
 import MuDuck.MuDuck.musical.dto.MusicalDto.MappingResponseDto;
 import MuDuck.MuDuck.musical.dto.MusicalDto.MultiResponseDto;
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
-import MuDuck.MuDuck.musical.entity.MusicalBoards;
+import MuDuck.MuDuck.musical.entity.Response;
 import MuDuck.MuDuck.musical.mapper.MusicalMapper;
 import MuDuck.MuDuck.musical.service.MusicalService;
 import MuDuck.MuDuck.theater.entitiy.Theater;
@@ -40,6 +40,7 @@ public class MusicalController {
     private final TheaterService theaterService;
     private final TheaterMapper theaterMapper;
     private final ActorMusicalService actorMusicalService;
+    private final BoardMapper boardMapper;
 
     @GetMapping
     public ResponseEntity getMusicals(@Positive @RequestParam int page, @Positive @RequestParam int size){
@@ -89,10 +90,9 @@ public class MusicalController {
 
     @GetMapping("/{musical-id}/board")
     public ResponseEntity getBoards(@PathVariable("musical-id") @Positive Long musicalId){
-        Musical musical = musicalService.findMusical(musicalId);
-        List<MusicalBoards> responseBoards = musicalService.findMusicalBoards(musicalId);
+        List<Board> responseBoards = musicalService.findMusicalBoards(musicalId);
         Category responseCategory = musicalService.findCategoryName(musicalId);
-        return new ResponseEntity<>(musicalMapper.boardsToMusicalResponseDtos(musical, responseBoards,
+        return new ResponseEntity<>(musicalMapper.boardsToMusicalResponseDtos(musicalId, boardMapper.boardsToBoardContentHead(responseBoards),
                 responseCategory), HttpStatus.OK);
     }
 

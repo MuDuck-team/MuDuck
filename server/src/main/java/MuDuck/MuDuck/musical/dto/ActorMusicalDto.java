@@ -1,9 +1,7 @@
 package MuDuck.MuDuck.musical.dto;
 
-import MuDuck.MuDuck.musical.entity.Response;
 import java.util.List;
 import javax.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
