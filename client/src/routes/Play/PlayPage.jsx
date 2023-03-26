@@ -1,4 +1,4 @@
-import { useNavigate, useLoaderData } from 'react-router-dom';
+import { useNavigate, useLoaderData, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import AboutMusical from './AboutMusical';
 import { ArticleCard } from '../../components/Cards';
@@ -92,7 +92,7 @@ function PlayPage() {
   //   ],
   // };
 
-  //  더미데이터3
+  // 더미데이터3;
   // const fakepostsData = {
   //   posts: [
   //     {
@@ -104,51 +104,51 @@ function PlayPage() {
   //       commentCount: '0',
   //       boardLike: '10',
   //     },
-  //     {
-  //       nickname: '해피',
-  //       title: 'H열 19번 좌석 조아',
-  //       lastCreatedAt: '2023.01.22',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Molly',
-  //       view: '21',
-  //       commentCount: '2',
-  //       boardLike: '1',
-  //     },
-  //     {
-  //       nickname: '반달',
-  //       title: '제작년이 더 좋았던듯?',
-  //       lastCreatedAt: '2023.01.20',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Abby',
-  //       view: '23',
-  //       commentCount: '3',
-  //       boardLike: '10',
-  //     },
-  //     {
-  //       nickname: '뮬리몰리',
-  //       title: '박효신 연기력 뭐임?',
-  //       lastCreatedAt: '2023.01.15',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Lucy',
-  //       view: '663',
-  //       commentCount: '52',
-  //       boardLike: '100',
-  //     },
-  //     {
-  //       nickname: '배고픈반달곰',
-  //       title: '이번달만 3번째임',
-  //       lastCreatedAt: '2023.01.12',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Angel',
-  //       view: '133',
-  //       commentCount: '2',
-  //       boardLike: '6',
-  //     },
-  //     {
-  //       nickname: '뮤지컬금단현상',
-  //       title: '아니? 마지막 왜저럼? 베토벤!?',
-  //       lastCreatedAt: '2023.01.11',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Sassy',
-  //       view: '121',
-  //       commentCount: '22',
-  //       boardLike: '10',
-  //     },
+  // {
+  //   nickname: '해피',
+  //   title: 'H열 19번 좌석 조아',
+  //   lastCreatedAt: '2023.01.22',
+  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Molly',
+  //   view: '21',
+  //   commentCount: '2',
+  //   boardLike: '1',
+  // },
+  // {
+  //   nickname: '반달',
+  //   title: '제작년이 더 좋았던듯?',
+  //   lastCreatedAt: '2023.01.20',
+  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Abby',
+  //   view: '23',
+  //   commentCount: '3',
+  //   boardLike: '10',
+  // },
+  // {
+  //   nickname: '뮬리몰리',
+  //   title: '박효신 연기력 뭐임?',
+  //   lastCreatedAt: '2023.01.15',
+  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Lucy',
+  //   view: '663',
+  //   commentCount: '52',
+  //   boardLike: '100',
+  // },
+  // {
+  //   nickname: '배고픈반달곰',
+  //   title: '이번달만 3번째임',
+  //   lastCreatedAt: '2023.01.12',
+  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Angel',
+  //   view: '133',
+  //   commentCount: '2',
+  //   boardLike: '6',
+  // },
+  // {
+  //   nickname: '뮤지컬금단현상',
+  //   title: '아니? 마지막 왜저럼? 베토벤!?',
+  //   lastCreatedAt: '2023.01.11',
+  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Sassy',
+  //   view: '121',
+  //   commentCount: '22',
+  //   boardLike: '10',
+  // },
   //   ],
   // };
 
@@ -164,33 +164,66 @@ function PlayPage() {
         <AboutMusical musical={musical} actors={actors} theater={theater} />
       </ContentSection>
       <ColumnContentSection>
-        <SubTitle fontSize="1.8rem" fontWeight="700" marginTop="3rem">
-          커뮤니티게시글
-        </SubTitle>
+        <HeadingBox>
+          <SubTitle fontSize="1.8rem" fontWeight="700" marginTop="3rem">
+            커뮤니티게시글
+          </SubTitle>
+        </HeadingBox>
         <CommunityContentSection>
-          {boards.map((post, idx) => {
+          {/* {fakepostsData.posts.map((post, idx) => {
             return (
               <ArticleCard
                 // id={post.}
+                type="post"
                 key={idx}
-                minWidth="350px"
-                width="49%"
+                minWidth="380px"
+                width="48%"
                 height="30%"
                 marginBottom="1.5rem"
-                marginRight="1%"
                 borderRadius="8px"
                 nickname={post.nickname}
                 title={post.title}
                 titlefontSize="1.6rem"
                 titleMarginBottom="1.5rem"
-                lastCreatedAt={post.createdAt.split(' ')[0]}
-                view={post.views}
-                url={post.profileImgUrl}
+                lastCreatedAt={post.lastCreatedAt}
+                view={post.view}
+                userProfile={post.url}
                 commentCount={post.commentCount}
-                boardLike={post.likes}
+                boardLike={post.boardLike}
               />
             );
-          })}
+          })} */}
+          {boards.length === 0 ? (
+            <AlertBox>
+              아직 관련된 이야기가 없어요 😅
+              <Link to="/posts">커뮤니티 다른 글 보러가기</Link>
+            </AlertBox>
+          ) : (
+            boards.map((post, idx) => {
+              return (
+                <ArticleCard
+                  // id={post.}
+                  type="post"
+                  key={idx}
+                  minWidth="380px"
+                  width="48%"
+                  height="30%"
+                  marginBottom="1.5rem"
+                  marginRight="1%"
+                  borderRadius="8px"
+                  nickname={post.nickname}
+                  title={post.title}
+                  titlefontSize="1.6rem"
+                  titleMarginBottom="1.5rem"
+                  lastCreatedAt={post.createdAt.split(' ')[0]}
+                  view={post.views}
+                  userProfile={post.profileImgUrl}
+                  commentCount={post.commentCount}
+                  boardLike={post.likes}
+                />
+              );
+            })
+          )}
         </CommunityContentSection>
       </ColumnContentSection>
       <ColumnContentSection>
@@ -222,9 +255,9 @@ const Container = styled.div`
   height: fit-content;
   display: flex;
   flex-direction: column;
-  /* border: 1px solid red; */
   padding-top: 40px;
   overflow-y: auto;
+
   @media screen and (max-width: 768px) {
     width: 100%;
     padding: 2rem;
@@ -246,23 +279,28 @@ const ContentSection = styled.section`
 `;
 const ColumnContentSection = styled(ContentSection)`
   flex-direction: column;
+  width: 100%;
   justify-content: flex-start;
   align-items: flex-start;
-  margin: 2rem 0 2rem 0;
+  padding: 3rem;
 
   @media screen and (max-width: 768px) {
     width: 100%;
-    padding: 3rem;
+    padding: 1rem;
   }
 `;
 
 const CommunityContentSection = styled(ContentSection)`
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 2px 2%;
+  margin: auto;
   flex-wrap: wrap;
-  padding: 1rem;
 
   @media screen and (max-width: 768px) {
     flex-wrap: wrap;
+    padding-left: 2%;
   }
 `;
 
@@ -295,7 +333,32 @@ const SubTitle = styled.h3`
 const HeadingBox = styled.div`
   display: flex;
   width: 100%;
+  padding: 2rem;
   justify-content: space-between;
+`;
+
+const AlertBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-size-xl);
+  border-radius: 8px;
+  background-color: rgba(224, 224, 224, 0.05);
+  width: 100%;
+  height: 32rem;
+
+  > a {
+    font-size: var(--font-size-sm);
+    font-weight: 300;
+    color: var(--main-003);
+    margin-top: 2rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 1rem;
+  }
 `;
 
 export default PlayPage;
