@@ -1,13 +1,23 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import MyMap from './MyMap';
 
-function MyMapContainer({ placeData, onMarkerClick }) {
+function MyMapContainer({
+  currentTheater,
+  onMarkerClick,
+  restaurants,
+  cafes,
+  parkings,
+}) {
   const [inputText, setInputText] = useState('');
   const [searchPlace, setSearchPlace] = useState('');
   const [category, setCategory] = useState('');
   // 처음에 들어갔을 때 경고창을 막기 위하여 작성
   const countRef = useRef(0);
+
+  useEffect(() => {
+    setCategory('');
+  }, [currentTheater]);
 
   const onChange = e => {
     setInputText(e.target.value);
@@ -72,9 +82,12 @@ function MyMapContainer({ placeData, onMarkerClick }) {
       <MyMap
         searchPlace={searchPlace}
         countRef={countRef}
-        placeData={placeData}
         category={category}
+        currentTheater={currentTheater}
         onMarkerClick={onMarkerClick}
+        restaurants={restaurants}
+        cafes={cafes}
+        parkings={parkings}
       />
     </StyledMapContainer>
   );

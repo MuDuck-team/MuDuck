@@ -7,9 +7,18 @@ import {
 
 const { kakao } = window;
 
-function MyMap({ searchPlace, countRef, placeData, category, onMarkerClick }) {
+function MyMap({
+  searchPlace,
+  countRef,
+  category,
+  onMarkerClick,
+  currentTheater,
+  restaurants,
+  cafes,
+  parkings,
+}) {
   useEffect(() => {
-    const { latitube: defalutLat, longitude: defalutLng } = placeData.theater;
+    const { latitude: defalutLat, longitude: defalutLng } = currentTheater;
 
     const theaterMarkerImageSrc =
       'https://muduckbucket.s3.ap-northeast-2.amazonaws.com/muduckIcon.png';
@@ -86,7 +95,6 @@ function MyMap({ searchPlace, countRef, placeData, category, onMarkerClick }) {
 
     // 검색결과 목록 하단에 페이지번호를 표시는 함수입니다
     function displayPagination(pagination) {
-      console.log(pagination);
       const paginationEl = document.getElementById('pagination');
       const fragment = document.createDocumentFragment();
 
@@ -264,14 +272,13 @@ function MyMap({ searchPlace, countRef, placeData, category, onMarkerClick }) {
       }
 
       if (category === 'restaurants') {
-        displayPlaces(placeData.restaurants, true);
+        displayPlaces(restaurants, true);
       }
       if (category === 'cafes') {
-        displayPlaces(placeData.cafes, true);
+        displayPlaces(cafes, true);
       }
       if (category === 'parkings') {
-        console.log(placeData.parkings);
-        displayPlaces(placeData.parkings, true);
+        displayPlaces(parkings, true);
       }
       displayPagination({});
       return undefined;
@@ -296,7 +303,7 @@ function MyMap({ searchPlace, countRef, placeData, category, onMarkerClick }) {
     // 키워드로 장소를 검색합니다
     searchPlaces();
     choiceCategory();
-  }, [searchPlace, placeData, category]);
+  }, [searchPlace, restaurants, cafes, parkings, category, currentTheater]);
 
   return (
     <StyledMapWrapper className="map_wrap">

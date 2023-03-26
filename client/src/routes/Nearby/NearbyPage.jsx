@@ -1,144 +1,55 @@
 import { useState } from 'react';
-import { Form, useLoaderData } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import customAxios from '../../api/customAxios';
 import Button from '../../components/Button';
 import { RatingCard } from '../../components/Cards';
+import Dropdown from '../../components/DropDown';
 import { StyledInput } from '../../components/Input';
 import StarRating from '../../components/StarRating';
+import { userInfo } from '../../recoil/userAtom';
 import MyMapContainer from './MyMapContainer';
 
-const response = {
-  theater: {
-    id: 1,
-    placeName: '오둥이극장',
-    longitude: 126.978891,
-    latitube: 37.5709794,
-    phone: '02-555-5555',
-    address: '서울특별시 어쩌구 23로 233',
-    roadAddress: '서울특별시 어쩌구 23로 233',
-  },
-  restaurants: [
-    {
-      id: 1,
-      recoomendPlaceId: 1,
-      placeId: 1,
-      name: '오둥이식당',
-      address: '서울특별시 어쩌구 23로 233',
-      roadAddress: '서울특별시 어쩌구 23로 233',
-      phone: '02-555-5555',
-      score: 5.0,
-      totalReview: 200,
-      longitude: 126.97607241059578,
-      latitube: 37.57286713479182,
-      placeUrl: 'http://place.map.kakao.com/10753713',
-      categoryGroupCode: 'FD6',
-    },
-    {
-      id: 2,
-      recoomendPlaceId: 2,
-      placeId: 2,
-      name: '오둥이식당2',
-      address: '서울특별시 어쩌구 23로 233',
-      roadAddress: '서울특별시 어쩌구 23로 233',
-      phone: '02-555-5555',
-      score: 5.0,
-      totalReview: 200,
-      longitude: 126.973265,
-      latitube: 37.572695,
-      placeUrl: 'http://place.map.kakao.com/10753713',
-      categoryGroupCode: 'FD6',
-    },
-  ],
-  cafes: [
-    {
-      id: 3,
-      recoomendPlaceId: 1,
-      placeId: 1,
-      name: '오둥이카페',
-      address: '서울특별시 어쩌구 23로 233',
-      roadAddress: '서울특별시 어쩌구 23로 233',
-      phone: '02-555-5555',
-      score: 5.0,
-      totalReview: 200,
-      longitude: 126.97607241059578,
-      latitube: 37.57286713479182,
-      placeUrl: 'http://place.map.kakao.com/10753713',
-      categoryGroupCode: 'FD6',
-    },
-    {
-      id: 4,
-      recoomendPlaceId: 2,
-      placeId: 2,
-      name: '오둥이카페2',
-      address: '서울특별시 어쩌구 23로 233',
-      roadAddress: '서울특별시 어쩌구 23로 233',
-      phone: '02-555-5555',
-      score: 5.0,
-      totalReview: 200,
-      longitude: 126.973331,
-      latitube: 37.5764652,
-      placeUrl: 'http://place.map.kakao.com/10753713',
-      categoryGroupCode: 'FD6',
-    },
-  ],
-  parkings: [
-    {
-      id: 5,
-      recoomendPlaceId: 1,
-      placeId: 1,
-      name: '오둥이주차장',
-      address: '서울특별시 어쩌구 23로 233',
-      roadAddress: '서울특별시 어쩌구 23로 233',
-      phone: '02-555-5555',
-      score: 5.0,
-      totalReview: 200,
-      longitude: 126.984085,
-      latitube: 37.5770079,
-      placeUrl: 'http://place.map.kakao.com/10753713',
-      categoryGroupCode: 'FD6',
-    },
-    {
-      id: 5,
-      recoomendPlaceId: 2,
-      placeId: 2,
-      name: '오둥이주차장2',
-      address: '서울특별시 어쩌구 23로 233',
-      roadAddress: '서울특별시 어쩌구 23로 233',
-      phone: '02-555-5555',
-      score: 5.0,
-      totalReview: 200,
-      longitude: 126.974402,
-      latitube: 37.572972,
-      placeUrl: 'http://place.map.kakao.com/10753713',
-      categoryGroupCode: 'FD6',
-    },
-  ],
-};
-
-function getData(id) {
-  console.log(id);
-  return response;
-}
-
 export async function loader({ params }) {
-  const placeData = await getData(params.id);
-  return { placeData };
+  const placeDataResponse = await customAxios.get(`/maps/theater/${params.id}`);
+  const theaterListResponse = await customAxios.get(`/theaters`);
+  const { data: placeData } = placeDataResponse;
+  let { data: theaterList } = theaterListResponse;
+  const changeKey = obj => {
+    const { id, placeName: categoryName, latitude, longitude } = obj;
+    return { id, categoryName, latitude, longitude };
+  };
+  const changeArray = array => {
+    return array.map(obj => changeKey(obj));
+  };
+  theaterList = changeArray(theaterList);
+  const theaterId = params.id;
+  return { placeData, theaterId, theaterList };
 }
 
 function NearbyPage() {
   const categorys = ['FD6', 'PK6', 'CE7'];
-  const { placeData } = useLoaderData();
-  const { theater, restaurants, cafes, parkings } = placeData;
+  const navigate = useNavigate();
+  const { placeData, theaterId, theaterList } = useLoaderData();
+  const currentTheater = theaterList.filter(obj => obj.id === +theaterId)[0];
   const [selectPlaceObj, setSelectPlaceObj] = useState({});
-  const [rate, setRate] = useState(0);
-  console.log(selectPlaceObj);
+  const [rate, setRate] = useState(3);
+  const [oneLine, setOneLine] = useState('');
+  const user = useRecoilValue(userInfo);
+  const { restaurants = [], cafes = [], parkings = [] } = placeData;
 
   const onMarkerClick = obj => {
     setSelectPlaceObj(obj);
+    console.log(obj);
   };
 
   const onClickRate = rateProp => {
     setRate(rateProp);
+  };
+
+  const isLogin = () => {
+    return !!user.id;
   };
 
   const inCategory = category => {
@@ -149,23 +60,98 @@ function NearbyPage() {
     return !!Object.keys(obj).length;
   };
 
+  const changeKeyName = obj => {
+    const newObj = { ...obj, placeName: obj.name };
+    delete newObj.name;
+    return newObj;
+  };
+
   const getText = obj => {
     if (!isMarkerSelect(obj)) {
-      return '마커를 선택하셔야 합니다.';
+      return '리뷰를 남기려면 마커를 선택하셔야 합니다.';
     }
     if (!inCategory(obj.categoryGroupCode)) {
-      return '식당, 카페, 주차장 중에 선택하여야 합니다.';
+      return '리뷰를 남기려면 식당, 카페, 주차장 중에 선택하여야 합니다.';
     }
     return `${obj.name}에 대해 리뷰를 남겨주세요`;
   };
 
-  console.log(theater, restaurants, cafes, parkings);
+  const canLeaveComment = obj => {
+    return (
+      isLogin() && inCategory(obj.categoryGroupCode) && isMarkerSelect(obj)
+    );
+  };
+
+  // Dropdown 전용 함수
+  const handleDropDown = dropDownObj => {
+    return navigate(`/nearby/${dropDownObj.id}`);
+  };
+
+  const isEmpty = str => {
+    return str.length === 0;
+  };
+
+  const onSubmit = async e => {
+    e.preventDefault();
+    if (isEmpty(oneLine)) {
+      alert('글자 수가 한 글자 이상이여야 합니다');
+      return;
+    }
+    const localToken = localStorage.getItem('localToken');
+    let map = { ...selectPlaceObj, theaterId: +theaterId };
+    map = changeKeyName(map);
+
+    await customAxios.post(
+      '/recommend-place',
+
+      {
+        map,
+        recommendPlace: {
+          memberId: user?.id,
+          score: rate,
+          oneLine,
+        },
+      },
+      {
+        headers: {
+          Authorization: localToken,
+        },
+      },
+    );
+    setRate(3);
+    setOneLine('');
+    setSelectPlaceObj({});
+  };
+
+  const onChange = e => {
+    setOneLine(e.target.value);
+  };
+
   return (
     <>
-      <StyledH2>{theater.placeName}</StyledH2>
-      <MyMapContainer placeData={placeData} onMarkerClick={onMarkerClick} />
+      <StyledH2>{currentTheater.categoryName}</StyledH2>
+      <Dropdown
+        width="315px"
+        height="42px"
+        onClick={handleDropDown}
+        options={theaterList}
+        defaultValue={currentTheater}
+        selectedValue={currentTheater}
+      />
+      <MarginBottom margin="16px" />
+      <MyMapContainer
+        onMarkerClick={onMarkerClick}
+        currentTheater={currentTheater}
+        restaurants={restaurants}
+        cafes={cafes}
+        parkings={parkings}
+      />
       <CommentCotainer>
-        <H3>{getText(selectPlaceObj)}</H3>
+        <H3>
+          {user?.id
+            ? getText(selectPlaceObj)
+            : '리뷰를 남기려면 로그인을 하셔야 합니다'}
+        </H3>
         <FormWrapper>
           <RatingContainer>
             <div>평점</div>
@@ -174,38 +160,75 @@ function NearbyPage() {
               onClick={onClickRate}
               size="24px"
               width="200px"
+              readonly={!canLeaveComment(selectPlaceObj)}
             />
           </RatingContainer>
-          <StyledForm method="post">
+          <StyledForm>
             <StyledInput
-              placeholder="댓글을 작성하려면 로그인 해주세요"
+              type="text"
+              name="oneLine"
+              placeholder="리뷰를 입력해주세요."
+              value={oneLine}
               width="calc(100% - 75px)"
               height="50px"
+              onChange={onChange}
+              disabled={!canLeaveComment(selectPlaceObj)}
             />
-            <input type="hidden" name="mapId" value={theater.id} />
+            <input type="hidden" name="mapId" value={theaterId} />
             <input type="hidden" name="score" value={rate} />
+            <input type="hidden" name="memberId" value={user?.id} />
             <input
               type="hidden"
               name="map"
-              value={{ ...selectPlaceObj, 'theater.id': theater.id }}
+              value={{ ...selectPlaceObj, theaterId: +theaterId }}
             />
             <Button
               type="submit"
               text="등록"
               height="50px"
               margin="0 0 0 16px"
+              onClick={onSubmit}
+              disabled={!canLeaveComment(selectPlaceObj)}
             />
           </StyledForm>
         </FormWrapper>
       </CommentCotainer>
-      <RatingCard
-        width="550px"
-        height="80px"
-        title="이효근식당"
-        address="서울특별시 어쩌구 23로 223"
-        value="4.8"
-        reviewsNum={213}
-      />
+      <RatingCardContainer>
+        <LeftContianer>
+          <H3>뮤덕들이 추천한 주변 맛집 TOP 5 </H3>
+          <Ul>
+            {restaurants.map(obj => (
+              <RatingCard
+                width="100%"
+                height="80px"
+                title={obj.name}
+                address={obj.address}
+                value={obj.avgScore}
+                reviewsNum={obj.totalReviews}
+                key={obj.id}
+              />
+            ))}
+          </Ul>
+        </LeftContianer>
+        <RightContianer>
+          <H3>뮤덕들이 추천한 주변 카페 TOP 5 </H3>
+          <Ul>
+            {cafes.map(obj => (
+              <RatingCard
+                width="100%"
+                height="80px"
+                title={obj.name}
+                address={obj.address}
+                value={obj.avgScore}
+                reviewsNum={obj.totalReviews}
+                key={obj.id}
+              />
+            ))}
+          </Ul>
+        </RightContianer>
+
+        <div />
+      </RatingCardContainer>
     </>
   );
 }
@@ -219,6 +242,7 @@ const StyledH2 = styled.h2`
 
 const CommentCotainer = styled.section`
   margin-top: 32px;
+  margin-bottom: 32px;
 `;
 
 const H3 = styled.h3`
@@ -228,6 +252,7 @@ const H3 = styled.h3`
 
 const FormWrapper = styled.section`
   display: flex;
+  flex-wrap: wrap;
   width: 100%;
   align-items: center;
   justify-content: space-between;
@@ -245,10 +270,35 @@ const RatingContainer = styled.section`
   }
 `;
 
-const StyledForm = styled(Form)`
-  width: 80%;
+const StyledForm = styled.form`
   display: flex;
   align-items: center;
+  flex: 1 0 450px;
+`;
+
+const MarginBottom = styled.div`
+  margin-bottom: ${props => props.margin};
+`;
+
+const RatingCardContainer = styled.section`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+`;
+
+const LeftContianer = styled.section`
+  flex: 1 0 200px;
+`;
+
+const RightContianer = styled.section`
+  flex: 1 0 200px;
+`;
+
+const Ul = styled.ul`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 `;
 
 export default NearbyPage;
