@@ -27,9 +27,6 @@ function PlayPage() {
   const { musical, theater } = musicalData.data;
   const { actors } = actorsData.data;
   const { boards } = postsData.data;
-  console.log(musicalData);
-  console.log(actorsData);
-  console.log(postsData);
 
   useEffect(() => {
     async function getNearbyTheaterData(theaterId) {
