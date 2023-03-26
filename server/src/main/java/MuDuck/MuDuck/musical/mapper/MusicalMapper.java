@@ -26,13 +26,5 @@ public interface MusicalMapper {
         return response;
     }
 
-//    default MusicalDto.ResponseMusicalBoards boardsToMusicalResponseDtos(Musical musical,
-//            List<MusicalBoards> responseBoards, Category category) {
-//        MusicalDto.ResponseMusicalBoards response = ResponseMusicalBoards.builder()
-//                .musicalId(musical.getMusicalId())
-//                .boards(responseBoards)
-//                .category(category)
-//                .build();
-//        return response;
-//    }
+    MusicalDto.ResponseActors musicalToActorMusicalResponseDto(Musical musical);
 }

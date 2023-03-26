@@ -1,15 +1,11 @@
 package MuDuck.MuDuck.musical.dto;
 
-import MuDuck.MuDuck.actor.dto.ActorDto;
-import MuDuck.MuDuck.actor.dto.ActorDto.Response;
-import MuDuck.MuDuck.actorMusical.entity.ActorsEntity;
-import MuDuck.MuDuck.musical.dto.MusicalDto.ResponseMusical;
-import MuDuck.MuDuck.musical.entity.ActorMusical;
-import MuDuck.MuDuck.musical.entity.Musical;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-
+import MuDuck.MuDuck.musical.entity.Response;
+import java.util.List;
 import javax.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 public class ActorMusicalDto {
 
@@ -21,27 +17,24 @@ public class ActorMusicalDto {
         @Positive
         private String role;
     }
-
-    @AllArgsConstructor
+    @Builder
     @Getter
-    public static class ResponseActorMusical{
+    public static class Response{
+        private Long actorId = getActorId();
+        private String actorName = getActorName();
+        private String picture = getPicture();
         private String role;
     }
 
-    public static class ResponseActorsToMusical{
-        private ActorsEntity actorsEntity;
-        private ActorMusical actorMusical;
-    }
-
     @Getter
-    public static class MappingActorResponseDto<T> {
+    public static class MappingActorResponseDto {
 
-        private ResponseActorMusical actorMusical;
-        private Response actor;
+        private MusicalDto.ResponseActors musical;
+        private List<MuDuck.MuDuck.musical.entity.Response> actors;
 
-        public MappingActorResponseDto(ResponseActorMusical actorMusical, Response actor) {
-            this.actorMusical = actorMusical;
-            this.actor = actor;
+        public MappingActorResponseDto(MusicalDto.ResponseActors musical, List<MuDuck.MuDuck.musical.entity.Response> actors) {
+            this.musical = musical;
+            this.actors = actors;
         }
     }
 

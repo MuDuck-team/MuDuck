@@ -1,13 +1,9 @@
 package MuDuck.MuDuck.musical.dto;
 
-import MuDuck.MuDuck.actorMusical.entity.ActorsEntity;
-import MuDuck.MuDuck.musical.dto.ActorMusicalDto.MappingActorResponseDto;
-import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.musical.entity.MusicalBoards;
 import MuDuck.MuDuck.theater.dto.TheaterDto.ResponseUsedMusical;
-import MuDuck.MuDuck.theater.entitiy.Theater;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
@@ -126,8 +122,6 @@ public class MusicalDto {
 
         @JsonProperty("id")
         private Long musicalId;
-        @JsonProperty("actors")
-        private List<MappingActorResponseDto> actorMusicals;
     }
 
     @Builder

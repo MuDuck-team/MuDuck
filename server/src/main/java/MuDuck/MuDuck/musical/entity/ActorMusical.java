@@ -2,7 +2,6 @@ package MuDuck.MuDuck.musical.entity;
 
 import MuDuck.MuDuck.actor.entity.Actor;
 import MuDuck.MuDuck.audit.Auditable;
-import MuDuck.MuDuck.musical.entity.Musical;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;

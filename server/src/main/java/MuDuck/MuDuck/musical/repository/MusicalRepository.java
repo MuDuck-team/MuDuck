@@ -30,7 +30,4 @@ public interface MusicalRepository extends JpaRepository<Musical, Long> {
 
     @Query(value = "SELECT category_name as categoryName from category where musical_id = :musicalId", nativeQuery = true)
     Category findCategoryByMusicalId(@Param("musicalId") Long musicalId);
-
-    @Query(value = "select am.actor_id as id, a.actor_name, a.picture, am.role from actormusicals am Join actors a on am.actor_id = a.actor_id where am.musical_id = :musicalId", nativeQuery = true)
-    List<MappingActorResponseDto> findActorsByMusicalId(@Param("musicalId") Long musicalId);
 }
