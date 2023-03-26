@@ -22,135 +22,12 @@ function PlayPage() {
   const navigate = useNavigate();
   const { musicalData, actorsData, postsData } = useLoaderData();
   const { musical, theater } = musicalData.data;
-  const actors = JSON.parse(JSON.stringify(actorsData.data));
+  const { actors } = actorsData.data;
   const { boards } = postsData.data;
 
   console.log(musicalData);
   console.log(actorsData);
   console.log(postsData);
-
-  // 더미데이터1
-  // const musicalData = {
-  //   musicalKorName: '베토벤',
-  //   musicalEngName: 'Beethoven Secret',
-  //   genre: '뮤지컬 > 오리지널',
-  //   place: '세종문화회관 대극장',
-  //   openDate: '2023.03.01',
-  //   closeDate: '2023.05.28',
-  //   playtime: '120분 (인터미션 : 20분)',
-  //   age: '8세이상 관람가능',
-  //   musicalInfo: '베토벤의 원곡들에 기반하고 실화에서 영감받다.',
-  //   poster:
-  //     'https://image.yes24.com/themusical/fileStorage/ThemusicalAdmin/Play/Image/20221116431308101cf72e403b20a0959afce22eacee299a.jpg',
-  // };
-
-  // 더미데이터2
-  // const actorsData = {
-  //   actors: [
-  //     {
-  //       id: '1',
-  //       actorName: '박효신',
-  //       picture:
-  //         'https://search.pstatic.net/common?type=b&size=216&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201409%2F20140922203416508-3731873.jpg',
-  //       role: '루드비히 반 베토벤',
-  //     },
-  //     {
-  //       id: '2',
-  //       actorName: '박은태',
-  //       picture:
-  //         'https://search.pstatic.net/common?type=b&size=216&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201501%2F20150115133314557-8462978.jpg',
-  //       role: '루드비히 반 베토벤',
-  //     },
-  //     {
-  //       id: '3',
-  //       actorName: '조정은',
-  //       picture:
-  //         'https://search.pstatic.net/common?type=b&size=216&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201208%2F20120823143009309-3921969.jpg',
-  //       role: '안토니 브렌타노',
-  //     },
-  //     {
-  //       id: '4',
-  //       actorName: '옥주현',
-  //       picture:
-  //         'https://search.pstatic.net/common?type=b&size=144&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2F89%2F202012111721595391.jpg',
-  //       role: '안토니 브렌타노',
-  //     },
-  //     {
-  //       id: '5',
-  //       actorName: '이해준',
-  //       picture:
-  //         'https://search.pstatic.net/common?type=b&size=216&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F202302%2F20230216145124709.jpg',
-  //       role: '카스파 반 베토벤',
-  //     },
-  //     {
-  //       id: '6',
-  //       actorName: '윤소호',
-  //       picture:
-  //         'https://search.pstatic.net/common?type=b&size=216&expire=1&refresh=true&quality=100&direct=true&src=http%3A%2F%2Fsstatic.naver.net%2Fpeople%2Fportrait%2F201909%2F20190919185107998.jpg',
-  //       role: '카스파 반 베토벤',
-  //     },
-  //   ],
-  // };
-
-  // 더미데이터3;
-  // const fakepostsData = {
-  //   posts: [
-  //     {
-  //       nickname: '조이',
-  //       title: '베토벤이 최고야',
-  //       lastCreatedAt: '2023.02.02',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Coco',
-  //       view: '22',
-  //       commentCount: '0',
-  //       boardLike: '10',
-  //     },
-  // {
-  //   nickname: '해피',
-  //   title: 'H열 19번 좌석 조아',
-  //   lastCreatedAt: '2023.01.22',
-  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Molly',
-  //   view: '21',
-  //   commentCount: '2',
-  //   boardLike: '1',
-  // },
-  // {
-  //   nickname: '반달',
-  //   title: '제작년이 더 좋았던듯?',
-  //   lastCreatedAt: '2023.01.20',
-  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Abby',
-  //   view: '23',
-  //   commentCount: '3',
-  //   boardLike: '10',
-  // },
-  // {
-  //   nickname: '뮬리몰리',
-  //   title: '박효신 연기력 뭐임?',
-  //   lastCreatedAt: '2023.01.15',
-  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Lucy',
-  //   view: '663',
-  //   commentCount: '52',
-  //   boardLike: '100',
-  // },
-  // {
-  //   nickname: '배고픈반달곰',
-  //   title: '이번달만 3번째임',
-  //   lastCreatedAt: '2023.01.12',
-  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Angel',
-  //   view: '133',
-  //   commentCount: '2',
-  //   boardLike: '6',
-  // },
-  // {
-  //   nickname: '뮤지컬금단현상',
-  //   title: '아니? 마지막 왜저럼? 베토벤!?',
-  //   lastCreatedAt: '2023.01.11',
-  //   url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Sassy',
-  //   view: '121',
-  //   commentCount: '22',
-  //   boardLike: '10',
-  // },
-  //   ],
-  // };
 
   return (
     <Container>
@@ -170,29 +47,6 @@ function PlayPage() {
           </SubTitle>
         </HeadingBox>
         <CommunityContentSection>
-          {/* {fakepostsData.posts.map((post, idx) => {
-            return (
-              <ArticleCard
-                // id={post.}
-                type="post"
-                key={idx}
-                minWidth="380px"
-                width="48%"
-                height="30%"
-                marginBottom="1.5rem"
-                borderRadius="8px"
-                nickname={post.nickname}
-                title={post.title}
-                titlefontSize="1.6rem"
-                titleMarginBottom="1.5rem"
-                lastCreatedAt={post.lastCreatedAt}
-                view={post.view}
-                userProfile={post.url}
-                commentCount={post.commentCount}
-                boardLike={post.boardLike}
-              />
-            );
-          })} */}
           {boards.length === 0 ? (
             <AlertBox>
               아직 관련된 이야기가 없어요 😅
@@ -202,7 +56,7 @@ function PlayPage() {
             boards.map((post, idx) => {
               return (
                 <ArticleCard
-                  // id={post.}
+                  id={post.boardId}
                   type="post"
                   key={idx}
                   minWidth="380px"
@@ -217,8 +71,8 @@ function PlayPage() {
                   titleMarginBottom="1.5rem"
                   lastCreatedAt={post.createdAt.split(' ')[0]}
                   view={post.views}
-                  userProfile={post.profileImgUrl}
-                  commentCount={post.commentCount}
+                  userProfile={post.picture}
+                  commentCount={post.commentCount || '0'}
                   boardLike={post.likes}
                 />
               );
@@ -244,6 +98,7 @@ function PlayPage() {
         </HeadingBox>
         <ContentSection>
           <Mapbox />
+          {/* 카카오 지도가 들어가는부분 */}
         </ContentSection>
       </ColumnContentSection>
     </Container>
