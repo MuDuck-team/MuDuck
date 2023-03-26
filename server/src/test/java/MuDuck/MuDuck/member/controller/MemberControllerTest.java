@@ -12,6 +12,8 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -161,6 +163,9 @@ class MemberControllerTest {
                 .andDo(document(
                         "get-member",
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 아이디")
+                        ),
                         responseFields(
                                 List.of(
                                         fieldWithPath("id").type(JsonFieldType.NUMBER).description("회원 아이디"),
@@ -245,6 +250,9 @@ class MemberControllerTest {
                 .andDo(document("update-member",
                         getRequestPreProcessor(),
                         getResponsePreProcessor(),
+                        pathParameters(
+                                parameterWithName("member-id").description("회원 아이디")
+                        ),
                         requestFields(
                                 List.of(
                                     fieldWithPath("nickname").type(JsonFieldType.STRING).description("변경할 닉네임").optional().attributes(key("regexp").value(nicknameDescriptions)),

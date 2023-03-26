@@ -111,4 +111,14 @@ public class MapService {
         return map;
     }
 
+    public MuDuck.MuDuck.map.entity.Map findVerifiedMapToMapId(long id){
+
+        Optional<MuDuck.MuDuck.map.entity.Map> byId = mapRepository.findById(id);
+
+        MuDuck.MuDuck.map.entity.Map map = byId.orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MAP_NOT_FOUND));
+
+        return map;
+    }
+
 }

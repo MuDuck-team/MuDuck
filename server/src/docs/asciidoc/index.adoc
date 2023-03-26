@@ -27,6 +27,9 @@ include::{snippets}/get-theaters/response-fields.adoc[]
 .http-request
 include::{snippets}/get-theater/http-request.adoc[]
 
+.path-parameters
+include::{snippets}/get-theater/path-parameters.adoc[]
+
 .http-response
 include::{snippets}/get-theater/http-response.adoc[]
 
@@ -248,6 +251,9 @@ include::{snippets}/get-my-info/response-fields.adoc[]
 .http-request
 include::{snippets}/get-member/http-request.adoc[]
 
+.path-parameters
+include::{snippets}/get-member/path-parameters.adoc[]
+
 .http-response
 include::{snippets}/get-member/http-response.adoc[]
 
@@ -257,6 +263,9 @@ include::{snippets}/get-member/response-fields.adoc[]
 === 해당 아이디를 가진 회원 정보 수정
 .http-request
 include::{snippets}/update-member/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/update-member/path-parameters.adoc[]
 
 .request-fields
 include::{snippets}/update-member/request-fields.adoc[]
@@ -271,6 +280,9 @@ include::{snippets}/update-member/response-fields.adoc[]
 === 평균 평점 및 총 한줄평 수가 있는 지도 정보 조회
 .http-request
 include::{snippets}/get-map-include-avg-score-total-reviews/http-request.adoc[]
+
+.path-parameters
+include::{snippets}/get-map-include-avg-score-total-reviews/path-parameters.adoc[]
 
 .http-response
 include::{snippets}/get-map-include-avg-score-total-reviews/http-response.adoc[]
@@ -292,6 +304,19 @@ include::{snippets}/post-recommendPlace/http-response.adoc[]
 
 .response-fields
 include::{snippets}/post-recommendPlace/response-fields.adoc[]
+
+=== 평점과 한줄평 조회하기
+.http-request
+include::{snippets}/get-recommend-place/http-request.adoc[]
+
+.path-parameter
+include::{snippets}/get-recommend-place/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/get-recommend-place/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-recommend-place/response-fields.adoc[]
 
 == MainPageController
 === 데일리 인기글
