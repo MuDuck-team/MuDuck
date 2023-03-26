@@ -16,9 +16,9 @@ public interface MusicalMapper {
 
     List<MusicalDto.ResponseMusicals> musicalsToMusicalResponseDtos(List<Musical> musicals);
 
-    default MusicalBoardsDto.Response musicalBoardEntityToResponse(MusicalBoards musicalBoards){
-        return null;
-    }
+//    default MusicalBoardsDto.Response musicalBoardEntityToResponse(MusicalBoards musicalBoards){
+//        return null;
+//    }
 
     default MusicalDto.ResponseMusicalBoards boardsToMusicalResponseDtos(Musical musical,
             List<MusicalBoards> responseBoards, Category category) {

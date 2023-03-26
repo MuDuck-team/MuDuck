@@ -39,6 +39,7 @@ import com.google.gson.Gson;
 import com.jayway.jsonpath.JsonPath;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.criteria.CriteriaBuilder.In;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -607,6 +608,11 @@ class MusicalControllerMockTest {
         //musical.setMusicalId(1L);
         musicalBoards = new MusicalBoards() {
             @Override
+            public Long getBoardId(){
+                return 1L;
+            }
+
+            @Override
             public String getTitle() {
                 return "This Is TEST";
             }
@@ -614,6 +620,11 @@ class MusicalControllerMockTest {
             @Override
             public String getNickname() {
                 return "테스형";
+            }
+
+            @Override
+            public String getPicture(){
+                return "profile";
             }
 
             @Override
@@ -629,6 +640,10 @@ class MusicalControllerMockTest {
             @Override
             public Integer getLikes() {
                 return 864;
+            }
+            @Override
+            public Integer getCommentCount(){
+                return 2;
             }
         };
 
@@ -672,15 +687,22 @@ class MusicalControllerMockTest {
                                 ),
                                 responseFields(
                                         List.of(
-                                                fieldWithPath(".musicalId").type(JsonFieldType.NUMBER)
+                                                fieldWithPath(".musicalId").type(
+                                                                JsonFieldType.NUMBER)
                                                         .description("뮤지컬 아이디"),
 
+                                                fieldWithPath("boards[].boardId").type(
+                                                                JsonFieldType.NUMBER)
+                                                        .description("뮤지컬 아이디"),
                                                 fieldWithPath("boards[].title").type(
                                                                 JsonFieldType.STRING)
                                                         .description("게시글 제목"),
                                                 fieldWithPath("boards[].nickname").type(
                                                                 JsonFieldType.STRING)
                                                         .description("작성자 닉네임"),
+                                                fieldWithPath("boards[].picture").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("작성자 프로필"),
                                                 fieldWithPath("boards[].createdAt").type(
                                                                 JsonFieldType.STRING)
                                                         .description("게시글 작성 시간"),
@@ -690,6 +712,9 @@ class MusicalControllerMockTest {
                                                 fieldWithPath("boards[].views").type(
                                                                 JsonFieldType.NUMBER)
                                                         .description("게시글 조회 수"),
+                                                fieldWithPath("boards[].commentCount").type(
+                                                                JsonFieldType.NUMBER)
+                                                        .description("댓글갯수"),
 
                                                 fieldWithPath("category.categoryName").type(
                                                                 JsonFieldType.STRING)
