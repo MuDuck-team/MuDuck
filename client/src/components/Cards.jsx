@@ -48,7 +48,7 @@ export function ArticleCard({
       <ContentWrapper>
         <TopWrapper titleMarginBottom={titleMarginBottom}>
           <img alt="profile" src={userProfile} />
-          {nickname} {lastCreatedAt}
+          <span>{nickname}</span> {lastCreatedAt}
         </TopWrapper>
         <BottomWrapper>
           <TitleWrapper titlefontSize={titlefontSize}>{title}</TitleWrapper>
@@ -177,6 +177,13 @@ const TopWrapper = styled.div`
     border-radius: 50%;
     margin-right: 8px;
   }
+
+  span {
+    font-size: var(--font-size-sm);
+    font-weight: 400;
+    margin-left: 0.3rem;
+    margin-right: 1rem;
+  }
 `;
 
 const BottomWrapper = styled.div`
@@ -192,6 +199,7 @@ const TitleWrapper = styled.div`
 const IconsWrapper = styled.div`
   display: flex;
   align-items: center;
+  font-size: 1.4rem;
 
   div + div {
     margin-left: 4px;
