@@ -8,7 +8,7 @@ export const StyledInput = styled.input`
   background-color: var(--main-001);
   color: var(--font-color);
   font-size: ${props => props.fontSize || 'var(--font-size-md)'};
-  padding-left: 15px;
+  padding: 0px 16px;
   &:focus {
     outline: none;
   }
@@ -23,7 +23,8 @@ export const StyledTextArea = styled.textarea`
   color: var(--font-color);
   font-size: ${props => props.fontSize || 'var(--font-size-md)'};
   resize: none;
-
+  padding: 16px;
+  line-height: 2em;
   &:focus {
     outline: none;
   }
