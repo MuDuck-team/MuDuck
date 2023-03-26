@@ -12,7 +12,4 @@ public interface BoardLikeRepository extends JpaRepository<BoardLike, Long> {
 
     @Query(value = "SELECT BOARD_LIKES_ID FROM BOARD_LIKE WHERE BOARD_ID = :boardId AND MEMBER_ID = :memberId", nativeQuery = true)
     long findBoardLikeId(long boardId, long memberId);
-
-    @Query(value = "SELECT * FROM BOARD_LIKE WHERE MEMBER_ID = :memberId", nativeQuery = true)
-    List<BoardLike> findBoardLikeByMemberId(long memberId);
 }

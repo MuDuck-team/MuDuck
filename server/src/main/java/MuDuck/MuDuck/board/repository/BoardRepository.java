@@ -22,5 +22,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> getWeeklyPopularPosts();
 
     @Query(value = "SELECT * FROM BOARD WHERE MEMBER_ID = :memberId AND BOARD_STATUS != 'BOARD_DELETE'", nativeQuery = true)
-    List<Board> findByMemberId(long memberId);
+    Page<Board> findByMemberId(long memberId, PageRequest pageRequest);
+
+    @Query(value = "SELECT * FROM BOARD WHERE BOARD_ID IN (SELECT BOARD_ID FROM BOARD_LIKE WHERE MEMBER_ID = :memberId) AND BOARD_STATUS != 'BOARD_DELETE'", nativeQuery = true)
+    Page<Board> findByBoardLikeId(long memberId, PageRequest pageRequest);
 }
