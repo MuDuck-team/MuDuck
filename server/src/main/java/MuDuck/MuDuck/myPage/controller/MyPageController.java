@@ -3,6 +3,8 @@ package MuDuck.MuDuck.myPage.controller;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.service.BoardService;
 import MuDuck.MuDuck.boardLike.entity.BoardLike;
+import MuDuck.MuDuck.comment.entity.Comment;
+import MuDuck.MuDuck.comment.service.CommentService;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.service.MemberService;
 import MuDuck.MuDuck.myPage.mapper.MyPageMapper;
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MyPageController {
     private final BoardService boardService;
     private final MemberService memberService;
+    private final CommentService commentService;
 
     private final MyPageMapper myPageMapper;
 
@@ -46,5 +49,16 @@ public class MyPageController {
         List<Board> likedBoards = boardService.getMyLikedBoards(member);
 
         return new ResponseEntity<>(myPageMapper.boardsToMyPageResponseDtos(likedBoards), HttpStatus.OK);
+    }
+
+    @GetMapping("/comments")
+    public ResponseEntity getMyComments(Principal principal){
+        // 요청자의 신분을 확인
+        String email = principal.getName();
+        Member member = memberService.findByEmail(email);
+
+        List<Comment> comments = commentService.getMyComments(member);
+
+        return new ResponseEntity<>(myPageMapper.commentsToMyPageCommentsResponseDtos(comments), HttpStatus.OK);
     }
 }

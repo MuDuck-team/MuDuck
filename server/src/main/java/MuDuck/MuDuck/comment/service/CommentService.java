@@ -52,6 +52,11 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
+    public List<Comment> getMyComments(Member member){
+        List<Comment> comments = commentRepository.findByMemberId(member.getMemberId());
+        return comments;
+    }
+
     @Transactional(readOnly = true)
     private Comment findVerifiedComment(long commentId) {
         Optional<Comment> optionalComment = commentRepository.findById(commentId);

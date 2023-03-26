@@ -314,3 +314,33 @@ include::{snippets}/get-weeklyPopularPosts/http-response.adoc[]
 .response-fields
 include::{snippets}/get-weeklyPopularPosts/response-fields.adoc[]
 
+== MyPage Controller
+=== 내가 쓴 글 가져오기
+.http-request
+include::{snippets}/get-MyPageBoards/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-MyPageBoards/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-MyPageBoards/response-fields.adoc[]
+
+=== 내가 좋아요 누른 글 가져오기
+.http-request
+include::{snippets}/get-MyPageLikedBoards/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-MyPageLikedBoards/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-MyPageLikedBoards/response-fields.adoc[]
+
+=== 내가 쓴 댓글 가져오기
+.http-request
+include::{snippets}/get-MyPageComments/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-MyPageComments/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-MyPageComments/response-fields.adoc[]
