@@ -11,6 +11,7 @@ import MuDuck.MuDuck.musical.entity.Musical.Age;
 import MuDuck.MuDuck.musical.entity.Musical.Genre;
 import MuDuck.MuDuck.musical.entity.Musical.MusicalState;
 import MuDuck.MuDuck.musical.repository.MusicalRepository;
+import MuDuck.MuDuck.theater.entitiy.Theater;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +34,8 @@ public class MusicalServiceMockTest {
         MockitoAnnotations.initMocks(this);
         actor = new Actor(1L, "전동석","http://ticketimage.interpark.com/PlayDictionary/DATA/PlayDic/PlayDicUpload/040004/09/07/0400040907_16138_02825.gif");
         musical = new Musical(1L,"테스트","test","http://localhost:8080", Genre.GENRE_CREATED, "테스팅정보", MusicalState.MUSICAL_YET, "2023.03.20", "2023.03.21",
-                Age.AGE_19, 162, 20,100);
+                Age.AGE_19, 162, 20,100,
+                new Theater(1L, "오둥이 소극장", 126.978891, 37.5709794, "02-555-5555", "서울특별시 송파구 잠실동 40-1번지 샤롯데씨어터", "서울특별시 송파구 올림픽로 240(잠실동) 샤롯데씨어터"));
         actorMusical = new ActorMusical(1L, "줄리엣", musical, actor);
     }
 

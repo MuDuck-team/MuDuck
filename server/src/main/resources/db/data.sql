@@ -527,8 +527,8 @@ INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  g
 VALUES (26, '웃는남자12', 'The Man Who Laughs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_LICENSED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 ', 'MUSICAL_YET', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20, 100);
 INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views)
 VALUES (27, '레드북13', 'RedBook', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_CREATED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 배경으로 한 레드북은 여자들이 쓰는 소설이 담긴 잡지가 사회적 비난에 부딪히면서 시작되는 이야기이다.', 'MUSICAL_FINISH', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20,124);
-INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views)
-VALUES (28, '레베카', 'The Man Who Laughs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_LICENSED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 ', 'MUSICAL_YET', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20, 100);
+INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views, theater_id)
+VALUES (28, '레베카', 'The Man Who Laughs', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_LICENSED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 ', 'MUSICAL_YET', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20, 100,2);
 INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views)
 VALUES (29, '레베카', 'RedBook', 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_3sIuFymBnqVMUCgT8kS5-wXzRYt9gBqsla2S0LGD&s', 'GENRE_CREATED', '중세에서 근대로 바뀌는 빅토리아 시대에 영국 런던시를 배경으로 한 레드북은 여자들이 쓰는 소설이 담긴 잡지가 사회적 비난에 부딪히면서 시작되는 이야기이다.', 'MUSICAL_ONAIR', '2023.03.14', '2023.05.28', 'AGE_19', 165, 20,20);
 INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views)
@@ -542,9 +542,9 @@ INSERT INTO ACTORS (actor_id, actor_name, picture, actor_state) VALUES (3, '김�
 INSERT INTO ACTORS (actor_id, actor_name, picture, actor_state) VALUES (4, '송원근', 'http://ticketimage.interpark.com/PlayDictionary/DATA/PlayDic/PlayDicUpload/040004/07/01/0400040701_4131_016.jpg','ACTOR_CONFIRM');
 
 -- ACTOR_MUSICAL 테이블 생성 코드
-INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (1, 1, 1,'안나');
-INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (2, 2, 1,'안나');
-INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (3, 3, 1,'안나');
+INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (1, 1, 28,'안나');
+INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (2, 2, 28,'안나');
+INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (3, 3, 28,'안나');
 INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (4, 4, 2,'브라운');
 
 -- Category 테이블 생성 코드

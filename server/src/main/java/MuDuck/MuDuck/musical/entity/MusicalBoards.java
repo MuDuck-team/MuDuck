@@ -1,4 +1,4 @@
-package MuDuck.MuDuck.musical.dto;
+package MuDuck.MuDuck.musical.entity;
 
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
