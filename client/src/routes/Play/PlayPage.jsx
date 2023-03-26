@@ -1,4 +1,4 @@
-import { useLoaderData } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
 import styled from 'styled-components';
 import AboutMusical from './AboutMusical';
 import { ArticleCard } from '../../components/Cards';
@@ -19,7 +19,11 @@ export async function loader({ params }) {
 }
 
 function PlayPage() {
+  const navigate = useNavigate();
   const { musicalData, actorsData, postsData } = useLoaderData();
+  const { musical, theater } = musicalData.data;
+  const actors = JSON.parse(JSON.stringify(actorsData.data));
+  // const { boards } = postsData.data;
 
   console.log(musicalData);
   console.log(actorsData);
@@ -89,85 +93,109 @@ function PlayPage() {
   // };
 
   //  더미데이터3
-  // const postsData = {
-  //   posts: [
-  //     {
-  //       nickname: '조이',
-  //       title: '베토벤이 최고야',
-  //       lastCreatedAt: '2023.02.02',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Coco',
-  //       view: '22',
-  //       commentCount: '0',
-  //       boardLike: '10',
-  //     },
-  //     {
-  //       nickname: '해피',
-  //       title: 'H열 19번 좌석 조아',
-  //       lastCreatedAt: '2023.01.22',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Molly',
-  //       view: '21',
-  //       commentCount: '2',
-  //       boardLike: '1',
-  //     },
-  //     {
-  //       nickname: '반달',
-  //       title: '제작년이 더 좋았던듯?',
-  //       lastCreatedAt: '2023.01.20',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Abby',
-  //       view: '23',
-  //       commentCount: '3',
-  //       boardLike: '10',
-  //     },
-  //     {
-  //       nickname: '뮬리몰리',
-  //       title: '박효신 연기력 뭐임?',
-  //       lastCreatedAt: '2023.01.15',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Lucy',
-  //       view: '663',
-  //       commentCount: '52',
-  //       boardLike: '100',
-  //     },
-  //     {
-  //       nickname: '배고픈반달곰',
-  //       title: '이번달만 3번째임',
-  //       lastCreatedAt: '2023.01.12',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Angel',
-  //       view: '133',
-  //       commentCount: '2',
-  //       boardLike: '6',
-  //     },
-  //     {
-  //       nickname: '뮤지컬금단현상',
-  //       title: '아니? 마지막 왜저럼? 베토벤!?',
-  //       lastCreatedAt: '2023.01.11',
-  //       url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Sassy',
-  //       view: '121',
-  //       commentCount: '22',
-  //       boardLike: '10',
-  //     },
-  //   ],
-  // };
+  const fakepostsData = {
+    posts: [
+      {
+        nickname: '조이',
+        title: '베토벤이 최고야',
+        lastCreatedAt: '2023.02.02',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Coco',
+        view: '22',
+        commentCount: '0',
+        boardLike: '10',
+      },
+      {
+        nickname: '해피',
+        title: 'H열 19번 좌석 조아',
+        lastCreatedAt: '2023.01.22',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Molly',
+        view: '21',
+        commentCount: '2',
+        boardLike: '1',
+      },
+      {
+        nickname: '반달',
+        title: '제작년이 더 좋았던듯?',
+        lastCreatedAt: '2023.01.20',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Abby',
+        view: '23',
+        commentCount: '3',
+        boardLike: '10',
+      },
+      {
+        nickname: '뮬리몰리',
+        title: '박효신 연기력 뭐임?',
+        lastCreatedAt: '2023.01.15',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Lucy',
+        view: '663',
+        commentCount: '52',
+        boardLike: '100',
+      },
+      {
+        nickname: '배고픈반달곰',
+        title: '이번달만 3번째임',
+        lastCreatedAt: '2023.01.12',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Angel',
+        view: '133',
+        commentCount: '2',
+        boardLike: '6',
+      },
+      {
+        nickname: '뮤지컬금단현상',
+        title: '아니? 마지막 왜저럼? 베토벤!?',
+        lastCreatedAt: '2023.01.11',
+        url: 'https://api.dicebear.com/5.x/thumbs/svg?seed=Sassy',
+        view: '121',
+        commentCount: '22',
+        boardLike: '10',
+      },
+    ],
+  };
 
   return (
     <Container>
       <ContentSection>
         <PosterBox>
           <PosterImg
-            src={musicalData.musicals.poster}
-            alt={`${musicalData.musicals.musicalKorName} Musical Poster`}
+            src={musical.poster}
+            alt={`${musical.musicalKorName} Musical Poster`}
           />
         </PosterBox>
-        <AboutMusical musicalData={musicalData} actorsData={actorsData} />
+        <AboutMusical musical={musical} actors={actors} theater={theater} />
       </ContentSection>
-
-      <SubTitle fontSize="1.8rem" fontWeight="700" marginTop="3rem">
-        커뮤니티게시글
-      </SubTitle>
-      <ContentSection>
-        <ColumnContentSection>
-          {postsData.posts.slice(0, 3).map((post, idx) => {
+      <ColumnContentSection>
+        <SubTitle fontSize="1.8rem" fontWeight="700" marginTop="3rem">
+          커뮤니티게시글
+        </SubTitle>
+        <CommunityContentSection>
+          {fakepostsData.posts.map((post, idx) => {
             return (
               <ArticleCard
+                // id={post.}
+                key={idx}
+                minWidth="350px"
+                width="49%"
+                height="30%"
+                marginBottom="1.5rem"
+                marginRight="1%"
+                borderRadius="8px"
+                nickname={post.nickname}
+                lastCreatedAt={post.lastCreatedAt}
+                title={post.title}
+                titlefontSize="1.6rem"
+                titleMarginBottom="1.5rem"
+                view={post.view}
+                url={post.url}
+                commentCount={post.commentCount}
+                boardLike={post.boardLike}
+              />
+            );
+          })}
+          {/* <ColumnContentSection>
+          {boards.slice(0, 3).map((post, idx) => {
+            return (
+              <ArticleCard
+                // id={post.}
                 key={idx}
                 width="100%"
                 height="30%"
@@ -187,7 +215,7 @@ function PlayPage() {
           })}
         </ColumnContentSection>
         <ColumnContentSection>
-          {postsData.posts.slice(3).map((post, index) => {
+          {boards.slice(3).map((post, index) => {
             return (
               <ArticleCard
                 key={index}
@@ -207,19 +235,29 @@ function PlayPage() {
               />
             );
           })}
-        </ColumnContentSection>
-      </ContentSection>
-      <HeadingBox>
-        <SubTitle fontSize="1.8rem" fontWeight="700" marginTop="3rem">
-          주변시설정보
-        </SubTitle>
-        <SubTitle fontSize="1.4rem" fontWeight="500" marginTop="3rem">
-          리뷰쓰러가기
-        </SubTitle>
-      </HeadingBox>
-      <ContentSection>
-        <Mapbox />
-      </ContentSection>
+        </ColumnContentSection> */}
+        </CommunityContentSection>
+      </ColumnContentSection>
+      <ColumnContentSection>
+        <HeadingBox>
+          <SubTitle fontSize="1.8rem" fontWeight="700" marginTop="3rem">
+            주변시설정보
+          </SubTitle>
+          <SubTitle
+            fontSize="1.4rem"
+            fontWeight="700"
+            marginTop="3rem"
+            onClick={() => {
+              navigate(`/nearby/${theater.theaterId}`);
+            }}
+          >
+            리뷰쓰러가기
+          </SubTitle>
+        </HeadingBox>
+        <ContentSection>
+          <Mapbox />
+        </ContentSection>
+      </ColumnContentSection>
     </Container>
   );
 }
@@ -234,6 +272,7 @@ const Container = styled.div`
   overflow-y: auto;
   @media screen and (max-width: 768px) {
     width: 100%;
+    padding: 2rem;
     flex-wrap: wrap;
   }
 `;
@@ -250,10 +289,26 @@ const ContentSection = styled.section`
     flex-wrap: wrap;
   }
 `;
-
 const ColumnContentSection = styled(ContentSection)`
   flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin: 2rem 0 2rem 0;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 3rem;
+  }
+`;
+
+const CommunityContentSection = styled(ContentSection)`
+  flex-direction: row;
+  flex-wrap: wrap;
   padding: 1rem;
+
+  @media screen and (max-width: 768px) {
+    flex-wrap: wrap;
+  }
 `;
 
 const PosterBox = styled.div`
@@ -284,6 +339,7 @@ const SubTitle = styled.h3`
 
 const HeadingBox = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-between;
 `;
 

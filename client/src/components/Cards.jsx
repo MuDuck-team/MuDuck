@@ -13,6 +13,7 @@ export function ArticleCard({
   boardLike,
   lastCreatedAt,
   id,
+  minWidth,
   width,
   height,
   backgroundColor,
@@ -34,6 +35,7 @@ export function ArticleCard({
 
   return (
     <CardContainer
+      minWidth={minWidth}
       width={width}
       height={height}
       onClick={onClick}
@@ -140,6 +142,7 @@ const RatingContainer = styled.section`
 `;
 
 const CardContainer = styled.article`
+  min-width: ${props => props.minWidth};
   width: ${props => props.width};
   height: ${props => props.height};
   margin-bottom: ${props => props.marginBottom};
