@@ -22,6 +22,7 @@ public interface MyPageMapper {
 
     default MyPageDto.commentsResponse commentToMyPageCommentsResponseDto(Comment comment){
         MyPageDto.commentsResponse response = MyPageDto.commentsResponse.builder()
+                .id(comment.getCommentId())
                 .boardId(comment.getBoard().getBoardId())
                 .body(comment.getBody())
                 .createdAt(comment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))

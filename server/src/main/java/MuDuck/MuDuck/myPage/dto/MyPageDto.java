@@ -20,6 +20,7 @@ public class MyPageDto {
     @Builder
     @Getter
     public static class commentsResponse {
+        private long id;
         private long boardId;
         private String body;
         private String createdAt;
