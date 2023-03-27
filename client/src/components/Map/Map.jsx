@@ -7,7 +7,7 @@ import {
 
 const { kakao } = window;
 
-function MyMap({
+function Map({
   searchPlace,
   countRef,
   category,
@@ -16,6 +16,7 @@ function MyMap({
   restaurants,
   cafes,
   parkings,
+  markerMode,
 }) {
   useEffect(() => {
     const { latitude: defalutLat, longitude: defalutLng } = currentTheater;
@@ -301,14 +302,16 @@ function MyMap({
     }
 
     // 키워드로 장소를 검색합니다
-    searchPlaces();
+    if (!markerMode) {
+      searchPlaces();
+    }
     choiceCategory();
   }, [searchPlace, restaurants, cafes, parkings, category, currentTheater]);
 
   return (
     <StyledMapWrapper className="map_wrap">
       <StyledMap id="map" />
-      <StyledMenu id="menu_wrap" className="bg_white">
+      <StyledMenu id="menu_wrap" className="bg_white" markerMode={markerMode}>
         <hr />
         <StyledUl id="placesList" />
         <StyledPagenation id="pagination" />
@@ -369,6 +372,7 @@ const StyledMapWrapper = styled.div`
 `;
 
 const StyledMenu = styled.div`
+  display: ${props => (props.markerMode ? 'none' : 'initial')};
   position: absolute;
   top: 0;
   left: 0;
@@ -509,4 +513,4 @@ const StyledPagenation = styled.div`
   }
 `;
 
-export default MyMap;
+export default Map;

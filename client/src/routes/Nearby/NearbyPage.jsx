@@ -9,7 +9,7 @@ import Dropdown from '../../components/DropDown';
 import { StyledInput } from '../../components/Input';
 import StarRating from '../../components/StarRating';
 import { userInfo } from '../../recoil/userAtom';
-import MyMapContainer from './MyMapContainer';
+import MyMapContainer from '../../components/Map/MapContainer';
 
 export async function loader({ params }) {
   const placeDataResponse = await customAxios.get(`/maps/theater/${params.id}`);
@@ -37,13 +37,25 @@ function NearbyPage() {
   const [rate, setRate] = useState(3);
   const [oneLine, setOneLine] = useState('');
   const user = useRecoilValue(userInfo);
+  // const [prevOneLine, setPrevOneLine] = useState({});
   const { restaurants = [], cafes = [], parkings = [] } = placeData;
 
-  const onMarkerClick = obj => {
+  const onMarkerClick = async obj => {
     setSelectPlaceObj(obj);
-    console.log(obj);
+    if (user?.id) {
+      const localToken = localStorage.getItem('localToken');
+      const response = await customAxios.get(
+        `/recommend-place/${obj.placeId}/maps/${theaterId}/member/${user.id}`,
+        {},
+        {
+          headers: {
+            Authorization: localToken,
+          },
+        },
+      );
+      console.log(response);
+    }
   };
-
   const onClickRate = rateProp => {
     setRate(rateProp);
   };
@@ -145,6 +157,7 @@ function NearbyPage() {
         restaurants={restaurants}
         cafes={cafes}
         parkings={parkings}
+        markerMode
       />
       <CommentCotainer>
         <H3>
