@@ -22,12 +22,12 @@ const LoadingSpinnerContainer = styled.div`
 `;
 
 const LoadingSpinner = styled.div`
-  width: 64px;
-  height: 64px;
-  border: 8px solid;
+  width: 36px;
+  height: 36px;
+  border: 4px solid;
   border-color: #000 transparent #555 transparent;
   border-radius: 50%;
-  animation: spin 1.2s linear infinite;
+  animation: spin 1s linear infinite;
 
   @keyframes spin {
     0% {
