@@ -34,26 +34,25 @@ function NearbyPage() {
   const { placeData, theaterId, theaterList } = useLoaderData();
   const currentTheater = theaterList.filter(obj => obj.id === +theaterId)[0];
   const [selectPlaceObj, setSelectPlaceObj] = useState({});
+  const [isEdit, setIsEdit] = useState(false);
   const [rate, setRate] = useState(3);
   const [oneLine, setOneLine] = useState('');
+  const [prevOnelineObj, setPrevOnelineObj] = useState({});
   const user = useRecoilValue(userInfo);
-  // const [prevOneLine, setPrevOneLine] = useState({});
   const { restaurants = [], cafes = [], parkings = [] } = placeData;
 
   const onMarkerClick = async obj => {
     setSelectPlaceObj(obj);
+    setIsEdit(false);
     if (user?.id) {
-      const localToken = localStorage.getItem('localToken');
-      const response = await customAxios.get(
-        `/recommend-place/${obj.placeId}/maps/${theaterId}/member/${user.id}`,
-        {},
-        {
-          headers: {
-            Authorization: localToken,
-          },
-        },
-      );
-      console.log(response);
+      const { getOneLineAndRate } = await import('../../api/muduckApi');
+      const data = await getOneLineAndRate(obj.placeId, user.id);
+      if (Object.keys(data).length) {
+        setPrevOnelineObj(data);
+        setRate(data.score);
+        setOneLine(data.oneLine);
+        setIsEdit(true);
+      }
     }
   };
   const onClickRate = rateProp => {
@@ -113,26 +112,44 @@ function NearbyPage() {
     let map = { ...selectPlaceObj, theaterId: +theaterId };
     map = changeKeyName(map);
 
-    await customAxios.post(
-      '/recommend-place',
-
-      {
-        map,
-        recommendPlace: {
-          memberId: user?.id,
+    if (isEdit) {
+      await customAxios.patch(
+        `/recommend-place/${prevOnelineObj.id}/maps/${map.placeId}/members/${user?.id}`,
+        {
           score: rate,
           oneLine,
         },
-      },
-      {
-        headers: {
-          Authorization: localToken,
+        {
+          headers: {
+            Authorization: localToken,
+          },
         },
-      },
-    );
+      );
+    } else {
+      await customAxios.post(
+        '/recommend-place',
+        {
+          map,
+          recommendPlace: {
+            memberId: user?.id,
+            score: rate,
+            oneLine,
+          },
+        },
+        {
+          headers: {
+            Authorization: localToken,
+          },
+        },
+      );
+    }
+
     setRate(3);
     setOneLine('');
     setSelectPlaceObj({});
+    navigate('.');
+    setPrevOnelineObj({});
+    setIsEdit(false);
   };
 
   const onChange = e => {
@@ -157,7 +174,6 @@ function NearbyPage() {
         restaurants={restaurants}
         cafes={cafes}
         parkings={parkings}
-        markerMode
       />
       <CommentCotainer>
         <H3>
@@ -186,14 +202,6 @@ function NearbyPage() {
               height="50px"
               onChange={onChange}
               disabled={!canLeaveComment(selectPlaceObj)}
-            />
-            <input type="hidden" name="mapId" value={theaterId} />
-            <input type="hidden" name="score" value={rate} />
-            <input type="hidden" name="memberId" value={user?.id} />
-            <input
-              type="hidden"
-              name="map"
-              value={{ ...selectPlaceObj, theaterId: +theaterId }}
             />
             <Button
               type="submit"
