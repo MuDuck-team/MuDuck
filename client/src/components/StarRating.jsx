@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 function StarRating({
-  defaultValue = 0,
+  defaultValue = 3,
   readonly = false,
   onClick,
   size,
@@ -10,6 +10,10 @@ function StarRating({
 }) {
   const [rating, setRating] = useState(Math.round(defaultValue));
   const [hover, setHover] = useState(0);
+
+  useEffect(() => {
+    setRating(defaultValue);
+  }, [defaultValue]);
   return (
     <Wrapper className="star-rating" size={size} width={width}>
       {[...Array(5)].map((star, i) => {
