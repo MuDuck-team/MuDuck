@@ -1,51 +1,47 @@
+import { useLoaderData } from 'react-router-dom';
 import styled from 'styled-components';
+import {
+  getPopularDailyPosts,
+  getPopularWeeklyPosts,
+  getPopularMusicals,
+} from '../../api/muduckApi';
+import Banners from './BannersData';
 import Carousel from '../../components/Carousel';
 import PopularPosts from './PopularPosts';
 import PopularPlays from './PopularPlays';
 
+export async function loader() {
+  const [dailyPosts, weeklyPosts, musicals] = await Promise.all([
+    getPopularDailyPosts(),
+    getPopularWeeklyPosts(),
+    getPopularMusicals(),
+  ]);
+  const dailyPostsData = dailyPosts.data;
+  const weeklyPostsData = weeklyPosts.data;
+  const musicalsData = musicals.data.data;
+  return { dailyPostsData, weeklyPostsData, musicalsData };
+}
+
 function MainPage() {
-  const banners = [
-    {
-      id: 1,
-      url: 'https://via.placeholder.com/600/92c952',
-      alt: '배너 1',
-    },
-    {
-      id: 2,
-      url: 'https://via.placeholder.com/600/771796',
-      alt: '배너 2',
-    },
-    {
-      id: 3,
-      url: 'https://via.placeholder.com/600/24f355',
-      alt: '배너 3',
-    },
-    {
-      id: 4,
-      url: 'https://via.placeholder.com/600/92c952',
-      alt: '배너 4',
-    },
-    {
-      id: 5,
-      url: 'https://via.placeholder.com/600/771796',
-      alt: '배너 5',
-    },
-  ];
+  const { dailyPostsData, weeklyPostsData, musicalsData } = useLoaderData();
 
   return (
-    <Wrapper>
-      <Carousel banners={banners} />
-      <Container>
+    <MainPageLayout>
+      <Carousel banners={Banners} />
+      <ContentContainer>
         <Category>인기글 추천</Category>
-        <PopularPosts />
+        <PopularPosts
+          dailyPosts={dailyPostsData}
+          weeklyPosts={weeklyPostsData}
+        />
         <Category>추천 공연</Category>
-        <PopularPlays />
-      </Container>
-    </Wrapper>
+        <PopularPlays musicals={musicalsData} />
+      </ContentContainer>
+    </MainPageLayout>
   );
 }
 
-const Wrapper = styled.div`
+const MainPageLayout = styled.div`
   display: flex;
   flex-direction: column;
   padding: 40px 0;
@@ -55,12 +51,12 @@ const Wrapper = styled.div`
   }
 `;
 
-const Container = styled.div`
+const ContentContainer = styled.section`
   width: 100%;
   margin: 0 auto;
 
   @media screen and (max-width: 1024px) {
-    width: 96%;
+    width: 90%;
   }
 `;
 

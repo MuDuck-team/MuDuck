@@ -6,7 +6,7 @@ import customAxios from './api/customAxios';
 import GlobalStyle from './styles/GlobalStyle';
 import Root from './routes/Root';
 import ErrorPage from './routes/Error/ErrorPage';
-import MainPage from './routes/Main/MainPage';
+import MainPage, { loader as mainPageLoader } from './routes/Main/MainPage';
 import LoginPage from './routes/Login/LoginPage';
 import SingupPage from './routes/Signup/SingupPage';
 import MyinfoPage from './routes/Myinfo/MyinfoPage';
@@ -52,7 +52,7 @@ const router = createBrowserRouter([
       {
         errorElement: <ErrorPage />,
         children: [
-          { index: true, element: <MainPage /> },
+          { index: true, element: <MainPage />, loader: mainPageLoader },
           { path: '/login', element: <LoginPage /> },
           { path: '/oauth/redirect', element: <OauthRedirectPage /> },
           { path: '/signup', element: <SingupPage /> },
