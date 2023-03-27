@@ -240,11 +240,13 @@ public class MyPageControllerTest {
 
         List<MyPageDto.commentsResponse> responses = List.of(
                 MyPageDto.commentsResponse.builder()
+                        .id(1)
                         .boardId(board1.getBoardId())
                         .body(comment1.getBody())
                         .createdAt("2023.03.25")
                         .build(),
                 MyPageDto.commentsResponse.builder()
+                        .id(2)
                         .boardId(board2.getBoardId())
                         .body(comment2.getBody())
                         .createdAt("2023.03.26")
@@ -255,7 +257,8 @@ public class MyPageControllerTest {
                 PageRequest.of(0, 8, Sort.by("createdAt")), 2);
 
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member1);
-        given(commentService.getMyComments(Mockito.any(), Mockito.anyInt(), Mockito.anyInt())).willReturn(pageComments);
+        given(commentService.getMyComments(Mockito.any(), Mockito.anyInt(),
+                Mockito.anyInt())).willReturn(pageComments);
         given(myPageMapper.commentsToMyPageCommentsResponseDtos(Mockito.anyList())).willReturn(
                 responses);
 
@@ -281,6 +284,8 @@ public class MyPageControllerTest {
                                 List.of(
                                         fieldWithPath("comments").type(JsonFieldType.ARRAY)
                                                 .description("댓글 key 값"),
+                                        fieldWithPath("comments[].id").type(JsonFieldType.NUMBER)
+                                                .description("댓글 식별자"),
                                         fieldWithPath("comments[].boardId").type(
                                                         JsonFieldType.NUMBER)
                                                 .description("게시물 식별자"),
