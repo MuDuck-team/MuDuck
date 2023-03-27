@@ -60,7 +60,7 @@ function NearbyPage() {
   };
 
   const isLogin = () => {
-    return !!user.id;
+    return !!user?.id;
   };
 
   const inCategory = category => {
