@@ -1,28 +1,8 @@
-import { useEffect } from 'react';
-import { useSetRecoilState } from 'recoil';
 import styled from 'styled-components';
-import { userInfo } from '../../recoil/userAtom';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import KakaoLoginBtn from '../../components/KakaoLoginBtn';
 
 function LoginPage() {
-  const accessToken =
-    'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6IlJPTEVfVVNFUiIsInVzZXJuYW1lIjoiam95eUBrYWthby5jb20iLCJzdWIiOiJqb3l5QGtha2FvLmNvbSIsImlhdCI6MTY3OTkyNTY3NSwiZXhwIjoxNjgwMDEyMDc1fQ.5U0xfXe3KfrDnTM92gffIcirNjmaKQIpskIzsnEgPQA';
-  localStorage.setItem('localToken', accessToken);
-
-  const setUser = useSetRecoilState(userInfo);
-  const userData = {
-    id: 5,
-    nickname: '이승연',
-    profileImageUrl:
-      'https://muduckbucket.s3.ap-northeast-2.amazonaws.com/profile/164161ac-ad0f-4a17-9de3-550134f977bf',
-    role: 'ROLE_USER',
-  };
-
-  useEffect(() => {
-    setUser(user => ({ ...user, ...userData }));
-  }, []);
-
   return (
     <LoginPageConainer>
       <MuduckLogo />
