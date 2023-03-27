@@ -32,11 +32,7 @@ public class RecommendPlaceDto {
     @Getter
     @AllArgsConstructor
     public static class Patch{
-        @Positive
-        private long memberId;
-        @Positive
-        private long mapId;
-        @DecimalMin(value = "0.0", message = "최소 0.0 이상으로 입력해주세요")
+        @DecimalMin(value = "1.0", message = "최소 1.0 이상으로 입력해주세요")
         @DecimalMax(value = "5.0", message = "최대 5.0 이하로 입력해주세요")
         private double score;
         @Length(min = 3, max = 50)

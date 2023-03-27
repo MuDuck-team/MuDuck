@@ -14,4 +14,6 @@ public interface RecommendPlaceMapper {
     @Mapping(target = "mapId", source = "map.mapId")
     RecommendPlaceDto.Response recommendPlaceToResponse(RecommendPlace place);
 
+
+    RecommendPlace patchDtoToRecommendPlace(RecommendPlaceDto.Patch patch);
 }
