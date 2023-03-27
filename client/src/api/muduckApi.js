@@ -25,3 +25,25 @@ export const getRelatedBoard = async musicalId => {
     headers: { Authorization: token },
   });
 };
+
+// 해당 마커의 내가 달은 한줄평과 평점 가져오기
+export const getOneLineAndRate = async (mapId, memberId) => {
+  const token = localStorage.getItem('localToken');
+
+  const response = await customAxios.get(
+    `/recommend-place/maps/${mapId}/members/${memberId}`,
+    {},
+    {
+      headers: { Authorization: token },
+    },
+  );
+
+  // const response = await customAxios({
+  //   method: 'get',
+  //   url: `/recommend-place/maps/${mapId}/members/${memberId}`,
+  //   headers: { Authorization: token },
+  // });
+  const { data } = response;
+
+  return data || {};
+};
