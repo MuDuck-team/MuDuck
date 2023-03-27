@@ -81,13 +81,13 @@ function PlayPage() {
                   titlefontSize="1.6rem"
                   titleMarginBottom="1.5rem"
                   id={post.boardId}
-                  nickname={post.nickname}
-                  title={post.title}
-                  lastCreatedAt={post.createdAt}
-                  view={post.view}
                   userProfile={post.userProfile}
+                  nickname={post.nickname}
+                  lastCreatedAt={post.createdAt}
+                  title={post.title}
+                  view={post.view || '0'}
                   commentCount={post.totalComment || '0'}
-                  boardLike={post.like}
+                  boardLike={post.like || '0'}
                 />
               );
             })
