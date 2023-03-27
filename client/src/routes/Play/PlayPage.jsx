@@ -70,7 +70,6 @@ function PlayPage() {
             boards.map((post, idx) => {
               return (
                 <ArticleCard
-                  id={post.boardId}
                   type="post"
                   key={idx}
                   minWidth="380px"
@@ -79,15 +78,16 @@ function PlayPage() {
                   marginBottom="1.5rem"
                   marginRight="1%"
                   borderRadius="8px"
-                  nickname={post.nickname}
-                  title={post.title}
                   titlefontSize="1.6rem"
                   titleMarginBottom="1.5rem"
-                  lastCreatedAt={post.createdAt.split(' ')[0]}
-                  view={post.views}
-                  userProfile={post.picture}
-                  commentCount={post.commentCount || '0'}
-                  boardLike={post.likes}
+                  id={post.boardId}
+                  userProfile={post.userProfile}
+                  nickname={post.nickname}
+                  lastCreatedAt={post.createdAt}
+                  title={post.title}
+                  view={post.view || '0'}
+                  commentCount={post.totalComment || '0'}
+                  boardLike={post.like || '0'}
                 />
               );
             })

@@ -100,7 +100,7 @@ export function RatingCard({
   );
 }
 
-export function MyPageCard({ width, height, title, lastCreatedAt, id }) {
+export function MyPageCard({ id, width, height, title, createdAt }) {
   const navigate = useNavigate();
 
   const onClick = () => {
@@ -112,7 +112,7 @@ export function MyPageCard({ width, height, title, lastCreatedAt, id }) {
       <ContentWrapper>
         <BottomWrapper>
           <TitleWrapper>{title}</TitleWrapper>
-          {lastCreatedAt}
+          {createdAt}
         </BottomWrapper>
       </ContentWrapper>
     </CardContainer>
@@ -146,17 +146,18 @@ const CardContainer = styled.article`
   min-width: ${props => props.minWidth};
   width: ${props => props.width};
   height: ${props => props.height};
-  margin-bottom: ${props => props.marginBottom};
+  margin-bottom: ${props => props.marginBottom || '0.8rem'};
   margin-right: ${props => props.marginRight};
   background-color: ${props => props.backgroundColor || 'var(--main-002)'};
   font-size: var(--font-size-md);
   color: var(--font-color);
   border-bottom: 0.1px solid var(--border-color);
-  border-radius: ${props => props.borderRadius};
+  border-radius: ${props => props.borderRadius || '8px'};
   border-bottom: 1px solid var(--border-color);
 
   &:hover {
     opacity: 0.8;
+    cursor: pointer;
   }
 `;
 

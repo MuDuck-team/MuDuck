@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import customAxios from '../../api/customAxios';
@@ -109,7 +109,7 @@ function MyinfoPage() {
 
         <InputLabel htmlFor="profileAvatar">프로필 이미지 선택</InputLabel>
         <ProfileWrapper>
-          <ProfileSelectionCard>
+          <ProfileSelectionCard uploadSrc={uploadSrc}>
             <ProfileImg
               margin="1.6rem"
               src={user.profileImageUrl}
@@ -251,6 +251,12 @@ const ProfileSelectionCard = styled.div`
   background-color: rgba(255, 255, 255, 0.05);
   font-size: var(--font-size-sm);
   color: var(--border-color);
+
+  ${props =>
+    props.uploadSrc &&
+    css`
+      filter: brightness(1);
+    `}
 `;
 
 const WarningWrapper = styled(ProfileWrapper)`
