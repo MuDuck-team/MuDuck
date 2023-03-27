@@ -11,7 +11,7 @@ export async function loader({ request }) {
   try {
     const params = new URL(request.url).searchParams;
     const sortBy = params.get('sortBy') || 'recent';
-    const categoryName = params.get('categoryName') || '자유주제';
+    const categoryName = params.get('categoryName') || '전체';
     const page = params.get('page') || '1';
     const obj = await customAxios.get(
       `/boards?page=${page}&sortBy=${sortBy}&categoryName=${categoryName}`,
@@ -36,6 +36,9 @@ function PostsPage() {
   const navigate = useNavigate();
 
   const { noticeBoards, boards, pageInfo, categoryList } = data;
+
+  categoryList.unshift({ id: 0, categoryName: '전체', parentId: null });
+
   const [currentSortBy, setCurrentSortBy] = useState(sortArr[0]);
   const [currentCategoryName, setCurrentCategoryName] = useState(
     categoryList[0],
@@ -79,7 +82,7 @@ function PostsPage() {
           <p>카테고리</p>
           <Dropdown
             options={categoryList}
-            defaultValue={currentCategoryName}
+            defaultValue={categoryList[0]}
             onClick={onClickCategoryName}
             height="37px"
             selectedValue={
