@@ -306,7 +306,16 @@ function Map({
       searchPlaces();
     }
     choiceCategory();
-  }, [searchPlace, restaurants, cafes, parkings, category, currentTheater]);
+    console.log(
+      '리랜더링',
+      searchPlace,
+      restaurants,
+      cafes,
+      parkings,
+      category,
+      currentTheater,
+    );
+  }, [searchPlace, category, currentTheater]);
 
   return (
     <StyledMapWrapper className="map_wrap">
