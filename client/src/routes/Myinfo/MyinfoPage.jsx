@@ -15,7 +15,6 @@ import uploadS3 from '../../components/ProfileImage/ProfileUploader';
 function MyinfoPage() {
   const [nickname, setNickname] = useState('');
   const [uploadSrc, setUploadSrc] = useState(null);
-  const [pickKakako, setPickKakao] = useState(false);
   const [user, setUserInfo] = useRecoilState(userInfo);
   const navigate = useNavigate();
   let updatedUserData = { nickname: '', profileImageUrl: '' };
@@ -26,7 +25,6 @@ function MyinfoPage() {
 
   const handleClickKakaoProfile = () => {
     setUploadSrc(null);
-    setPickKakao(true);
   };
 
   const handleValidateNickname = () => {
@@ -120,13 +118,12 @@ function MyinfoPage() {
             />
             kakao 프로필로 계속하기
           </ProfileSelectionCard>
-          <ProfileSelectionCard pickKakako={pickKakako}>
+          <ProfileSelectionCard>
             <ProfileImgSetter
               id="profileAvatar"
               uploadSrc={uploadSrc}
               defualtPhotoUrl="https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png"
               setUploadSrc={setUploadSrc}
-              setPickKakao={setPickKakao}
             />
             이미지 업로드
           </ProfileSelectionCard>
@@ -254,15 +251,6 @@ const ProfileSelectionCard = styled.div`
   background-color: rgba(255, 255, 255, 0.05);
   font-size: var(--font-size-sm);
   color: var(--border-color);
-
-  ${props =>
-    props.pickKakako
-      ? css`
-          filter: brightness(0.5);
-        `
-      : css`
-          filter: brightness(1.2);
-        `}
 
   ${props =>
     props.uploadSrc &&
