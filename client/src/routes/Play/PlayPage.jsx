@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { useNavigate, useLoaderData, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import AboutMusical from './AboutMusical';
@@ -8,8 +7,9 @@ import {
   getActorsDetail,
   getRelatedBoard,
   getTheaterInfo,
+  getNearbyTheaterData,
 } from '../../api/muduckApi';
-import customAxios from '../../api/customAxios';
+
 import MapContainer from '../../components/Map/MapContainer';
 
 export async function loader({ params }) {
@@ -20,30 +20,21 @@ export async function loader({ params }) {
   ]);
 
   const theaterInfo = await getTheaterInfo(musicalData.data.theater.theaterId);
+  const nearbyInfo = await getNearbyTheaterData(
+    musicalData.data.theater.theaterId,
+  );
 
-  return { musicalData, actorsData, postsData, theaterInfo };
+  return { musicalData, actorsData, postsData, theaterInfo, nearbyInfo };
 }
 
 function PlayPage() {
   const navigate = useNavigate();
-  const [nearbyData, setNearbyData] = useState({});
-  const { musicalData, actorsData, postsData, theaterInfo } = useLoaderData();
+  const { musicalData, actorsData, postsData, theaterInfo, nearbyInfo } =
+    useLoaderData();
   const { musical, theater } = musicalData.data;
   const { actors } = actorsData.data;
   const { boards } = postsData.data;
-  const { restaurants = [], cafes = [], parkings = [] } = nearbyData;
-
-  useEffect(() => {
-    async function getNearbyTheaterData(theaterId) {
-      await customAxios({
-        method: 'get',
-        url: `/maps/theater/${theaterId}`,
-      }).then(res => {
-        return setNearbyData(res);
-      });
-    }
-    getNearbyTheaterData(theater.theaterId);
-  }, []);
+  const { restaurants = [], cafes = [], parkings = [] } = nearbyInfo.data;
 
   return (
     <Container>

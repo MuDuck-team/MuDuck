@@ -39,6 +39,7 @@ function NearbyPage() {
   const [oneLine, setOneLine] = useState('');
   const [prevOnelineObj, setPrevOnelineObj] = useState({});
   const user = useRecoilValue(userInfo);
+
   const { restaurants = [], cafes = [], parkings = [] } = placeData;
 
   const onMarkerClick = async obj => {
