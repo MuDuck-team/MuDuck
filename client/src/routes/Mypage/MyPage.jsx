@@ -1,69 +1,24 @@
-import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import PostData, { CommentData } from './ContentData';
-import { MyPageCard } from '../../components/Cards';
-import Paging from '../../components/Pagination/Pagination';
-import Myinfo from './Myinfo';
+import MyInformation from './MyInformation';
+import MyPostList from './MyPostList';
+import MyLikePostList from './MyLikePostList';
+import MyCommentList from './MyCommentList';
 
 function MyPage() {
-  const pageSize = 5;
-  const pageInfo = {
-    page: 1,
-    size: pageSize,
-    totalElements: PostData.length,
-    totalPages: Math.ceil(PostData.length / pageSize),
-  };
-
-  const [page, setPage] = useState(pageInfo.page);
-  const [currentItems, setCurrentItems] = useState([]);
-  const indexOfLastPost = page * pageInfo.size;
-  const indexOfFirstPost = indexOfLastPost - pageInfo.size;
-
-  useEffect(() => {
-    setCurrentItems(PostData.slice(indexOfFirstPost, indexOfLastPost));
-  }, [page, indexOfLastPost, indexOfFirstPost]);
-
   return (
     <MyPageLayout>
       <Category>마이 페이지</Category>
-      <Myinfo />
+      <MyInformation />
       <ContentContainer>
         <PostContainer>
           <Title>내가 작성한 글</Title>
-          {currentItems.map(post => (
-            <MyPageCard key={post.id} width="100%" {...post} />
-          ))}
-          <Paging
-            activePage={page}
-            itemsCount={pageInfo.size}
-            totalItemCount={pageInfo.totalElements}
-            pageRange={pageInfo.totalPages}
-            setPage={setPage}
-          />
-          <Title>내가 스크랩한 글</Title>
-          {currentItems.map(post => (
-            <MyPageCard key={post.id} width="100%" {...post} />
-          ))}
-          <Paging
-            activePage={page}
-            itemsCount={pageInfo.size}
-            totalItemCount={pageInfo.totalElements}
-            pageRange={pageInfo.totalPages}
-            setPage={setPage}
-          />
+          <MyPostList />
+          <Title>내가 좋아요 글</Title>
+          <MyLikePostList />
         </PostContainer>
         <CommentContainer>
           <Title>내가 작성한 댓글</Title>
-          {CommentData.map(post => (
-            <MyPageCard key={post.id} width="100%" {...post} />
-          ))}
-          <Paging
-            activePage={page}
-            itemsCount={pageInfo.size}
-            totalItemCount={pageInfo.totalElements}
-            pageRange={pageInfo.totalPages}
-            setPage={setPage}
-          />
+          <MyCommentList />
         </CommentContainer>
       </ContentContainer>
     </MyPageLayout>
