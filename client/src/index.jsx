@@ -10,7 +10,7 @@ import MainPage from './routes/Main/MainPage';
 import LoginPage from './routes/Login/LoginPage';
 import SingupPage from './routes/Signup/SingupPage';
 import MyinfoPage from './routes/Myinfo/MyinfoPage';
-import PlaysPage from './routes/Plays/PlaysPage';
+import PlaysPage, { loader as playsPageLoader } from './routes/Plays/PlaysPage';
 import PlayPage from './routes/Play/PlayPage';
 import NearbyPage, {
   loader as nearbyPageLoader,
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
           { path: '/oauth/redirect', element: <OauthRedirectPage /> },
           { path: '/signup', element: <SingupPage /> },
           { path: '/myinfo', element: <MyinfoPage /> },
-          { path: '/plays', element: <PlaysPage /> },
+          { path: '/plays', element: <PlaysPage />, loader: playsPageLoader },
           { path: '/play/:id', element: <PlayPage /> },
           {
             path: '/nearby/:id',
