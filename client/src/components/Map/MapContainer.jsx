@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
-import MyMap from './MyMap';
+import MyMap from './Map';
 
-function MyMapContainer({
+function MapContainer({
   currentTheater,
   onMarkerClick,
   restaurants,
   cafes,
   parkings,
+  markerMode,
 }) {
   const [inputText, setInputText] = useState('');
   const [searchPlace, setSearchPlace] = useState('');
@@ -48,7 +49,7 @@ function MyMapContainer({
 
   return (
     <StyledMapContainer>
-      <StyledForm onSubmit={handleSubmit}>
+      <StyledForm onSubmit={handleSubmit} markerMode={markerMode}>
         <span>키워드 :</span>
         <input type="text" value={inputText} onChange={onChange} size="15" />
         <button type="submit">검색하기</button>
@@ -88,6 +89,7 @@ function MyMapContainer({
         restaurants={restaurants}
         cafes={cafes}
         parkings={parkings}
+        markerMode={markerMode}
       />
     </StyledMapContainer>
   );
@@ -101,6 +103,7 @@ const StyledMapContainer = styled.div`
 
 const StyledForm = styled.form`
   display: flex;
+  display: ${props => (props.markerMode ? 'none' : 'initial')};
   align-items: center;
   justify-content: space-between;
   position: absolute;
@@ -186,4 +189,4 @@ const CategoryContainer = styled.section`
   }
 `;
 
-export default MyMapContainer;
+export default MapContainer;
