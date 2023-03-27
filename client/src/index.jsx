@@ -10,8 +10,8 @@ import MainPage from './routes/Main/MainPage';
 import LoginPage from './routes/Login/LoginPage';
 import SingupPage from './routes/Signup/SingupPage';
 import MyinfoPage from './routes/Myinfo/MyinfoPage';
-import PlaysPage from './routes/Plays/PlaysPage';
-import PlayPage from './routes/Play/PlayPage';
+import PlayPage, { loader as playPageLoader } from './routes/Play/PlayPage';
+import PlaysPage, { loader as playsPageLoader } from './routes/Plays/PlaysPage';
 import NearbyPage, {
   loader as nearbyPageLoader,
 } from './routes/Nearby/NearbyPage';
@@ -41,6 +41,7 @@ import NoticeEditPage, {
 import MyPage from './routes/Mypage/MyPage';
 import AdminLoginPage from './routes/AdminLogin/AdminLoginPage';
 import OauthRedirectPage from './routes/OauthRedirect/OauthRedirectPage';
+import PlayNotFoundPage from './routes/Play/PlayNotFoundPage';
 
 const router = createBrowserRouter([
   {
@@ -56,8 +57,13 @@ const router = createBrowserRouter([
           { path: '/oauth/redirect', element: <OauthRedirectPage /> },
           { path: '/signup', element: <SingupPage /> },
           { path: '/myinfo', element: <MyinfoPage /> },
-          { path: '/plays', element: <PlaysPage /> },
-          { path: '/play/:id', element: <PlayPage /> },
+          {
+            path: '/play/:id',
+            element: <PlayPage />,
+            loader: playPageLoader,
+            errorElement: <PlayNotFoundPage />,
+          },
+          { path: '/plays', element: <PlaysPage />, loader: playsPageLoader },
           {
             path: '/nearby/:id',
             element: <NearbyPage />,

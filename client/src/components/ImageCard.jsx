@@ -1,21 +1,23 @@
 import { useNavigate } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-function ImageCard({ id, size, src, alt, title, actor, ...props }) {
+function ImageCard({ id, size, src, alt, title, actors, ...props }) {
   const navigate = useNavigate();
 
   const onClick = () => {
     navigate(`/play/${id}`);
   };
 
+  const actorList = actors.map(actor => actor.actorName).join(', ');
+
   return (
-    <CardWrapper size={size} onClick={onClick} {...props}>
-      <ImageContainer>
+    <CardContainer size={size} onClick={onClick} {...props}>
+      <ImageWrapper>
         <CardImage src={src} alt={alt} />
-      </ImageContainer>
+      </ImageWrapper>
       <PlayTitle>{title}</PlayTitle>
-      <ActorList>{actor}</ActorList>
-    </CardWrapper>
+      <ActorList>{actorList}</ActorList>
+    </CardContainer>
   );
 }
 
@@ -35,7 +37,7 @@ const sizes = {
   `,
 };
 
-const CardWrapper = styled.div`
+const CardContainer = styled.div`
   ${({ size }) => sizes[size]}
 
   display: flex;
@@ -52,7 +54,7 @@ const CardWrapper = styled.div`
   }
 `;
 
-const ImageContainer = styled.div`
+const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
   height: 0;
@@ -77,6 +79,9 @@ const ActorList = styled.p`
   margin-top: 4px;
   font-size: var(--actor-size);
   filter: brightness(0.8);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 `;
 
 export default ImageCard;

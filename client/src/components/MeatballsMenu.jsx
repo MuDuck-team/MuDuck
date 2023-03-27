@@ -1,10 +1,16 @@
 import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { BsThreeDots, BsTrashFill } from 'react-icons/bs';
 import { HiOutlinePencil } from 'react-icons/hi';
+import customAxios from '../api/customAxios';
 import Modal from './Modal/Modal';
 
 function MeatballsMenu() {
+  const params = useParams();
+  const navigate = useNavigate();
+  const localToken = localStorage.getItem('localToken');
+
   const [isEdit, setIsEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -16,6 +22,26 @@ function MeatballsMenu() {
     setShowModal(!showModal);
   };
 
+  const handlePostEdit = () => {
+    navigate(`/post/edit/${params.id}`);
+  };
+
+  const handlePostDelete = () => {
+    customAxios
+      .delete(`/boards/${params.id}`, {
+        headers: {
+          Authorization: localToken,
+        },
+      })
+      .then(response => {
+        console.log(response);
+        if (response.status === 204) navigate('/posts');
+      })
+      .catch(error => {
+        console.error('Error submitting comment:', error);
+      });
+  };
+
   return (
     <MenuContainer>
       <MeatballsButton onClick={onEditHandler}>
@@ -23,7 +49,7 @@ function MeatballsMenu() {
       </MeatballsButton>
       {isEdit && (
         <MenuWrapper>
-          <MenuButton>
+          <MenuButton onClick={handlePostEdit}>
             <EditIcon />
             수정하기
           </MenuButton>
@@ -36,6 +62,7 @@ function MeatballsMenu() {
             handleCloseModal={showModalHandler}
             title="게시글 삭제"
             content="정말 게시글을 삭제하시겠습니까?"
+            yesCallback={handlePostDelete}
           />
         </MenuWrapper>
       )}
