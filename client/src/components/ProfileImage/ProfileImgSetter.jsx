@@ -3,7 +3,12 @@ import styled from 'styled-components';
 
 //  ProfileSubmitSrc
 
-function ProfileImgSetter({ uploadSrc, setUploadSrc, defualtPhotoUrl }) {
+function ProfileImgSetter({
+  uploadSrc,
+  setUploadSrc,
+  defualtPhotoUrl,
+  setPickKakao,
+}) {
   // const defualtPhotoUrl =
   //   'https://cdn.pixabay.com/photo/2022/02/08/02/52/image-7000639_1280.png';
   //  프리뷰용 state
@@ -20,6 +25,7 @@ function ProfileImgSetter({ uploadSrc, setUploadSrc, defualtPhotoUrl }) {
     }
 
     if (file) {
+      setPickKakao(false);
       const fileExt = file.name.split('.').pop();
       if (!['jpeg', 'png', 'jpg', 'JPG', 'PNG', 'JPEG'].includes(fileExt)) {
         window.alert('jpeg, png, jpg 파일만 업로드가 가능합니다.');
