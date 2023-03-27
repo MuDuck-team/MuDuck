@@ -31,6 +31,7 @@ function PlayPage() {
   const { musical, theater } = musicalData.data;
   const { actors } = actorsData.data;
   const { boards } = postsData.data;
+  const { restaurants = [], cafes = [], parkings = [] } = nearbyData;
 
   useEffect(() => {
     async function getNearbyTheaterData(theaterId) {
@@ -114,7 +115,9 @@ function PlayPage() {
         <ContentSection>
           <MapContainer
             currentTheater={theaterInfo.data}
-            {...nearbyData.data}
+            restaurants={restaurants}
+            cafes={cafes}
+            parkings={parkings}
             markerMode
           />
         </ContentSection>
