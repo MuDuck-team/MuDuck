@@ -203,6 +203,10 @@ function Map({
       // 검색 결과 목록에 추가된 항목들을 제거합니다
       removeAllChildNods(listEl);
 
+      if (placesProp.length === 0) {
+        return;
+      }
+
       // 지도에 표시되고 있는 마커를 제거합니다
       removeMarker();
 
@@ -306,15 +310,6 @@ function Map({
       searchPlaces();
     }
     choiceCategory();
-    console.log(
-      '리랜더링',
-      searchPlace,
-      restaurants,
-      cafes,
-      parkings,
-      category,
-      currentTheater,
-    );
   }, [searchPlace, category, currentTheater]);
 
   return (
