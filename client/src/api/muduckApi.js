@@ -8,6 +8,14 @@ export const getTheaterInfo = async theaterId => {
   });
 };
 
+// 해당 뮤지컬관련 커뮤니티글 가져오기
+export const getNearbyTheaterData = async theaterId => {
+  return customAxios({
+    method: 'get',
+    url: `/maps/theater/${theaterId}`,
+  });
+};
+
 // 뮤지컬정보를 가져오는 api
 export const getMusicalDetail = async musicalId => {
   return customAxios({
