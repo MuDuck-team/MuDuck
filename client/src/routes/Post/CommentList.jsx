@@ -9,7 +9,7 @@ import { StyledInput } from '../../components/Input';
 import Button from '../../components/Button';
 
 function CommentList({ comment }) {
-  const { id, head, body, comments } = comment;
+  const { id, head, body, commentStatus, comments } = comment;
 
   const params = useParams();
   const navigate = useNavigate();
@@ -57,6 +57,7 @@ function CommentList({ comment }) {
       .then(response => {
         console.log(response);
         setCommentValue('');
+        setIsReply(!isReply);
         if (response.status === 201) navigate('.');
       })
       .catch(error => {
@@ -68,6 +69,7 @@ function CommentList({ comment }) {
     <CommentContainer>
       <WriterInfo
         commentId={id}
+        commentStatus={commentStatus}
         memberId={head.memberId}
         profileUrl={head.userProfile}
         nickname={head.nickname}
@@ -75,12 +77,14 @@ function CommentList({ comment }) {
       />
       <CommentContent>{body}</CommentContent>
       <CommentAction>
-        {comments && (
+        {comments.length > 0 && (
           <ReplyList onClick={toggleShowReplyList}>
             {isShowReply ? '댓글 접기' : `댓글 ${comments.length}개`}
           </ReplyList>
         )}
-        <ReplyInput onClick={toggleReplyComment}>댓글 쓰기</ReplyInput>
+        {commentStatus === '댓글게시' && (
+          <ReplyInput onClick={toggleReplyComment}>댓글 쓰기</ReplyInput>
+        )}
       </CommentAction>
       {isReply &&
         (user ? (
@@ -113,6 +117,7 @@ function CommentList({ comment }) {
           <ReplyContainer key={reply.id}>
             <WriterInfo
               commentId={reply.id}
+              commentStatus={reply.commentStatus}
               memberId={reply.head.memberId}
               profileUrl={reply.head.userProfile}
               nickname={reply.head.nickname}
