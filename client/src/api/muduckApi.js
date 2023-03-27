@@ -1,6 +1,14 @@
 import customAxios from './customAxios';
 
 // 뮤지컬정보를 가져오는 api
+export const getTheaterInfo = async theaterId => {
+  return customAxios({
+    method: 'get',
+    url: `/theaters/${theaterId}`,
+  });
+};
+
+// 뮤지컬정보를 가져오는 api
 export const getMusicalDetail = async musicalId => {
   return customAxios({
     method: 'get',
