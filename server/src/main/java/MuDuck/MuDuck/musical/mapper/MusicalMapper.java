@@ -14,7 +14,7 @@ public interface MusicalMapper {
 
     List<MusicalDto.ResponseMusicals> musicalsToMusicalResponseDtos(List<Musical> musicals);
 
-    default MusicalDto.ResponseMusicalBoards boardsToMusicalResponseDtos(long musicalId, List<BoardDto.BoardContentHead> boards, Category category){
+    default MusicalDto.ResponseMusicalBoards boardsToMusicalResponseDtos(long musicalId, List<BoardDto.MusicalBoards> boards, Category category){
         MusicalDto.ResponseMusicalBoards response = MusicalDto.ResponseMusicalBoards.builder()
                 .musicalId(musicalId)
                 .boards(boards)

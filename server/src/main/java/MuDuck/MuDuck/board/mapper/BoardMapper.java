@@ -102,4 +102,21 @@ public interface BoardMapper {
     }
 
     List<BoardDto.BoardContentHead> boardsToBoardContentHead(List<Board> boards);
+
+    default BoardDto.MusicalBoards boardToMusical(Board board){
+        Member member = board.getMember();
+        BoardDto.MusicalBoards response = BoardDto.MusicalBoards.builder()
+                .boardId(board.getBoardId())
+                .title(board.getTitle())
+                .userProfile(member.getPicture())
+                .nickname(member.getNickName())
+                .createdAt(board.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
+                .view(board.getViews())
+                .like(board.getLikes())
+                .totalComment(board.getCommentsSize())
+                .build();
+        return response;
+    }
+
+    List<BoardDto.MusicalBoards> boardsToMusicals(List<Board> boards);
 }

@@ -1,6 +1,8 @@
 package MuDuck.MuDuck.musical.controller;
 
 import MuDuck.MuDuck.actorMusical.service.ActorMusicalService;
+import MuDuck.MuDuck.board.dto.BoardDto;
+import MuDuck.MuDuck.board.dto.BoardDto.BoardContentHead;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.musical.dto.ActorMusicalDto.MappingActorResponseDto;
@@ -112,7 +114,7 @@ public class MusicalController {
         List<Board> responseBoards = musicalService.findMusicalBoards(musicalId);
         Category responseCategory = musicalService.findCategoryName(musicalId);
         return new ResponseEntity<>(musicalMapper.boardsToMusicalResponseDtos(musicalId,
-                boardMapper.boardsToBoardContentHead(responseBoards),
+                boardMapper.boardsToMusicals(responseBoards),
                 responseCategory), HttpStatus.OK);
     }
 

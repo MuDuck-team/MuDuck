@@ -1,5 +1,6 @@
 package MuDuck.MuDuck.board.repository;
 
+import MuDuck.MuDuck.board.dto.BoardDto;
 import MuDuck.MuDuck.board.entity.Board;
 import java.util.List;
 import org.springframework.data.domain.Page;

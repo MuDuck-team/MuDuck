@@ -73,6 +73,7 @@ public class MusicalDto {
             "musicalState", "openDate",
             "closeDate", "age", "runningTime", "intermission", "views", "theaterId"})
     public static class ResponseMusical {
+
         @JsonProperty("id")
         private Long musicalId;
         private String musicalKorName;
@@ -130,7 +131,7 @@ public class MusicalDto {
     public static class ResponseMusicalBoards {
 
         private Long musicalId;
-        private List<BoardDto.BoardContentHead> boards;
+        private List<BoardDto.MusicalBoards> boards;
         private Category category;
 
 
