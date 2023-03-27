@@ -2,10 +2,10 @@ package MuDuck.MuDuck.recommendplace.controller;
 
 import static MuDuck.MuDuck.utils.ApiDocumentUtils.getRequestPreProcessor;
 import static MuDuck.MuDuck.utils.ApiDocumentUtils.getResponsePreProcessor;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
@@ -21,11 +21,11 @@ import MuDuck.MuDuck.map.dto.MapDto;
 import MuDuck.MuDuck.map.entity.Map;
 import MuDuck.MuDuck.map.mapper.MapMapper;
 import MuDuck.MuDuck.map.service.MapService;
-import MuDuck.MuDuck.member.dto.MemberDto;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.entity.Member.MemberRole;
 import MuDuck.MuDuck.member.service.MemberService;
 import MuDuck.MuDuck.recommendplace.dto.RecommendPlaceDto;
+import MuDuck.MuDuck.recommendplace.dto.RecommendPlaceDto.Patch;
 import MuDuck.MuDuck.recommendplace.dto.RecommendPlaceDto.Response;
 import MuDuck.MuDuck.recommendplace.entity.RecommendPlace;
 import MuDuck.MuDuck.recommendplace.mapper.RecommendPlaceMapper;
@@ -203,14 +203,14 @@ class RecommendPlaceControllerTest {
         // given
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
         given(mapService.findVerifiedMapToMapId(Mockito.anyLong())).willReturn(Map.builder().build());
-        given(recommendPlaceService.findRecommendPlaceToMapIdAndMemberId(Mockito.anyLong(), Mockito.anyLong()))
+        given(recommendPlaceService.findRecommendPlaceToMemberIdAndMapId(Mockito.anyLong(), Mockito.anyLong()))
                 .willReturn(RecommendPlace.builder().build());
         given(recommendPlaceMapper.recommendPlaceToResponse(Mockito.any())).willReturn(rpResponse);
 
         // when
         ResultActions getActions =
                 mockMvc.perform(
-                        get("/recommend-place/maps/{map-id}/member/{member-id}", mapId, member.getMemberId())
+                        get("/recommend-place/maps/{map-id}/members/{member-id}", mapId, member.getMemberId())
                                 .accept(MediaType.APPLICATION_JSON)
                 );
 
@@ -238,5 +238,75 @@ class RecommendPlaceControllerTest {
                             )
                         )
                 );
+    }
+    @Test
+    @DisplayName("평점 및 한줄평 업데이트 테스트")
+    @WithMockUser(username = TEST_USER_EMAIL)
+    void patchRecommendPlaceTest() throws Exception {
+        // given
+        long rpId = 1L;
+        long mapId = 1L;
+        RecommendPlace recommendPlace = RecommendPlace.builder().member(member).build();
+
+        RecommendPlaceDto.Patch patch = new Patch(4.5, "한줄평입니다.");
+
+        String content = gson.toJson(patch);
+
+        given(recommendPlaceMapper.patchDtoToRecommendPlace(Mockito.any())).willReturn(RecommendPlace.builder().build());
+        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
+        given(recommendPlaceService.findRecommendPlaceToMemberIdAndMapId(Mockito.anyLong(),Mockito.anyLong()))
+                .willReturn(recommendPlace);
+
+        given(recommendPlaceService.updateRecommendPlace(Mockito.any())).willReturn(RecommendPlace.builder().build());
+        given(recommendPlaceMapper.recommendPlaceToResponse(Mockito.any())).willReturn(rpResponse);
+
+        // when
+        ResultActions actions = mockMvc.perform(
+                patch("/recommend-place/{recommend-place-id}/maps/{map-id}/members/{member-id}",
+                        rpId, mapId, recommendPlace.getMember().getMemberId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(content).with(csrf())
+        );
+        
+        // RecommendPlaceDto.Patch 정규식 표현
+        ConstraintDescriptions rpPatchDtoConstraints = new ConstraintDescriptions(MapDto.Post.class);
+        List<String> scoreDescriptions = rpPatchDtoConstraints.descriptionsForProperty("score");
+        List<String> oneLineIdDescriptions = rpPatchDtoConstraints.descriptionsForProperty("oneLine");
+
+        // then
+        actions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(rpResponse.getId()))
+                .andExpect(jsonPath("$.memberId").value(rpResponse.getMemberId()))
+                .andExpect(jsonPath("$.mapId").value(rpResponse.getMapId()))
+                .andExpect(jsonPath("$.score").value(rpResponse.getScore()))
+                .andExpect(jsonPath("$.oneLine").value(rpResponse.getOneLine()))
+                .andDo(document(
+                        "update-recommend-place",
+                        getRequestPreProcessor(),
+                        getResponsePreProcessor(),
+                        pathParameters(
+                                List.of(
+                                        parameterWithName("recommend-place-id").description("변경할 평점및 한줄평 아이디"),
+                                        parameterWithName("map-id").description("선택한 지도 아이디"),
+                                        parameterWithName("member-id").description("작성하는 회원의 아이디")
+                                )
+                        ),
+                        requestFields(
+                                List.of(
+                                        fieldWithPath("score").type(JsonFieldType.NUMBER).description("변경할 평점").attributes(key("regexp").value(scoreDescriptions)),
+                                        fieldWithPath("oneLine").type(JsonFieldType.STRING).description("변경할 평점").attributes(key("regexp").value(oneLineIdDescriptions))
+                                )
+                        ),
+                        responseFields(
+                                List.of(
+                                        fieldWithPath("id").type(JsonFieldType.NUMBER).description("해당 평점 및 한줄평의 아이디"),
+                                        fieldWithPath("memberId").type(JsonFieldType.NUMBER).description("회원 아이디"),
+                                        fieldWithPath("mapId").type(JsonFieldType.NUMBER).description("선택한 지도 아이디"),
+                                        fieldWithPath("score").type(JsonFieldType.NUMBER).description("변경된 평점"),
+                                        fieldWithPath("oneLine").type(JsonFieldType.STRING).description("변경된 한줄평")
+                                )
+                        )
+                ));
     }
 }

@@ -318,6 +318,19 @@ include::{snippets}/get-recommend-place/http-response.adoc[]
 .response-fields
 include::{snippets}/get-recommend-place/response-fields.adoc[]
 
+=== 평점과 한줄평 수정 하기
+.http-request
+include::{snippets}/update-recommend-place/http-request.adoc[]
+
+.path-parameter
+include::{snippets}/update-recommend-place/path-parameters.adoc[]
+
+.http-response
+include::{snippets}/update-recommend-place/http-response.adoc[]
+
+.response-fields
+include::{snippets}/update-recommend-place/response-fields.adoc[]
+
 == MainPageController
 === 데일리 인기글
 .http-request
