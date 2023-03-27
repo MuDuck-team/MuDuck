@@ -70,7 +70,7 @@ const DropdownButton = styled.button`
 
 const DropdownOptions = styled.ul`
   position: absolute;
-  z-index: 3;
+  z-index: 999;
   top: 100%;
   left: 0;
   right: 0;
