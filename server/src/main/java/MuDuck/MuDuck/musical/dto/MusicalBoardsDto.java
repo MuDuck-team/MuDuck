@@ -12,6 +12,7 @@ public class MusicalBoardsDto {
         private String createdAt;
         int views;
         int likes;
+        private String categoryName;
     }
 
 }

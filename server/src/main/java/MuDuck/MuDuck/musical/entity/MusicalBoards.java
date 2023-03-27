@@ -12,6 +12,6 @@ public interface MusicalBoards {
     String getCreatedAt();
     Integer getViews();
     Integer getLikes();
-    Integer getCommentCount(); // 댓글갯수
+    //Integer getCommentCount(); // 댓글갯수
 
 }

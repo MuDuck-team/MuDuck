@@ -1,5 +1,7 @@
 package MuDuck.MuDuck.mainPage.dto;
 
+import MuDuck.MuDuck.actor.entity.Actor;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
