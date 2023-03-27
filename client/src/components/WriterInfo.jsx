@@ -13,6 +13,7 @@ import Modal from './Modal/Modal';
 
 function WriterInfo({
   commentId,
+  commentStatus,
   memberId,
   profileUrl,
   nickname,
@@ -84,13 +85,13 @@ function WriterInfo({
       {user && type === 'postWriter' && user.id === memberId && (
         <MeatballsMenu />
       )}
-      {user && user.id === memberId && (
+      {user && user.id === memberId && commentStatus === '댓글게시' && (
         <>
           <Modal
             showModal={showModal}
             handleCloseModal={handleShowModal}
-            title="게시글 삭제"
-            content="정말 게시글을 삭제하시겠습니까?"
+            title="댓글 삭제"
+            content="정말 댓글을 삭제하시겠습니까?"
             yesCallback={handleCommentDelete}
           />
           <DeleteButton onClick={handleShowModal}>삭제</DeleteButton>

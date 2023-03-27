@@ -11,7 +11,7 @@ import LoginPage from './routes/Login/LoginPage';
 import SingupPage from './routes/Signup/SingupPage';
 import MyinfoPage from './routes/Myinfo/MyinfoPage';
 import PlayPage, { loader as playPageLoader } from './routes/Play/PlayPage';
-import PlaysPage from './routes/Plays/PlaysPage';
+import PlaysPage, { loader as playsPageLoader } from './routes/Plays/PlaysPage';
 import NearbyPage, {
   loader as nearbyPageLoader,
 } from './routes/Nearby/NearbyPage';
@@ -57,13 +57,13 @@ const router = createBrowserRouter([
           { path: '/oauth/redirect', element: <OauthRedirectPage /> },
           { path: '/signup', element: <SingupPage /> },
           { path: '/myinfo', element: <MyinfoPage /> },
-          { path: '/plays', element: <PlaysPage /> },
           {
             path: '/play/:id',
             element: <PlayPage />,
             loader: playPageLoader,
             errorElement: <PlayNotFoundPage />,
           },
+          { path: '/plays', element: <PlaysPage />, loader: playsPageLoader },
           {
             path: '/nearby/:id',
             element: <NearbyPage />,
