@@ -15,13 +15,14 @@ function Myinfo() {
   const localToken = localStorage.getItem('localToken');
   const [user, setUserInfo] = useRecoilState(userInfo);
 
-  const [nickname, setNickname] = useState('');
+  const [nickname, setNickname] = useState(user.nickname);
   const [uploadSrc, setUploadSrc] = useState(null);
 
   const [isEdit, setIsEdit] = useState(false);
 
   const onEditHandler = () => {
     setIsEdit(!isEdit);
+    setNickname(user.nickname);
   };
 
   const handleProfileChange = async event => {
@@ -53,7 +54,7 @@ function Myinfo() {
     const nickRegEx = /^[가-힣a-z0-9_-]{2,20}$/;
     if (!nickRegEx.test(nickname)) {
       alert(
-        '닉네임은 2자이상 20자이하, 한글,영문 대소문자, 숫자만 사용할 수 있습니다.',
+        '닉네임은 2자 이상 20자 이하, 한글, 영문 대소문자, 숫자만 사용할 수 있습니다.',
       );
     }
   };
@@ -103,16 +104,14 @@ function Myinfo() {
       </ProfileContainer>
       {isEdit ? (
         <EditNicknameBox>
-          <ValidationCheck>
-            <EditNickname>닉네임 변경</EditNickname>
-            <StyledInput
-              width="260px"
-              height="30px"
-              nickname={nickname}
-              onChange={handleChangeNickname}
-              onBlur={handleValidateNickname}
-            />
-          </ValidationCheck>
+          <EditNickname>닉네임</EditNickname>
+          <StyledInput
+            width="230px"
+            height="30px"
+            value={nickname}
+            onChange={handleChangeNickname}
+            onBlur={handleValidateNickname}
+          />
           <ButtonContainer>
             <Button
               text="취소"
@@ -159,10 +158,7 @@ const Nickname = styled.div`
   font-size: var(--font-size-xl);
 `;
 
-const ValidationCheck = styled.div``;
-
 const EditNickname = styled.div`
-  margin-bottom: 8px;
   font-size: var(--font-size-md);
 `;
 
