@@ -17,6 +17,8 @@ import MuDuck.MuDuck.mainPage.mapper.MainPageMapper;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.entity.Member.MemberRole;
 import MuDuck.MuDuck.member.entity.Member.MemberStatus;
+import MuDuck.MuDuck.musical.mapper.MusicalMapper;
+import MuDuck.MuDuck.musical.service.MusicalService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -43,7 +45,10 @@ class MainPageControllerTest {
 
     @MockBean
     private BoardService boardService;
-
+    @MockBean
+    private MusicalService musicalService;
+    @MockBean
+    private MusicalMapper musicalMapper;
     @MockBean
     private MainPageMapper mainPageMapper;
 

@@ -135,4 +135,9 @@ public class MusicalService {
     public List<Board> findMusicalBoards(long musicalId) {
         return boardRepository.findBoardByMusicalId(musicalId);
     }
+
+    @Transactional(readOnly = true)
+    public List<Musical> findRecommendMusicals() {
+        return musicalRepository.findRecommendMusicals();
+    }
 }

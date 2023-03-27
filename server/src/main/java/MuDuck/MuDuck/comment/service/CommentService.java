@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,8 +55,8 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public List<Comment> getMyComments(Member member){
-        List<Comment> comments = commentRepository.findByMemberId(member.getMemberId());
+    public Page<Comment> getMyComments(Member member, int page, int size){
+        Page<Comment> comments = commentRepository.findByMemberId(member.getMemberId(), PageRequest.of(page, size, Sort.by("created_at").descending()));
         return comments;
     }
 

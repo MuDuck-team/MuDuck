@@ -1,6 +1,7 @@
 package MuDuck.MuDuck.actorMusical.service;
 
 import MuDuck.MuDuck.actorMusical.repository.ActorMusicalRepository;
+import MuDuck.MuDuck.musical.entity.ActorMusical;
 import MuDuck.MuDuck.musical.entity.Response;
 import java.util.List;
 import lombok.RequiredArgsConstructor;

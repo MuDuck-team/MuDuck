@@ -554,10 +554,10 @@ INSERT INTO ACTORS (actor_id, actor_name, picture, actor_state) VALUES (3, '김�
 INSERT INTO ACTORS (actor_id, actor_name, picture, actor_state) VALUES (4, '송원근', 'http://ticketimage.interpark.com/PlayDictionary/DATA/PlayDic/PlayDicUpload/040004/07/01/0400040701_4131_016.jpg','ACTOR_CONFIRM');
 
 -- ACTOR_MUSICAL 테이블 생성 코드
-INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (1, 1, 28,'안나');
-INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (2, 2, 28,'안나');
-INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (3, 3, 28,'안나');
-INSERT INTO ACTORMUSICALS (musical_actor_id, actor_id, musical_id, role) VALUES (4, 4, 2,'브라운');
+INSERT INTO ACTORMUSICALS (actor_musical_id, actor_id, musical_id, role) VALUES (1, 1, 28,'안나');
+INSERT INTO ACTORMUSICALS (actor_musical_id, actor_id, musical_id, role) VALUES (2, 2, 28,'안나');
+INSERT INTO ACTORMUSICALS (actor_musical_id, actor_id, musical_id, role) VALUES (3, 3, 28,'안나');
+INSERT INTO ACTORMUSICALS (actor_musical_id, actor_id, musical_id, role) VALUES (4, 4, 2,'브라운');
 
 -- Category 테이블 생성 코드
 INSERT INTO Category (category_name, parent_id) VALUES ('자유주제', NULL);

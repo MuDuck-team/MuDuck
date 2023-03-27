@@ -29,12 +29,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 @WebMvcTest(MyPageController.class)
 @MockBean(JpaMetamodelMappingContext.class)
@@ -84,28 +90,52 @@ public class MyPageControllerTest {
                         .build()
         );
 
+        Page<Board> pageBoards = new PageImpl<>(List.of(board1, board2),
+                PageRequest.of(0, 8, Sort.by("createdAt")), 2);
+
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member1);
-        given(boardService.getMyBoards(Mockito.any())).willReturn(List.of(board1, board2));
+        given(boardService.getMyBoards(Mockito.any(), Mockito.anyInt(),
+                Mockito.anyInt())).willReturn(pageBoards);
         given(myPageMapper.boardsToMyPageResponseDtos(Mockito.anyList())).willReturn(responses);
 
         // when
+        String page = "1";
+        String size = "8";
+
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("page", page);
+        queryParams.add("size", size);
+
         ResultActions actions = mockMvc.perform(
-                get("/my-page/boards").accept(MediaType.APPLICATION_JSON)
+                get("/my-page/boards").params(queryParams).accept(MediaType.APPLICATION_JSON)
         );
 
         // then
         actions.andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.boards").isArray())
                 .andDo(document("get-MyPageBoards",
                         getResponsePreProcessor(),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("[].id").type(JsonFieldType.NUMBER)
+                                        fieldWithPath("boards").type(JsonFieldType.ARRAY)
+                                                .description("게시물 key 값"),
+                                        fieldWithPath("boards[].id").type(JsonFieldType.NUMBER)
                                                 .description("게시물 식별자"),
-                                        fieldWithPath("[].title").type(JsonFieldType.STRING)
+                                        fieldWithPath("boards[].title").type(JsonFieldType.STRING)
                                                 .description("게시물 제목"),
-                                        fieldWithPath("[].createdAt").type(JsonFieldType.STRING)
-                                                .description("게시물 생성일")
+                                        fieldWithPath("boards[].createdAt").type(
+                                                        JsonFieldType.STRING)
+                                                .description("게시물 생성일"),
+                                        fieldWithPath("pageInfo").type(JsonFieldType.OBJECT)
+                                                .description("페이지 정보 key 값"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER)
+                                                .description("현재 있는 페이지 정보"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER)
+                                                .description("한 페이지에 표시하는 글 개수"),
+                                        fieldWithPath("pageInfo.totalElements").type(
+                                                JsonFieldType.NUMBER).description("총 게시글 개수"),
+                                        fieldWithPath("pageInfo.totalPages").type(
+                                                JsonFieldType.NUMBER).description("총 페이지 수")
                                 )
                         )
                 ));
@@ -139,28 +169,52 @@ public class MyPageControllerTest {
                         .build()
         );
 
+        Page<Board> pageBoards = new PageImpl<>(List.of(board1, board2),
+                PageRequest.of(0, 8, Sort.by("createdAt")), 2);
+
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member1);
-        given(boardService.getMyBoards(Mockito.any())).willReturn(List.of(board1, board2));
+        given(boardService.getMyLikedBoards(Mockito.any(), Mockito.anyInt(),
+                Mockito.anyInt())).willReturn(pageBoards);
         given(myPageMapper.boardsToMyPageResponseDtos(Mockito.anyList())).willReturn(responses);
 
         // when
+        String page = "1";
+        String size = "8";
+
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("page", page);
+        queryParams.add("size", size);
+
         ResultActions actions = mockMvc.perform(
-                get("/my-page/liked-boards").accept(MediaType.APPLICATION_JSON)
+                get("/my-page/liked-boards").params(queryParams).accept(MediaType.APPLICATION_JSON)
         );
 
         // then
         actions.andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.boards").isArray())
                 .andDo(document("get-MyPageLikedBoards",
                         getResponsePreProcessor(),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("[].id").type(JsonFieldType.NUMBER)
+                                        fieldWithPath("boards").type(JsonFieldType.ARRAY)
+                                                .description("게시물 key 값"),
+                                        fieldWithPath("boards[].id").type(JsonFieldType.NUMBER)
                                                 .description("게시물 식별자"),
-                                        fieldWithPath("[].title").type(JsonFieldType.STRING)
+                                        fieldWithPath("boards[].title").type(JsonFieldType.STRING)
                                                 .description("게시물 제목"),
-                                        fieldWithPath("[].createdAt").type(JsonFieldType.STRING)
-                                                .description("게시물 생성일")
+                                        fieldWithPath("boards[].createdAt").type(
+                                                        JsonFieldType.STRING)
+                                                .description("게시물 생성일"),
+                                        fieldWithPath("pageInfo").type(JsonFieldType.OBJECT)
+                                                .description("페이지 정보 key 값"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER)
+                                                .description("현재 있는 페이지 정보"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER)
+                                                .description("한 페이지에 표시하는 글 개수"),
+                                        fieldWithPath("pageInfo.totalElements").type(
+                                                JsonFieldType.NUMBER).description("총 게시글 개수"),
+                                        fieldWithPath("pageInfo.totalPages").type(
+                                                JsonFieldType.NUMBER).description("총 페이지 수")
                                 )
                         )
                 ));
@@ -169,7 +223,7 @@ public class MyPageControllerTest {
     @Test
     @DisplayName("마이페이지 내가 쓴 댓글 확인 기능 Controller Test")
     @WithMockUser
-    public void getMyComments() throws Exception {
+    public void getMyCommentsTest() throws Exception {
         // given
         Member member1 = new Member(1L, "wth0086@gmail.com", "사진주소1", "닉네임1", MemberRole.USER,
                 MemberStatus.MEMBER_ACTIVE, null, null, null, "1234");
@@ -197,28 +251,54 @@ public class MyPageControllerTest {
                         .build()
         );
 
+        Page<Comment> pageComments = new PageImpl<>(List.of(comment1, comment2),
+                PageRequest.of(0, 8, Sort.by("createdAt")), 2);
+
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member1);
-        given(boardService.getMyBoards(Mockito.any())).willReturn(List.of(board1, board2));
-        given(myPageMapper.commentsToMyPageCommentsResponseDtos(Mockito.anyList())).willReturn(responses);
+        given(commentService.getMyComments(Mockito.any(), Mockito.anyInt(), Mockito.anyInt())).willReturn(pageComments);
+        given(myPageMapper.commentsToMyPageCommentsResponseDtos(Mockito.anyList())).willReturn(
+                responses);
 
         // when
+        String page = "1";
+        String size = "8";
+
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
+        queryParams.add("page", page);
+        queryParams.add("size", size);
+
         ResultActions actions = mockMvc.perform(
-                get("/my-page/comments").accept(MediaType.APPLICATION_JSON)
+                get("/my-page/comments").params(queryParams).accept(MediaType.APPLICATION_JSON)
         );
 
         // then
         actions.andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.comments").isArray())
+                .andExpect(jsonPath("$.pageInfo").isMap())
                 .andDo(document("get-MyPageComments",
                         getResponsePreProcessor(),
                         responseFields(
                                 List.of(
-                                        fieldWithPath("[].boardId").type(JsonFieldType.NUMBER)
+                                        fieldWithPath("comments").type(JsonFieldType.ARRAY)
+                                                .description("댓글 key 값"),
+                                        fieldWithPath("comments[].boardId").type(
+                                                        JsonFieldType.NUMBER)
                                                 .description("게시물 식별자"),
-                                        fieldWithPath("[].body").type(JsonFieldType.STRING)
+                                        fieldWithPath("comments[].body").type(JsonFieldType.STRING)
                                                 .description("댓글 내용"),
-                                        fieldWithPath("[].createdAt").type(JsonFieldType.STRING)
-                                                .description("댓글 생성일")
+                                        fieldWithPath("comments[].createdAt").type(
+                                                        JsonFieldType.STRING)
+                                                .description("댓글 생성일"),
+                                        fieldWithPath("pageInfo").type(JsonFieldType.OBJECT)
+                                                .description("페이지 정보 key 값"),
+                                        fieldWithPath("pageInfo.page").type(JsonFieldType.NUMBER)
+                                                .description("현재 있는 페이지 정보"),
+                                        fieldWithPath("pageInfo.size").type(JsonFieldType.NUMBER)
+                                                .description("한 페이지에 표시하는 글 개수"),
+                                        fieldWithPath("pageInfo.totalElements").type(
+                                                JsonFieldType.NUMBER).description("총 게시글 개수"),
+                                        fieldWithPath("pageInfo.totalPages").type(
+                                                JsonFieldType.NUMBER).description("총 페이지 수")
                                 )
                         )
                 ));

@@ -54,7 +54,7 @@ public interface BoardMapper {
                 .lastCreatedAt(Chrono.timesAgo(board.getCreatedAt()))
                 .title(board.getTitle())
                 .view(board.getViews())
-                .commentCount(board.getComments().size())
+                .commentCount(board.getCommentsSize())
                 .boardLike(board.getLikes())
                 .build();
         return response;

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface RecommendPlaceRepository extends JpaRepository<RecommendPlace, Long> {
-
-    Optional<RecommendPlace> findByMember_MemberIdAndMap_MapId(long memberId, long mapId);
+    @Query("select rp from RecommendPlace rp where rp.member.memberId = :memberId and rp.map.mapId = :mapId")
+    Optional<RecommendPlace> findByMemberIdAndMapId(@Param("memberId") long memberId,@Param("mapId") long mapId);
 
 }

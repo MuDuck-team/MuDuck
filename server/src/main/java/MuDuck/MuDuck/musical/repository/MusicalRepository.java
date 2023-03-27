@@ -2,6 +2,7 @@ package MuDuck.MuDuck.musical.repository;
 
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,4 +24,7 @@ public interface MusicalRepository extends JpaRepository<Musical, Long> {
 
     @Query(value = "SELECT category_name AS categoryName FROM category WHERE musical_id = :musicalId", nativeQuery = true)
     Category findCategoryByMusicalId(@Param("musicalId") Long musicalId);
+
+    @Query(value = "SELECT * FROM musicals ORDER BY views LIMIT 4", nativeQuery = true)
+    List<Musical> findRecommendMusicals();
 }
