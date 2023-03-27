@@ -1,6 +1,7 @@
 package MuDuck.MuDuck.musical.service;
 
 import MuDuck.MuDuck.actor.service.ActorService;
+import MuDuck.MuDuck.board.dto.BoardDto;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.repository.BoardRepository;
 import MuDuck.MuDuck.exception.BusinessLogicException;
