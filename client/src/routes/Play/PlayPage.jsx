@@ -1,15 +1,16 @@
-import { useEffect, useState } from 'react';
 import { useNavigate, useLoaderData, Link } from 'react-router-dom';
 import styled from 'styled-components';
 import AboutMusical from './AboutMusical';
 import { ArticleCard } from '../../components/Cards';
-import Mapbox from './Mapbox';
 import {
   getMusicalDetail,
   getActorsDetail,
   getRelatedBoard,
+  getTheaterInfo,
+  getNearbyTheaterData,
 } from '../../api/muduckApi';
-import customAxios from '../../api/customAxios';
+
+import MapContainer from '../../components/Map/MapContainer';
 
 export async function loader({ params }) {
   const [musicalData, actorsData, postsData] = await Promise.all([
@@ -17,31 +18,23 @@ export async function loader({ params }) {
     getActorsDetail(params.id),
     getRelatedBoard(params.id),
   ]);
-  return { musicalData, actorsData, postsData };
+
+  const theaterInfo = await getTheaterInfo(musicalData.data.theater.theaterId);
+  const nearbyInfo = await getNearbyTheaterData(
+    musicalData.data.theater.theaterId,
+  );
+
+  return { musicalData, actorsData, postsData, theaterInfo, nearbyInfo };
 }
 
 function PlayPage() {
   const navigate = useNavigate();
-  const [nearbyData, setNearbyData] = useState({});
-  const { musicalData, actorsData, postsData } = useLoaderData();
+  const { musicalData, actorsData, postsData, theaterInfo, nearbyInfo } =
+    useLoaderData();
   const { musical, theater } = musicalData.data;
   const { actors } = actorsData.data;
   const { boards } = postsData.data;
-
-  useEffect(() => {
-    async function getNearbyTheaterData(theaterId) {
-      await customAxios({
-        method: 'get',
-        url: `/maps/theater/${theaterId}`,
-      }).then(res => {
-        return setNearbyData(res);
-      });
-    }
-    getNearbyTheaterData(theater.theaterId);
-  }, []);
-
-  console.log(`근짱이 요청한 지도데이터👇`);
-  console.log(nearbyData);
+  const { restaurants = [], cafes = [], parkings = [] } = nearbyInfo.data;
 
   return (
     <Container>
@@ -111,8 +104,13 @@ function PlayPage() {
           </SubTitle>
         </HeadingBox>
         <ContentSection>
-          <Mapbox />
-          {/* 카카오 지도가 들어가는부분 */}
+          <MapContainer
+            currentTheater={theaterInfo.data}
+            restaurants={restaurants}
+            cafes={cafes}
+            parkings={parkings}
+            markerMode
+          />
         </ContentSection>
       </ColumnContentSection>
     </Container>
