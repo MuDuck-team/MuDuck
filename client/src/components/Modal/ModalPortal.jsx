@@ -1,15 +1,11 @@
 import styled from 'styled-components';
 import { createPortal } from 'react-dom';
-import { AiOutlineClose } from 'react-icons/ai';
 
 function ModalPortal({ onClose, children }) {
   const el = document.getElementById('modal-root');
   return createPortal(
     <Overlay onClick={onClose}>
-      <Content onClick={event => event.stopPropagation()}>
-        <AiOutlineClose onClick={onClose} />
-        {children}
-      </Content>
+      <Content onClick={event => event.stopPropagation()}>{children}</Content>
     </Overlay>,
     el,
   );
@@ -28,16 +24,19 @@ export const Overlay = styled.div`
 `;
 
 export const Content = styled.section`
-  background-color: var(--white);
+  background-color: var(--main-002);
   border-radius: 5px;
   border-color: var(--color-borderbox-line);
-  padding: 20px;
-  max-width: 90%;
-  max-height: 90%;
+  padding: 16px;
+  width: 300px;
+  height: 200px;
+  max-width: 80%;
+  max-height: 80%;
   overflow: auto;
 
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   align-items: center;
 
   svg {
@@ -45,18 +44,34 @@ export const Content = styled.section`
   }
 
   h3 {
-    font-size: var(--font-size-xl);
-    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: var(--font-size-lg);
   }
 
   p {
-    font-size: var(--font-size-m);
-    color: var(--color-content-text);
-    margin-bottom: 20px;
+    font-size: var(--font-size-md);
+  }
+
+  button {
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    width: 60px;
+    height: 30px;
+    font-weight: 600;
+    color: var(--font-color);
+  }
+
+  button:first-child {
+    background-color: var(--main-003);
+  }
+
+  button:last-child {
+    background-color: var(--button-color);
   }
 
   button + button {
-    margin-left: 30px;
+    margin-left: 32px;
   }
 `;
 
