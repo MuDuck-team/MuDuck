@@ -284,7 +284,7 @@ class RecommendPlaceControllerTest {
                 .andDo(document("get-recommend-place",
                         getResponsePreProcessor(),
                         pathParameters(
-                                parameterWithName("map-id").description("지도 아이디"),
+                                parameterWithName("place-id").description("해당 장소 카카오맵 API 아이디"),
                                 parameterWithName("member-id").description("회원 아이디")
                         ),
                         responseFields(
