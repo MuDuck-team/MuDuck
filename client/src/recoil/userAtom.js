@@ -22,7 +22,7 @@ export const userState = atom({
   default: false,
 });
 
-export const adminState = atom({
-  key: 'adminState',
-  default: false,
-});
+// export const adminState = atom({
+//   key: 'adminState',
+//   default: false,
+// });

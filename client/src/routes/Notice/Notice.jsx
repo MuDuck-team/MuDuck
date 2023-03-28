@@ -4,7 +4,9 @@ import { IoMdListBox } from 'react-icons/io';
 import WriterInfo from '../../components/WriterInfo';
 
 function NoticePage() {
-  const profileUrl = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
+  // const profileUrl = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
+  const profileUrl =
+    'https://muduckbucket.s3.ap-northeast-2.amazonaws.com/assets/adminPic.JPG';
   const nickname = '관리자';
   const notice = {
     id: 1,
