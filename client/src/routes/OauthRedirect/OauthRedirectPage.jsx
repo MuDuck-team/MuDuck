@@ -7,7 +7,7 @@ import Loading from '../../components/Loading';
 
 function OauthRedirectPage() {
   const setUser = useSetRecoilState(userInfo);
-  const setUserStatus = useSetRecoilState(userState);
+  const setUserLoginStatus = useSetRecoilState(userState);
   // const setAdminStatus = useSetRecoilState(adminState);
   const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ function OauthRedirectPage() {
         //   setAdminStatus(!adminState);
         //   setUser(initialUserState => ({ ...initialUserState, ...res.data }));
         // } else {
-        setUserStatus(!userState);
+        setUserLoginStatus(!userState);
         setUser(initialUserState => ({ ...initialUserState, ...res.data }));
         // }
       })
