@@ -24,7 +24,7 @@ function Header() {
     } else {
       setUserLoginStatus(true);
     }
-  }, []);
+  }, [userLoginStatus]);
 
   const toggleHandler = () => {
     setIsShow(!isShow);
