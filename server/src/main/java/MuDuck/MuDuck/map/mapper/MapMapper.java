@@ -14,9 +14,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface MapMapper {
-    @Mapping(target = "id", source = "mapId")
-    @Mapping(target = "name", source = "placeName")
-    @Mapping(target = "categoryGroupCode", source = "categoryGroupCode.code")
     default AvgDto.Response avgEntityToResponse(AvgEntity avgEntity){
         if (avgEntity == null) {
             return null;
