@@ -7,14 +7,14 @@ const dummyData = {
   notices: [
     {
       id: 1,
-      lastCreatedAt: '약 5시간 전',
-      title: '[공지사항] 뮤지컬 관람 규칙',
+      lastCreatedAt: '약 9시간 전',
+      title: '로그인 시 공지사항',
       view: 30,
     },
     {
       id: 2,
-      lastCreatedAt: '약 5시간 전',
-      title: '[공지사항] 뮤지컬 관람 규칙',
+      lastCreatedAt: '약 9시간 전',
+      title: '커뮤니티 이용 공지사항',
       view: 10,
     },
   ],
@@ -47,7 +47,7 @@ function NoticesPage() {
   };
 
   return (
-    <>
+    <NoticesPageLayout>
       <StyledH2>공지사항</StyledH2>
       {notices.map(notice => (
         <ArticleCard
@@ -65,9 +65,19 @@ function NoticesPage() {
         totalItemCount={pageInfo.totalElements}
         pageRange={5}
       />
-    </>
+    </NoticesPageLayout>
   );
 }
+
+const NoticesPageLayout = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  @media screen and (max-width: 1024px) {
+    width: 90%;
+  }
+`;
 
 const StyledH2 = styled.h2`
   margin-top: 40px;

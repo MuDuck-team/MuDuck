@@ -31,7 +31,7 @@ import PostEditPage, {
 import NoticesPage, {
   loader as noticesPageLoader,
 } from './routes/Notices/NoticesPage';
-import NoticePage from './routes/Notice/Notice';
+import NoticePage from './routes/Notice/NoticePage';
 import NoticeAddPage, {
   loader as noticeAddPageLoader,
 } from './routes/NoticeAdd/NoticeAddPage';
