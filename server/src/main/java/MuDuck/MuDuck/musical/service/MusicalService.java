@@ -1,12 +1,13 @@
 package MuDuck.MuDuck.musical.service;
 
 import MuDuck.MuDuck.actor.service.ActorService;
+import MuDuck.MuDuck.board.dto.BoardDto;
+import MuDuck.MuDuck.board.entity.Board;
+import MuDuck.MuDuck.board.repository.BoardRepository;
 import MuDuck.MuDuck.exception.BusinessLogicException;
 import MuDuck.MuDuck.exception.ExceptionCode;
-import MuDuck.MuDuck.actorMusical.entity.ActorsEntity;
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
-import MuDuck.MuDuck.musical.entity.MusicalBoards;
 import MuDuck.MuDuck.musical.repository.MusicalRepository;
 import java.util.List;
 import java.util.Optional;
@@ -22,10 +23,13 @@ public class MusicalService {
 
     private final MusicalRepository musicalRepository;
     private final ActorService actorService;
+    private final BoardRepository boardRepository;
 
-    public MusicalService(MusicalRepository musicalRepository, ActorService actorService) {
+    public MusicalService(MusicalRepository musicalRepository, ActorService actorService,
+            BoardRepository boardRepository) {
         this.musicalRepository = musicalRepository;
         this.actorService = actorService;
+        this.boardRepository = boardRepository;
     }
 
     public Musical createMusical(Musical musical) {
@@ -125,15 +129,16 @@ public class MusicalService {
         return musicalRepository.save(musical);
     }
 
-    public List<ActorsEntity> findMusicalActors(long musicalId) {
-        return musicalRepository.findActorsByMusicalId(musicalId);
-    }
-
     public Category findCategoryName(long musicalId) {
         return musicalRepository.findCategoryByMusicalId(musicalId);
     }
 
-    public List<MusicalBoards> findMusicalBoards(long musicalId) {
-        return musicalRepository.findBoardByMusicalId(musicalId);
+    public List<Board> findMusicalBoards(long musicalId) {
+        return boardRepository.findBoardByMusicalId(musicalId);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Musical> findRecommendMusicals() {
+        return musicalRepository.findRecommendMusicals();
     }
 }

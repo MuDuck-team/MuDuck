@@ -54,7 +54,7 @@ public interface BoardMapper {
                 .lastCreatedAt(Chrono.timesAgo(board.getCreatedAt()))
                 .title(board.getTitle())
                 .view(board.getViews())
-                .commentCount(board.getComments().size())
+                .commentCount(board.getCommentsSize())
                 .boardLike(board.getLikes())
                 .build();
         return response;
@@ -86,4 +86,37 @@ public interface BoardMapper {
                 .build();
         return response;
     }
+
+    default BoardDto.BoardContentHead boardToBoardContentHead(Board board){
+        Member member = board.getMember();
+        BoardDto.BoardContentHead response = BoardContentHead.builder()
+                .memberId(member.getMemberId())
+                .userProfile(member.getPicture())
+                .nickname(member.getNickName())
+                .createdAt(board.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
+                .view(board.getViews())
+                .like(board.getLikes())
+                .totalComment(board.getCommentsSize())
+                .build();
+        return response;
+    }
+
+    List<BoardDto.BoardContentHead> boardsToBoardContentHead(List<Board> boards);
+
+    default BoardDto.MusicalBoards boardToMusical(Board board){
+        Member member = board.getMember();
+        BoardDto.MusicalBoards response = BoardDto.MusicalBoards.builder()
+                .boardId(board.getBoardId())
+                .title(board.getTitle())
+                .userProfile(member.getPicture())
+                .nickname(member.getNickName())
+                .createdAt(board.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy.MM.dd")))
+                .view(board.getViews())
+                .like(board.getLikes())
+                .totalComment(board.getCommentsSize())
+                .build();
+        return response;
+    }
+
+    List<BoardDto.MusicalBoards> boardsToMusicals(List<Board> boards);
 }

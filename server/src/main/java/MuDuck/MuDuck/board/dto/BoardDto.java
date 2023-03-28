@@ -88,4 +88,19 @@ public class BoardDto {
         private String title;
         private String content;
     }
+
+    //특정 작품 조회시 관련 게시글 반환
+    @AllArgsConstructor(access = AccessLevel.PRIVATE)
+    @Getter
+    @Builder
+    public static class MusicalBoards{
+        private long boardId;
+        private String title;
+        private String userProfile;
+        private String nickname;
+        private String createdAt;
+        private int view;
+        private int like;
+        private int totalComment;
+    }
 }

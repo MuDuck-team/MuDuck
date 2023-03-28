@@ -1,11 +1,9 @@
 package MuDuck.MuDuck.musical.dto;
 
-import MuDuck.MuDuck.musical.entity.ActorMusical;
+import MuDuck.MuDuck.board.dto.BoardDto;
 import MuDuck.MuDuck.musical.entity.Category;
 import MuDuck.MuDuck.musical.entity.Musical;
-import MuDuck.MuDuck.musical.entity.MusicalBoards;
 import MuDuck.MuDuck.theater.dto.TheaterDto.ResponseUsedMusical;
-import MuDuck.MuDuck.theater.entitiy.Theater;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import java.util.List;
@@ -75,6 +73,7 @@ public class MusicalDto {
             "musicalState", "openDate",
             "closeDate", "age", "runningTime", "intermission", "views", "theaterId"})
     public static class ResponseMusical {
+
         @JsonProperty("id")
         private Long musicalId;
         private String musicalKorName;
@@ -123,9 +122,7 @@ public class MusicalDto {
     public static class ResponseActors {
 
         @JsonProperty("id")
-        private long musicalId;
-        @JsonProperty("actors")
-        private ActorMusical actorMusicals;
+        private Long musicalId;
     }
 
     @Builder
@@ -134,8 +131,10 @@ public class MusicalDto {
     public static class ResponseMusicalBoards {
 
         private Long musicalId;
-        private List<MusicalBoards> boards;
+        private List<BoardDto.MusicalBoards> boards;
         private Category category;
+
+
     }
 
 
@@ -178,18 +177,6 @@ public class MusicalDto {
         public MappingResponseDto(ResponseMusical musical, ResponseUsedMusical theater) {
             this.musical = musical;
             this.theater = theater;
-        }
-    }
-
-    @Getter
-    public static class MappingActorResponseDto<T> {
-
-        private ResponseMusical musical;
-        private ActorMusicalResponseDto.detail actor;
-
-        public MappingActorResponseDto(ResponseMusical musical, ActorMusicalResponseDto.detail actor) {
-            this.musical = musical;
-            this.actor = actor;
         }
     }
 }

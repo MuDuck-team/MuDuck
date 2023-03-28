@@ -27,7 +27,7 @@ public class Actor {
     private Long actorId;
     @Column(length = 20, nullable = false)
     private String actorName;
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String picture;
     @Enumerated(EnumType.STRING)
     @Column(length = 15, nullable = false)
