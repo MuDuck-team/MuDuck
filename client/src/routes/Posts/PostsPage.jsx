@@ -36,7 +36,6 @@ function PostsPage() {
   const navigate = useNavigate();
 
   const { noticeBoards, boards, pageInfo, categoryList } = data;
-  console.log(pageInfo);
 
   categoryList.unshift({ id: 0, categoryName: '전체', parentId: null });
 
@@ -76,28 +75,37 @@ function PostsPage() {
 
   return (
     <>
-      <StyledH2>커뮤니티 목록</StyledH2>
+      <StyledH2>커뮤니티</StyledH2>
       <FilterButtonContainer>
-        <Button type="button" text="작성하기" onClick={goToAdd} />
+        <Button
+          type="button"
+          text="작성하기"
+          onClick={goToAdd}
+          margin="0 0 15px 0"
+        />
         <FilterContainer>
-          <p>카테고리</p>
-          <Dropdown
-            options={categoryList}
-            defaultValue={categoryList[0]}
-            onClick={onClickCategoryName}
-            height="37px"
-            selectedValue={
-              categoryList.filter(obj => obj.categoryName === categoryName)[0]
-            }
-          />
-          <p>정렬</p>
-          <Dropdown
-            options={sortArr}
-            defaultValue={currentSortBy}
-            onClick={onClickSortBy}
-            height="37px"
-            selectedValue={sortArr.filter(obj => obj.value === sortBy)[0]}
-          />
+          <DropDownContainer>
+            <p>카테고리</p>
+            <Dropdown
+              options={categoryList}
+              defaultValue={categoryList[0]}
+              onClick={onClickCategoryName}
+              height="37px"
+              selectedValue={
+                categoryList.filter(obj => obj.categoryName === categoryName)[0]
+              }
+            />
+          </DropDownContainer>
+          <DropDownContainer>
+            <p>정렬</p>
+            <Dropdown
+              options={sortArr}
+              defaultValue={currentSortBy}
+              onClick={onClickSortBy}
+              height="37px"
+              selectedValue={sortArr.filter(obj => obj.value === sortBy)[0]}
+            />
+          </DropDownContainer>
         </FilterContainer>
       </FilterButtonContainer>
 
@@ -131,6 +139,12 @@ function PostsPage() {
   );
 }
 
+const DropDownContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+`;
+
 const StyledH2 = styled.h2`
   margin-top: 40px;
   font-size: var(--font-size-xxl);
@@ -140,6 +154,7 @@ const StyledH2 = styled.h2`
 
 const FilterButtonContainer = styled.section`
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 8px;
 `;
@@ -147,6 +162,8 @@ const FilterButtonContainer = styled.section`
 const FilterContainer = styled.section`
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  row-gap: 16px;
   p {
     margin: 0 10px;
     font-size: var(--font-size-sm);
