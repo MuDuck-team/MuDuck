@@ -56,6 +56,8 @@ const DropdownWrapper = styled.div`
 `;
 
 const DropdownButton = styled.button`
+  padding: 0;
+  padding-left: 4px;
   border: 1px solid var(--border-color);
   border-radius: 4px;
   font-size: var(--font-size-sm);
