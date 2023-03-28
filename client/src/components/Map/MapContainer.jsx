@@ -17,7 +17,10 @@ function MapContainer({
   const countRef = useRef(0);
 
   useEffect(() => {
+    setInputText('');
+    setSearchPlace('');
     setCategory('');
+    countRef.current = 0;
   }, [currentTheater]);
 
   const onChange = e => {
@@ -43,9 +46,6 @@ function MapContainer({
     const categoryArr = ['restaurants', 'cafes', 'parkings'];
     return categoryArr.findIndex(ele => category === ele) + 1;
   };
-
-  // const nth = getIndex();
-  // console.log(nth);
 
   return (
     <StyledMapContainer>
