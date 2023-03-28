@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 import { userInfo, userState } from '../recoil/userAtom';
 import customAxios from '../api/customAxios';
 import { ReactComponent as Logo } from '../assets/logo.svg';
@@ -13,20 +13,9 @@ import Button from './Button';
 function Header() {
   const [isShow, setIsShow] = useState(false);
   const [user, setUser] = useRecoilState(userInfo);
-  const setUserStatus = useSetRecoilState(userState);
+  const [userLoginStatus, setUserLoginStatus] = useRecoilState(userState);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const localToken = localStorage.getItem('localToken');
-    if (!localToken) {
-      setUser(false);
-      setUserStatus(false);
-    } else {
-      setUser(true);
-      setUserStatus(true);
-    }
-  }, []);
 
   const toggleHandler = () => {
     setIsShow(!isShow);
@@ -39,7 +28,7 @@ function Header() {
   const LogoutHandler = () => {
     navigate('/');
     setUser(null);
-    setUserStatus(false);
+    setUserLoginStatus(false);
     localStorage.removeItem('localToken');
     customAxios.post('/logout');
   };
@@ -66,7 +55,7 @@ function Header() {
         </TabLink>
       </NavTab>
       <SignInOrUser isShow={isShow}>
-        {user ? (
+        {userLoginStatus ? (
           <>
             {isShow ? (
               <TabLink to="/mypage" onClick={tapCloseHander}>
@@ -74,7 +63,7 @@ function Header() {
               </TabLink>
             ) : (
               <ProfileImg
-                src={user.profileImageUrl}
+                src={user?.profileImageUrl}
                 onClick={() => {
                   navigate('/mypage');
                 }}
