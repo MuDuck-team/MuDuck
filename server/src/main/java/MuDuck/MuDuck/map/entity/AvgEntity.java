@@ -10,7 +10,7 @@ public interface AvgEntity {
     String getAddress();
     String getRoadAddress();
     String getPhone();
-    String getAvgScore();
+    double getAvgScore();
     int getTotalReviews();
     double getLongitude();
     double getLatitude();

@@ -17,7 +17,41 @@ public interface MapMapper {
     @Mapping(target = "id", source = "mapId")
     @Mapping(target = "name", source = "placeName")
     @Mapping(target = "categoryGroupCode", source = "categoryGroupCode.code")
-    AvgDto.Response avgEntityToResponse(AvgEntity avgEntity);
+    default AvgDto.Response avgEntityToResponse(AvgEntity avgEntity){
+        if (avgEntity == null) {
+            return null;
+        } else {
+            long id = avgEntity.getMapId();
+            String name = avgEntity.getPlaceName();
+            String categoryGroupCode = this.avgEntityCategoryGroupCodeCode(avgEntity);
+            long placeId = avgEntity.getPlaceId();
+            String address = avgEntity.getAddress();
+            String roadAddress = avgEntity.getRoadAddress();
+            String phone = avgEntity.getPhone();
+            double avgScore = Math.round(avgEntity.getAvgScore() * 100) / 100.0;
+            int totalReviews = avgEntity.getTotalReviews();
+            double longitude = avgEntity.getLongitude();
+            double latitude = avgEntity.getLatitude();
+            String placeUrl = avgEntity.getPlaceUrl();
+
+            AvgDto.Response response = new AvgDto.Response(id, placeId, name, address, roadAddress, phone, avgScore, totalReviews, longitude, latitude, placeUrl, categoryGroupCode);
+            return response;
+        }
+    };
+
+    private String avgEntityCategoryGroupCodeCode(AvgEntity avgEntity) {
+        if (avgEntity == null) {
+            return null;
+        } else {
+            GroupCode categoryGroupCode = avgEntity.getCategoryGroupCode();
+            if (categoryGroupCode == null) {
+                return null;
+            } else {
+                String code = categoryGroupCode.getCode();
+                return code == null ? null : code;
+            }
+        }
+    }
 
     List<AvgDto.Response> listAvgEntityToListResponse(List<AvgEntity> avgEntities);
 
