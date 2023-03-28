@@ -36,6 +36,7 @@ function PostsPage() {
   const navigate = useNavigate();
 
   const { noticeBoards, boards, pageInfo, categoryList } = data;
+  console.log(pageInfo);
 
   categoryList.unshift({ id: 0, categoryName: '전체', parentId: null });
 
@@ -122,9 +123,9 @@ function PostsPage() {
       <Paging
         setPage={setPage}
         activePage={pageInfo.page}
-        itemsCount={15}
+        itemsCount={pageInfo.size}
         totalItemCount={pageInfo.totalElements}
-        pageRange={5}
+        pageRange={pageInfo.totalPages}
       />
     </>
   );
