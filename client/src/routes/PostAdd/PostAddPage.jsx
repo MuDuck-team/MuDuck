@@ -1,6 +1,9 @@
-import { redirect, useLoaderData } from 'react-router-dom';
+import { useEffect } from 'react';
+import { redirect, useLoaderData, useNavigate } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import customAxios from '../../api/customAxios';
 import Editors from '../../components/Editors';
+import { userInfo } from '../../recoil/userAtom';
 
 export async function loader({ request }) {
   const url = new URL(request.url);
@@ -38,6 +41,14 @@ export async function action({ request }) {
 
 function PostAddPage() {
   const obj = useLoaderData();
+  const navigate = useNavigate();
+  const user = useRecoilValue(userInfo);
+
+  useEffect(() => {
+    if (!user) {
+      navigate('/login');
+    }
+  }, []);
 
   return <Editors {...obj} />;
 }
