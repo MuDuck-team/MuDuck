@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: {MUDUCK_MYSQL_URL}
-    username: {MUDUCK_MYSQL_USERNAME}
-    password: {MUDUCK_MYSQL_PASSWORD}
+    url: ${MUDUCK_MYSQL_URL}
+    username: ${MUDUCK_MYSQL_USERNAME}
+    password: ${MUDUCK_MYSQL_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: update  # (1) ??? ?? ??
@@ -12,9 +12,6 @@ spring:
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
-#  sql:
-#    init:
-#      data-locations: classpath*:db/data.sql
   security:
     oauth2:
       client:

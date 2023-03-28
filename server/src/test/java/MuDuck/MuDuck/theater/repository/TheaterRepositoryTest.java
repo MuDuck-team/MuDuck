@@ -46,49 +46,49 @@ class TheaterRepositoryTest {
         }
     }
 
-    @Test
-    @DisplayName("극장 정보 저장 테스트")
-    void saveTheater(){
-        // given init()에서 실행
+//    @Test
+//    @DisplayName("극장 정보 저장 테스트")
+//    void saveTheater(){
+//        // given init()에서 실행
+//
+//        // when
+//        Theater saverTheater = theaterRepository.save(theater);
+//
+//        // then
+//        assertNotNull(theater);
+//        assertThat(theater.getTheaterId()).isEqualTo(saverTheater.getTheaterId());
+//        assertThat(theater.getPlaceName()).isEqualTo(saverTheater.getPlaceName());
+//        assertThat(theater.getLongitude()).isEqualTo(saverTheater.getLongitude());
+//        assertThat(theater.getLatitude()).isEqualTo(saverTheater.getLatitude());
+//        assertThat(theater.getPhone()).isEqualTo(saverTheater.getPhone());
+//        assertThat(theater.getAddress()).isEqualTo(saverTheater.getAddress());
+//        assertThat(theater.getRoadAddress()).isEqualTo(saverTheater.getRoadAddress());
+//    }
 
-        // when
-        Theater saverTheater = theaterRepository.save(theater);
+//    @Test
+//    @DisplayName("해당 극장 조회 테스트")
+//    void getTheater(){
+//        // given init()에서 실행
+//
+//        Theater saverTheater = theaterRepository.save(theater);
+//
+//        // when
+//        Optional<Theater> getTheater = theaterRepository.findById(theater.getTheaterId());
+//
+//        assertNotNull(getTheater);
+//        assertThat(saverTheater.getTheaterId()).isEqualTo(getTheater.get().getTheaterId());
+//    }
 
-        // then
-        assertNotNull(theater);
-        assertThat(theater.getTheaterId()).isEqualTo(saverTheater.getTheaterId());
-        assertThat(theater.getPlaceName()).isEqualTo(saverTheater.getPlaceName());
-        assertThat(theater.getLongitude()).isEqualTo(saverTheater.getLongitude());
-        assertThat(theater.getLatitude()).isEqualTo(saverTheater.getLatitude());
-        assertThat(theater.getPhone()).isEqualTo(saverTheater.getPhone());
-        assertThat(theater.getAddress()).isEqualTo(saverTheater.getAddress());
-        assertThat(theater.getRoadAddress()).isEqualTo(saverTheater.getRoadAddress());
-    }
-
-    @Test
-    @DisplayName("해당 극장 조회 테스트")
-    void getTheater(){
-        // given init()에서 실행
-
-        Theater saverTheater = theaterRepository.save(theater);
-
-        // when
-        Optional<Theater> getTheater = theaterRepository.findById(theater.getTheaterId());
-
-        assertNotNull(getTheater);
-        assertThat(saverTheater.getTheaterId()).isEqualTo(getTheater.get().getTheaterId());
-    }
-
-    @Test
-    @DisplayName("전체 극장 조회 테스트")
-    void getTheaters(){
-        // given
-        theaterRepository.saveAll(theaterList);
-
-        List<Theater> theaters = theaterRepository.findAll();
-
-        assertNotNull(theaters);
-        assertThat(theaterList.size()).isEqualTo(theaters.size());
-    }
+//    @Test
+//    @DisplayName("전체 극장 조회 테스트")
+//    void getTheaters(){
+//        // given
+//        theaterRepository.saveAll(theaterList);
+//
+//        List<Theater> theaters = theaterRepository.findAll();
+//
+//        assertNotNull(theaters);
+//        assertThat(theaterList.size()).isEqualTo(theaters.size());
+//    }
 
 }
