@@ -33,19 +33,19 @@ public class Musical extends Auditable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long musicalId;
-    @Column(length = 100, nullable = false)
+    @Column(length = 20, nullable = false)
     private String musicalKorName;
-    @Column(length = 100, nullable = false)
+    @Column(length = 30, nullable = false)
     private String musicalEngName;
     @Column(nullable = false)
     private String poster;
     @Enumerated(EnumType.STRING)
-    @Column(length = 20, nullable = false)
+    @Column(length = 15, nullable = false)
     private Genre genre = Genre.GENRE_LICENSED;
     @Column(length = 100, nullable = false)
     private String musicalInfo;
     @Enumerated(EnumType.STRING)
-    @Column(length = 20, nullable = false)
+    @Column(length = 15, nullable = false)
     private MusicalState musicalState = MusicalState.MUSICAL_ONAIR;
     @Column(length = 11, nullable = false)
     private String openDate;
@@ -55,10 +55,8 @@ public class Musical extends Auditable {
     @Column(length = 10, nullable = false)
     private Age age = Age.AGE_15;
     @Column(length = 3, nullable = false)
-
     private Integer runningTime;
     @Column(length = 3, nullable = false)
-
     private Integer intermission;
     @Column(columnDefinition = "integer default 0", nullable = false)
     private Integer views;
@@ -165,5 +163,6 @@ public class Musical extends Auditable {
             this.stepDescription = stepDescription;
         }
     }
+
 
 }

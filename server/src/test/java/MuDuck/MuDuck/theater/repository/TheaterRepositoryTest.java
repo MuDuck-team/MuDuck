@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
 class TheaterRepositoryTest {
+
 //    @Autowired
 //    private TheaterRepository theaterRepository;
 //
@@ -46,6 +47,7 @@ class TheaterRepositoryTest {
 //        }
 //    }
 //
+
 //    @Test
 //    @DisplayName("극장 정보 저장 테스트")
 //    void saveTheater(){
@@ -64,7 +66,7 @@ class TheaterRepositoryTest {
 //        assertThat(theater.getAddress()).isEqualTo(saverTheater.getAddress());
 //        assertThat(theater.getRoadAddress()).isEqualTo(saverTheater.getRoadAddress());
 //    }
-//
+
 //    @Test
 //    @DisplayName("해당 극장 조회 테스트")
 //    void getTheater(){
@@ -78,7 +80,7 @@ class TheaterRepositoryTest {
 //        assertNotNull(getTheater);
 //        assertThat(saverTheater.getTheaterId()).isEqualTo(getTheater.get().getTheaterId());
 //    }
-//
+
 //    @Test
 //    @DisplayName("전체 극장 조회 테스트")
 //    void getTheaters(){

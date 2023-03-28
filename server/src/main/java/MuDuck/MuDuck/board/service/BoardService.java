@@ -173,14 +173,13 @@ public class BoardService {
         return boardRepository.getWeeklyPopularPosts();
     }
 
-    public List<Board> getMyBoards(Member member){
-        List<Board> boards = boardRepository.findByMemberId(member.getMemberId());
+    public Page<Board> getMyBoards(Member member, int page, int size){
+        Page<Board> boards = boardRepository.findByMemberId(member.getMemberId(), PageRequest.of(page, size, Sort.by("created_at").descending()));
         return boards;
     }
 
-    public List<Board> getMyLikedBoards(Member member){
-        List<BoardLike> boardLikes = boardLikeRepository.findBoardLikeByMemberId(member.getMemberId());
-        List<Board> boards = boardLikesToBoards(boardLikes);
+    public Page<Board> getMyLikedBoards(Member member, int page, int size){
+        Page<Board> boards = boardRepository.findByBoardLikeId(member.getMemberId(), PageRequest.of(page, size, Sort.by("created_at").descending()));
         return boards;
     }
 

@@ -8,5 +8,4 @@ public interface ActorsEntity {
 
     String getPicture();
 
-    String getRole();
 }
