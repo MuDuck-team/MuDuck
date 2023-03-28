@@ -112,6 +112,7 @@ function PostsPage() {
       {noticeBoards.map(notice => (
         <ArticleCard
           {...notice}
+          userProfile="https://muduckbucket.s3.ap-northeast-2.amazonaws.com/assets/adminPic.JPG"
           width="100%"
           key={notice.id}
           type="notice"

@@ -52,6 +52,7 @@ function NoticesPage() {
       {notices.map(notice => (
         <ArticleCard
           {...notice}
+          userProfile="https://muduckbucket.s3.ap-northeast-2.amazonaws.com/assets/adminPic.JPG"
           width="100%"
           key={notice.id}
           backgroundColor="var(--main-001)"
