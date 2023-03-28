@@ -259,10 +259,10 @@ class RecommendPlaceControllerTest {
     @DisplayName("mapId와 memberId로 한줄평 조회")
     @WithMockUser(username = TEST_USER_EMAIL)
     void getRecommendPlaceTest() throws Exception {
-        long mapId = 1L;
+        long placeId = 1L;
         // given
         given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
-        given(mapService.findVerifiedMapToMapId(Mockito.anyLong())).willReturn(Map.builder().build());
+        given(mapService.findMapToPlaceId(Mockito.anyLong())).willReturn(Map.builder().build());
         given(recommendPlaceService.findRecommendPlaceToMemberIdAndMapId(Mockito.anyLong(), Mockito.anyLong()))
                 .willReturn(RecommendPlace.builder().build());
         given(recommendPlaceMapper.recommendPlaceToResponse(Mockito.any())).willReturn(rpResponse);
@@ -270,7 +270,7 @@ class RecommendPlaceControllerTest {
         // when
         ResultActions getActions =
                 mockMvc.perform(
-                        get("/recommend-place/maps/{map-id}/members/{member-id}", mapId, member.getMemberId())
+                        get("/recommend-place/maps/{place-id}/members/{member-id}", placeId, member.getMemberId())
                                 .accept(MediaType.APPLICATION_JSON)
                 );
 
@@ -305,12 +305,11 @@ class RecommendPlaceControllerTest {
     @WithMockUser
     void getRecommendPlaceExceptionTest() throws Exception {
         // given
-        long mapId = 1L;
+        long placeId = 1L;
         long anotherId = 2L;
         given(memberService.findByEmail(Mockito.anyString()))
                 .willReturn(member);
-        given(memberService.findByEmail(Mockito.anyString())).willReturn(member);
-        given(mapService.findVerifiedMapToMapId(Mockito.anyLong())).willReturn(Map.builder().build());
+        given(mapService.findMapToPlaceId(Mockito.anyLong())).willReturn(Map.builder().build());
         given(recommendPlaceService.findRecommendPlaceToMemberIdAndMapId(Mockito.anyLong(), Mockito.anyLong()))
                 .willReturn(RecommendPlace.builder().build());
         given(recommendPlaceMapper.recommendPlaceToResponse(Mockito.any())).willReturn(rpResponse);
@@ -318,7 +317,7 @@ class RecommendPlaceControllerTest {
         // when / then
         ResultActions getActions =
                 mockMvc.perform(
-                        get("/recommend-place/maps/{map-id}/members/{member-id}", mapId, anotherId)
+                        get("/recommend-place/maps/{place-id}/members/{member-id}", placeId, anotherId)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                         .andExpect(status().isUnauthorized())
