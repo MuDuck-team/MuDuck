@@ -15,36 +15,38 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
 class TheaterRepositoryTest {
-    @Autowired
-    private TheaterRepository theaterRepository;
 
-    private Theater theater;
-
-    private List<Theater> theaterList = new ArrayList<>();
-
-    @BeforeEach
-    void init(){
-
-        theater = Theater.builder()
-                .theaterId(1L)
-                .placeName("오둥이극장")
-                .longitude(12.1234)
-                .latitude(13.1234)
-                .phone("02-555-5555")
-                .address("서울시 어쩌구 저쩌구")
-                .roadAddress("서울시 어쩌구 저쩌구")
-                .build();
-
-        for(int i = 2; i <= 4; i++){
-
-            theater.setTheaterId((long)i);
-            theater.setPlaceName("오둥이극장"+i);
-
-            theaterList.add(theater);
-
-            theater.setTheaterId(1L);
-        }
-    }
+//    @Autowired
+//    private TheaterRepository theaterRepository;
+//
+//    private Theater theater;
+//
+//    private List<Theater> theaterList = new ArrayList<>();
+//
+//    @BeforeEach
+//    void init(){
+//
+//        theater = Theater.builder()
+//                .theaterId(1L)
+//                .placeName("오둥이극장")
+//                .longitude(12.1234)
+//                .latitude(13.1234)
+//                .phone("02-555-5555")
+//                .address("서울시 어쩌구 저쩌구")
+//                .roadAddress("서울시 어쩌구 저쩌구")
+//                .build();
+//
+//        for(int i = 2; i <= 4; i++){
+//
+//            theater.setTheaterId((long)i);
+//            theater.setPlaceName("오둥이극장"+i);
+//
+//            theaterList.add(theater);
+//
+//            theater.setTheaterId(1L);
+//        }
+//    }
+//
 
 //    @Test
 //    @DisplayName("극장 정보 저장 테스트")
