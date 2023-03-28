@@ -55,7 +55,6 @@ function CommentList({ comment }) {
         },
       )
       .then(response => {
-        console.log(response);
         setCommentValue('');
         setIsReply(!isReply);
         if (response.status === 201) navigate('.');

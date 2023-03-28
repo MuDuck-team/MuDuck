@@ -272,10 +272,6 @@ function Map({
 
     // 카테고리를 클릭했을 때 마커를 보여주는 함수입니다.
     function choiceCategory() {
-      if (!category) {
-        return undefined;
-      }
-
       if (category === 'restaurants') {
         displayPlaces(restaurants, true);
       }
@@ -284,6 +280,8 @@ function Map({
       }
       if (category === 'parkings') {
         displayPlaces(parkings, true);
+      } else {
+        displayPlaces([], true);
       }
       displayPagination({});
       return undefined;
@@ -293,6 +291,8 @@ function Map({
     function searchPlaces() {
       if (!searchPlace.replace(/^\s+|\s+$/g, '')) {
         // 처음에 들어갔을 때 경고창을 막기 위하여 작성
+        const listEl = document.getElementById('placesList');
+        removeAllChildNods(listEl);
         if (countRef.current === 0) {
           return undefined;
         }
@@ -301,7 +301,9 @@ function Map({
       }
 
       // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
+
       ps.keywordSearch(searchPlace, placesSearchCB);
+
       return undefined;
     }
 

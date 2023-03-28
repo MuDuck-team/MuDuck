@@ -48,17 +48,10 @@ export const getOneLineAndRate = async (mapId, memberId) => {
 
   const response = await customAxios.get(
     `/recommend-place/maps/${mapId}/members/${memberId}`,
-    {},
     {
       headers: { Authorization: token },
     },
   );
-
-  // const response = await customAxios({
-  //   method: 'get',
-  //   url: `/recommend-place/maps/${mapId}/members/${memberId}`,
-  //   headers: { Authorization: token },
-  // });
   const { data } = response;
 
   return data || {};

@@ -27,14 +27,13 @@ const dummyData = {
 };
 
 function getData({ page }) {
-  console.log(page);
-  return dummyData;
+  return { dummyData, page };
 }
 
 export async function loader({ request }) {
   const params = new URL(request.url).searchParams;
   const page = params.get('page');
-  const obj = await getData({ page });
+  const { dummyData: obj } = await getData({ page });
   return { obj };
 }
 
@@ -42,7 +41,6 @@ function NoticesPage() {
   const { obj } = useLoaderData();
   const navigate = useNavigate();
   const { notices, pageInfo } = obj;
-  console.log(notices, pageInfo);
 
   const setPage = page => {
     navigate(`?page=${page}`);
@@ -50,7 +48,7 @@ function NoticesPage() {
 
   return (
     <>
-      <StyledH2>공지사항 목록</StyledH2>
+      <StyledH2>공지사항</StyledH2>
       {notices.map(notice => (
         <ArticleCard
           {...notice}

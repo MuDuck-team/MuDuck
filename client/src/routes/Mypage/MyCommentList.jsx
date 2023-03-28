@@ -21,7 +21,6 @@ function MyCommentList() {
         Authorization: localToken,
       },
     }).then(response => {
-      console.log(response);
       setPageInfo(response.data.pageInfo);
       setCurrentItems(response.data.comments);
       setLoading(false);
