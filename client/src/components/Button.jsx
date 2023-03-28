@@ -16,6 +16,7 @@ function Button({
   fontWeight,
   padding,
   onClick,
+  margin,
   ...rest
 }) {
   return (
@@ -32,6 +33,7 @@ function Button({
       fontSize={fontSize}
       padding={padding}
       fontWeight={fontWeight}
+      margin={margin}
       {...rest}
     >
       {text}

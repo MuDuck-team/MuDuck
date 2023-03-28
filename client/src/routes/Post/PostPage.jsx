@@ -35,16 +35,12 @@ export async function action({ request, params }) {
   const localToken = localStorage.getItem('localToken');
   const formData = await request.formData();
   const body = Object.fromEntries(formData);
-  const response = await customAxios.post(
-    `/boards/${params.id}/comments`,
-    body,
-    {
-      headers: {
-        Authorization: localToken,
-      },
+  await customAxios.post(`/boards/${params.id}/comments`, body, {
+    headers: {
+      Authorization: localToken,
     },
-  );
-  console.log(response);
+  });
+
   return redirect('.');
 }
 
@@ -66,7 +62,7 @@ function PostPage() {
       },
     }).then(response => {
       setIsLike(true);
-      console.log(response);
+
       if (response.status === 200) navigate('.');
     });
   };

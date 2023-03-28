@@ -115,7 +115,7 @@ function NearbyPage() {
 
     if (isEdit) {
       await customAxios.patch(
-        `/recommend-place/${prevOnelineObj.id}/maps/${map.placeId}/members/${user?.id}`,
+        `/recommend-place/${prevOnelineObj.id}/maps/${prevOnelineObj.mapId}/members/${user?.id}`,
         {
           score: rate,
           oneLine,
@@ -206,7 +206,7 @@ function NearbyPage() {
             />
             <Button
               type="submit"
-              text="등록"
+              text={isEdit ? '수정' : '등록'}
               height="50px"
               margin="0 0 0 16px"
               onClick={onSubmit}
