@@ -66,8 +66,8 @@ public class RecommendPlaceController {
         }
     }
 
-    @GetMapping("/maps/{map-id}/members/{member-id}")
-    public ResponseEntity getRecommendPlace(@PathVariable("map-id") @Positive long mapId,
+    @GetMapping("/maps/{place-id}/members/{member-id}")
+    public ResponseEntity getRecommendPlace(@PathVariable("place-id") @Positive long placeId,
             @PathVariable("member-id") @Positive long memberId, Principal principal){
 
         // 해당 로그인 유저와 넘어온 아이디가 일치하는 지 확인
@@ -76,11 +76,11 @@ public class RecommendPlaceController {
         if(byEmail.getMemberId() == memberId){
 
             // 같을 경우 해당 map 이 있는지 검증
-            mapService.findVerifiedMapToMapId(mapId);
-            
+            Map mapToPlaceId = mapService.findMapToPlaceId(placeId);
+
             // 검증 통과 시 해당 글 검색
             RecommendPlace recommendPlaceToMapIdAndMemberId = recommendPlaceService.findRecommendPlaceToMemberIdAndMapId(
-                    memberId, mapId);
+                    memberId, mapToPlaceId.getMapId());
 
             RecommendPlaceDto.Response response = recommendPlaceMapper.recommendPlaceToResponse(recommendPlaceToMapIdAndMemberId);
 
