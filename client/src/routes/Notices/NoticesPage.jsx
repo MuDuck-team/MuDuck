@@ -33,7 +33,7 @@ function getData({ page }) {
 export async function loader({ request }) {
   const params = new URL(request.url).searchParams;
   const page = params.get('page');
-  const obj = await getData({ page });
+  const { dummyData: obj } = await getData({ page });
   return { obj };
 }
 
