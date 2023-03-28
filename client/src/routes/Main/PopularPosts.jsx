@@ -1,95 +1,44 @@
 import styled from 'styled-components';
 import { ArticleCard } from '../../components/Cards';
 
-function PopularPosts() {
-  const board = [
-    {
-      id: 1,
-      userProfile:
-        'https://cdn.aitimes.com/news/photo/202204/143854_149286_5624.png',
-      nickname: '뮤지컬광기',
-      title: '오늘도 우리 뮤지컬은 최고입니다',
-      actor: '김코딩, 박해커, 이자바, 한리액트',
-      view: 30,
-      commentCount: 30,
-      boardLike: 30,
-      createdAt: '2023.01.02 21:23',
-    },
-    {
-      id: 2,
-      userProfile:
-        'https://cdn.aitimes.com/news/photo/202204/143854_149286_5624.png',
-      nickname: '뮤지컬광인',
-      title: '오늘도 김코딩 외모는 최고입니다',
-      actor: '김코딩, 박해커, 이자바, 한리액트',
-      view: 30,
-      commentCount: 30,
-      boardLike: 30,
-      createdAt: '2023.01.02 21:23',
-    },
-    {
-      id: 3,
-      userProfile:
-        'https://cdn.aitimes.com/news/photo/202204/143854_149286_5624.png',
-      nickname: '뮤지컬광인',
-      title: '오늘도 박해커 외모는 최고입니다',
-      actor: '김코딩, 박해커, 이자바, 한리액트',
-      view: 30,
-      commentCount: 30,
-      boardLike: 30,
-      createdAt: '2023.01.02 21:23',
-    },
-    {
-      id: 4,
-      userProfile:
-        'https://cdn.aitimes.com/news/photo/202204/143854_149286_5624.png',
-      nickname: '뮤지컬광인',
-      title: '오늘도 이자바 외모는 최고입니다',
-      actor: '김코딩, 박해커, 이자바, 한리액트',
-      view: 30,
-      commentCount: 30,
-      boardLike: 30,
-      createdAt: '2023.01.02 21:23',
-    },
-    {
-      id: 5,
-      userProfile:
-        'https://cdn.aitimes.com/news/photo/202204/143854_149286_5624.png',
-      nickname: '뮤지컬광인',
-      title: '오늘도 한리액트 외모는 최고입니다',
-      actor: '김코딩, 박해커, 이자바, 한리액트',
-      view: 30,
-      commentCount: 30,
-      boardLike: 30,
-      createdAt: '2023.01.02 21:23',
-    },
-  ];
-
+function PopularPosts({ dailyPosts, weeklyPosts }) {
   return (
     <PostContainer>
       <PostSection>
         <Category>Daily</Category>
-        {board.map(post => (
+        {dailyPosts.map(post => (
           <ArticleCard
             key={post.id}
-            {...post}
-            url={post.userProfile}
+            id={post.id}
+            title={post.title}
+            nickname={post.nickName}
+            userProfile={post.userProfile}
+            lastCreatedAt={post.createdAt}
+            view={post.viewCount}
+            commentCount={post.commentsCount}
+            boardLike={post.likeCount}
             width="100%"
             height="100%"
-            borderRadius="8px"
+            type="post"
           />
         ))}
       </PostSection>
       <PostSection>
         <Category>Weekly</Category>
-        {board.map(post => (
+        {weeklyPosts.map(post => (
           <ArticleCard
             key={post.id}
-            {...post}
-            url={post.userProfile}
+            id={post.id}
+            title={post.title}
+            nickname={post.nickName}
+            userProfile={post.userProfile}
+            lastCreatedAt={post.createdAt}
+            view={post.viewCount}
+            commentCount={post.commentsCount}
+            boardLike={post.likeCount}
             width="100%"
             height="100%"
-            borderRadius="8px"
+            type="post"
           />
         ))}
       </PostSection>
