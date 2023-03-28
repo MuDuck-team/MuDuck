@@ -167,7 +167,7 @@ function PlaysPage() {
                 src={musical.poster}
                 alt={musical.musicalKorName}
                 title={musical.musicalKorName}
-                actors={musical.actors}
+                // actors={musical.actors}
               />
             ))}
           </CardContainer>
