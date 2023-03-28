@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import styled from 'styled-components';
 import { Outlet, useNavigation } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { userState } from '../recoil/userAtom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ScrollToTop from '../components/ScrollToTop';
@@ -7,6 +10,16 @@ import Loading from '../components/Loading';
 
 function Root() {
   const navigation = useNavigation();
+  const [userLoginStatus, setUserLoginStatus] = useRecoilState(userState);
+
+  useEffect(() => {
+    const localToken = localStorage.getItem('localToken');
+    if (!localToken) {
+      setUserLoginStatus(false);
+    } else {
+      setUserLoginStatus(true);
+    }
+  }, [userLoginStatus]);
 
   return (
     <>
