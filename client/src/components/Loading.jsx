@@ -22,9 +22,9 @@ const LoadingSpinnerContainer = styled.div`
 `;
 
 const LoadingSpinner = styled.div`
-  width: 36px;
-  height: 36px;
-  border: 4px solid;
+  width: 48px;
+  height: 48px;
+  border: 6px solid;
   border-color: #000 transparent #555 transparent;
   border-radius: 50%;
   animation: spin 1s linear infinite;
