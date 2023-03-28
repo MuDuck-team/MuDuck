@@ -63,3 +63,24 @@ export const getOneLineAndRate = async (mapId, memberId) => {
 
   return data || {};
 };
+
+export const getPopularDailyPosts = async () => {
+  return customAxios({
+    method: 'get',
+    url: `/main-page/daily`,
+  });
+};
+
+export const getPopularWeeklyPosts = async () => {
+  return customAxios({
+    method: 'get',
+    url: `/main-page/weekly`,
+  });
+};
+
+export const getPopularMusicals = async () => {
+  return customAxios({
+    method: 'get',
+    url: `/main-page/musicals`,
+  });
+};
