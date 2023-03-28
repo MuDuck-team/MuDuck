@@ -8,7 +8,7 @@ function ImageCard({ id, size, src, alt, title, actors, ...props }) {
     navigate(`/play/${id}`);
   };
 
-  const actorList = actors.map(actor => actor.actorName).join(', ');
+  // const actorList = actors.map(actor => actor.actorName).join(', ');
 
   return (
     <CardContainer size={size} onClick={onClick} {...props}>
@@ -16,7 +16,7 @@ function ImageCard({ id, size, src, alt, title, actors, ...props }) {
         <CardImage src={src} alt={alt} />
       </ImageWrapper>
       <PlayTitle>{title}</PlayTitle>
-      <ActorList>{actorList}</ActorList>
+      {/* <ActorList>{actorList}</ActorList> */}
     </CardContainer>
   );
 }
@@ -75,13 +75,13 @@ const PlayTitle = styled.span`
   font-size: var(--title-size);
 `;
 
-const ActorList = styled.p`
-  margin-top: 4px;
-  font-size: var(--actor-size);
-  filter: brightness(0.8);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-`;
+// const ActorList = styled.p`
+//   margin-top: 4px;
+//   font-size: var(--actor-size);
+//   filter: brightness(0.8);
+//   overflow: hidden;
+//   text-overflow: ellipsis;
+//   white-space: nowrap;
+// `;
 
 export default ImageCard;
