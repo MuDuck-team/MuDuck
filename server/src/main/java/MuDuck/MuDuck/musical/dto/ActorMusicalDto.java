@@ -26,6 +26,7 @@ public class ActorMusicalDto {
         private String role;
     }
 
+    @Builder
     @Getter
     public static class MappingActorResponseDto {
 

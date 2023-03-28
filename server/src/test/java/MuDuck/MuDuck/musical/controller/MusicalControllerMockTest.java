@@ -20,6 +20,7 @@ import MuDuck.MuDuck.board.dto.BoardDto;
 import MuDuck.MuDuck.board.entity.Board;
 import MuDuck.MuDuck.board.mapper.BoardMapper;
 import MuDuck.MuDuck.member.entity.Member;
+import MuDuck.MuDuck.musical.dto.ActorMusicalDto;
 import MuDuck.MuDuck.musical.dto.ActorMusicalResponseDto;
 import MuDuck.MuDuck.actorMusical.repository.ActorMusicalRepository;
 import MuDuck.MuDuck.musical.entity.Category;
@@ -32,6 +33,7 @@ import MuDuck.MuDuck.musical.entity.Musical;
 import MuDuck.MuDuck.musical.entity.Musical.Age;
 import MuDuck.MuDuck.musical.entity.Musical.Genre;
 import MuDuck.MuDuck.musical.entity.Musical.MusicalState;
+import MuDuck.MuDuck.musical.entity.Response;
 import MuDuck.MuDuck.musical.mapper.MusicalMapper;
 import MuDuck.MuDuck.musical.repository.MusicalRepository;
 import MuDuck.MuDuck.musical.service.MusicalService;
@@ -121,7 +123,9 @@ class MusicalControllerMockTest {
     private List<BoardDto.MusicalBoards> musicalBoardsList = new ArrayList<>();
     private MusicalDto.ResponseMusicalBoards responseMusicalBoards;
     private MusicalDto.ResponseActors responseActors;
-
+    private ActorMusicalDto.MappingActorResponseDto mappingActorResponseDto;
+    private List<MuDuck.MuDuck.musical.entity.Response> actors;
+    private MuDuck.MuDuck.musical.entity.Response actorResponse;
 
     @BeforeEach
     void init() {
@@ -251,6 +255,38 @@ class MusicalControllerMockTest {
                 .musicalId(1L)
                 .boards(musicalBoardsList)
                 .category(category)
+                .build();
+
+        responseActors = MusicalDto.ResponseActors.builder()
+                .musicalId(musical.getMusicalId())
+                .build();
+        actorResponse = new Response() {
+            @Override
+            public Long getActorId() {
+                return 1L;
+            }
+
+            @Override
+            public String getActorName() {
+                return "test_actor";
+            }
+
+            @Override
+            public String getPicture() {
+                return "test_picture";
+            }
+
+            @Override
+            public String getRole() {
+                return "test_role";
+            }
+        };
+
+        actors=List.of(actorResponse);
+
+        mappingActorResponseDto = ActorMusicalDto.MappingActorResponseDto.builder()
+                .musical(responseActors)
+                .actors(actors)
                 .build();
     }
 
@@ -677,7 +713,7 @@ class MusicalControllerMockTest {
 
                 .andExpect(jsonPath("$.category.categoryName").value(category.getCategoryName()))
 
-                .andDo(document("get-musical-actors",
+                .andDo(document("get-musical-board",
                                 getResponsePreProcessor(),
                                 pathParameters(
                                         parameterWithName("musical-id").description("조회할 특정 공연 번호")
@@ -724,6 +760,47 @@ class MusicalControllerMockTest {
     @WithMockUser
     @DisplayName("특정 공연 출연진 조회")
     public void getActorsTest() throws Exception{
+        //given
+        given(musicalMapper.musicalToActorMusicalResponseDto(Mockito.any())).willReturn(responseActors);
+        given(actorMusicalService.getMusicalActors(Mockito.anyLong())).willReturn(actors);
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                        get("/musicals/{musical-id}/actors", musical.getMusicalId())
+                                .accept(MediaType.APPLICATION_JSON)
+                );
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.musical.id").value(musical.getMusicalId()))
+                .andExpect(jsonPath("$.actors").isArray())
+
+                .andDo(document("get-musical-actors",
+                                getResponsePreProcessor(),
+                                pathParameters(
+                                        parameterWithName("musical-id").description("조회할 특정 공연 번호")
+                                ),
+                                responseFields(
+                                        List.of(
+                                                fieldWithPath("musical.id").type(JsonFieldType.NUMBER)
+                                                        .description("뮤지컬 아이디"),
+
+                                                fieldWithPath("actors[].id").type(
+                                                                JsonFieldType.NUMBER)
+                                                        .description("배우 번호"),
+                                                fieldWithPath("actors[].actorName").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("배우 이름"),
+                                                fieldWithPath("actors[].picture").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("배우 이미지"),
+                                                fieldWithPath("actors[].role").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("배우 역할")
+                                        )
+                                )
+                        )
+                );
 
     }
 }

@@ -6,6 +6,9 @@ import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.docu
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.restdocs.request.RequestDocumentation.requestParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -17,8 +20,17 @@ import MuDuck.MuDuck.mainPage.mapper.MainPageMapper;
 import MuDuck.MuDuck.member.entity.Member;
 import MuDuck.MuDuck.member.entity.Member.MemberRole;
 import MuDuck.MuDuck.member.entity.Member.MemberStatus;
+import MuDuck.MuDuck.musical.dto.ActorMusicalResponseDto;
+import MuDuck.MuDuck.musical.dto.MusicalDto;
+import MuDuck.MuDuck.musical.dto.MusicalDto.ResponseMusicals;
+import MuDuck.MuDuck.musical.dto.MusicalDto.SingleResponseDto;
+import MuDuck.MuDuck.musical.entity.Musical;
+import MuDuck.MuDuck.musical.entity.Musical.Age;
+import MuDuck.MuDuck.musical.entity.Musical.Genre;
+import MuDuck.MuDuck.musical.entity.Musical.MusicalState;
 import MuDuck.MuDuck.musical.mapper.MusicalMapper;
 import MuDuck.MuDuck.musical.service.MusicalService;
+import MuDuck.MuDuck.theater.entitiy.Theater;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +45,7 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.payload.JsonFieldType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 
 @WebMvcTest(MainPageController.class)
@@ -185,4 +198,69 @@ class MainPageControllerTest {
                         )
                 ));
     }
+
+    @Test
+    @WithMockUser
+    @DisplayName("메인페이지 추천 작품")
+    public void getRecommendMusicals() throws Exception{
+        //given
+        Musical musical = new Musical(1L,"테스트","Test","localhost_test_poster", Genre.GENRE_ORIGINAL,"testData",
+                MusicalState.MUSICAL_YET,"2023.05.05","2023.06.06", Age.AGE_0, 123, 135, 20,
+                new Theater(1L,"testPlace",1.0,1.0,"tset phone","test ADD","test Road ADD"));
+        ActorMusicalResponseDto.listing listing = ActorMusicalResponseDto.listing.builder()
+                .actorId(1L)
+                .actorName("테스트 배우")
+                .role("태스트 역할")
+                .build();
+        List<ActorMusicalResponseDto.listing> listings = new ArrayList<>();
+        listings.add(listing);
+        MusicalDto.ResponseMusicals responseMusicals = ResponseMusicals.builder()
+                .musicalId(1L)
+                .musicalKorName("테스트작품")
+                .poster("localhost_test_poster")
+                .actorMusicals(listings)
+                .build();
+        List<MusicalDto.ResponseMusicals> responseMusicalsList = new ArrayList<>();
+        responseMusicalsList.add(responseMusicals);
+        given(musicalMapper.musicalsToMusicalResponseDtos(Mockito.anyList())).willReturn(responseMusicalsList);
+        //when
+        ResultActions actions =
+                mockMvc.perform(
+                        get("/main-page/musicals", musical.getMusicalId())
+                                .accept(MediaType.APPLICATION_JSON)
+                );
+        //then
+        actions
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.data").isArray())
+                .andDo(document("get-recommend-musicals",
+                                getResponsePreProcessor(),
+                                responseFields(
+                                        List.of(
+                                                fieldWithPath("data[].id").type(JsonFieldType.NUMBER)
+                                                        .description("뮤지컬 아이디"),
+                                                fieldWithPath("data[].musicalKorName").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("뮤지컬 국문 이름"),
+                                                fieldWithPath("data[].poster").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("뮤지컬 포스터"),
+                                                fieldWithPath("data[].actors").type(JsonFieldType.ARRAY)
+                                                        .description("출연자 정보"),
+                                                fieldWithPath("data[].actors[].id").type(
+                                                                JsonFieldType.NUMBER)
+                                                        .description("배우 번호"),
+                                                fieldWithPath("data[].actors[].actorName").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("배우 이름"),
+                                                fieldWithPath("data[].actors[].role").type(
+                                                                JsonFieldType.STRING)
+                                                        .description("뮤지컬 배역")
+                                        )
+                                )
+                        )
+                );
+
+    }
+
 }

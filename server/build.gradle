@@ -46,7 +46,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
 	implementation 'com.google.code.gson:gson'
 	testImplementation("org.springframework.security:spring-security-test")
-	runtimeOnly 'com.mysql:mysql-connector-java:8.0.26'
+	runtimeOnly 'com.mysql:mysql-connector-j'
 }
 
 tasks.named('test') {

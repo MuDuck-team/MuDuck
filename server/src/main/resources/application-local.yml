@@ -8,9 +8,11 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: "jdbc:h2:mem:test;MODE=MYSQL"
+    username: sa
+    password: 1234
   jpa:
     hibernate:
-      ddl-auto: create  # (1) ??? ?? ??
+      ddl-auto: update  # (1) ??? ?? ??
     show-sql: true      # (2) SQL ?? ??
     defer-datasource-initialization: true
     properties:
