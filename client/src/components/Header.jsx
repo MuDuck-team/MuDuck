@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
@@ -16,15 +16,6 @@ function Header() {
   const [userLoginStatus, setUserLoginStatus] = useRecoilState(userState);
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    const localToken = localStorage.getItem('localToken');
-    if (!localToken) {
-      setUserLoginStatus(false);
-    } else {
-      setUserLoginStatus(true);
-    }
-  }, [userLoginStatus]);
 
   const toggleHandler = () => {
     setIsShow(!isShow);
@@ -72,7 +63,7 @@ function Header() {
               </TabLink>
             ) : (
               <ProfileImg
-                src={user.profileImageUrl}
+                src={user?.profileImageUrl}
                 onClick={() => {
                   navigate('/mypage');
                 }}
