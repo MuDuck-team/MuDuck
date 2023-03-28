@@ -77,12 +77,7 @@ function PostsPage() {
     <>
       <StyledH2>커뮤니티</StyledH2>
       <FilterButtonContainer>
-        <Button
-          type="button"
-          text="작성하기"
-          onClick={goToAdd}
-          margin="0 0 15px 0"
-        />
+        <Button type="button" text="작성하기" onClick={goToAdd} />
         <FilterContainer>
           <DropDownContainer>
             <p>카테고리</p>
@@ -156,6 +151,7 @@ const StyledH2 = styled.h2`
 const FilterButtonContainer = styled.section`
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 8px;
 `;
@@ -168,6 +164,9 @@ const FilterContainer = styled.section`
   p {
     margin: 0 10px;
     font-size: var(--font-size-sm);
+  }
+  @media screen and (max-width: 600px) {
+    margin-top: 16px;
   }
 `;
 
