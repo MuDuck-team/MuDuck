@@ -206,7 +206,7 @@ function NearbyPage() {
             />
             <Button
               type="submit"
-              text="등록"
+              text={isEdit ? '수정' : '등록'}
               height="50px"
               margin="0 0 0 16px"
               onClick={onSubmit}
