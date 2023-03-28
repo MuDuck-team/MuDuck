@@ -1,28 +1,41 @@
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { IoMdListBox } from 'react-icons/io';
 import WriterInfo from '../../components/WriterInfo';
 
-function NoticePage() {
-  const profileUrl = 'https://cataas.com/cat/pbrosoqOlUUtR5XJ';
-  const nickname = '관리자';
-  const notice = {
+const dummyData = [
+  {
     id: 1,
-    lastCreatedAt: '2023.03.13',
-    title: '오둥이 관람 규칙',
-    body: '오둥이는 귀엽습니다.',
-    view: 30,
-  };
+    profileUrl:
+      'https://muduckbucket.s3.ap-northeast-2.amazonaws.com/assets/adminPic.JPG',
+    nickname: '관리자',
+    lastCreatedAt: '약 9시간 전',
+    title: '로그인 시 공지사항',
+    body: '프로필을 변경하고 싶을 경우 마이페이지를 이용해주세요!',
+  },
+  {
+    id: 2,
+    profileUrl:
+      'https://muduckbucket.s3.ap-northeast-2.amazonaws.com/assets/adminPic.JPG',
+    nickname: '관리자',
+    lastCreatedAt: '약 9시간 전',
+    title: '커뮤니티 이용 공지사항',
+    body: 'Muduck은 뮤지컬 덕후들을 위한 커뮤니티 서비스입니다. 자유롭게 이용해주세요!',
+  },
+];
+
+function NoticePage() {
+  const params = useParams();
+  const notice = dummyData[params.id - 1];
 
   return (
     <NoticePageLayout>
       <Category>공지사항</Category>
       <ContentContainer>
         <WriterInfo
-          profileUrl={profileUrl}
-          nickname={nickname}
+          profileUrl={notice.profileUrl}
+          nickname={notice.nickname}
           createdAt={notice.lastCreatedAt}
-          viewCount={notice.view}
           type="postWriter"
         />
         <NoticeTitle>{notice.title}</NoticeTitle>
