@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Form, useSubmit } from 'react-router-dom';
+import { Form, useNavigate, useSubmit } from 'react-router-dom';
 import styled from 'styled-components';
 import Select from 'react-select';
 import Button from './Button';
@@ -45,6 +45,7 @@ function Editors({
   category = [],
   mentionedMusical = [],
 }) {
+  const navigate = useNavigate();
   const [categoryIds, setIds] = useState([1]);
   const submit = useSubmit();
   const [title, setTitle] = useState(defaultTitle);
@@ -92,6 +93,10 @@ function Editors({
 
   const isEmpty = str => {
     return str.length === 0;
+  };
+
+  const handleCancel = () => {
+    navigate(-1);
   };
 
   const handleSubmit = e => {
@@ -185,6 +190,7 @@ function Editors({
             bgColor="var(--main-002)"
             hover="#0a0a0a"
             active="#0a0a0a"
+            onClick={handleCancel}
           />
           <Button type="submit" text="등록하기" onClick={handleSubmit} />
         </ButtonWrapper>
