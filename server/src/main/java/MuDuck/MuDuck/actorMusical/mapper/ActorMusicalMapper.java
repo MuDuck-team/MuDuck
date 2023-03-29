@@ -7,7 +7,6 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface ActorMusicalMapper {
-    Response responseToResponseDto(Response response);
 
     default Response actorToMusicalResponse(ActorMusical actorMusical){
         Response response = Response.builder()

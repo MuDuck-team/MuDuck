@@ -12,6 +12,9 @@ import org.springframework.data.repository.query.Param;
 
 public interface MusicalRepository extends JpaRepository<Musical, Long> {
 
+    @Query(value = "select am.musical_id, am.actor_id, a.actor_name, a.picture, am.role from actormusicals am join actors a on am.actor_id = a.actor_id", nativeQuery = true)
+    Page<Musical> findAllActors(Pageable pageable);
+
     Optional<Musical> findByMusicalId(Long musicalId);
 
     Optional<Musical> findByMusicalKorName(String musicalKorName);

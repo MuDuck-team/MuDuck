@@ -149,6 +149,7 @@ public class MusicalDto {
     public static class MultiResponseDto<T> {
 
         private List<T> musicals;
+
         private PageInfo pageInfo;
 
         public MultiResponseDto(List<T> data, Page page) {

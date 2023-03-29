@@ -56,6 +56,7 @@ public class MusicalService {
 
     @Transactional(readOnly = true)
     public Page<Musical> findMusicals(int page, int size) {
+//        return musicalRepository.findAllActors(PageRequest.of(page, size, Sort.by("musicalId")));
         return musicalRepository.findAll(PageRequest.of(page, size, Sort.by("musicalId")));
     }
 

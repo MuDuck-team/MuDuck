@@ -226,15 +226,25 @@ include::{snippets}/get-musical/http-response.adoc[]
 .response-fields
 include::{snippets}/get-musical/response-fields.adoc[]
 
-// === 특정 작품에 대한 게시글 목록 조회
-// .http-request
-// include::{snippets}/get-musical-boards/http-request.adoc[]
-//
-// .http-response
-// include::{snippets}/get-musical-boards/http-response.adoc[]
-//
-// .response-fields
-// include::{snippets}/get-musical-boards/response-fields.adoc[]
+=== 특정 작품에 대한 게시글 목록 조회
+.http-request
+include::{snippets}/get-musical-board/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-musical-board/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-musical-board/response-fields.adoc[]
+
+=== 특정 작품에 대한 게시글 목록 조회
+.http-request
+include::{snippets}/get-musical-actors/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-musical-actors/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-musical-actors/response-fields.adoc[]
 
 == MemberController
 === 현재 로그인한 회원 정보 조회
@@ -351,6 +361,17 @@ include::{snippets}/get-weeklyPopularPosts/http-response.adoc[]
 
 .response-fields
 include::{snippets}/get-weeklyPopularPosts/response-fields.adoc[]
+
+=== 추천 공연
+.http-request
+include::{snippets}/get-recommend-musicals/http-request.adoc[]
+
+.http-response
+include::{snippets}/get-recommend-musicals/http-response.adoc[]
+
+.response-fields
+include::{snippets}/get-recommend-musicals/response-fields.adoc[]
+
 
 == MyPage Controller
 === 내가 쓴 글 가져오기

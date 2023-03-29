@@ -6,12 +6,12 @@ spring:
     password: ${MUDUCK_MYSQL_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: update  # (1) ??? ?? ??
-    show-sql: true      # (2) SQL ?? ??
+      ddl-auto: update
+    show-sql: true
     defer-datasource-initialization: true
     properties:
       hibernate:
-        format_sql: true  # (3) SQL pretty print
+        format_sql: true
   security:
     oauth2:
       client:
