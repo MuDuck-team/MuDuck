@@ -12,7 +12,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
   security:
     oauth2:
       client:
