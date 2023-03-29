@@ -4,60 +4,60 @@ INSERT INTO MEMBER (created_at, last_modified_at, email, member_role, member_sta
 VALUES (NOW(), NOW(), 'wth0086@naver.com', 'USER', 'MEMBER_ACTIVE', 'VIP좌석은전동석', 'http://k.kakaocdn.net/dn/bBVgYE/btqBEDuAYhw/kHtB5rTFXn2ZUubKUXxPFK/img_640x640.jpg', '1234');
 
 INSERT INTO MEMBER (created_at, last_modified_at, email, member_role, member_status, nick_name, picture, refresh_token)
-VALUES (NOW(), NOW(), 'GodKwanwoo@kakao.com', 'USER', 'MEMBER_ACTIVE', '쥴리어스11세', 'http://k.kakaocdn.net/dn/uGDxN/btrNu67LG5T/tlsvzNzHBY0Ly9kbJ3IYOk/img_640x640.jpg', '1234');
+VALUES (NOW(), NOW(), 'kkte02@naver.com', 'USER', 'MEMBER_ACTIVE', '해커스토익중급', 'http://k.kakaocdn.net/dn/uGDxN/btrNu67LG5T/tlsvzNzHBY0Ly9kbJ3IYOk/img_640x640.jpg', '1234');
 
 INSERT INTO MEMBER (created_at, last_modified_at, email, member_role, member_status, nick_name, picture, refresh_token)
-VALUES (NOW(), NOW(), 'Clerk6@kakao.com', 'USER', 'MEMBER_ACTIVE', '로또아빠', 'http://k.kakaocdn.net/dn/b4u0oh/btr0BDZkfjs/mA86GXvrlkuzv37iF9ud71/img_640x640.jpg', '1234');
+VALUES (NOW(), NOW(), 'wowykd@nate.com', 'USER', 'MEMBER_ACTIVE', '로또아빠', 'http://k.kakaocdn.net/dn/b4u0oh/btr0BDZkfjs/mA86GXvrlkuzv37iF9ud71/img_640x640.jpg', '1234');
 
 -- Board 테이블 생성 코드
 --Member가 생성되고 Board가 생성되어야합니다.
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '90' DAY, NOW(), 'BOARD_POST', '내용입니다.', 30, '제목입니다', 982, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '90' DAY, NOW(), 'BOARD_POST', '좀 깔끔하면서 맛있는거 먹고 싶은데 뭐 먹지?', 30, '오늘 저녁 뭐먹지?', 982, 3);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '75' DAY, NOW(), 'BOARD_POST', '내용입니다222.', 27, '제목입니다2', 1762, 2);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '75' DAY, NOW(), 'BOARD_POST', '김준수가 다른건 몰라도 데스노트 L은 찰떡임', 27, '데스노트 L엔 김준수가 찰떡인거 같음', 1762, 2);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '60' DAY, NOW(), 'BOARD_POST', '내용입니다333', 45, '제목입니다3', 2819, 3);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '60' DAY, NOW(), 'BOARD_POST', '자차 가지고 가려고 하는데\n주차 많이 어려우면 택시 타려구여', 45, '샤롯데씨어터 근처에 주차하기 어렵나요?', 2819, 3);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '55' DAY, NOW(), 'BOARD_DELETE', '삭제된 내용입니다444.', 31, '삭제된 제목입니다4', 983, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '55' DAY, NOW(), 'BOARD_DELETE', '삭제된 내용입니다1', 31, '삭제된 제목입니다1', 983, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '30' DAY, NOW(), 'BOARD_POST', '내용입니다.', 333, '제목입니다', 984, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '30' DAY, NOW(), 'BOARD_POST', '치킨 먹고 싶은데 점심에 치킨 파는데 있나?', 333, '점심은 뭐 먹지?', 984, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '25' DAY, NOW(), 'BOARD_POST', '내용입니다222.', 233, '제목입니다2', 1763, 2);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '25' DAY, NOW(), 'BOARD_POST', '초연 멤버들 데리고 오다니 OD컴퍼니에 절합니다.\n 근데 사신 역할은 초연 멤버 못데려와서 아쉽네', 233, '이번 데스노트 홍광호, 김준수 실화야?', 1763, 2);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '3' DAY, NOW(), 'BOARD_POST', '내용입니다333', 9872, '제목입니다3', 12901, 3);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '3' DAY, NOW(), 'BOARD_POST', '사당 사는데 그냥 지하철탈까요?\n택시 타는거 너무 오반가요?', 9872, '샤롯데씨어터 가기 제일 편한 방법 뭐에요?', 12901, 3);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '1' DAY, NOW(), 'BOARD_DELETE', '삭제된 내용입니다444.', 35, '삭제된 제목입니다4', 980, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '1' DAY, NOW(), 'BOARD_DELETE', '삭제된 내용입니다2.', 35, '삭제된 제목입니다2', 980, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '30' HOUR, NOW(), 'BOARD_POST', '내용입니다.', 34, '제목입니다', 979, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '30' HOUR, NOW(), 'BOARD_POST', '노동요로 들을만한 넘버 추천 받습니다.', 34, '노동요로 들을만한 넘버', 979, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '25' HOUR, NOW(), 'BOARD_POST', '내용입니다222.', 20, '제목입니다2', 1755, 2);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '25' HOUR, NOW(), 'BOARD_POST', '홍광호 김준수인데 내 똥손 때문에 예매를 못함..', 20, '데스노트 암표라도 사고 싶다...', 1755, 2);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '22' HOUR, NOW(), 'BOARD_POST', '내용입니다222.', 22, '제목입니다1212', 1760, 2);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '22' HOUR, NOW(), 'BOARD_POST', '저만 그런가요?\n다들 충무아트홀센터 공연보러갈 때 어떻게 가세요?', 22, '충무아트홀센터 접근성이 너무 떨어지는거 같아요', 1760, 2);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '15' HOUR, NOW(), 'BOARD_POST', '내용입니다.', 38, '제목입니다', 940, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '15' HOUR, NOW(), 'BOARD_POST', '365일 공연시키게', 38, '전동석은 분신술 배워라', 940, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '3' HOUR, NOW(), 'BOARD_POST', '내용입니다333', 192, '제목입니다3', 2817, 3);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '3' HOUR, NOW(), 'BOARD_POST', '반박은 받지 않겠습니다.', 192, '고양이는 너무 귀엽습니다.', 2817, 3);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '2' HOUR, NOW(), 'BOARD_POST', '내용입니다333', 192, '제목입니다4', 2815, 3);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '2' HOUR, NOW(), 'BOARD_POST', '아니 예매 못하는거 너무 속상한데 홍광호, 김준수 공연때만 잠실주경기장에서 공연하면 안됨?', 192, '데스노트 잠실주경기장에서 공연하면 안됨?', 2815, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '1' HOUR, NOW(), 'BOARD_DELETE', '삭제된 내용입니다444.', 181, '삭제된 제목입니다4', 959, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '1' HOUR, NOW(), 'BOARD_DELETE', '삭제된 내용입니다3.', 181, '삭제된 제목입니다3', 959, 1);
 
 INSERT INTO BOARD (created_at, last_modified_at, board_status, content, likes, title, views, member_id)
-VALUES (CURRENT_TIMESTAMP, NOW(), 'BOARD_POST', '내용입니다333', 10, '제목입니다3', 2930, 3);
+VALUES (CURRENT_TIMESTAMP, NOW(), 'BOARD_POST', '아무튼 졸려서 그냥 말해봄', 10, '오늘 너무 졸립다', 2930, 3);
 
 
 
@@ -216,13 +216,13 @@ VALUES (2, 42, 'http://place.map.kakao.com/1624572111', '2오둥이주차장7', 
 
 -- Comment 테이블 생성 코드
 INSERT INTO COMMENT (created_at, body, comment_status, member_id, board_id, parent_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '1' HOUR, '댓글입니다1', 'COMMENT_POST', 2, 1, null);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '1' HOUR, '졸리면 오둥이를 보시면 됩니다.', 'COMMENT_POST', 2, 16, null);
 
 INSERT INTO COMMENT (created_at, body, comment_status, member_id, board_id, parent_id)
-VALUES (CURRENT_TIMESTAMP - INTERVAL '30' MINUTE, '대댓글입니다1', 'COMMENT_POST', 1, 1, 1);
+VALUES (CURRENT_TIMESTAMP - INTERVAL '30' MINUTE, '졸리시다니 전동석의 잠깨는 넘버들 들으시죠', 'COMMENT_POST', 1, 16, 1);
 
 INSERT INTO COMMENT (created_at, body, comment_status, member_id, board_id, parent_id)
-VALUES (CURRENT_TIMESTAMP, '대댓글입니다2', 'COMMENT_POST', 3, 1, 1);
+VALUES (CURRENT_TIMESTAMP, 'ㅁㅅㅁ;;', 'COMMENT_POST', 3, 16, 1);
 
 -- BOARD_LIKE 테이블 생성 코드
 INSERT INTO BOARD_LIKE (BOARD_ID, MEMBER_ID) VALUES (1, 1);
@@ -680,28 +680,51 @@ INSERT INTO Category (category_name, parent_id) VALUES ('자유주제', NULL);
 INSERT INTO Category (category_name, parent_id) VALUES ('공연정보/후기', NULL);
 INSERT INTO Category (category_name, parent_id) VALUES ('시설정보', NULL);
 
-INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2014 레베카', 2, 11);
-INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2017 레베카', 2, 12);
-INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2019 헤드윅', 2, 9);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 레드북', 2, 1);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 영웅', 2, 2);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 맘마미아', 2, 3);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 데스노트', 2, 4);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 오페라의 유령', 2, 5);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 광염소나타', 2, 6);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 98%', 2, 7);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 빨래', 2, 8);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 헤드윅', 2, 9);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 비밀의 화원', 2, 10);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 레베카', 2, 11);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 캣츠', 2, 12);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 보이체크인더다크', 2, 13);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 이상한나라의엘리스', 2, 14);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 윌리엄과윌리엄의윌리엄들', 2, 15);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 해적', 2, 16);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 인터뷰', 2, 17);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 식스더뮤지컬', 2, 18);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 실비아,살다', 2, 19);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 로빈', 2, 20);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 데미안', 2, 21);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 어린왕자', 2, 22);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 하트시그널', 2, 23);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 일라이', 2, 24);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 라흐마나노프', 2, 25);
+INSERT INTO Category (category_name, parent_id, musical_id) VALUES ('2023 써니텐', 2, 26);
 
 -- BOARD_CATEGORY 테이블 생성 코드
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (1, 1);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (2, 2);
-INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (2, 4);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (2, 7);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (3, 3);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (4, 1);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (5, 1);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (6, 2);
-INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (6, 5);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (6, 7);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (7, 3);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (8, 1);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (9, 1);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (10, 2);
-INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (10, 4);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (10, 7);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (11, 3);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (12, 1);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (13, 1);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (14, 2);
-INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (14, 5);
+INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (14, 7);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (15, 3);
 INSERT INTO BOARD_CATEGORY (board_id, category_id) VALUES (16, 1);

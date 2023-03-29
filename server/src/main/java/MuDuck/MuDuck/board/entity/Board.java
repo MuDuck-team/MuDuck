@@ -67,7 +67,7 @@ public class Board extends Auditable {
     @JoinColumn(name = "MEMBER_ID")
     private Member member;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "board", cascade = CascadeType.PERSIST)
     @Builder.Default
     private List<BoardCategory> boardCategories = new ArrayList<>();
 
