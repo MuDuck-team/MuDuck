@@ -12,7 +12,7 @@ const GlobalStyle = createGlobalStyle`
 
   html, body {
     font-size: 62.5%;
-    font-family: 'pretendard';
+    font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
     background-color: var(--main-001);
     color: var(--font-color);
   }
@@ -24,7 +24,7 @@ const GlobalStyle = createGlobalStyle`
 
   button {
     cursor: pointer;
-    font-family: 'pretendard';
+    font-family: 'Montserrat', 'Noto Sans KR', sans-serif;
   }
 
   ::-webkit-scrollbar-track {
