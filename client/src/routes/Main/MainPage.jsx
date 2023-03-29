@@ -29,12 +29,12 @@ function MainPage() {
     <MainPageLayout>
       <Carousel banners={Banners} />
       <ContentContainer>
-        <Category>인기글 추천</Category>
+        <Category>인기 게시글</Category>
         <PopularPosts
           dailyPosts={dailyPostsData}
           weeklyPosts={weeklyPostsData}
         />
-        <Category>추천 공연</Category>
+        <Category>추천 뮤지컬</Category>
         <PopularPlays musicals={musicalsData} />
       </ContentContainer>
     </MainPageLayout>

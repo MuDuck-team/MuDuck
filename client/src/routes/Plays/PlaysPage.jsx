@@ -53,7 +53,7 @@ function PlaysPage() {
 
   const orderSort = [
     { id: 1, categoryName: '최신순', queryValue: 'openDate' },
-    { id: 2, categoryName: '조회순', queryValue: 'views' },
+    { id: 2, categoryName: '인기순', queryValue: 'views' },
     { id: 3, categoryName: '이름순', queryValue: 'musicalKorName' },
   ];
 
@@ -122,7 +122,7 @@ function PlaysPage() {
 
   return (
     <PlayPageLayout>
-      <Category>공연</Category>
+      <Category>뮤지컬</Category>
       <FilterContainer>
         <FilterName>정렬</FilterName>
         <Dropdown
