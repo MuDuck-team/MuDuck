@@ -148,9 +148,9 @@ function NearbyPage() {
     setRate(3);
     setOneLine('');
     setSelectPlaceObj({});
-    navigate('.');
     setPrevOnelineObj({});
     setIsEdit(false);
+    navigate('.');
   };
 
   const onChange = e => {

@@ -81,7 +81,7 @@ export function RatingCard({
   reviewsNum,
 }) {
   return (
-    <CardContainer width={width} height={height} borderRadius="8px">
+    <RatingCardContainer width={width} height={height} borderRadius="8px">
       <ContentWrapper>
         <TopContainer>
           <div>{title}</div>
@@ -94,9 +94,8 @@ export function RatingCard({
           <div>{address}</div>
           <div>리뷰 수 {reviewsNum} 건</div>
         </MiddleContainer>
-        <BottomContainer>한줄평 더보기</BottomContainer>
       </ContentWrapper>
-    </CardContainer>
+    </RatingCardContainer>
   );
 }
 
@@ -132,11 +131,6 @@ const MiddleContainer = styled(Flex)`
   font-size: var(--font-size-xxs);
   margin-bottom: 8px;
 `;
-
-const BottomContainer = styled.div`
-  font-size: var(--font-size-xs);
-`;
-
 const RatingContainer = styled.section`
   display: flex;
   align-items: center;
@@ -158,6 +152,13 @@ const CardContainer = styled.article`
   &:hover {
     opacity: 0.8;
     cursor: pointer;
+  }
+`;
+
+const RatingCardContainer = styled(CardContainer)`
+  &:hover {
+    opacity: 1;
+    cursor: default;
   }
 `;
 
