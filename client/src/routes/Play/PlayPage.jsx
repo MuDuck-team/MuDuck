@@ -99,6 +99,7 @@ function PlayPage() {
             onClick={() => {
               navigate(`/nearby/${theater.theaterId}`);
             }}
+            className="review"
           >
             리뷰쓰러가기
           </SubTitle>
@@ -195,6 +196,10 @@ const SubTitle = styled.h3`
   margin-right: 2rem;
   margin-bottom: 0.8rem;
   margin-top: ${({ marginTop }) => marginTop || '0'};
+
+  &.review {
+    cursor: pointer;
+  }
 `;
 
 const HeadingBox = styled.div`

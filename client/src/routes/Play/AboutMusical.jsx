@@ -86,11 +86,16 @@ function AboutMusical({ musical, actors, theater }) {
         </HeadingBox>
 
         {showModal ? (
-          <ModalBackground>
+          <ModalBackground onClick={modalHandler}>
             <ModalContainer>
               <HeadingBox>
                 <Title>출연진</Title>
-                <IoIosClose size="30" color="#f2f2f2" onClick={modalHandler} />
+                <IoIosClose
+                  size="30"
+                  color="#f2f2f2"
+                  onClick={modalHandler}
+                  cursor="pointer"
+                />
               </HeadingBox>
 
               {playNameArr.map((playName, idx) => {
