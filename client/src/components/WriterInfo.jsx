@@ -44,8 +44,9 @@ function WriterInfo({
         },
       })
       .then(response => {
-        console.log(response);
-        if (response.status === 204) navigate('.');
+        if (response.status === 204) {
+          navigate('.', { replace: true });
+        }
       })
       .catch(error => {
         console.error('Error submitting comment:', error);

@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
-import { useRecoilValue } from 'recoil';
-import { userInfo } from '../../recoil/userAtom';
 import customAxios from '../../api/customAxios';
 import WriterInfo from '../../components/WriterInfo';
 import { StyledInput } from '../../components/Input';
@@ -14,8 +12,6 @@ function CommentList({ comment }) {
   const params = useParams();
   const navigate = useNavigate();
   const localToken = localStorage.getItem('localToken');
-
-  const user = useRecoilValue(userInfo);
 
   const [isReply, setIsReply] = useState(false);
   const [isShowReply, setIsShowReply] = useState(false);
@@ -57,7 +53,9 @@ function CommentList({ comment }) {
       .then(response => {
         setCommentValue('');
         setIsReply(!isReply);
-        if (response.status === 201) navigate('.');
+        if (response.status === 201) {
+          navigate('.', { replace: true });
+        }
       })
       .catch(error => {
         console.error('Error submitting comment:', error);
@@ -86,7 +84,7 @@ function CommentList({ comment }) {
         )}
       </CommentAction>
       {isReply &&
-        (user ? (
+        (localToken ? (
           <CommentForm>
             <StyledInput
               width="88%"
