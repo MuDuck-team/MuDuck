@@ -10,8 +10,6 @@ import {
 import styled from 'styled-components';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { IoMdListBox } from 'react-icons/io';
-import { useRecoilValue } from 'recoil';
-import { userInfo } from '../../recoil/userAtom';
 import customAxios from '../../api/customAxios';
 import WriterInfo from '../../components/WriterInfo';
 import { StyledInput } from '../../components/Input';
@@ -50,7 +48,6 @@ function PostPage() {
   const { head, body, liked } = boardContent;
 
   const navigate = useNavigate();
-  const user = useRecoilValue(userInfo);
   const [isLike, setIsLike] = useState(liked);
 
   const clickLike = () => {
@@ -76,7 +73,6 @@ function PostPage() {
       },
     }).then(response => {
       setIsLike(false);
-      console.log(response);
       if (response.status === 204) navigate('.');
     });
   };
@@ -116,7 +112,7 @@ function PostPage() {
         <PostCotent>{body.content}</PostCotent>
       </ContentContainer>
       <LinkContainer>
-        {user && (
+        {localToken && (
           <PostLike onClick={isLike ? cancelLike : clickLike}>
             {isLike ? <FillHeartIcon /> : <OutlineHeartIcon />}
             <ListText>좋아요</ListText>
@@ -128,7 +124,7 @@ function PostPage() {
         </ListLink>
       </LinkContainer>
       <CommentCount>{head.totalComment}개의 댓글</CommentCount>
-      {user ? (
+      {localToken ? (
         <CommentForm method="post">
           <StyledInput
             name="body"
