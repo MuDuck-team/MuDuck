@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { FaBars } from 'react-icons/fa';
 import { AiOutlineClose } from 'react-icons/ai';
 import { useRecoilState } from 'recoil';
@@ -79,7 +79,7 @@ function Header() {
             />
           </>
         ) : (
-          <TabLink to="/login" onClick={tapCloseHander}>
+          <TabLink to="/login" onClick={tapCloseHander} className="user">
             SignIn
           </TabLink>
         )}
@@ -141,10 +141,11 @@ const NavTab = styled.nav`
   background-color: var(--main-001);
   display: flex;
   justify-content: space-around;
+  gap: 2rem;
   align-items: center;
   flex: 2;
   & a:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    color: #545454;
   }
 
   @media screen and (max-width: 768px) {
@@ -154,7 +155,7 @@ const NavTab = styled.nav`
   }
 `;
 
-const TabLink = styled(Link)`
+const TabLink = styled(NavLink)`
   width: 100%;
   height: 30px;
   font-size: var(--font-size-md);
@@ -163,7 +164,15 @@ const TabLink = styled(Link)`
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 8px;
+
+  &.active {
+    font-weight: 700;
+    border-bottom: 2px solid var(--line-color);
+
+    &.user {
+      border-bottom: none;
+    }
+  }
 
   @media screen and (max-width: 768px) {
     width: 100%;
@@ -173,6 +182,11 @@ const TabLink = styled(Link)`
     align-items: flex-start;
     padding: 16px;
     box-sizing: border-box;
+
+    &.active {
+      font-weight: 700;
+      border-bottom: none;
+    }
   }
 `;
 
@@ -189,7 +203,7 @@ const SignInOrUser = styled.div`
     width: 100%;
     justify-content: flex-start;
     & a:hover {
-      background-color: rgba(255, 255, 255, 0.1);
+      color: #545454;
     }
   }
 `;
@@ -213,8 +227,14 @@ const LogoutBtn = styled(Button)`
   font-weight: 500;
   height: 40px;
   padding: 10px;
+  border-radius: 0;
   &:hover {
-    background-color: rgba(255, 255, 255, 0.1);
+    color: #545454;
+    background-color: transparent;
+  }
+
+  &:active {
+    background-color: transparent;
   }
 
   @media screen and (max-width: 768px) {
