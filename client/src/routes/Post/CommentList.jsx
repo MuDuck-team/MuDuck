@@ -53,7 +53,9 @@ function CommentList({ comment }) {
       .then(response => {
         setCommentValue('');
         setIsReply(!isReply);
-        if (response.status === 201) navigate('.');
+        if (response.status === 201) {
+          navigate('.', { replace: true });
+        }
       })
       .catch(error => {
         console.error('Error submitting comment:', error);

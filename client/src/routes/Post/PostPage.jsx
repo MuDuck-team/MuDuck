@@ -60,7 +60,9 @@ function PostPage() {
     }).then(response => {
       setIsLike(true);
 
-      if (response.status === 200) navigate('.');
+      if (response.status === 200) {
+        navigate('.', { replace: true });
+      }
     });
   };
 
@@ -73,7 +75,9 @@ function PostPage() {
       },
     }).then(response => {
       setIsLike(false);
-      if (response.status === 204) navigate('.');
+      if (response.status === 204) {
+        navigate('.', { replace: true });
+      }
     });
   };
 
