@@ -8,7 +8,6 @@ import Root from './routes/Root';
 import ErrorPage from './routes/Error/ErrorPage';
 import MainPage, { loader as mainPageLoader } from './routes/Main/MainPage';
 import LoginPage from './routes/Login/LoginPage';
-import SingupPage from './routes/Signup/SingupPage';
 import MyinfoPage from './routes/Myinfo/MyinfoPage';
 import PlayPage, { loader as playPageLoader } from './routes/Play/PlayPage';
 import PlaysPage, { loader as playsPageLoader } from './routes/Plays/PlaysPage';
@@ -55,7 +54,6 @@ const router = createBrowserRouter([
           { index: true, element: <MainPage />, loader: mainPageLoader },
           { path: '/login', element: <LoginPage /> },
           { path: '/oauth/redirect', element: <OauthRedirectPage /> },
-          { path: '/signup', element: <SingupPage /> },
           { path: '/myinfo', element: <MyinfoPage /> },
           {
             path: '/play/:id',
