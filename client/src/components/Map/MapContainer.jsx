@@ -19,7 +19,7 @@ function MapContainer({
   useEffect(() => {
     setInputText('');
     setSearchPlace('');
-    setCategory('');
+    setCategory('restaurants');
     countRef.current = 0;
   }, [currentTheater]);
 
