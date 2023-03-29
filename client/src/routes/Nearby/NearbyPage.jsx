@@ -160,6 +160,7 @@ function NearbyPage() {
   return (
     <>
       <StyledH2>{currentTheater.categoryName}</StyledH2>
+      <Label>아래 드롭다운으로 극장을 선택해주세요</Label>
       <Dropdown
         width="315px"
         height="42px"
@@ -169,6 +170,7 @@ function NearbyPage() {
         selectedValue={currentTheater}
       />
       <MarginBottom margin="16px" />
+      <Label>검색창을 이용해 새로운 장소를 추가 해주세요</Label>
       <MyMapContainer
         onMarkerClick={onMarkerClick}
         currentTheater={currentTheater}
@@ -260,6 +262,12 @@ const StyledH2 = styled.h2`
   font-size: var(--font-size-xxl);
   margin-bottom: 30px;
   font-weight: bold;
+`;
+
+const Label = styled.div`
+  font-size: var(--font-size-sm);
+  margin-bottom: 16px;
+  font-weight: 700;
 `;
 
 const CommentCotainer = styled.section`
