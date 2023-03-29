@@ -34,7 +34,6 @@ function MeatballsMenu() {
         },
       })
       .then(response => {
-        console.log(response);
         if (response.status === 204) navigate('/posts');
       })
       .catch(error => {
@@ -51,11 +50,11 @@ function MeatballsMenu() {
         <MenuWrapper>
           <MenuButton onClick={handlePostEdit}>
             <EditIcon />
-            수정하기
+            수정
           </MenuButton>
           <MenuButton onClick={showModalHandler}>
             <DeleteIcon />
-            삭제하기
+            삭제
           </MenuButton>
           <Modal
             showModal={showModal}
@@ -121,13 +120,13 @@ const MenuButton = styled.button`
 const EditIcon = styled(HiOutlinePencil)`
   width: 14px;
   height: 14px;
-  margin-right: 4px;
+  margin-right: 8px;
 `;
 
 const DeleteIcon = styled(BsTrashFill)`
   width: 14px;
   height: 14px;
-  margin-right: 4px;
+  margin-right: 8px;
 `;
 
 export default MeatballsMenu;

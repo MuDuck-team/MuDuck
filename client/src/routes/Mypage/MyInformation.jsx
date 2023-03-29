@@ -42,7 +42,7 @@ function Myinfo() {
         setUserInfo(prevUserInfo => ({ ...prevUserInfo, ...result }));
       })
       .then(() => {
-        navigate('.');
+        navigate('.', { replace: true });
       });
   };
 
@@ -75,7 +75,7 @@ function Myinfo() {
         setIsEdit(false);
       })
       .then(() => {
-        navigate('.');
+        navigate('.', { replace: true });
       });
   };
 
