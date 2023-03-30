@@ -176,7 +176,7 @@ function NearbyPage() {
   };
 
   return (
-    <>
+    <NearbyPageContainer>
       <StyledH2>{currentTheater.categoryName}</StyledH2>
       <Label>아래 드롭다운으로 극장을 선택해주세요</Label>
       <Dropdown
@@ -289,9 +289,18 @@ function NearbyPage() {
 
         <div />
       </RatingCardContainer>
-    </>
+    </NearbyPageContainer>
   );
 }
+const NearbyPageContainer = styled.div`
+  width: 100%;
+  height: fit-content;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    padding: 2rem;
+  }
+`;
 
 const StyledH2 = styled.h2`
   margin-top: 40px;
@@ -334,6 +343,7 @@ const CommentCotainer = styled.section`
 const H3 = styled.h3`
   font-size: var(--font-size-md);
   margin-bottom: 16px;
+  line-height: 2.5rem;
 `;
 
 const NoticeWrapper = styled.div`
@@ -382,6 +392,11 @@ const RatingCardContainer = styled.section`
   display: flex;
   flex-wrap: wrap;
   gap: 16px;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    flex-direction: column;
+  }
 `;
 
 const LeftContianer = styled.section`
