@@ -35,12 +35,6 @@ function MyinfoPage() {
         '닉네임은 최소 2자 이상 최대 20자 이하, \n 한글, 영문 대소문자와 숫자만 사용할 수 있습니다.\n \n 아무것도 입력하지 않은 경우, 카카오톡 프로필 이름이 닉네임으로 설정됩니다.',
         {
           autoClose: 5000,
-          theme: 'dark',
-          style: {
-            fontSize: '1.4rem',
-            lineHeight: '2rem',
-            fontWeight: '400',
-          },
         },
       );
     }
@@ -320,15 +314,5 @@ const SubmitButton = styled(Button)`
     width: 260px;
   }
 `;
-
-// const StyledToastContainer = styled(ToastContainer)`
-//   &&&.Toastify__toast-container {
-//     margin-top: 8rem;
-//   }
-
-//   .Toastify__toast-body {
-//     white-space: pre-line;
-//   }
-// `;
 
 export default MyinfoPage;
