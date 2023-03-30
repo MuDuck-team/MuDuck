@@ -76,7 +76,7 @@ VALUES ('옛날 커뮤니티 이용 공지사항', '커뮤니티 글 작성 시 
 
 -- Theater 테이블 생성 코드
 INSERT INTO THEATER (place_Name, longitude, latitude, phone, address, road_Address, created_at, last_modified_at)
-VALUES ('예술의 전당', 126.978891, 37.5709794, '02-555-5555', '서울 서초구 서초동 700', '서울 서초구 남부순환로 2406', NOW(), NOW());
+VALUES ('예술의 전당', 126.92226849999999, 37.4735605, '02-555-5555', '서울 서초구 서초동 700', '서울 서초구 남부순환로 2406', NOW(), NOW());
 
 INSERT INTO THEATER (place_Name, longitude, latitude, phone, address, road_Address, created_at, last_modified_at)
 VALUES ('샤롯데씨어터', 127.0998494, 37.5107077, '02-555-5555', '서울특별시 송파구 잠실동 40-1번지 샤롯데씨어터', '서울특별시 송파구 올림픽로 240(잠실동) 샤롯데씨어터', NOW(), NOW());
@@ -86,133 +86,34 @@ VALUES ('충무아트센터', 127.0148131, 37.5660139, '02-555-5555', '서울 �
 
 -- Map 테이블 생성 코드
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 1, 'http://place.map.kakao.com/10753713', '오둥이식당1', 126.97607241059578, 37.57286713479182, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+VALUES (1, 7885551, 'http://place.map.kakao.com/7885551', '백년옥 본관', 127.01377086131225, 37.48118504695074, 'FD6', '02-523-2860', '서울 서초구 서초동 1450-6', '서울 서초구 남부순환로 2407', NOW(), NOW());
 
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 2, 'http://place.map.kakao.com/10753713', '오둥이식당2', 126.97607241059579, 37.57286713479183, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+VALUES (1, 982112444, 'http://place.map.kakao.com/982112444', '카페모차르트502', 127.01219547315105, 37.47844795409167, 'CE7', '02-522-4916', '서울 서초구 서초동 산 130-9', '서울 서초구 남부순환로 2406', NOW(), NOW());
 
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 3, 'http://place.map.kakao.com/10753713', '오둥이식당3', 126.97607241059580, 37.57286713479184, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 4, 'http://place.map.kakao.com/10753713', '오둥이식당4', 126.97607241059581, 37.57286713479185, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 5, 'http://place.map.kakao.com/10753713', '오둥이식당5', 126.97607241059582, 37.57286713479186, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 6, 'http://place.map.kakao.com/1934809750', '오둥이카페1', 126.973265, 37.572695, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 7, 'http://place.map.kakao.com/1934809750', '오둥이카페2', 126.973266, 37.572696, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 8, 'http://place.map.kakao.com/1934809750', '오둥이카페3', 126.973267, 37.572697, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 9, 'http://place.map.kakao.com/1934809750', '오둥이카페4', 126.973268, 37.572698, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 10, 'http://place.map.kakao.com/1934809750', '오둥이카페5', 126.973269, 37.572699, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 11, 'http://place.map.kakao.com/1624572111', '오둥이주차장1', 126.97607241059578, 37.57286713479182, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 12, 'http://place.map.kakao.com/1624572111', '오둥이주차장2', 126.97607241059579, 37.57286713479183, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 13, 'http://place.map.kakao.com/1624572111', '오둥이주차장3', 126.97607241059580, 37.57286713479184, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 14, 'http://place.map.kakao.com/1624572111', '오둥이주차장4', 126.97607241059581, 37.57286713479185, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 15, 'http://place.map.kakao.com/1624572111', '오둥이주차장5', 126.97607241059582, 37.57286713479186, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 16, 'http://place.map.kakao.com/10753713', '오둥이식당6', 126.97607241059583, 37.57286713479187, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 17, 'http://place.map.kakao.com/10753713', '오둥이식당7', 126.97607241059584, 37.57286713479188, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 18, 'http://place.map.kakao.com/1934809750', '오둥이카페6', 126.973270, 37.572700, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 19, 'http://place.map.kakao.com/1934809750', '오둥이카페7', 126.973271, 37.572701, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 20, 'http://place.map.kakao.com/1624572111', '오둥이주차장6', 126.97607241059578, 37.57286713479182, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 21, 'http://place.map.kakao.com/1624572111', '오둥이주차장7', 126.97607241059585, 37.57286713479189, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 22, 'http://place.map.kakao.com/10753713', '오둥이식당22', 126.97607241059586, 37.57286713479190, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 23, 'http://place.map.kakao.com/10753713', '오둥이식당23', 126.97607241059587, 37.57286713479191, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 24, 'http://place.map.kakao.com/10753713', '오둥이식당24', 126.97607241059588, 37.57286713479192, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 25, 'http://place.map.kakao.com/10753713', '오둥이식당25', 126.97607241059589, 37.57286713479193, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (1, 26, 'http://place.map.kakao.com/10753713', '오둥이식당26', 126.97607241059590, 37.57286713479194, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+VALUES (2, 98733515, 'http://place.map.kakao.com/98733515', '서초센트럴주차장', 127.011058140081, 37.4862670205377, 'PK6', '02-6218-1582', '서울 서초구 서초동 1582-25', '서울 서초구 반포대로16길 7', NOW(), NOW());
 
 -- theaterId 가 2인 경우
 
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 27, 'http://place.map.kakao.com/1934809750', '2오둥이카페1', 126.973265, 37.572695, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+VALUES (2, 13279465, 'http://place.map.kakao.com/13279465', '롯데호텔월드 라세느', 127.10002034592019, 37.511399307126595, 'FD6', '02-411-7811', '서울 송파구 잠실동 40-1', '서울 송파구 올림픽로 240', NOW(), NOW());
 
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 28, 'http://place.map.kakao.com/1934809750', '2오둥이카페2', 126.973266, 37.572696, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+VALUES (2, 21547548, 'http://place.map.kakao.com/21547548', '엔제리너스 석촌호수DI점', 127.101885393436, 37.5071774088431, 'CE7', '02-3431-7590', '서울 송파구 석촌동 158-10', '서울 송파구 석촌호수로 224', NOW(), NOW());
+
+-- INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+-- VALUES (2, 98733515, 'http://place.map.kakao.com/98733515', '서초센트럴주차장', 127.011058140081, 37.4862670205377, 'PK6', '02-6218-1582', '서울 서초구 서초동 1582-25', '서울 서초구 반포대로16길 7', NOW(), NOW());
+
+-- theaterId 가 3인 경우
+INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
+VALUES (3, 954591175, 'http://place.map.kakao.com/954591175', '동대문매운김밥', 127.015909856096, 37.5658357671463, 'FD6', '02-2231-0582', '서울 중구 흥인동 111', '서울 중구 다산로 255', NOW(), NOW());
 
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 29, 'http://place.map.kakao.com/1934809750', '2오둥이카페3', 126.973267, 37.572697, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+VALUES (3, 38432219, 'http://place.map.kakao.com/38432219', '러시아 케이크', 127.005885831317, 37.5658294844621, 'CE7', '02-6053-4079', '서울 중구 광희동1가 134', '서울 중구 을지로42길 7', NOW(), NOW());
 
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 30, 'http://place.map.kakao.com/1934809750', '2오둥이카페4', 126.973268, 37.572698, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 31, 'http://place.map.kakao.com/1934809750', '2오둥이카페5', 126.973269, 37.572699, 'CE7', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 32, 'http://place.map.kakao.com/1624572111', '2오둥이주차장1', 126.97607241059578, 37.57286713479182, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 33, 'http://place.map.kakao.com/1624572111', '2오둥이주차장2', 126.97607241059579, 37.57286713479183, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 34, 'http://place.map.kakao.com/1624572111', '2오둥이주차장3', 126.97607241059580, 37.57286713479184, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 35, 'http://place.map.kakao.com/1624572111', '2오둥이주차장4', 126.97607241059581, 37.57286713479185, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 36, 'http://place.map.kakao.com/1624572111', '2오둥이주차장5', 126.97607241059582, 37.57286713479186, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 37, 'http://place.map.kakao.com/10753713', '2오둥이식당6', 126.97607241059583, 37.57286713479187, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 38, 'http://place.map.kakao.com/10753713', '2오둥이식당7', 126.97607241059584, 37.57286713479188, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 39, 'http://place.map.kakao.com/1934809750', '2오둥이식당8', 126.973270, 37.572700, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 40, 'http://place.map.kakao.com/1934809750', '2오둥이식당9', 126.973271, 37.572701, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 41, 'http://place.map.kakao.com/1624572111', '2오둥이식당10', 126.97607241059585, 37.57286713479189, 'FD6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
-
-INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 42, 'http://place.map.kakao.com/1624572111', '2오둥이주차장7', 126.97607241059586, 37.57286713479190, 'PK6', '02-123-4567', '서울시 어쩌구', '도로명주소입니다.', NOW(), NOW());
+VALUES (3, 26879266, 'http://place.map.kakao.com/26879266', '동대문공영주차장', 127.01211146254752, 37.56726699946685, 'PK6', '02-6053-4079', '서울 중구 신당동 251-7', '서울 중구 마장로 22', NOW(), NOW());
 
 -- Comment 테이블 생성 코드
 INSERT INTO COMMENT (created_at, body, comment_status, member_id, board_id, parent_id)
@@ -232,257 +133,33 @@ INSERT INTO BOARD_LIKE (BOARD_ID, MEMBER_ID) VALUES (7, 1);
 
 -- RecommendPlace 테이블 더미데이터 생성 코드
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 1, 4.2, '한줄평이지롱');
+VALUES (3, 1, 4.0, '맛이 변해버렸구만유...');
 
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 1, 4.3, '한줄평이지롱');
+VALUES (3, 2, 4.0, '이름이 먼가 맘에 들어유');
 
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 2, 4.4, '한줄평이지롱');
+VALUES (3, 3, 4.0, '센트럴!');
 
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 2, 4.0, '한줄평이지롱');
+VALUES (3, 4, 4.0, '비싸지만 낫베드');
 
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 3, 4.5, '한줄평이지롱');
+VALUES (3, 5, 3.0, '프렌차이즈는 중간!');
 
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 3, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 4, 4.7, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 4, 4.6, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 5, 4.8, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 5, 4.9, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 6, 4.8, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 6, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 7, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 7, 4.1, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 8, 4.4, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 8, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 9, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 9, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 10, 4.2, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 10, 4.9, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 11, 4.8, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 11, 4.9, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 12, 4.8, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 12, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 13, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 13, 4.1, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 14, 4.4, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 14, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 15, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 15, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 16, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 16, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 17, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 17, 4.0, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 18, 4.2, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 18, 4.0, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 19, 4.2, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 19, 4.8, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 20, 4.9, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 20, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 21, 4.0, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 21, 4.0, '한줄평이지롱');
-
--- theaterId가 2인 경우의 평점 및 한줄평
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 22, 4.1, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 22, 4.8, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 23, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 23, 4.0, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 24, 4.7, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 24, 4.1, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 25, 4.9, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 25, 4.1, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 26, 4.4, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 26, 4.9, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 27, 4.8, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 27, 4.9, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 28, 4.1, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 28, 4.1, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 29, 4.4, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 29, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 30, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 30, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 31, 4.2, '한줄평이지롱');
+-- INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
+-- VALUES (3, 6, 4.4, '한줄평이지롱');
 
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 31, 4.9, '한줄평이지롱');
+VALUES (3, 6, 5.0, '오둥이도 반한 맛집이무니다.');
 
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 32, 4.8, '한줄평이지롱');
+VALUES (3, 7, 4.0, '오둥이도 반한 카페 츄라이츄라이');
 
 INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 32, 4.9, '한줄평이지롱');
+VALUES (3, 8, 3.0, '주차비 너무 비싸!!!');
 
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 33, 4.8, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 33, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 34, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 34, 4.1, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 35, 4.4, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 35, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 36, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 36, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 37, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 37, 4.3, '한줄평이지롱');
 
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 38, 4.5, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 38, 4.0, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 39, 4.2, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 39, 4.0, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 40, 4.2, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 40, 4.8, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 41, 4.9, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 41, 4.3, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (1, 41, 4.0, '한줄평이지롱');
-
-INSERT INTO RECOMMEND_PLACE(member_id, map_id, score, one_line)
-VALUES (2, 41, 4.0, '한줄평이지롱');
 
 -- MUSICAL 테이블 생성 코드
 INSERT INTO MUSICALS (musical_id, musical_kor_name, musical_eng_name, poster,  genre, musical_info, musical_state, open_date, close_date, age, running_time, intermission, views,theater_id)
