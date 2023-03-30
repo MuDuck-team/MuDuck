@@ -12,9 +12,9 @@ const customStyles = {
   control: baseStyles => ({
     ...baseStyles,
     backgroundColor: 'var(--main-002)',
-    fontSize: 'var(--font-size-md)',
-    width: '315px',
-    height: '43px',
+    fontSize: 'var(--font-size-sm)',
+    width: '280px',
+    height: '40px',
     borderColor: 'var(--border-color)',
     '&:hover': { borderColor: 'var(--border-color)' },
   }),
@@ -30,7 +30,7 @@ const customStyles = {
   option: (provided, state) => ({
     ...provided,
     backgroundColor: state.isFocused ? 'var(--main-003)' : 'var(--main-002)',
-    fontSize: 'var(--font-size-md)',
+    fontSize: 'var(--font-size-sm)',
     color: 'var(--font-color)',
   }),
   menu: provided => ({
@@ -133,7 +133,7 @@ function Editors({
   };
 
   return (
-    <EditorWrapper>
+    <EditorLayout>
       {isAdd ? (
         <StyledH2 openCategory={openCategory}>
           {isPost ? '게시글' : '공지사항'} 작성하기
@@ -148,8 +148,8 @@ function Editors({
           <CategoryContent>
             <p>카테고리</p>
             <Dropdown
-              width="315px"
-              height="42px"
+              width="280px"
+              height="40px"
               options={category}
               onClick={handleDropDown}
               defaultValue={category[0]}
@@ -172,7 +172,7 @@ function Editors({
       <Form method="post">
         <input type="hidden" name="categoryIds" value={categoryIds} />
         <InputWrapper>
-          <StyledLable htmlFor="title">제목</StyledLable>
+          <StyledLabel htmlFor="title">제목</StyledLabel>
           <StyledInput
             type="text"
             id="title"
@@ -186,7 +186,7 @@ function Editors({
           />
         </InputWrapper>
         <InputWrapper>
-          <StyledLable htmlFor="content">내용</StyledLable>
+          <StyledLabel htmlFor="content">내용</StyledLabel>
           <StyledTextArea
             id="content"
             name="content"
@@ -210,11 +210,19 @@ function Editors({
           <Button type="submit" text="등록하기" onClick={handleSubmit} />
         </ButtonWrapper>
       </Form>
-    </EditorWrapper>
+    </EditorLayout>
   );
 }
 
-const EditorWrapper = styled.article``;
+const EditorLayout = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  @media screen and (max-width: 1024px) {
+    width: 90%;
+  }
+`;
 
 const StyledH2 = styled.h2`
   margin-top: 40px;
@@ -262,6 +270,6 @@ const ButtonWrapper = styled.section`
   }
 `;
 
-const StyledLable = styled.label``;
+const StyledLabel = styled.label``;
 
 export default Editors;
