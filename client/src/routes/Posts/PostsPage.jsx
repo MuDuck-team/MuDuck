@@ -74,13 +74,13 @@ function PostsPage() {
   };
 
   return (
-    <>
+    <PostsPageLayout>
       <StyledH2>커뮤니티</StyledH2>
       <FilterButtonContainer>
         <Button type="button" text="작성하기" onClick={goToAdd} />
         <FilterContainer>
           <DropDownContainer>
-            <p>카테고리</p>
+            <FilterName>카테고리</FilterName>
             <Dropdown
               options={categoryList}
               defaultValue={categoryList[0]}
@@ -92,7 +92,7 @@ function PostsPage() {
             />
           </DropDownContainer>
           <DropDownContainer>
-            <p>정렬</p>
+            <FilterName>정렬</FilterName>
             <Dropdown
               options={sortArr}
               defaultValue={currentSortBy}
@@ -103,7 +103,6 @@ function PostsPage() {
           </DropDownContainer>
         </FilterContainer>
       </FilterButtonContainer>
-
       {noticeBoards.map(notice => (
         <ArticleCard
           {...notice}
@@ -123,7 +122,6 @@ function PostsPage() {
           backgroundColor="var(--main-001)"
         />
       ))}
-      {/* 페이지 네이션 테스트하기 위해 일단 임의의 값을 넣었습니다 */}
       <Paging
         setPage={setPage}
         activePage={pageInfo.page}
@@ -131,9 +129,19 @@ function PostsPage() {
         totalItemCount={pageInfo.totalElements}
         pageRange={pageInfo.totalPages}
       />
-    </>
+    </PostsPageLayout>
   );
 }
+
+const PostsPageLayout = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  @media screen and (max-width: 1024px) {
+    width: 90%;
+  }
+`;
 
 const DropDownContainer = styled.div`
   display: flex;
@@ -167,6 +175,15 @@ const FilterContainer = styled.section`
   }
   @media screen and (max-width: 600px) {
     margin-top: 16px;
+  }
+`;
+
+const FilterName = styled.span`
+  font-size: var(--font-size-sm);
+  margin: 0 8px;
+
+  @media screen and (max-width: 600px) {
+    width: 50px;
   }
 `;
 
