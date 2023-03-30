@@ -31,7 +31,7 @@ function Root() {
       </Container>
       <Footer />
       <ScrollToTop />
-      <ToastContainer
+      <StyledToastContainer
         position="top-right"
         autoClose={2000}
         hideProgressBar={false}
@@ -52,6 +52,19 @@ const Container = styled.div`
   max-width: 1120px;
   min-height: 75vh;
   margin: auto;
+`;
+
+const StyledToastContainer = styled(ToastContainer)`
+  &&&.Toastify__toast-container {
+    margin-top: 8rem;
+  }
+
+  .Toastify__toast-body {
+    white-space: pre-line;
+    font-size: var(--font-size-sm);
+    line-height: 2rem;
+    font-weight: '400';
+  }
 `;
 
 export default Root;

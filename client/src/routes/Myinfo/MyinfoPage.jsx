@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import styled, { css } from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import customAxios from '../../api/customAxios';
 import { userInfo } from '../../recoil/userAtom';
@@ -30,8 +31,11 @@ function MyinfoPage() {
   const handleValidateNickname = () => {
     const nickRegEx = /^[가-힣a-z0-9_-]{2,20}$/;
     if (!nickRegEx.test(nickname)) {
-      alert(
-        '닉네임은 2자이상 20자이하, 한글,영문 대소문자, 숫자만 사용할 수 있습니다.',
+      toast.error(
+        '닉네임은 최소 2자 이상 최대 20자 이하, \n 한글, 영문 대소문자와 숫자만 사용할 수 있습니다.\n \n 아무것도 입력하지 않은 경우, 카카오톡 프로필 이름이 닉네임으로 설정됩니다.',
+        {
+          autoClose: 5000,
+        },
       );
     }
   };
@@ -152,6 +156,18 @@ function MyinfoPage() {
           onClick={handleSubmit}
         />
       </SettingForm>
+      {/* <StyledToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      /> */}
     </SettingPageConainer>
   );
 }
