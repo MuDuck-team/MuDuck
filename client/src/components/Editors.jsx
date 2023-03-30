@@ -36,6 +36,10 @@ const customStyles = {
     ...provided,
     backgroundColor: 'var(--main-002)',
   }),
+  singleValue: provided => ({
+    ...provided,
+    color: 'var(--font-color)',
+  }),
 };
 
 function Editors({
