@@ -45,7 +45,7 @@ function AboutMusical({ musical, actors, theater }) {
       <SubTitle>
         공연시간
         <DescriptionText>
-          {musical.runningTime} (인터미션 : {musical.intermission}분)
+          {musical.runningTime}분 (인터미션 : {musical.intermission}분)
         </DescriptionText>
       </SubTitle>
       <SubTitle>
