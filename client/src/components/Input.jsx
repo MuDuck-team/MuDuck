@@ -17,6 +17,7 @@ export const StyledInput = styled.input`
 export const StyledTextArea = styled.textarea`
   width: ${props => props.width};
   height: ${props => props.height};
+  min-height: ${props => props.minHeight};
   border-radius: 8px;
   border: 1px solid var(--border-color);
   background-color: var(--main-001);
