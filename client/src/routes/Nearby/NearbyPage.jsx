@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useLoaderData } from 'react-router-dom';
+import { useNavigate, useLoaderData, useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
@@ -42,10 +42,13 @@ function NearbyPage() {
   const [oneLine, setOneLine] = useState('');
   const [prevOnelineObj, setPrevOnelineObj] = useState({});
   const user = useRecoilValue(userInfo);
+  const location = useLocation();
 
   const { restaurants = [], cafes = [], parkings = [] } = placeData;
 
   const onMarkerClick = async obj => {
+    setRate(3);
+    setOneLine('');
     setSelectPlaceObj(obj);
     setIsEdit(false);
     if (user?.id) {
@@ -89,6 +92,7 @@ function NearbyPage() {
   };
 
   const getText = obj => {
+    console.log(location.pathname);
     if (!isMarkerSelect(obj)) {
       toast.warn(
         '리뷰를 남기려면 검색을 하거나 카테고리를 선택해서 장소(식당, 카페, 주차장)를 선택하셔야 합니다.',
