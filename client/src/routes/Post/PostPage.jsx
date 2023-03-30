@@ -186,6 +186,7 @@ const PostTitle = styled.h3`
   margin-bottom: 2.4rem;
   font-size: var(--font-size-xl);
   font-weight: bold;
+  word-break: break-all;
 `;
 
 const PostCotent = styled.p`
@@ -193,6 +194,7 @@ const PostCotent = styled.p`
   font-size: var(--font-size-md);
   line-height: 2em;
   white-space: pre-wrap;
+  word-break: break-all;
 `;
 
 const LinkContainer = styled.div`

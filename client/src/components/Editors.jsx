@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Form, useNavigate, useSubmit } from 'react-router-dom';
 import styled from 'styled-components';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 import Button from './Button';
 import Dropdown from './DropDown';
 import { StyledInput, StyledTextArea } from './Input';
@@ -86,6 +87,14 @@ function Editors({
     setIds(idsArray);
   };
 
+  const maxLengthCheck = e => {
+    const { length } = e.target.value;
+    if (length > 50) {
+      e.target.value = e.target.value.slice(0, 50);
+      toast.error('제목은 최대 50자까지 작성할 수 있습니다.');
+    }
+  };
+
   const handleValue = e => {
     const { name, value } = e.target;
     if (name === 'title') {
@@ -106,7 +115,7 @@ function Editors({
   const handleSubmit = e => {
     e.preventDefault();
     if (isEmpty(title) && isEmpty(content)) {
-      alert('글자 수가 한 글자 이상이여야 합니다');
+      toast.error('글자 수가 한 글자 이상이여야 합니다');
       return;
     }
 
@@ -137,7 +146,7 @@ function Editors({
       {openCategory && (
         <CategoryWrapper>
           <CategoryContent>
-            <p>카테고리</p>{' '}
+            <p>카테고리</p>
             <Dropdown
               width="315px"
               height="42px"
@@ -148,7 +157,7 @@ function Editors({
             />
           </CategoryContent>
           <CategoryContent>
-            <p>뮤지컬</p>{' '}
+            <p>뮤지컬</p>
             <Select
               options={changeSearchInputObj(mentionedMusical)}
               value={selectedOptions}
@@ -173,6 +182,7 @@ function Editors({
             height="50px"
             onChange={handleValue}
             placeholder="제목을 입력해주세요."
+            onInput={maxLengthCheck}
           />
         </InputWrapper>
         <InputWrapper>
