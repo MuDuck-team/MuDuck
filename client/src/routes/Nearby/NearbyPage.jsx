@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, useLoaderData } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import { BsFillExclamationCircleFill } from 'react-icons/bs';
 import customAxios from '../../api/customAxios';
 import Button from '../../components/Button';
 import { RatingCard } from '../../components/Cards';
@@ -44,8 +45,16 @@ function NearbyPage() {
 
   const { restaurants = [], cafes = [], parkings = [] } = placeData;
 
-  const onMarkerClick = async obj => {
+  const onMarkerClick = async getObj => {
+    const obj = { ...getObj };
+    if (obj.phone.length === 0) {
+      obj.phone = null;
+    }
+
+    setRate(3);
+    setOneLine('');
     setSelectPlaceObj(obj);
+
     setIsEdit(false);
     if (user?.id) {
       const { getOneLineAndRate } = await import('../../api/muduckApi');
@@ -58,6 +67,7 @@ function NearbyPage() {
       }
     }
   };
+
   const onClickRate = rateProp => {
     setRate(rateProp);
   };
@@ -65,6 +75,12 @@ function NearbyPage() {
   const isLogin = () => {
     return !!user?.id;
   };
+
+  useEffect(() => {
+    if (!isLogin()) {
+      toast.warn('리뷰를 남기려면 로그인 하셔야합니다.');
+    }
+  }, []);
 
   const inCategory = category => {
     return categorys.includes(category);
@@ -82,13 +98,9 @@ function NearbyPage() {
 
   const getText = obj => {
     if (!isMarkerSelect(obj)) {
-      toast.warn(
-        '리뷰를 남기려면 검색을 하거나 카테고리를 선택해서 장소(식당, 카페, 주차장)를 선택하셔야 합니다.',
-      );
       return '리뷰를 남기려면 검색을 하거나 카테고리를 선택해서 장소(식당, 카페, 주차장)를 선택하셔야 합니다.';
     }
     if (!inCategory(obj.categoryGroupCode)) {
-      toast.warn('리뷰를 남기려면 식당, 카페, 주차장 중에 선택하여야 합니다.');
       return '리뷰를 남기려면 식당, 카페, 주차장 중에 선택하여야 합니다.';
     }
     return `${obj.name}에 대해 리뷰를 남겨주세요`;
@@ -182,7 +194,21 @@ function NearbyPage() {
         selectedValue={currentTheater}
       />
       <MarginBottom margin="16px" />
-      <Label>검색창을 이용해 새로운 장소를 추가 해주세요</Label>
+      <NoticeSection>
+        <NoticeWrapper>
+          <BsFillExclamationCircleFill color="var(--error-color)" />
+          <AddNotice>지도 이용 가이드</AddNotice>
+        </NoticeWrapper>
+        <NoticeUl>
+          <li>로그인을 해주세요</li>
+          <li>리스트나 지도에 있는 장소를 선택해 주세요</li>
+          <li>맛집, 카페, 주차장만 선택이 가능합니다</li>
+          <li>
+            원하는 장소가 없으면 아래 검색창을 통해 새로운 장소를 추가해주세요
+          </li>
+          <li>{`ex) ${currentTheater.categoryName} 맛집, ${currentTheater.categoryName} 카페, ${currentTheater.categoryName} 주차장`}</li>
+        </NoticeUl>
+      </NoticeSection>
       <MyMapContainer
         onMarkerClick={onMarkerClick}
         currentTheater={currentTheater}
@@ -192,7 +218,7 @@ function NearbyPage() {
       />
       <CommentCotainer>
         <H3>
-          {user?.id
+          {isLogin()
             ? getText(selectPlaceObj)
             : '리뷰를 남기려면 로그인을 하셔야 합니다'}
         </H3>
@@ -211,7 +237,11 @@ function NearbyPage() {
             <StyledInput
               type="text"
               name="oneLine"
-              placeholder="리뷰를 입력해주세요."
+              placeholder={
+                isLogin()
+                  ? '리뷰를 입력해주세요.'
+                  : '리뷰를 남기려면 로그인을 하셔야 합니다'
+              }
               value={oneLine}
               width="calc(100% - 75px)"
               height="50px"
@@ -265,18 +295,6 @@ function NearbyPage() {
 
         <div />
       </RatingCardContainer>
-      <ToastContainer
-        position="top-right"
-        autoClose={1500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </NearbyPageContainer>
   );
 }
@@ -303,6 +321,26 @@ const Label = styled.div`
   font-weight: 700;
 `;
 
+const NoticeSection = styled.section`
+  width: 100%;
+  background-color: var(--main-002);
+  border-radius: 8px;
+  font-size: var(--font-size-xs);
+  padding: 32px;
+  font-size: var(--font-size-md);
+  margin-top: 32px;
+  margin-bottom: 32px;
+
+  ul {
+    list-style: inside;
+    line-height: 24px;
+  }
+`;
+
+const NoticeUl = styled.ul`
+  font-size: var(--font-size-sm);
+`;
+
 const CommentCotainer = styled.section`
   margin-top: 32px;
   margin-bottom: 32px;
@@ -312,6 +350,18 @@ const H3 = styled.h3`
   font-size: var(--font-size-md);
   margin-bottom: 16px;
   line-height: 2.5rem;
+`;
+
+const NoticeWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+`;
+
+const AddNotice = styled(H3)`
+  font-size: var(--font-size-lg);
+  margin-left: 8px;
+  margin-bottom: 0px;
 `;
 
 const FormWrapper = styled.section`

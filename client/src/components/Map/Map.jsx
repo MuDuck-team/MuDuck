@@ -87,7 +87,7 @@ function Map({
        </div>
         <hr/>
         <address>${place.address_name}</address>
-        <footer>${place.phone}</footer>
+        <footer>${place.phone === null ? '' : place.phone}</footer>
       </div>
       `;
 
@@ -180,7 +180,9 @@ function Map({
         itemStr += `    <span>${places.address_name}</span>`;
       }
 
-      itemStr += `  <span class="tel">${places.phone}</span>`;
+      itemStr += `  <span class="tel">
+        ${places.phone === null ? '' : places.phone}
+      </span>`;
       itemStr += `</div>`;
       el.innerHTML = itemStr;
       el.className = 'item';

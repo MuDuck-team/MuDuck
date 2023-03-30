@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import { Outlet, useNavigation } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { ToastContainer } from 'react-toastify';
-
 import { userState } from '../recoil/userAtom';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
