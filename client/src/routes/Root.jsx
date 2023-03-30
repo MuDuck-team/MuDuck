@@ -62,6 +62,9 @@ const StyledToastContainer = styled(ToastContainer)`
 
   .Toastify__toast-body {
     white-space: pre-line;
+    font-size: var(--font-size-sm);
+    line-height: 2rem;
+    font-weight: '400';
   }
 `;
 
