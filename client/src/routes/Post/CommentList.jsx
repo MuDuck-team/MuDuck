@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled, { css } from 'styled-components';
+import { toast } from 'react-toastify';
 import customAxios from '../../api/customAxios';
 import WriterInfo from '../../components/WriterInfo';
 import { StyledInput } from '../../components/Input';
@@ -34,7 +35,7 @@ function CommentList({ comment }) {
     event.preventDefault();
 
     if (commentValue === '') {
-      alert('내용을 최소 1자 이상 입력해주세요');
+      toast.error('내용을 최소 1자 이상 입력해주세요');
       return;
     }
 
