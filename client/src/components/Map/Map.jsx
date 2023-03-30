@@ -56,6 +56,7 @@ function Map({
     // 검색 결과 목록이나 마커를 클릭했을 때 장소명을 표출할 인포윈도우를 생성합니다
     const infowindow = new kakao.maps.InfoWindow({
       zIndex: 1,
+      clickable: true,
       removable: true,
     });
 
@@ -77,7 +78,7 @@ function Map({
 
     function closeDisplayInfowindow(marker, place) {
       const content = `
-      <div class="speech-bubble">
+      <div class="speech-bubble" >
         <h4>${place.place_name}</h4>
         <div>
           <a href=${place.place_url} target="_blank"> 
@@ -340,6 +341,7 @@ const StyledMap = styled.div`
 
 const StyledMapWrapper = styled.div`
   .speech-bubble {
+    width: 150px;
     background-color: var(--main-001);
     padding: 20px;
     z-index: 1;
