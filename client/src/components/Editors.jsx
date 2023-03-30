@@ -183,6 +183,7 @@ function Editors({
             value={content}
             width="100%"
             height="400px"
+            minHeight="400px"
             onChange={handleValue}
             placeholder="내용을 입력해주세요."
           />
