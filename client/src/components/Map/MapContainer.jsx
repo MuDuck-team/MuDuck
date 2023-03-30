@@ -19,7 +19,7 @@ function MapContainer({
   useEffect(() => {
     setInputText('');
     setSearchPlace('');
-    setCategory('');
+    setCategory('restaurants');
     countRef.current = 0;
   }, [currentTheater]);
 
@@ -51,7 +51,13 @@ function MapContainer({
     <StyledMapContainer>
       <StyledForm onSubmit={handleSubmit} markerMode={markerMode}>
         <span>키워드 :</span>
-        <input type="text" value={inputText} onChange={onChange} size="15" />
+        <input
+          type="text"
+          value={inputText}
+          onChange={onChange}
+          placeholder={`ex) ${currentTheater.categoryName} 맛집`}
+          size="15"
+        />
         <button type="submit">검색하기</button>
       </StyledForm>
       <CategoryContainer getIndex={getIndex} className="category">

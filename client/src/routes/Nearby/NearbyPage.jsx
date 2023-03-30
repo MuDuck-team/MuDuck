@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLoaderData } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
+import { ToastContainer, toast } from 'react-toastify';
 import customAxios from '../../api/customAxios';
 import Button from '../../components/Button';
 import { RatingCard } from '../../components/Cards';
@@ -10,6 +11,7 @@ import { StyledInput } from '../../components/Input';
 import StarRating from '../../components/StarRating';
 import { userInfo } from '../../recoil/userAtom';
 import MyMapContainer from '../../components/Map/MapContainer';
+import 'react-toastify/dist/ReactToastify.css';
 
 export async function loader({ params }) {
   const placeDataResponse = await customAxios.get(`/maps/theater/${params.id}`);
@@ -80,9 +82,13 @@ function NearbyPage() {
 
   const getText = obj => {
     if (!isMarkerSelect(obj)) {
-      return '리뷰를 남기려면 마커를 선택하셔야 합니다.';
+      toast.warn(
+        '리뷰를 남기려면 검색을 하거나 카테고리를 선택해서 장소(식당, 카페, 주차장)를 선택하셔야 합니다.',
+      );
+      return '리뷰를 남기려면 검색을 하거나 카테고리를 선택해서 장소(식당, 카페, 주차장)를 선택하셔야 합니다.';
     }
     if (!inCategory(obj.categoryGroupCode)) {
+      toast.warn('리뷰를 남기려면 식당, 카페, 주차장 중에 선택하여야 합니다.');
       return '리뷰를 남기려면 식당, 카페, 주차장 중에 선택하여야 합니다.';
     }
     return `${obj.name}에 대해 리뷰를 남겨주세요`;
@@ -106,7 +112,7 @@ function NearbyPage() {
   const onSubmit = async e => {
     e.preventDefault();
     if (isEmpty(oneLine)) {
-      alert('글자 수가 한 글자 이상이여야 합니다');
+      toast.warn('글자 수가 한 글자 이상이여야 합니다');
       return;
     }
     const localToken = localStorage.getItem('localToken');
@@ -114,7 +120,7 @@ function NearbyPage() {
     map = changeKeyName(map);
 
     if (isEdit) {
-      await customAxios.patch(
+      const response = await customAxios.patch(
         `/recommend-place/${prevOnelineObj.id}/maps/${prevOnelineObj.mapId}/members/${user?.id}`,
         {
           score: rate,
@@ -126,8 +132,11 @@ function NearbyPage() {
           },
         },
       );
+      if (response.status === 200) {
+        toast.success('수정에 성공했습니다.');
+      }
     } else {
-      await customAxios.post(
+      const response = await customAxios.post(
         '/recommend-place',
         {
           map,
@@ -143,14 +152,17 @@ function NearbyPage() {
           },
         },
       );
+      if (response.status === 200) {
+        toast.success('게시물 등록에 성공했습니다.');
+      }
     }
 
     setRate(3);
     setOneLine('');
     setSelectPlaceObj({});
-    navigate('.');
     setPrevOnelineObj({});
     setIsEdit(false);
+    navigate('.');
   };
 
   const onChange = e => {
@@ -160,6 +172,7 @@ function NearbyPage() {
   return (
     <>
       <StyledH2>{currentTheater.categoryName}</StyledH2>
+      <Label>아래 드롭다운으로 극장을 선택해주세요</Label>
       <Dropdown
         width="315px"
         height="42px"
@@ -169,6 +182,7 @@ function NearbyPage() {
         selectedValue={currentTheater}
       />
       <MarginBottom margin="16px" />
+      <Label>검색창을 이용해 새로운 장소를 추가 해주세요</Label>
       <MyMapContainer
         onMarkerClick={onMarkerClick}
         currentTheater={currentTheater}
@@ -251,6 +265,18 @@ function NearbyPage() {
 
         <div />
       </RatingCardContainer>
+      <ToastContainer
+        position="top-right"
+        autoClose={1500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
     </>
   );
 }
@@ -260,6 +286,12 @@ const StyledH2 = styled.h2`
   font-size: var(--font-size-xxl);
   margin-bottom: 30px;
   font-weight: bold;
+`;
+
+const Label = styled.div`
+  font-size: var(--font-size-sm);
+  margin-bottom: 16px;
+  font-weight: 700;
 `;
 
 const CommentCotainer = styled.section`

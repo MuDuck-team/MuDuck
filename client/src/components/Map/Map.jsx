@@ -68,12 +68,12 @@ function Map({
 
     // 검색결과 목록 또는 마커를 클릭했을 때 호출되는 함수입니다
     // 인포윈도우에 장소명을 표시합니다
-    function displayInfowindow(marker, title) {
-      const content = `<div style="padding:5px; z-index:1;">${title}</div>`;
+    // function displayInfowindow(marker, title) {
+    //   const content = `<div style="padding:5px; z-index:1;">${title}</div>`;
 
-      infowindow.setContent(content);
-      infowindow.open(map, marker);
-    }
+    //   infowindow.setContent(content);
+    //   infowindow.open(map, marker);
+    // }
 
     function closeDisplayInfowindow(marker, place) {
       const content = `
@@ -216,7 +216,7 @@ function Map({
         const placePosition = new kakao.maps.LatLng(places[i].y, places[i].x);
         const marker = addMarker(placePosition, i);
         const itemEl = getListItem(i, places[i]); // 검색 결과 항목 Element를 생성합니다
-        const title = places[i].place_name;
+        // const title = places[i].place_name;
         // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
         // LatLngBounds 객체에 좌표를 추가합니다
         bounds.extend(placePosition);
@@ -235,11 +235,16 @@ function Map({
           });
 
           itemEl.onmouseover = () => {
-            displayInfowindow(marker, title);
+            // displayInfowindow(marker, title);
+          };
+
+          itemEl.onmousedown = () => {
+            onMarkerClick(changeKakaoToMuDuckObj(places[i]));
+            closeDisplayInfowindow(marker, places[i]);
           };
 
           itemEl.onmouseout = () => {
-            infowindow.close();
+            // infowindow.close();
           };
         })();
 

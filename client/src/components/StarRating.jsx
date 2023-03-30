@@ -22,6 +22,7 @@ function StarRating({
         return (
           <Button
             type="button"
+            readonly={readonly}
             key={index}
             className={index <= (hover || rating) ? 'on' : 'off'}
             onClick={() => {
@@ -52,7 +53,7 @@ const Button = styled.button`
   background-color: transparent;
   border: none;
   outline: none;
-  cursor: pointer;
+  cursor: ${props => (props.readonly ? 'unset' : 'pointer')};
 
   span {
     padding-bottom: 5px;
@@ -72,6 +73,8 @@ const Wrapper = styled.section`
   .off {
     color: #ccc;
   }
+
+  margin-top: 3px;
 `;
 
 export default StarRating;
