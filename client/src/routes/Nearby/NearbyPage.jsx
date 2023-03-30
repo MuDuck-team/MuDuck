@@ -47,7 +47,7 @@ function NearbyPage() {
 
   const onMarkerClick = async getObj => {
     const obj = { ...getObj };
-    if (obj.phone.length === 0) {
+    if (obj.phone?.length === 0) {
       obj.phone = null;
     }
 
