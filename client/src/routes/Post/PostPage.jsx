@@ -8,6 +8,7 @@ import {
   useSubmit,
 } from 'react-router-dom';
 import styled from 'styled-components';
+import { toast } from 'react-toastify';
 import { AiFillHeart, AiOutlineHeart } from 'react-icons/ai';
 import { IoMdListBox } from 'react-icons/io';
 import customAxios from '../../api/customAxios';
@@ -89,7 +90,7 @@ function PostPage() {
     const formData = new FormData(form);
 
     if (formData.get('body') === '') {
-      alert('내용을 최소 1자 이상 입력해주세요');
+      toast.error('내용을 최소 1자 이상 입력해주세요');
       return;
     }
 
@@ -186,6 +187,7 @@ const PostTitle = styled.h3`
   margin-bottom: 2.4rem;
   font-size: var(--font-size-xl);
   font-weight: bold;
+  word-break: break-all;
 `;
 
 const PostCotent = styled.p`
@@ -193,6 +195,7 @@ const PostCotent = styled.p`
   font-size: var(--font-size-md);
   line-height: 2em;
   white-space: pre-wrap;
+  word-break: break-all;
 `;
 
 const LinkContainer = styled.div`
