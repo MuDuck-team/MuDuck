@@ -86,17 +86,26 @@ function AboutMusical({ musical, actors, theater }) {
         </HeadingBox>
 
         {showModal ? (
-          <ModalBackground>
+          <ModalBackground onClick={modalHandler}>
             <ModalContainer>
               <HeadingBox>
                 <Title>출연진</Title>
-                <IoIosClose size="30" color="#f2f2f2" onClick={modalHandler} />
+                <IoIosClose
+                  size="30"
+                  color="#f2f2f2"
+                  onClick={modalHandler}
+                  cursor="pointer"
+                />
               </HeadingBox>
 
               {playNameArr.map((playName, idx) => {
                 return (
                   <div key={idx}>
-                    <SubTitle fontSize="1.8rem" marginTop="2rem">
+                    <SubTitle
+                      fontSize="1.8rem"
+                      marginTop="2rem"
+                      fontWeight="600"
+                    >
                       {playName} 역
                     </SubTitle>
                     <ModalActorProfileBox>
@@ -199,7 +208,7 @@ const HeadingBox = styled.div`
 const ActorProfileBox = styled.ul`
   width: 100%;
   display: flex;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   /* padding: 1rem; */
 
@@ -216,6 +225,7 @@ const ModalActorProfileBox = styled(ActorProfileBox)`
 const Profilelist = styled.li`
   display: inline-flex;
   list-style: none;
+  margin-bottom: 1.6rem;
 `;
 
 const ModalBackground = styled.div`
