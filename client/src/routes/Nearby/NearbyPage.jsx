@@ -45,10 +45,16 @@ function NearbyPage() {
 
   const { restaurants = [], cafes = [], parkings = [] } = placeData;
 
-  const onMarkerClick = async obj => {
+  const onMarkerClick = async getObj => {
+    const obj = { ...getObj };
+    if (obj.phone.length === 0) {
+      obj.phone = null;
+    }
+
     setRate(3);
     setOneLine('');
     setSelectPlaceObj(obj);
+
     setIsEdit(false);
     if (user?.id) {
       const { getOneLineAndRate } = await import('../../api/muduckApi');
