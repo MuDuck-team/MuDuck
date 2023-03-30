@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useLoaderData, useLocation } from 'react-router-dom';
+import { useNavigate, useLoaderData } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
 import { toast } from 'react-toastify';
@@ -42,7 +42,6 @@ function NearbyPage() {
   const [oneLine, setOneLine] = useState('');
   const [prevOnelineObj, setPrevOnelineObj] = useState({});
   const user = useRecoilValue(userInfo);
-  const location = useLocation();
 
   const { restaurants = [], cafes = [], parkings = [] } = placeData;
 
@@ -92,15 +91,10 @@ function NearbyPage() {
   };
 
   const getText = obj => {
-    console.log(location.pathname);
     if (!isMarkerSelect(obj)) {
-      toast.warn(
-        '리뷰를 남기려면 검색을 하거나 카테고리를 선택해서 장소(식당, 카페, 주차장)를 선택하셔야 합니다.',
-      );
       return '리뷰를 남기려면 검색을 하거나 카테고리를 선택해서 장소(식당, 카페, 주차장)를 선택하셔야 합니다.';
     }
     if (!inCategory(obj.categoryGroupCode)) {
-      toast.warn('리뷰를 남기려면 식당, 카페, 주차장 중에 선택하여야 합니다.');
       return '리뷰를 남기려면 식당, 카페, 주차장 중에 선택하여야 합니다.';
     }
     return `${obj.name}에 대해 리뷰를 남겨주세요`;
@@ -206,6 +200,7 @@ function NearbyPage() {
           <li>
             원하는 장소가 없으면 아래 검색창을 통해 새로운 장소를 추가해주세요
           </li>
+          <li>{`ex) ${currentTheater.categoryName} 맛집, ${currentTheater.categoryName} 카페, ${currentTheater.categoryName} 주차장`}</li>
         </NoticeUl>
       </NoticeSection>
       <MyMapContainer
