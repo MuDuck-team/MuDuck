@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Form, useNavigate, useSubmit } from 'react-router-dom';
 import styled from 'styled-components';
 import Select from 'react-select';
+import { toast } from 'react-toastify';
 import Button from './Button';
 import Dropdown from './DropDown';
 import { StyledInput, StyledTextArea } from './Input';
@@ -11,9 +12,9 @@ const customStyles = {
   control: baseStyles => ({
     ...baseStyles,
     backgroundColor: 'var(--main-002)',
-    fontSize: 'var(--font-size-md)',
-    width: '315px',
-    height: '43px',
+    fontSize: 'var(--font-size-sm)',
+    width: '280px',
+    height: '40px',
     borderColor: 'var(--border-color)',
     '&:hover': { borderColor: 'var(--border-color)' },
   }),
@@ -29,7 +30,7 @@ const customStyles = {
   option: (provided, state) => ({
     ...provided,
     backgroundColor: state.isFocused ? 'var(--main-003)' : 'var(--main-002)',
-    fontSize: 'var(--font-size-md)',
+    fontSize: 'var(--font-size-sm)',
     color: 'var(--font-color)',
   }),
   menu: provided => ({
@@ -86,6 +87,14 @@ function Editors({
     setIds(idsArray);
   };
 
+  const maxLengthCheck = e => {
+    const { length } = e.target.value;
+    if (length > 50) {
+      e.target.value = e.target.value.slice(0, 50);
+      toast.error('제목은 최대 50자까지 작성할 수 있습니다.');
+    }
+  };
+
   const handleValue = e => {
     const { name, value } = e.target;
     if (name === 'title') {
@@ -106,7 +115,7 @@ function Editors({
   const handleSubmit = e => {
     e.preventDefault();
     if (isEmpty(title) && isEmpty(content)) {
-      alert('글자 수가 한 글자 이상이여야 합니다');
+      toast.error('글자 수가 한 글자 이상이여야 합니다');
       return;
     }
 
@@ -124,7 +133,7 @@ function Editors({
   };
 
   return (
-    <EditorWrapper>
+    <EditorLayout>
       {isAdd ? (
         <StyledH2 openCategory={openCategory}>
           {isPost ? '게시글' : '공지사항'} 작성하기
@@ -137,10 +146,10 @@ function Editors({
       {openCategory && (
         <CategoryWrapper>
           <CategoryContent>
-            <p>카테고리</p>{' '}
+            <p>카테고리</p>
             <Dropdown
-              width="315px"
-              height="42px"
+              width="280px"
+              height="40px"
               options={category}
               onClick={handleDropDown}
               defaultValue={category[0]}
@@ -148,7 +157,7 @@ function Editors({
             />
           </CategoryContent>
           <CategoryContent>
-            <p>뮤지컬</p>{' '}
+            <p>뮤지컬</p>
             <Select
               options={changeSearchInputObj(mentionedMusical)}
               value={selectedOptions}
@@ -163,7 +172,7 @@ function Editors({
       <Form method="post">
         <input type="hidden" name="categoryIds" value={categoryIds} />
         <InputWrapper>
-          <StyledLable htmlFor="title">제목</StyledLable>
+          <StyledLabel htmlFor="title">제목</StyledLabel>
           <StyledInput
             type="text"
             id="title"
@@ -173,10 +182,11 @@ function Editors({
             height="50px"
             onChange={handleValue}
             placeholder="제목을 입력해주세요."
+            onInput={maxLengthCheck}
           />
         </InputWrapper>
         <InputWrapper>
-          <StyledLable htmlFor="content">내용</StyledLable>
+          <StyledLabel htmlFor="content">내용</StyledLabel>
           <StyledTextArea
             id="content"
             name="content"
@@ -200,11 +210,19 @@ function Editors({
           <Button type="submit" text="등록하기" onClick={handleSubmit} />
         </ButtonWrapper>
       </Form>
-    </EditorWrapper>
+    </EditorLayout>
   );
 }
 
-const EditorWrapper = styled.article``;
+const EditorLayout = styled.main`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 0 auto;
+  @media screen and (max-width: 1024px) {
+    width: 90%;
+  }
+`;
 
 const StyledH2 = styled.h2`
   margin-top: 40px;
@@ -252,6 +270,6 @@ const ButtonWrapper = styled.section`
   }
 `;
 
-const StyledLable = styled.label``;
+const StyledLabel = styled.label``;
 
 export default Editors;
