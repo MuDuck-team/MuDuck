@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useLoaderData } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import styled from 'styled-components';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import customAxios from '../../api/customAxios';
 import Button from '../../components/Button';
 import { RatingCard } from '../../components/Cards';
@@ -265,18 +265,6 @@ function NearbyPage() {
 
         <div />
       </RatingCardContainer>
-      <ToastContainer
-        position="top-right"
-        autoClose={1500}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
     </>
   );
 }

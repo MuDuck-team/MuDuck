@@ -43,6 +43,10 @@ const GlobalStyle = createGlobalStyle`
     -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
     background-color: #555;
   }
+
+  .Toastify__toast-container {
+    font-size: var(--font-size-sm);
+  }
 `;
 
 export default GlobalStyle;
