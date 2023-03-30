@@ -30,6 +30,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Board> findByBoardLikeId(long memberId, PageRequest pageRequest);
 
     // 특정 작품에서 게시글의 comment갯수 확인
-    @Query(value = "SELECT * FROM BOARD WHERE BOARD_ID IN (SELECT BOARD_ID FROM BOARD_CATEGORY WHERE CATEGORY_ID = (SELECT CATEGORY_ID FROM CATEGORY WHERE MUSICAL_ID = :musicalId)) LIMIT 6", nativeQuery = true)
+    @Query(value = "SELECT * FROM BOARD WHERE BOARD_STATUS != 'BOARD_DELETE' AND BOARD_ID IN (SELECT BOARD_ID FROM BOARD_CATEGORY WHERE CATEGORY_ID = (SELECT CATEGORY_ID FROM CATEGORY WHERE MUSICAL_ID = :musicalId)) LIMIT 6", nativeQuery = true)
     List<Board> findBoardByMusicalId(@Param("musicalId") long musicalId);
 }
