@@ -13,7 +13,9 @@ import MuDuck.MuDuck.auth.utils.CustomAuthorityUtils;
 import MuDuck.MuDuck.auth.utils.ExceptionResponse;
 import java.util.Arrays;
 import java.util.List;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -60,6 +62,7 @@ public class SecurityConfiguration {
                         .antMatchers(HttpMethod.PATCH, "/boards/**").hasRole("USER")
                         .antMatchers(HttpMethod.DELETE, "/boards/**").hasRole("USER")
                         .antMatchers("/my-page/**").hasRole("USER")
+                        .antMatchers("/members/**").hasRole("USER")
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling()

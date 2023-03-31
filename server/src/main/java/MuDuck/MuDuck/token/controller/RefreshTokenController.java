@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,13 +22,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class RefreshTokenController {
 
     private final RefreshTokenService refreshTokenService;
+    @Value("${aws.address.s3}")
+    private String s3Address;
+    @Value("${aws.address.login}")
+    private String LOGIN_URL;
     @GetMapping("/reissuance")
     public ResponseEntity reissuanceRefreshToken(@CookieValue String refreshToken)
             throws IOException, URISyntaxException {
 
         String newToken = refreshTokenService.reissuanceRefreshToken(refreshToken);
 
-        URI redirectUri = new URI("http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com/login");
+        URI redirectUri = new URI(s3Address+LOGIN_URL);
 
         HttpHeaders httpHeaders = new HttpHeaders();
 

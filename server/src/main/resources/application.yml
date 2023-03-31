@@ -62,7 +62,12 @@ jwt:
   key:
     secret: ${JWT_SECRET_KEY}
   access-token-expiration-minutes: 1440
-  refresh-token-expiration-minutes: 420
+  refresh-token-expiration-minutes: 4320
 mail:
   address:
     admin: ${ADMIN_EMAIL}
+aws:
+  address:
+    s3: ${AWS_S3_ADDRESS}
+    login: ${LOGIN_URL}
+    redirect-url: ${REDIRECT_URL}
