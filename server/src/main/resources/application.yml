@@ -68,6 +68,6 @@ mail:
     admin: ${ADMIN_EMAIL}
 aws:
   address:
-    s3: http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com
-    login: /login
+    s3: ${AWS_S3_ADDRESS}
+    login: ${LOGIN_URL}
     redirect-url: /oauth/redirect
