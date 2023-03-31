@@ -70,4 +70,4 @@ aws:
   address:
     s3: ${AWS_S3_ADDRESS}
     login: ${LOGIN_URL}
-    redirect-url: ${REDIRECT_URL}
+    redirect-url: /oauth/redirect
