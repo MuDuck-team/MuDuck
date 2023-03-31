@@ -57,8 +57,12 @@ public class SecurityConfiguration {
                 .and()
                 // 접근 권한 설정
                 .authorizeRequests(auth -> auth
-                        .antMatchers("/members/**").hasRole("USER")
                         .antMatchers("/recommend-place/**").hasRole("USER")
+                        .antMatchers(HttpMethod.POST, "/boards/**").hasRole("USER")
+                        .antMatchers(HttpMethod.PATCH, "/boards/**").hasRole("USER")
+                        .antMatchers(HttpMethod.DELETE, "/boards/**").hasRole("USER")
+                        .antMatchers("/my-page/**").hasRole("USER")
+                        .antMatchers("/members/**").hasRole("USER")
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling()
