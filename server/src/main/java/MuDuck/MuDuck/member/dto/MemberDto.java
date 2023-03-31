@@ -22,7 +22,7 @@ public class MemberDto {
     @AllArgsConstructor(access = AccessLevel.PRIVATE)
     @Builder
     public static class Patch{
-        @Pattern(regexp = "^(?=.*[a-z0-9가-힣])[a-z0-9가-힣]{2,20}$",
+        @Pattern(regexp = "^(?=.*[a-zA-Z0-9가-힣])[a-zA-Z0-9가-힣]{2,20}$",
                 message = "닉네임은 2자 이상 16자 이하, 영어 또는 숫자 또는 한글로 구성해주세요")
         private String nickname;
         @URL

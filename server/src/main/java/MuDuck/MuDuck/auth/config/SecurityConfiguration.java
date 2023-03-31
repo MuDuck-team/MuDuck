@@ -13,7 +13,9 @@ import MuDuck.MuDuck.auth.utils.CustomAuthorityUtils;
 import MuDuck.MuDuck.auth.utils.ExceptionResponse;
 import java.util.Arrays;
 import java.util.List;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -55,12 +57,8 @@ public class SecurityConfiguration {
                 .and()
                 // 접근 권한 설정
                 .authorizeRequests(auth -> auth
-                        .antMatchers(HttpMethod.GET, "/members/**").hasRole("USER")
-                        .antMatchers(HttpMethod.PATCH, "/members/**", "/answers/**",
-                                "/questions/**").hasRole("USER")
+                        .antMatchers("/members/**").hasRole("USER")
                         .antMatchers("/recommend-place/**").hasRole("USER")
-                        //.antMatchers("/h2/**").permitAll()
-                        .antMatchers(HttpMethod.POST, "/auth/login/**").permitAll()
                         .anyRequest().permitAll()
                 )
                 .exceptionHandling()

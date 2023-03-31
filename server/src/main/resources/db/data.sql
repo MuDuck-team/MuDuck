@@ -76,7 +76,7 @@ VALUES ('옛날 커뮤니티 이용 공지사항', '커뮤니티 글 작성 시 
 
 -- Theater 테이블 생성 코드
 INSERT INTO THEATER (place_Name, longitude, latitude, phone, address, road_Address, created_at, last_modified_at)
-VALUES ('예술의 전당', 126.92226849999999, 37.4735605, '02-555-5555', '서울 서초구 서초동 700', '서울 서초구 남부순환로 2406', NOW(), NOW());
+VALUES ('예술의 전당', 127.0139129, 37.4792683, '02-555-5555', '서울 서초구 서초동 700', '서울 서초구 남부순환로 2406', NOW(), NOW());
 
 INSERT INTO THEATER (place_Name, longitude, latitude, phone, address, road_Address, created_at, last_modified_at)
 VALUES ('샤롯데씨어터', 127.0998494, 37.5107077, '02-555-5555', '서울특별시 송파구 잠실동 40-1번지 샤롯데씨어터', '서울특별시 송파구 올림픽로 240(잠실동) 샤롯데씨어터', NOW(), NOW());
@@ -92,7 +92,7 @@ INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitud
 VALUES (1, 982112444, 'http://place.map.kakao.com/982112444', '카페모차르트502', 127.01219547315105, 37.47844795409167, 'CE7', '02-522-4916', '서울 서초구 서초동 산 130-9', '서울 서초구 남부순환로 2406', NOW(), NOW());
 
 INSERT INTO MAP (theater_id, place_id, place_url, place_name, longitude, latitude, category_group_code, phone, address, road_address, created_at, last_modified_at)
-VALUES (2, 98733515, 'http://place.map.kakao.com/98733515', '서초센트럴주차장', 127.011058140081, 37.4862670205377, 'PK6', '02-6218-1582', '서울 서초구 서초동 1582-25', '서울 서초구 반포대로16길 7', NOW(), NOW());
+VALUES (1, 98733515, 'http://place.map.kakao.com/98733515', '서초센트럴주차장', 127.011058140081, 37.4862670205377, 'PK6', '02-6218-1582', '서울 서초구 서초동 1582-25', '서울 서초구 반포대로16길 7', NOW(), NOW());
 
 -- theaterId 가 2인 경우
 
