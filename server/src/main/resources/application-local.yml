@@ -73,3 +73,8 @@ jwt:
 mail:
   address:
     admin: ${ADMIN_EMAIL}
+aws:
+  address:
+    s3: ${AWS_S3_ADDRESS}
+    login: ${LOGIN_URL}
+    redirect-url: ${REDIRECT_URL}

@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -35,8 +36,12 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
     private final JwtCreateService jwtCreateService;
     private final MemberRepository memberRepository;
-
-    private final String REDIRECT_URL = "http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com/oauth/redirect";
+    @Value("${aws.address.s3}")
+    private String s3Address;
+    @Value("${aws.address.redirect-url}")
+    private String redirectUrl;
+    @Value("${aws.address.login}")
+    private String loginUrl;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -59,41 +64,51 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 
         String email = oAuth2Attribute.getUseremail();
 
-        log.info("이메일 정보 : {} ", email);
+        // 이메일이 없을 경우의 처리
+        if(email == null || email.equals("")){
 
-        boolean firstStatus = checkFirstLogin(email);
+            log.info("들어온 이메일 값 : {}", email);
 
-        Member member = saveOrUpdate(oAuth2Attribute);
+            response.sendRedirect(s3Address+loginUrl);
 
-        String accessToken = jwtCreateService.delegateAccessToken(member);
-        String refreshToken = jwtCreateService.delegateRefreshToken(member);
+        } else {
 
-        addRefreshToken(email, refreshToken);
+            log.info("이메일 정보 : {} ", email);
 
-        ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
-                .maxAge(7 * 24 * 60 * 60)
-                .path("/")
-                .secure(true)
-                .sameSite("None")
-                .httpOnly(true)
-                .build();
+            boolean firstStatus = checkFirstLogin(email);
 
-        // Header 설정
-        //response.setHeader("accessToken", "Bearer " + accessToken);
-        response.addHeader("Set-Cookie", cookie.toString());
+            Member member = saveOrUpdate(oAuth2Attribute);
 
-        // queryParam 에 담을 MultiValue 설정
-        MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.add("signup", String.valueOf(firstStatus));
-        multiValueMap.add("accessToken", "Bearer "+accessToken);
-        log.info("accessToken : {}", "Bearer " + accessToken);
-        log.info("refreshToken : {}", refreshToken);
+            String accessToken = jwtCreateService.delegateAccessToken(member);
+            String refreshToken = jwtCreateService.delegateRefreshToken(member);
 
-        String uri = UriComponentsBuilder.fromUriString(REDIRECT_URL)
-                .queryParams(multiValueMap)
-                .build().toUriString();
+            addRefreshToken(email, refreshToken);
 
-        response.sendRedirect(uri);
+            ResponseCookie cookie = ResponseCookie.from("refreshToken", refreshToken)
+                    .maxAge(7 * 24 * 60 * 60)
+                    .path("/")
+                    .secure(true)
+                    .sameSite("None")
+                    .httpOnly(true)
+                    .build();
+
+            // Header 설정
+            //response.setHeader("accessToken", "Bearer " + accessToken);
+            response.addHeader("Set-Cookie", cookie.toString());
+
+            // queryParam 에 담을 MultiValue 설정
+            MultiValueMap<String, String> multiValueMap = new LinkedMultiValueMap<>();
+            multiValueMap.add("signup", String.valueOf(firstStatus));
+            multiValueMap.add("accessToken", "Bearer " + accessToken);
+            log.info("accessToken : {}", "Bearer " + accessToken);
+            log.info("refreshToken : {}", refreshToken);
+
+            String uri = UriComponentsBuilder.fromUriString(s3Address + redirectUrl)
+                    .queryParams(multiValueMap)
+                    .build().toUriString();
+
+            response.sendRedirect(uri);
+        }
     }
 
     private Member saveOrUpdate(OAuth2Attribute attributes) {
