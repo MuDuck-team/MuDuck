@@ -51,7 +51,7 @@ function Myinfo() {
   };
 
   const handleValidateNickname = () => {
-    const nickRegEx = /^[가-힣a-z0-9_-]{2,20}$/;
+    const nickRegEx = /^[가-힣a-zA-Z0-9]{2,20}$/;
     if (!nickRegEx.test(nickname)) {
       alert(
         '닉네임은 2자 이상 20자 이하, 한글, 영문 대소문자, 숫자만 사용할 수 있습니다.',
