@@ -92,13 +92,13 @@ const MenuWrapper = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   position: absolute;
-  top: 24px;
+  top: 32px;
   right: 0;
   align-items: center;
   width: 100px;
   height: 80px;
-  background-color: var(--main-003);
   border-radius: 8px;
+  background-color: #2e2e2e;
 `;
 
 const MenuButton = styled.button`

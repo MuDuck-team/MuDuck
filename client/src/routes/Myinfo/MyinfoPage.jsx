@@ -29,10 +29,10 @@ function MyinfoPage() {
   };
 
   const handleValidateNickname = () => {
-    const nickRegEx = /^[가-힣a-z0-9_-]{2,20}$/;
+    const nickRegEx = /^[가-힣a-zA-Z0-9]{2,20}$/;
     if (!nickRegEx.test(nickname)) {
       toast.error(
-        '닉네임은 최소 2자 이상 최대 20자 이하, \n 한글, 영문 대소문자와 숫자만 사용할 수 있습니다.\n \n 아무것도 입력하지 않은 경우, 카카오톡 프로필 이름이 닉네임으로 설정됩니다.',
+        '닉네임은 2자 이상 20자 이하, \n 한글, 영문 대소문자, 숫자만 사용할 수 있습니다.\n \n 아무것도 입력하지 않은 경우, 카카오톡 프로필 이름이 닉네임으로 설정됩니다.',
         {
           autoClose: 5000,
         },
