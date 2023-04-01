@@ -196,6 +196,9 @@ const BottomWrapper = styled.div`
 
 const TitleWrapper = styled.div`
   word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   font-size: ${props => props.titlefontSize || 'var(--font-size-lg)'};
 `;
 
