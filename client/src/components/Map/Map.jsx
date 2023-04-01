@@ -110,8 +110,8 @@ function Map({
       }
 
       for (let i = 1; i <= pagination.last; i += 1) {
-        const el = document.createElement('a');
-        el.href = '#';
+        const el = document.createElement('button');
+        el.type = 'button';
         el.innerHTML = i;
 
         if (i === pagination.current) {

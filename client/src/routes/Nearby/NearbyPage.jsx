@@ -13,6 +13,7 @@ import StarRating from '../../components/StarRating';
 import { userInfo } from '../../recoil/userAtom';
 import MyMapContainer from '../../components/Map/MapContainer';
 import 'react-toastify/dist/ReactToastify.css';
+import withinOneKm from '../../utile/withinOneKm';
 
 export async function loader({ params }) {
   const placeDataResponse = await customAxios.get(`/maps/theater/${params.id}`);
@@ -98,17 +99,35 @@ function NearbyPage() {
 
   const getText = obj => {
     if (!isMarkerSelect(obj)) {
-      return '리뷰를 남기려면 검색을 하거나 카테고리를 선택해서 장소(식당, 카페, 주차장)를 선택하셔야 합니다.';
+      return '리뷰를 남기려면 검색을 하거나 카테고리를 선택해서 장소(식당, 카페, 주차장)를 선택하셔야 합니다';
     }
     if (!inCategory(obj.categoryGroupCode)) {
-      return '리뷰를 남기려면 식당, 카페, 주차장 중에 선택하여야 합니다.';
+      return '리뷰를 남기려면 식당, 카페, 주차장 중에 선택하여야 합니다';
+    }
+    if (
+      !withinOneKm(
+        obj.latitude,
+        obj.longitude,
+        currentTheater.latitude,
+        currentTheater.longitude,
+      )
+    ) {
+      return '등록은 극장 기준 주변 1km 내의 장소만 가능합니다';
     }
     return `${obj.name}에 대해 리뷰를 남겨주세요`;
   };
 
   const canLeaveComment = obj => {
     return (
-      isLogin() && inCategory(obj.categoryGroupCode) && isMarkerSelect(obj)
+      isLogin() &&
+      inCategory(obj.categoryGroupCode) &&
+      isMarkerSelect(obj) &&
+      withinOneKm(
+        obj.latitude,
+        obj.longitude,
+        currentTheater.latitude,
+        currentTheater.longitude,
+      )
     );
   };
 
@@ -206,6 +225,7 @@ function NearbyPage() {
           <li>
             원하는 장소가 없으면 아래 검색창을 통해 새로운 장소를 추가해주세요
           </li>
+          <li>등록은 극장 기준 주변 1km 내의 장소만 가능합니다</li>
           <li>{`ex) ${currentTheater.categoryName} 맛집, ${currentTheater.categoryName} 카페, ${currentTheater.categoryName} 주차장`}</li>
         </NoticeUl>
       </NoticeSection>
