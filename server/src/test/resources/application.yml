@@ -1,21 +1,17 @@
 spring:
-  h2:
-    console:
-      enabled: true
-      path: /h2
   datasource:
-    url: "jdbc:h2:mem:test;MODE=MYSQL"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${MUDUCK_MYSQL_URL}
+    username: ${MUDUCK_MYSQL_USERNAME}
+    password: ${MUDUCK_MYSQL_PASSWORD}
   jpa:
     hibernate:
-      ddl-auto: create  # (1) ??? ?? ??
+      ddl-auto: update  # (1) ??? ?? ??
     show-sql: true      # (2) SQL ?? ??
     defer-datasource-initialization: true
     properties:
       hibernate:
         format_sql: true  # (3) SQL pretty print
-  sql:
-    init:
-      data-locations: classpath*:db/data.sql
   security:
     oauth2:
       client:
@@ -65,8 +61,13 @@ server:
 jwt:
   key:
     secret: ${JWT_SECRET_KEY}
-  access-token-expiration-minutes: 30
+  access-token-expiration-minutes: 1440
   refresh-token-expiration-minutes: 420
 mail:
   address:
     admin: ${ADMIN_EMAIL}
+aws:
+  address:
+    s3: ${AWS_S3_ADDRESS}
+    login: ${LOGIN_URL}
+    redirect-url: /oauth/redirect

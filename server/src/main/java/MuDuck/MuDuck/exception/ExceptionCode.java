@@ -8,7 +8,34 @@ public enum ExceptionCode {
     NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_MEMBER_STATUS(400, "Invalid member status"),
     THEATER_NOT_FOUND(404, "Theater not found"),
-    THEATER_EXISTS(409, "Theater exists");
+    THEATER_EXISTS(409, "Theater exists"),
+    BOARD_NOT_FOUND(404, "Board not found"),
+    BOARD_EXISTS(409, "Board exists"),
+    BOARD_REMOVED(404, "Board Already Removed"),
+    CATEGORY_NOT_FOUND(404, "Category not found"),
+    CATEGORY_EXISTS(409, "Category exists"),
+    NOT_SAME_USER(401, "Not the same user"),
+    DUPLICATE_NICKNAME(409, "Duplicate nickname"),
+    MUSICAL_NOT_FOUND(404,"Musical not found"),
+    MUSICAL_EXISTS(409, "Musical exists"),
+    INVALID_MUSICAL_STATE(400, "Invalid musical state"),
+    ACTOR_NOT_FOUND(404,"Musical not found"),
+    ACTOR_EXISTS(409, "Musical exists"),
+    ACTOR_MUSICAL_NOT_FOUND(404,"ActorMusical not found"),
+    COMMENT_NOT_FOUND(404, "Comment not found"),
+    COMMENT_EXISTS(409, "Comment exists"),
+    COMMENT_REMOVED(404, "Comment Already Removed"),
+    INVALID_COMMENT(400, "Can't post reply to reply"),
+    INVALID_ACTOR_STATE(400, "Invalid musical state"),
+    MAP_NOT_FOUND(404,"Map not found"),
+    MAP_EXISTS(409, "Map exists"),
+    RECOMMEND_PLACE_NOT_FOUND(404, "Recommend place not found"),
+    RECOMMEND_PLACE_EXISTS(409, "Recommend place exists"),
+    BOARD_LIKE_EXISTS(409, "Already Clicked Like Button"),
+    BOARD_LIKE_NOT_FOUND(404, "BoardLike not found"),
+    NOT_FOUND_COOKIE(404, "Cookie Not Found");
+
+
 
     @Getter
     private int status;

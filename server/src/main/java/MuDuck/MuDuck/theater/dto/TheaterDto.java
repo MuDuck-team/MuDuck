@@ -30,4 +30,15 @@ public class TheaterDto {
             this.roadAddress = roadAddress;
         }
     }
+
+    @Getter
+    @Builder
+    public static class ResponseUsedMusical{
+        private long theaterId;
+        private String theaterName;
+        public ResponseUsedMusical(long theaterId, String theaterName) {
+            this.theaterId = theaterId;
+            this.theaterName = theaterName;
+        }
+    }
 }

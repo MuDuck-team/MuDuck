@@ -2,36 +2,41 @@ package MuDuck.MuDuck.musical.entity;
 
 import MuDuck.MuDuck.actor.entity.Actor;
 import MuDuck.MuDuck.audit.Auditable;
-import MuDuck.MuDuck.musical.entity.Musical;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import org.springframework.context.annotation.Lazy;
-
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity(name = "actormusicals")
 public class ActorMusical extends Auditable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long musicalActorId;
+    private Long actorMusicalId;
 
-    @Column(length = 10, nullable = false)
+    @Column(length = 10)
     private String role;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "MUSICAL_ID")
-    @Lazy
     private Musical musical;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ACTOR_ID")
-    @Lazy
     private Actor actor;
 
     public void addMusical(Musical musical) {
