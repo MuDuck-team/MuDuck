@@ -6,6 +6,7 @@
 **`프로젝트 명` :** MuDuck </br>
 **`프로젝트 기간` :** 2023.03.03 ~ 2023.04.03 </br>
 **`배포 링크` :** [MuDuck](http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com) </br>
+**`서비스 메뉴얼` :** [MuDuck 서비스 메뉴얼](https://dev-taehee.github.io/MuDuckServiceManual/) </br>
 
 </div>
 
