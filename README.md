@@ -11,10 +11,10 @@
 </div>
 
 # 목차 </br>
-[팀 구성원 소개](##team) </br>
-[팀원 역할 소개](##responsibility) </br>
-[기술 스택](##tech-stack) </br>
-[Git commit 컨벤션](##commit-message) </br>
+[팀 구성원 소개](#-team-) </br>
+[팀원 역할 소개](##-responsibility-) </br>
+[기술 스택](#%EF%B8%8F-tech-stack-%EF%B8%8F) </br>
+[Git commit 컨벤션](#%EF%B8%8F-commit-message-%EF%B8%8F) </br>
 
 ## 👍 Team 👍
 <div align="center">
