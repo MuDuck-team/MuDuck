@@ -8,14 +8,15 @@
 **`배포 링크` :** [MuDuck](http://muduckbucket.s3-website.ap-northeast-2.amazonaws.com) </br>
 **`서비스 메뉴얼` :** [MuDuck 서비스 메뉴얼](https://dev-taehee.github.io/MuDuckServiceManual/) </br>
 
-</div>
-
 # 목차 </br>
 [팀 구성원 소개](#-team-) </br>
 [팀원 역할 소개](#-responsibility-) </br>
 [기술 스택](#%EF%B8%8F-tech-stack-%EF%B8%8F) </br>
-[Git commit 컨벤션](#%EF%B8%8F-commit-message-%EF%B8%8F) </br>
-[협업 문서](#협업-문서) </br>
+[서비스 화면](#%EF%B8%8F-final-view-%EF%B8%8F) </br>
+[Git 커밋 컨벤션](#%EF%B8%8F-commit-message-%EF%B8%8F) </br>
+[협업 문서](#%EF%B8%8F-documents-%EF%B8%8F) </br>
+
+</div>
 
 ## 👍 Team 👍
 <div align="center">
@@ -73,6 +74,7 @@
 </summary>
 
 * 메인페이지
+  * 서비스 정보(광고, 인기글, 뮤지컬) 제공
 * 뮤지컬 목록 페이지
   * 정렬/상태/장르에 따른 목록 필터링 기능 구현
 * 커뮤니티 상세 페이지
@@ -118,6 +120,24 @@
 ## 🛠️ Tech Stack 🛠️
 <img alt="Tech Stack" src="https://user-images.githubusercontent.com/75026933/229709841-6de541e9-f934-4daa-b1d4-f7d949e1fc07.png">
 
+## 🖥️ Final View 🖥️
+<div align="center">
+ 
+|                                 |                                   |
+| :-----------------------------: | :-------------------------------: |
+|           **메인 화면**           |           **주변시설 화면**           |
+| <img width="450px" height="300px" src="https://github.com/MuDuck-team/MuDuck/assets/75026933/924b523c-2d8f-4011-8a73-9e40819ee0f1" /> | <img width="450px" height="300px" src="https://github.com/MuDuck-team/MuDuck/assets/75026933/e9df4b26-e73e-47c1-9fb6-fe0eb2d5b1b0"/> |
+|          **로그인 화면**          |           **회원가입 화면**           |
+| <img width="450px" height="300px" src="https://github.com/MuDuck-team/MuDuck/assets/75026933/974845cd-744b-44a4-9228-8d1e54abdf8f"/> | <img width="450px" height="300px" src="https://github.com/MuDuck-team/MuDuck/assets/75026933/1260d53d-4998-43aa-af00-55fe37d1c531"/> |
+|        **뮤지컬 목록 화면**        |          **뮤지컬 상세 화면**          |
+| <img width="450px" height="300px" src="https://github.com/MuDuck-team/MuDuck/assets/75026933/95e91239-4832-4171-92ba-3bfd98b21a6a"/> | <img width="450px" height="300px" src="https://github.com/MuDuck-team/MuDuck/assets/75026933/af1b2b09-f04d-4741-8d99-e7eb30bae248"/> |
+|        **커뮤니티 목록 화면**       |         **커뮤니티 상세 화면**         |
+| <img width="450px" height="300px" src="https://github.com/MuDuck-team/MuDuck/assets/75026933/61849bfd-5fa9-4643-9217-f21ac054103c"/> | <img width="450px" height="300px"  src="https://github.com/MuDuck-team/MuDuck/assets/75026933/812fbcf8-13bf-44a9-b505-75247592beb3"/>    |
+|        **게시글 작성 화면**        |          **마이페이지 화면**          |
+| <img width="450px" height="300px" src="https://github.com/MuDuck-team/MuDuck/assets/75026933/ce77fb2d-de10-40fe-b1eb-6a350bc203af"/> | <img width="450px" height="300px" src="https://github.com/MuDuck-team/MuDuck/assets/75026933/09261edc-06c3-49b9-92f0-453a3cab20e4"/>     |
+
+</div>
+
 ## ✉️ Commit Message ✉️
 | Message | Description |
 | :---: | :--- |
@@ -132,7 +152,7 @@
 | Rename | 파일 또는 폴더 명을 수정하거나 옮기는 작업만인 경우 |
 | Remove | 파일을 삭제하는 작업만 수행한 경우 |
 
-## 협업 문서
+## 🗂️ Documents 🗂️
 협업을 진행하며 작성한 문서에 대해 소개합니다.
 
 ### 공통
@@ -158,6 +178,3 @@ API 명세서를 통해 프론트엔드 팀원과의 협업을 매끄럽게 하�
 
 **[API 문서](http://ec2-15-164-220-43.ap-northeast-2.compute.amazonaws.com:8080/docs/index.html)** </br>
 Spring Rest Docs를 활용하여 API 문서를 만들었습니다. 이를 통해 배포된 서비스에서 실제로 사용 가능한 API를 표현함으로 프론트엔드 팀원이 라이브 테스트하기 편리하도록 하고자 만들었습니다. </br>
-
-
-
